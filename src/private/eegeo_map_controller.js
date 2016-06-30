@@ -49,6 +49,9 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, opti
     var centerLatLng = L.latLng(options.center);
     var distance = _cameraModule.zoomLevelToDistance(options.zoom);
 
+    var indoorsEnabled = (typeof options["indoorsEnabled"] === "undefined" || !!options["indoorsEnabled"]);
+    var indoorsEnabledArg = (indoorsEnabled) ? "1" : "0";
+
     _Module["arguments"] = [
         _canvasId,
         _mapId.toString(),
@@ -57,7 +60,8 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, opti
         apiKey,
         centerLatLng.lat.toString(),
         centerLatLng.lng.toString(),
-        distance.toString()
+        distance.toString(),
+        indoorsEnabledArg
         ];
 
     options.zoomControl = false;
