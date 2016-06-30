@@ -1,0 +1,31 @@
+{
+    "env": {
+        "browser": true,
+        "node": true
+    },
+    "extends": "eslint:recommended",
+    "globals": { 
+        "L" : false,
+        "Runtime" : false,
+        "Module" : true
+    },
+    "rules": {
+        "quotes": [
+            "error",
+            "double"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
+        "no-mixed-spaces-and-tabs": "off",
+        "no-implicit-globals" : "error",
+        "eqeqeq" : "error",
+        "no-unused-vars": [
+            "error", { 
+                "vars": "all", 
+                "args": "none" 
+            }
+        ]
+    }
+}
