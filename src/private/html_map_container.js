@@ -78,6 +78,14 @@ var HTMLMapContainer = function(parentElement, canvasId, canvasWidth, canvasHeig
         this.loadingSpinner.stopSpinning();
         this.loadingSpinnerIcon.parentNode.removeChild(this.loadingSpinnerIcon);
     };
+
+    this.width = function() {
+        return this.mapContainer.clientWidth;
+    };
+
+    this.height = function() {
+        return this.mapContainer.clientHeight;
+    };
 };
 
 var LoadingSpinner = function(domElement) {
