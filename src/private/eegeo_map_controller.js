@@ -49,7 +49,7 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, opti
     var centerLatLng = L.latLng(options.center);
     var distance = _cameraModule.zoomLevelToDistance(options.zoom);
 
-    var indoorsEnabled = (typeof options["indoorsEnabled"] === "undefined" || !!options["indoorsEnabled"]);
+    var indoorsEnabled = !!options["indoorsEnabled"];
     var indoorsEnabledArg = (indoorsEnabled) ? "1" : "0";
 
     _Module["arguments"] = [
