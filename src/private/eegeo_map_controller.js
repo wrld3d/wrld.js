@@ -80,14 +80,14 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, opti
         }
     };
 
-    this.onInitialised = function(apiPointer) {
-        _mapContainer.onInitialised();
+    this.onInitialized = function(apiPointer) {
+        _mapContainer.onInitialized();
         _resizeCanvas = _Module.cwrap("resizeCanvas", null, ["number", "number"]);
-        _emscriptenApi.onInitialised(apiPointer, _onUpdate, _onDraw, _onInitialStreamingCompleted);
+        _emscriptenApi.onInitialized(apiPointer, _onUpdate, _onDraw, _onInitialStreamingCompleted);
         _modules.forEach(function(module) {
-            module.onInitialised();
+            module.onInitialized();
         });
-        this.leafletMap.onInitialised(_emscriptenApi);
+        this.leafletMap.onInitialized(_emscriptenApi);
     };
 
     var _this = this;

@@ -27,7 +27,7 @@ var IndoorsModule = function(emscriptenApi) {
         _indoorMapExitedCallbacks.executeCallbacks();
     };
 
-    this.onInitialised = function() {
+    this.onInitialized = function() {
         _emscriptenApi.indoorsApi.registerIndoorMapEnteredCallback(_executeIndoorMapEnteredCallbacks);
         _emscriptenApi.indoorsApi.registerIndoorMapExitedCallback(_executeIndoorMapExitedCallbacks);
     };

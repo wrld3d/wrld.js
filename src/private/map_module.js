@@ -7,7 +7,7 @@ var MapModule = {
 
     },
 
-    onInitialised: function() {
+    onInitialized: function() {
 
     },
 

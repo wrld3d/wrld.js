@@ -74,7 +74,7 @@ var HTMLMapContainer = function(parentElement, canvasId, canvasWidth, canvasHeig
     this.loadingSpinner = new LoadingSpinner(this.loadingSpinnerIcon);
     this.loadingSpinner.startSpinning();
 
-    this.onInitialised = function() {
+    this.onInitialized = function() {
         this.loadingSpinner.stopSpinning();
         this.loadingSpinnerIcon.parentNode.removeChild(this.loadingSpinnerIcon);
     };

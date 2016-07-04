@@ -46,7 +46,7 @@ var EegeoLeafletMap = L.Map.extend({
         L.Map.prototype.removeLayer.call(this, layer);
     },
 
-    onInitialised: function(emscriptenApi) {
+    onInitialized: function(emscriptenApi) {
         this._worldToScreen = emscriptenApi.spacesApi.worldToScreen;
         this._ready = true;
         var panes = this.getPanes();

@@ -12,7 +12,7 @@ function EmscriptenApi(emscriptenModule) {
     this.themesApi = null;
     this.cameraApi = null;
 
-    this.onInitialised = function(apiPointer, onUpdateCallback, onDrawCallback, onInitialStreamingCompletedCallback) {
+    this.onInitialized = function(apiPointer, onUpdateCallback, onDrawCallback, onInitialStreamingCompletedCallback) {
         _apiPointer = apiPointer;
 
         var EmscriptenAnnotationsApi = require("./emscripten_screen_point_mapping_api.js");

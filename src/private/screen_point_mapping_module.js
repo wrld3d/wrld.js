@@ -56,7 +56,7 @@ var ScreenPointMappingModule = function(emscriptenApi) {
         }
     };
 
-    this.onInitialised = function() {
+    this.onInitialized = function() {
         _ready = true;
         _createScreenPointMappings();
     };

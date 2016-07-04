@@ -50,7 +50,7 @@ function PolygonsModule(emscriptenApi) {
 		}
     };
 
-    this.onInitialised = function() {
+    this.onInitialized = function() {
         _ready = true;
         _createPolygons();
     };
