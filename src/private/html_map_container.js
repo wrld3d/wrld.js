@@ -16,7 +16,10 @@ var HTMLMapContainer = function(parentElement, canvasId, canvasWidth, canvasHeig
         var style = {
             "position": "relative",
             "width": "100%",
-            "height": "100%"
+            "height": "100%",
+            "line-height": "0px",
+            "padding": "0px",
+            "margin": "0px"
         };
         return _createDOMElement(parentElement, "div", { "class": "eegeo-map-container"}, style);
     };
@@ -77,6 +80,14 @@ var HTMLMapContainer = function(parentElement, canvasId, canvasWidth, canvasHeig
     this.onInitialized = function() {
         this.loadingSpinner.stopSpinning();
         this.loadingSpinnerIcon.parentNode.removeChild(this.loadingSpinnerIcon);
+    };
+
+    this.width = function() {
+        return this.mapContainer.clientWidth;
+    };
+
+    this.height = function() {
+        return this.mapContainer.clientHeight;
     };
 };
 
