@@ -1,7 +1,8 @@
-var IndoorMap = function(indoorMapId, indoorMapName, exitFunc) {
+var IndoorMap = function(indoorMapId, indoorMapName, floorCount, exitFunc) {
 
 	var _indoorMapId = indoorMapId;
 	var _indoorMapName = indoorMapName;
+    var _floorCount = floorCount;
 
 	this.exit = exitFunc;
 
@@ -12,6 +13,10 @@ var IndoorMap = function(indoorMapId, indoorMapName, exitFunc) {
 	this.getIndoorMapName = function() {
 		return _indoorMapName;
 	};
+
+    this.getFloorCount = function() {
+        return _floorCount;
+    };
 };
 
 module.exports = IndoorMap;

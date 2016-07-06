@@ -8,23 +8,27 @@ var IndoorsModule = function(emscriptenApi) {
     var _indoorMapEnteredCallbacks = new CallbackCollection();
     var _indoorMapExitedCallbacks = new CallbackCollection();
 
+    var _activeIndoorMap = null;
+
     var _this = this;
 
     var _createIndoorMapObject = function() {
         var mapId = _emscriptenApi.indoorsApi.getActiveIndoorMapId();
         var mapName = _emscriptenApi.indoorsApi.getActiveIndoorMapName();
+        var floorCount = _emscriptenApi.indoorsApi.getActiveIndoorMapFloorCount();
         var exitFunc = _this.exit;
-        var indoorMap = new IndoorMap(mapId, mapName, exitFunc);
+        var indoorMap = new IndoorMap(mapId, mapName, floorCount, exitFunc);
         return indoorMap;
     };
 
     var _executeIndoorMapEnteredCallbacks = function() {
-        var indoorMap = _createIndoorMapObject();
-        _indoorMapEnteredCallbacks.executeCallbacks(indoorMap);
+        _activeIndoorMap = _createIndoorMapObject();
+        _indoorMapEnteredCallbacks.executeCallbacks(_activeIndoorMap);
     };
 
     var _executeIndoorMapExitedCallbacks = function() {
-        _indoorMapExitedCallbacks.executeCallbacks();
+        _activeIndoorMap = null;
+        _indoorMapExitedCallbacks.executeCallbacks(_activeIndoorMap);
     };
 
     this.onInitialized = function() {
@@ -56,6 +60,18 @@ var IndoorsModule = function(emscriptenApi) {
 
     this.isIndoors = function() {
         return _emscriptenApi.indoorsApi.hasActiveIndoorMap();
+    };
+
+    this.getActiveIndoorMap = function() {
+        return _activeIndoorMap;
+    };
+
+    this.getSelectedFloorIndex = function() {
+        return _emscriptenApi.indoorsApi.getSelectedFloorIndex();
+    };
+
+    this.setSelectedFloorIndex = function(floorIndex) {
+        return _emscriptenApi.indoorsApi.setSelectedFloorIndex(floorIndex);
     };
 
 };
