@@ -1,9 +1,14 @@
+var emscriptenMemory = require("./emscripten_memory");
+
 function EmscriptenIndoorsApi(apiPointer, cwrap) {
 
     var _apiPointer = apiPointer;
     var _exitIndoorMap = cwrap("exitIndoorMap", null, ["number"]);
     var _setIndoorMapEnteredCallback = cwrap("setIndoorMapEnteredCallback", null, ["number", "number"]);
     var _setIndoorMapExitedCallback = cwrap("setIndoorMapExitedCallback", null, ["number", "number"]);
+
+    var _setIndoorMapMarkerAddedCallback = cwrap("setIndoorMapMarkerAddedCallback", null, ["number", "number"]);
+    var _setIndoorMapMarkerRemovedCallback = cwrap("setIndoorMapMarkerRemovedCallback", null, ["number", "number"]);
 
     var _hasActiveIndoorMap = cwrap("hasActiveIndoorMap", "number", ["number"]);
     var _getActiveIndoorMapId = cwrap("getActiveIndoorMapId", "string", ["number"]);
@@ -17,6 +22,15 @@ function EmscriptenIndoorsApi(apiPointer, cwrap) {
     var _getFloorName = cwrap("getFloorName", "string", ["number", "number"]);
     var _getFloorNumber = cwrap("getFloorNumber", "number", ["number", "number"]);
 
+    var _wrapCallback = function(callback) {
+        return function(indoorMapIdPtr, indoorMapNamePtr, indoorMapLatLngPtr) {
+            var indoorMapId = Pointer_stringify(indoorMapIdPtr);
+            var indoorMapName = Pointer_stringify(indoorMapNamePtr);
+            var latLngArray = emscriptenMemory.readDoubles(indoorMapLatLngPtr, 3);
+            var markerLatLng = L.latLng(latLngArray);
+            callback(indoorMapId, indoorMapName, markerLatLng);
+        }
+    };
 
     this.registerIndoorMapEnteredCallback = function (callback) {
         _setIndoorMapEnteredCallback(_apiPointer, Runtime.addFunction(callback));
@@ -24,6 +38,16 @@ function EmscriptenIndoorsApi(apiPointer, cwrap) {
 
     this.registerIndoorMapExitedCallback = function (callback) {
         _setIndoorMapExitedCallback(_apiPointer, Runtime.addFunction(callback));
+    };
+
+    this.registerIndoorMapMarkerAddedCallback = function(callback) {
+        var wrappedCallback = _wrapCallback(callback);
+        _setIndoorMapMarkerAddedCallback(_apiPointer, Runtime.addFunction(wrappedCallback));
+    };
+
+    this.registerIndoorMapMarkerRemovedCallback = function(callback) {
+        var wrappedCallback = _wrapCallback(callback);
+        _setIndoorMapMarkerRemovedCallback(_apiPointer, Runtime.addFunction(wrappedCallback));
     };
 
     this.exitIndoorMap = function() {

@@ -2,12 +2,15 @@ var MapModule = require("./map_module");
 var CallbackCollection = require("./callback_collection");
 var IndoorMap = require("./indoor_map");
 var IndoorMapFloor = require("./indoor_map_floor");
+var IndoorMapEntrance = require("./indoor_map_entrance");
 
 var IndoorsModule = function(emscriptenApi) {
 
     var _emscriptenApi = emscriptenApi;
     var _indoorMapEnteredCallbacks = new CallbackCollection();
     var _indoorMapExitedCallbacks = new CallbackCollection();
+    var _indoorMapEntranceAddedCallbacks = new CallbackCollection();
+    var _indoorMapEntranceRemovedCallbacks = new CallbackCollection();
 
     var _activeIndoorMap = null;
 
@@ -45,9 +48,21 @@ var IndoorsModule = function(emscriptenApi) {
         _indoorMapExitedCallbacks.executeCallbacks(_activeIndoorMap);
     };
 
+    var _executeIndoorMapEntranceAddedCallbacks = function(indoorMapId, indoorMapName, indoorMapLatLng) {
+        var entrance = new IndoorMapEntrance(indoorMapId, indoorMapName, indoorMapLatLng);
+        _indoorMapEntranceAddedCallbacks.executeCallbacks(entrance);
+    };
+
+    var _executeIndoorMapEntranceRemovedCallbacks = function(indoorMapId, indoorMapName, indoorMapLatLng) {
+        var entrance = new IndoorMapEntrance(indoorMapId, indoorMapName, indoorMapLatLng);
+        _indoorMapEntranceRemovedCallbacks.executeCallbacks(entrance);
+    };
+
     this.onInitialized = function() {
         _emscriptenApi.indoorsApi.registerIndoorMapEnteredCallback(_executeIndoorMapEnteredCallbacks);
         _emscriptenApi.indoorsApi.registerIndoorMapExitedCallback(_executeIndoorMapExitedCallbacks);
+        _emscriptenApi.indoorsApi.registerIndoorMapMarkerAddedCallback(_executeIndoorMapEntranceAddedCallbacks);
+        _emscriptenApi.indoorsApi.registerIndoorMapMarkerRemovedCallback(_executeIndoorMapEntranceRemovedCallbacks);
     };
     
     this.exit = function() {
@@ -70,6 +85,22 @@ var IndoorsModule = function(emscriptenApi) {
 
     this.removeIndoorMapExitedCallback = function(callback) {
         _indoorMapExitedCallbacks.removeCallback(callback);
+    };
+
+    this.addIndoorMapEntranceAddedCallback = function(callback) {
+        _indoorMapEntranceAddedCallbacks.addCallback(callback);
+    };
+
+    this.removeIndoorMapEntranceAddedCallback = function(callback) {
+        _indoorMapEntranceAddedCallbacks.removeCallback(callback);
+    };
+
+    this.addIndoorMapEntranceRemovedCallback = function(callback) {
+        _indoorMapEntranceRemovedCallbacks.addCallback(callback);
+    };
+
+    this.removeIndoorMapEntranceRemovedCallback = function(callback) {
+        _indoorMapEntranceRemovedCallbacks.removeCallback(callback);
     };
 
     this.isIndoors = function() {
