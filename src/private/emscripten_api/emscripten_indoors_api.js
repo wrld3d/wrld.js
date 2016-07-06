@@ -22,6 +22,8 @@ function EmscriptenIndoorsApi(apiPointer, cwrap) {
     var _getFloorName = cwrap("getFloorName", "string", ["number", "number"]);
     var _getFloorNumber = cwrap("getFloorNumber", "number", ["number", "number"]);
 
+    var _enterIndoorMap = cwrap("enterIndoorMap", null, ["number", "string"]);
+
     var _wrapCallback = function(callback) {
         return function(indoorMapIdPtr, indoorMapNamePtr, indoorMapLatLngPtr) {
             var indoorMapId = Module.Pointer_stringify(indoorMapIdPtr);
@@ -88,6 +90,10 @@ function EmscriptenIndoorsApi(apiPointer, cwrap) {
 
     this.getFloorNumber = function(floorIndex) {
         return _getFloorNumber(_apiPointer, floorIndex);
+    };
+
+    this.enterIndoorMap = function(indoorMapId) {
+        return _enterIndoorMap(_apiPointer, indoorMapId);
     };
 
 }

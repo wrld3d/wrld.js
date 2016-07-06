@@ -119,6 +119,10 @@ var IndoorsModule = function(emscriptenApi) {
         return _emscriptenApi.indoorsApi.setSelectedFloorIndex(floorIndex);
     };
 
+    this.enterIndoorMap = function(indoorMapId) {
+        return _emscriptenApi.indoorsApi.enterIndoorMap(indoorMapId);
+    };
+
 };
 IndoorsModule.prototype = MapModule;
 
