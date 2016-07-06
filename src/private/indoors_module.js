@@ -1,6 +1,7 @@
 var MapModule = require("./map_module");
 var CallbackCollection = require("./callback_collection");
 var IndoorMap = require("./indoor_map");
+var IndoorMapFloor = require("./indoor_map_floor");
 
 var IndoorsModule = function(emscriptenApi) {
 
@@ -16,9 +17,22 @@ var IndoorsModule = function(emscriptenApi) {
         var mapId = _emscriptenApi.indoorsApi.getActiveIndoorMapId();
         var mapName = _emscriptenApi.indoorsApi.getActiveIndoorMapName();
         var floorCount = _emscriptenApi.indoorsApi.getActiveIndoorMapFloorCount();
+        var floors = _createFloorsArray(floorCount);
         var exitFunc = _this.exit;
-        var indoorMap = new IndoorMap(mapId, mapName, floorCount, exitFunc);
+        var indoorMap = new IndoorMap(mapId, mapName, floorCount, floors, exitFunc);
         return indoorMap;
+    };
+
+    var _createFloorsArray = function(floorCount) {
+        var floors = [];
+        for (var i=0; i<floorCount; ++i) {
+            var floorId = _emscriptenApi.indoorsApi.getFloorId(i);
+            var floorName = _emscriptenApi.indoorsApi.getFloorName(i);
+            var floorNumber = _emscriptenApi.indoorsApi.getFloorNumber(i);
+            var floor = new IndoorMapFloor(floorId, floorName, floorNumber);
+            floors.push(floor);
+        }
+        return floors;
     };
 
     var _executeIndoorMapEnteredCallbacks = function() {
