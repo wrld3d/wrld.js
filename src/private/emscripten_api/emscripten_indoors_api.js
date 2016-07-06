@@ -16,7 +16,7 @@ function EmscriptenIndoorsApi(apiPointer, cwrap) {
     var _getActiveIndoorMapFloorCount = cwrap("getActiveIndoorMapFloorCount", "number", ["number"]);
 
     var _getSelectedFloorIndex = cwrap("getSelectedFloorIndex", "number", ["number"]);
-    var _setSelectedFloorIndex = cwrap("setSelectedFloorIndex", "number", ["number", "number"])
+    var _setSelectedFloorIndex = cwrap("setSelectedFloorIndex", "number", ["number", "number"]);
 
     var _getFloorId = cwrap("getFloorId", "string", ["number", "number"]);
     var _getFloorName = cwrap("getFloorName", "string", ["number", "number"]);
@@ -24,12 +24,12 @@ function EmscriptenIndoorsApi(apiPointer, cwrap) {
 
     var _wrapCallback = function(callback) {
         return function(indoorMapIdPtr, indoorMapNamePtr, indoorMapLatLngPtr) {
-            var indoorMapId = Pointer_stringify(indoorMapIdPtr);
-            var indoorMapName = Pointer_stringify(indoorMapNamePtr);
+            var indoorMapId = Module.Pointer_stringify(indoorMapIdPtr);
+            var indoorMapName = Module.Pointer_stringify(indoorMapNamePtr);
             var latLngArray = emscriptenMemory.readDoubles(indoorMapLatLngPtr, 3);
             var markerLatLng = L.latLng(latLngArray);
             callback(indoorMapId, indoorMapName, markerLatLng);
-        }
+        };
     };
 
     this.registerIndoorMapEnteredCallback = function (callback) {
