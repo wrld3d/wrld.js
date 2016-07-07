@@ -72,8 +72,10 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, opti
 
     var displayEntranceMarkers = !!options["displayEntranceMarkers"];
 
+    this._indoorEntranceMarkerUpdater = null;
+
     if (displayEntranceMarkers) {
-        _indoorEntranceMarkerUpdater = new IndoorEntranceMarkerUpdater(this.leafletMap, _indoorsModule);
+        this._indoorEntranceMarkerUpdater = new IndoorEntranceMarkerUpdater(this.leafletMap, _indoorsModule);
     }
 
     var _resizeCanvas = null;
