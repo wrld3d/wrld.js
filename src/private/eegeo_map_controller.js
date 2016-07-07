@@ -6,6 +6,8 @@ var PrecacheModule = require("./precache_module");
 var CameraModule = require("./camera_module");
 var PolygonModule = require("./polygon_module");
 
+var IndoorEntranceMarkerUpdater = require("./indoor_entrance_marker_updater");
+
 var EegeoLeafletMap = require("./eegeo_leaflet_map");
 
 var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, options) {
@@ -67,6 +69,12 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, opti
     options.zoomControl = false;
 
     this.leafletMap = new EegeoLeafletMap(_mapContainer.overlay, options, _cameraModule, _screenPointMappingModule, _precacheModule, _themesModule, _indoorsModule, _polygonModule);
+
+    var displayEntranceMarkers = !!options["displayEntranceMarkers"];
+
+    if (displayEntranceMarkers) {
+        _indoorEntranceMarkerUpdater = new IndoorEntranceMarkerUpdater(this.leafletMap, _indoorsModule);
+    }
 
     var _resizeCanvas = null;
     
