@@ -28,7 +28,7 @@ function EmscriptenSpacesApi(apiPointer, cwrap) {
             var success = _screenToTerrainPointWrap(_apiPointer, screenX, screenY, resultArray);
             foundWorldPoint = !!success;
             latLngAltArray = emscriptenMemory.readDoubles(resultArray, 3);
-        })
+        });
         return (foundWorldPoint) ? L.latLng(latLngAltArray) : null;
     };
 
