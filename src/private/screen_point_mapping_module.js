@@ -51,6 +51,12 @@ var ScreenPointMappingModule = function(emscriptenApi) {
         var api = _emscriptenApi.screenPointMappingApi;
         for (var id in _screenPointMappings) {
             var screenPointMapping = _screenPointMappings[id];
+
+            if (screenPointMapping.dirty()) {
+                screenPointMapping.update();
+                api.updateScreenPointMapping(id, screenPointMapping);
+            }
+
             var screenPos = api.getScreenPosition(id);
             screenPointMapping.setCanvasPos(screenPos);
         }
