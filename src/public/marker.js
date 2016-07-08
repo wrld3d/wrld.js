@@ -17,7 +17,7 @@ var Marker = L.Marker.extend({
     update: function() {
         if (this._icon) {
             var screenPos = this._map.getScreenPositionOfLayer(this);
-            this._setPos(screenPos.round());
+            this._setPos(screenPos);
         }
         return this;
     },
