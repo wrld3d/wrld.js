@@ -1,8 +1,11 @@
 var popups = require("../public/popup.js");
 
+var undefinedPoint = L.point(-100, -100);
+var undefinedLatLng = L.latLng(0, 0);
+
 var EegeoLeafletMap = L.Map.extend({
 
-    _worldToScreen: null,
+    _spacesApi: null,
     _ready: false,
     _cameraModule: null,
     _screenPointMappingModule: null,
@@ -16,9 +19,9 @@ var EegeoLeafletMap = L.Map.extend({
         this._cameraModule = cameraModule;
         this._screenPointMappingModule = screenPointMappingModule;
         this._precacheModule = precacheModule;
+        this._polygonModule = polygonModule;
         this.themes = themesModule;
         this.indoors = indoorsModule;
-        this.polygons = polygonModule;
 
         L.Map.prototype.initialize.call(this, id, options);
 
@@ -47,7 +50,7 @@ var EegeoLeafletMap = L.Map.extend({
     },
 
     onInitialized: function(emscriptenApi) {
-        this._worldToScreen = emscriptenApi.spacesApi.worldToScreen;
+        this._spacesApi = emscriptenApi.spacesApi;
         this._ready = true;
         var panes = this.getPanes();
         panes.mapPane.style["z-index"] = "10";
@@ -64,16 +67,21 @@ var EegeoLeafletMap = L.Map.extend({
         return layerPoint;
     },
 
-    latLngToLayerPoint: function(latlng) {
-        if (!this._ready) {
-            return L.point(-100, -100);
-        }
-        var vec = this._worldToScreen(latlng);
-        return L.point(vec.x, vec.y);
+    latLngToLayerPoint: function(latLng) {
+        return (this._ready) ? this._spacesApi.worldToScreen(latLng).toPoint() : undefinedPoint;
     },
 
-    latLngToContainerPoint: function(point) {
-        return this.latLngToLayerPoint(point);
+    layerPointToLatLng: function(point) {
+        var latLng = (this._ready) ? this._spacesApi.screenToWorldPoint(point) : null;
+        return latLng || undefinedLatLng;
+    },
+
+    latLngToContainerPoint: function(latLng) {
+        return this.latLngToLayerPoint(latLng);
+    },
+
+    containerPointToLatLng: function(point) {
+        return this.layerPointToLatLng(point);
     },
 
     containerPointToLayerPoint: function(point) {

@@ -41,13 +41,13 @@ function Polygon(latlngs, config) {
 			this.removeFromMap();
 		}
 		_map = map;
-		map.polygons.addPolygon(this);
+		map._polygonModule.addPolygon(this);
 		return this;
 	};
 
 	this.removeFromMap = function() {
 		if (_map !== null) {
-			_map.polygons.removePolygon(this);
+			_map._polygonModule.removePolygon(this);
 			_map = null;
 		}
 		return this;

@@ -58,6 +58,10 @@ function EmscriptenSpacesApi(apiPointer, cwrap) {
         var point = L.point(screenPoint);
         return _screenToIndoorPoint(point.x, point.y);
     };
+
+    this.screenToWorldPoint = function(screenPoint) {
+        return this.screenToIndoorPoint(screenPoint) || this.screenToTerrainPoint(screenPoint);
+    };
 }
 
 module.exports = EmscriptenSpacesApi;

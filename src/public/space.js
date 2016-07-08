@@ -9,6 +9,10 @@ var Vector3 = function(x, y, z) {
         this.y = x.y || x[1];
         this.z = x.z || x[2] || 0.0;
     }
+
+    this.toPoint = function() {
+        return L.point(this.x, this.y);
+    };
 };
 
 var Vector4 = function(x, y, z, w) {
