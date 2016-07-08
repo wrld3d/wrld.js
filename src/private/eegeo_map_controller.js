@@ -12,6 +12,21 @@ var EegeoLeafletMap = require("./eegeo_leaflet_map");
 
 var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, options) {
 
+    var _defaultOptions = {
+        canvasId: "canvas",
+        width: undefined,
+        height: undefined,
+        indoorsEnabled: false,
+        displayEntranceMarkers: true,
+
+        // Override Leaflet defaults
+        center: L.latLng([37.7858, -122.401]),
+        zoom: 12,
+        zoomControl: false
+    };
+
+    options = L.extend(_defaultOptions, options);
+
     var _mapId = mapId;
     var _emscriptenApi = emscriptenApi;
 
@@ -31,7 +46,7 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, opti
         _polygonModule
     ];
 
-    var _canvasId = options["canvasId"] || "canvas";
+    var _canvasId = options["canvasId"];
     var _canvasWidth = options["width"] || domElement.clientWidth;
     var _canvasHeight = options["height"] || domElement.clientHeight;
 
@@ -42,17 +57,10 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, opti
     var _Module = window.Module;
     _Module["canvas"] = _canvas;
 
-    var defaultCenter = [37.7858, -122.401];
-    var defaultZoom = 12;
-
-    options.center = options.center || defaultCenter;
-    options.zoom = options.zoom || defaultZoom;
-
-    var centerLatLng = L.latLng(options.center);
+    var center = L.latLng(options.center);
     var distance = _cameraModule.zoomLevelToDistance(options.zoom);
 
-    var indoorsEnabled = !!options["indoorsEnabled"];
-    var indoorsEnabledArg = (indoorsEnabled) ? "1" : "0";
+    var indoorsEnabledArg = (options.indoorsEnabled) ? "1" : "0";
 
     _Module["arguments"] = [
         _canvasId,
@@ -60,21 +68,17 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, opti
         _canvasWidth.toString(),
         _canvasHeight.toString(),
         apiKey,
-        centerLatLng.lat.toString(),
-        centerLatLng.lng.toString(),
+        center.lat.toString(),
+        center.lng.toString(),
         distance.toString(),
         indoorsEnabledArg
         ];
 
-    options.zoomControl = false;
-
     this.leafletMap = new EegeoLeafletMap(_mapContainer.overlay, options, _cameraModule, _screenPointMappingModule, _precacheModule, _themesModule, _indoorsModule, _polygonModule);
-
-    var displayEntranceMarkers = !!options["displayEntranceMarkers"] || !("displayEntranceMarkers" in options);
 
     this._indoorEntranceMarkerUpdater = null;
 
-    if (displayEntranceMarkers) {
+    if (options.displayEntranceMarkers) {
         this._indoorEntranceMarkerUpdater = new IndoorEntranceMarkerUpdater(this.leafletMap, _indoorsModule);
     }
 
