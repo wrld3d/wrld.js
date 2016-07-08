@@ -70,7 +70,7 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, opti
 
     this.leafletMap = new EegeoLeafletMap(_mapContainer.overlay, options, _cameraModule, _screenPointMappingModule, _precacheModule, _themesModule, _indoorsModule, _polygonModule);
 
-    var displayEntranceMarkers = !!options["displayEntranceMarkers"];
+    var displayEntranceMarkers = !!options["displayEntranceMarkers"] || !("displayEntranceMarkers" in options);
 
     this._indoorEntranceMarkerUpdater = null;
 
