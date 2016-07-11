@@ -62,9 +62,9 @@ var CameraModule = function(emscriptenApi) {
             return index > -1 ? Math.max(0, Math.min(index - 1, _altitudes.length -1)) : _altitudes.length - 1;
         }
         else {
-            return _pendingSetViewData["zoom"] || [-1, -1];;
+            return _pendingSetViewData["zoom"] || [-1, -1];
         }
-    }
+    };
 
     var _getCenter = function() {
         if (_ready) {
@@ -74,7 +74,7 @@ var CameraModule = function(emscriptenApi) {
         else {
             return _pendingSetViewData["location"] || [-1, -1];
         }
-    }
+    };
 
     var _flushPendingViewOperations = function() {
         if (!_ready) {
@@ -111,11 +111,11 @@ var CameraModule = function(emscriptenApi) {
 
     this.getCurrentZoomLevel = function() {
         return _getCurrentZoomLevel();
-    }
+    };
 
     this.getCenter = function() {
         return _getCenter();
-    }
+    };
 };
 
 CameraModule.prototype = MapModule;

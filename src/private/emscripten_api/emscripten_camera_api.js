@@ -24,7 +24,7 @@ function EmscriptenCameraApi(apiPointer, cwrap) {
         	animated
         );
     };
-    
+
     this.setView = function(config) {
     	var location = L.latLng(config["location"]);
     	var distance = config["distance"] || 1781.0;
@@ -46,7 +46,7 @@ function EmscriptenCameraApi(apiPointer, cwrap) {
 
     this.getDistanceToInterest = function() {
         return _getDistanceToInterestInterop(_apiPointer);
-    }
+    };
 
     this.getInterestLatLong = function() {
         var latLong = [0, 0];
@@ -56,7 +56,7 @@ function EmscriptenCameraApi(apiPointer, cwrap) {
         });
 
         return latLong;
-    }
+    };
 }
 
 module.exports = EmscriptenCameraApi;
