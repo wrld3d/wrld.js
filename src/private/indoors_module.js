@@ -123,6 +123,24 @@ var IndoorsModule = function(emscriptenApi) {
         return _emscriptenApi.indoorsApi.enterIndoorMap(indoorMapId);
     };
 
+    this.getFloorParam = function() {
+        return _emscriptenApi.indoorsApi.getFloorParam();
+    };
+
+    this.setFloorParam = function(value) {
+        _emscriptenApi.indoorsApi.setFloorParam(value);
+        return this;
+    };
+
+    this.expand = function() {
+        _emscriptenApi.indoorsApi.expandIndoorMap();
+        return this;
+    };
+
+    this.collapse = function() {
+        _emscriptenApi.indoorsApi.collapseIndoorMap();
+        return this;
+    };
 };
 IndoorsModule.prototype = MapModule;
 

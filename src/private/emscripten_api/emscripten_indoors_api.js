@@ -24,6 +24,11 @@ function EmscriptenIndoorsApi(apiPointer, cwrap) {
 
     var _enterIndoorMap = cwrap("enterIndoorMap", null, ["number", "string"]);
 
+    var _getFloorParam = cwrap("getFloorParam", "number", ["number"]);
+    var _setFloorParam = cwrap("setFloorParam", null, ["number", "number"]);
+    var _expandIndoorMap = cwrap("expandIndoorMap", null, ["number"]);
+    var _collapseIndoorMap = cwrap("collapseIndoorMap", null, ["number"]);
+
     var _wrapCallback = function(callback) {
         return function(indoorMapIdPtr, indoorMapNamePtr, indoorMapLatLngPtr) {
             var indoorMapId = Module.Pointer_stringify(indoorMapIdPtr);
@@ -96,6 +101,21 @@ function EmscriptenIndoorsApi(apiPointer, cwrap) {
         return _enterIndoorMap(_apiPointer, indoorMapId);
     };
 
+    this.expandIndoorMap = function() {
+        return _expandIndoorMap(_apiPointer);
+    };
+
+    this.collapseIndoorMap = function() {
+        return _collapseIndoorMap(_apiPointer);
+    };
+
+    this.getFloorParam = function() {
+        return _getFloorParam(_apiPointer);
+    };
+
+    this.setFloorParam = function(value) {
+        return _setFloorParam(_apiPointer, value);
+    };
 }
 
 module.exports = EmscriptenIndoorsApi;
