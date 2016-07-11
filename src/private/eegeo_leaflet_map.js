@@ -92,25 +92,31 @@ var EegeoLeafletMap = L.Map.extend({
         return point;
     },
 
+    _updateZoom: function() {
+        this._zoom = this.getZoom();
+    },
+
     setView: function(center, zoom, options) {
         // Superclass' implementation of setView does some initialization so we have to call it
         L.Map.prototype.setView.call(this, center, zoom, options);
         
+        zoom = (typeof zoom === "undefined") ? this._zoom : this._limitZoom(zoom);
+        center = this._limitCenter(L.latLng(center), zoom, this.options.maxBounds);
+        options = options || {};
+
         var config = { location: center, zoom: zoom };
         this._cameraModule.setView(config);
         return this;
     },
 
-    setZoom: function() {
-        return this;
+    zoomIn: function(delta, options) {
+        this._updateZoom();
+        return L.Map.prototype.zoomIn.call(this, delta, options);
     },
 
-    zoomIn: function() {
-        return this;
-    },
-
-    zoomOut: function() {
-        return this;
+    zoomOut: function(delta, options) {
+        this._updateZoom();
+        return L.Map.prototype.zoomOut.call(this, delta, options);
     },
 
     setZoomAround: function() {
@@ -124,23 +130,30 @@ var EegeoLeafletMap = L.Map.extend({
     },
 
     fitWorld: function() {
-        return this;
+        return this.setZoom(0);
     },
 
-    panTo: function() {
-        return this;
+    panTo: function(center, options) {
+        this._updateZoom();
+        return L.Map.prototype.panTo.call(this, center, options);
     },
 
-    panInsideBounds: function() {
-        return this;
+    panInsideBounds: function(bounds, options) {
+        this._updateZoom();
+        return L.Map.prototype.panInsideBounds.call(this, bounds, options);
     },
 
     panBy: function() {
         return this;
     },
 
-    setMaxBounds: function() {
-        return this;
+    getCenter: function () {
+        return this._cameraModule.getCenter();
+    },
+
+    getZoom: function () {
+        this._zoom = this._cameraModule.getCurrentZoomLevel();
+        return this._zoom;
     },
 
     locate: function() {
