@@ -104,8 +104,18 @@ var EegeoLeafletMap = L.Map.extend({
         center = this._limitCenter(L.latLng(center), zoom, this.options.maxBounds);
         options = options || {};
 
-        var config = { location: center, zoom: zoom };
-        this._cameraModule.setView(config);
+        if (!("animate" in options)) {
+            if (options.pan && "animate" in options.pan) {
+                options["animate"] = options.pan.animate;
+            }
+            else if (options.zoom && "animate" in options.zoom) {
+                options["animate"] = options.zoom.animate;
+            }
+        }
+
+        options.location = center;
+        options.zoom = zoom;
+        this._cameraModule.setView(options);
         return this;
     },
 
