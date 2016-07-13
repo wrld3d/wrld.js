@@ -9,6 +9,7 @@ var PolygonModule = require("./polygon_module");
 var IndoorEntranceMarkerUpdater = require("./indoor_entrance_marker_updater");
 
 var EegeoLeafletMap = require("./eegeo_leaflet_map");
+var MapMoveEvents = require("./events/map_move_events");
 
 var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, options) {
 
@@ -32,19 +33,10 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, opti
 
     var _screenPointMappingModule = new ScreenPointMappingModule(emscriptenApi);
     var _themesModule = new ThemesModule(emscriptenApi);
-    var _indoorsModule = new IndoorsModule(emscriptenApi);
     var _precacheModule = new PrecacheModule(emscriptenApi);
     var _cameraModule = new CameraModule(emscriptenApi);
+    var _indoorsModule = new IndoorsModule(emscriptenApi, this);
     var _polygonModule = new PolygonModule(emscriptenApi);
-
-    var _modules = [
-        _screenPointMappingModule,
-        _themesModule,
-        _indoorsModule,
-        _precacheModule,
-        _cameraModule,
-        _polygonModule
-    ];
 
     var _canvasId = options["canvasId"];
     var _canvasWidth = options["width"] || domElement.clientWidth;
@@ -76,6 +68,17 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, opti
 
     this.leafletMap = new EegeoLeafletMap(_mapContainer.overlay, options, _cameraModule, _screenPointMappingModule, _precacheModule, _themesModule, _indoorsModule, _polygonModule);
 
+    var _mapMoveEvents = new MapMoveEvents(this.leafletMap);
+
+    var _modules = [
+        _screenPointMappingModule,
+        _themesModule,
+        _indoorsModule,
+        _precacheModule,
+        _cameraModule,
+        _polygonModule
+    ];
+
     this._indoorEntranceMarkerUpdater = null;
 
     if (options.displayEntranceMarkers) {
@@ -99,10 +102,17 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, opti
         _mapContainer.onInitialized();
         _resizeCanvas = _Module.cwrap("resizeCanvas", null, ["number", "number"]);
         _emscriptenApi.onInitialized(apiPointer, _onUpdate, _onDraw, _onInitialStreamingCompleted);
+
+        _mapMoveEvents.setEventCallbacks(_emscriptenApi.cameraApi);
+
         _modules.forEach(function(module) {
             module.onInitialized();
         });
         this.leafletMap.onInitialized(_emscriptenApi);
+    };
+
+    this._setIndoorTransitionCompleteEventListener = function(callback) {
+        this.leafletMap.once("moveend", callback);
     };
 
     var _this = this;

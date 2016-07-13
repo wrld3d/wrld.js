@@ -4,15 +4,18 @@ var IndoorMap = require("./indoor_map");
 var IndoorMapFloor = require("./indoor_map_floor");
 var IndoorMapEntrance = require("./indoor_map_entrance");
 
-var IndoorsModule = function(emscriptenApi) {
+var IndoorsModule = function(emscriptenApi, mapController) {
 
     var _emscriptenApi = emscriptenApi;
+    var _mapController = mapController;
+
     var _indoorMapEnteredCallbacks = new CallbackCollection();
     var _indoorMapExitedCallbacks = new CallbackCollection();
     var _indoorMapEntranceAddedCallbacks = new CallbackCollection();
     var _indoorMapEntranceRemovedCallbacks = new CallbackCollection();
 
     var _activeIndoorMap = null;
+    var _entrances = {};
 
     var _this = this;
 
@@ -50,11 +53,13 @@ var IndoorsModule = function(emscriptenApi) {
 
     var _executeIndoorMapEntranceAddedCallbacks = function(indoorMapId, indoorMapName, indoorMapLatLng) {
         var entrance = new IndoorMapEntrance(indoorMapId, indoorMapName, indoorMapLatLng);
+        _entrances[entrance.getIndoorMapId()] = entrance;
         _indoorMapEntranceAddedCallbacks.executeCallbacks(entrance);
     };
 
     var _executeIndoorMapEntranceRemovedCallbacks = function(indoorMapId, indoorMapName, indoorMapLatLng) {
         var entrance = new IndoorMapEntrance(indoorMapId, indoorMapName, indoorMapLatLng);
+        delete _entrances[entrance.getIndoorMapId()];
         _indoorMapEntranceRemovedCallbacks.executeCallbacks(entrance);
     };
 
@@ -120,7 +125,17 @@ var IndoorsModule = function(emscriptenApi) {
     };
 
     this.enterIndoorMap = function(indoorMapId) {
-        return _emscriptenApi.indoorsApi.enterIndoorMap(indoorMapId);
+        var entrance = _entrances[indoorMapId] || null;
+        if (entrance === null) {
+            return false;
+        }
+
+        var latLng = entrance.getLatLng();
+        var distance = 400;
+
+        _emscriptenApi.cameraApi.setView({location: latLng, distance: distance, allowInterruption: false});
+        _mapController._setIndoorTransitionCompleteEventListener(function() { _emscriptenApi.indoorsApi.enterIndoorMap(indoorMapId) });
+        return true;
     };
 
     this.getFloorParam = function() {

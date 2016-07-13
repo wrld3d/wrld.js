@@ -7,6 +7,10 @@ function EmscriptenCameraApi(apiPointer, cwrap) {
     var _getDistanceToInterestInterop = cwrap("getDistanceToInterest", "number", ["number"]);
     var _getInterestLatLongInterop = cwrap("getInterestLatLong", null, ["number", "number"]);
 
+    var _setMoveStartCallback = cwrap("setMoveStartCallback", null, ["number", "number"]);
+    var _setMoveCallback = cwrap("setMoveCallback", null, ["number", "number"]);
+    var _setMoveEndCallback = cwrap("setMoveEndCallback", null, ["number", "number"]);
+
     var _setView = function(location, distance, animated, allowInterruption) {
         _setViewInterop(
         	_apiPointer, 
@@ -62,6 +66,19 @@ function EmscriptenCameraApi(apiPointer, cwrap) {
 
         return latLong;
     };
+
+    this.setMoveStartCallback = function(callback) {
+        _setMoveStartCallback(_apiPointer, Runtime.addFunction(callback));
+    }
+
+    this.setMoveCallback = function(callback) {
+        _setMoveCallback(_apiPointer, Runtime.addFunction(callback));
+    }
+
+    this.setMoveEndCallback = function(callback) {
+        _setMoveEndCallback(_apiPointer, Runtime.addFunction(callback));
+    }
+
 }
 
 module.exports = EmscriptenCameraApi;
