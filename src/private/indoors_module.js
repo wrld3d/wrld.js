@@ -134,7 +134,7 @@ var IndoorsModule = function(emscriptenApi, mapController) {
         var distance = 400;
 
         _emscriptenApi.cameraApi.setView({location: latLng, distance: distance, allowInterruption: false});
-        _mapController._setIndoorTransitionCompleteEventListener(function() { _emscriptenApi.indoorsApi.enterIndoorMap(indoorMapId) });
+        _mapController._setIndoorTransitionCompleteEventListener(function() { _emscriptenApi.indoorsApi.enterIndoorMap(indoorMapId); });
         return true;
     };
 

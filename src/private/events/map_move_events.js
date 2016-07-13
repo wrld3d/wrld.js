@@ -1,5 +1,4 @@
 var MapMoveEvents = function(leafletMap) {
-    var leafletMap = leafletMap;
     
     var onMoveStart = function() {
         leafletMap.fire("movestart");
@@ -17,6 +16,6 @@ var MapMoveEvents = function(leafletMap) {
         cameraApi.setMoveStartCallback(onMoveStart);
         cameraApi.setMoveCallback(onMove);
         cameraApi.setMoveEndCallback(onMoveEnd);
-    }
+    };
 };
 module.exports = MapMoveEvents;

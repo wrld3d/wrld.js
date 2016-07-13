@@ -69,15 +69,15 @@ function EmscriptenCameraApi(apiPointer, cwrap) {
 
     this.setMoveStartCallback = function(callback) {
         _setMoveStartCallback(_apiPointer, Runtime.addFunction(callback));
-    }
+    };
 
     this.setMoveCallback = function(callback) {
         _setMoveCallback(_apiPointer, Runtime.addFunction(callback));
-    }
+    };
 
     this.setMoveEndCallback = function(callback) {
         _setMoveEndCallback(_apiPointer, Runtime.addFunction(callback));
-    }
+    };
 
 }
 
