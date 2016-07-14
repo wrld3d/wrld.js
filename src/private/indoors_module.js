@@ -9,11 +9,6 @@ var IndoorsModule = function(emscriptenApi, mapController) {
     var _emscriptenApi = emscriptenApi;
     var _mapController = mapController;
 
-    var _indoorMapEnteredCallbacks = new CallbackCollection();
-    var _indoorMapExitedCallbacks = new CallbackCollection();
-    var _indoorMapEntranceAddedCallbacks = new CallbackCollection();
-    var _indoorMapEntranceRemovedCallbacks = new CallbackCollection();
-
     var _activeIndoorMap = null;
     var _entrances = {};
 
@@ -41,26 +36,29 @@ var IndoorsModule = function(emscriptenApi, mapController) {
         return floors;
     };
 
+    var _this = this;
+
     var _executeIndoorMapEnteredCallbacks = function() {
         _activeIndoorMap = _createIndoorMapObject();
-        _indoorMapEnteredCallbacks.executeCallbacks(_activeIndoorMap);
+        _this.fire("indoormapenter", {indoorMap: _activeIndoorMap});
     };
 
     var _executeIndoorMapExitedCallbacks = function() {
+        var indoorMap = _activeIndoorMap;
         _activeIndoorMap = null;
-        _indoorMapExitedCallbacks.executeCallbacks(_activeIndoorMap);
+        _this.fire("indoormapexit", {indoorMap: indoorMap});
     };
 
     var _executeIndoorMapEntranceAddedCallbacks = function(indoorMapId, indoorMapName, indoorMapLatLng) {
         var entrance = new IndoorMapEntrance(indoorMapId, indoorMapName, indoorMapLatLng);
         _entrances[entrance.getIndoorMapId()] = entrance;
-        _indoorMapEntranceAddedCallbacks.executeCallbacks(entrance);
+        _this.fire("indoorentranceadd", {entrance: entrance});
     };
 
     var _executeIndoorMapEntranceRemovedCallbacks = function(indoorMapId, indoorMapName, indoorMapLatLng) {
         var entrance = new IndoorMapEntrance(indoorMapId, indoorMapName, indoorMapLatLng);
         delete _entrances[entrance.getIndoorMapId()];
-        _indoorMapEntranceRemovedCallbacks.executeCallbacks(entrance);
+        _this.fire("indoorentranceremove", {entrance: entrance});
     };
 
     this.onInitialized = function() {
@@ -76,36 +74,24 @@ var IndoorsModule = function(emscriptenApi, mapController) {
         }
     };
 
+    // Deprecated
     this.addIndoorMapEnteredCallback = function(callback) {
-        _indoorMapEnteredCallbacks.addCallback(callback);
+        this.on("indoormapenter", callback);
     };
 
+    // Deprecated
     this.removeIndoorMapEnteredCallback = function(callback) {
-        _indoorMapEnteredCallbacks.removeCallback(callback);
+        this.off("indoormapenter", callback);
     };
 
+    // Deprecated
     this.addIndoorMapExitedCallback = function(callback) {
-        _indoorMapExitedCallbacks.addCallback(callback);
+        this.on("indoormapexit", callback);
     };
 
+    // Deprecated
     this.removeIndoorMapExitedCallback = function(callback) {
-        _indoorMapExitedCallbacks.removeCallback(callback);
-    };
-
-    this.addIndoorMapEntranceAddedCallback = function(callback) {
-        _indoorMapEntranceAddedCallbacks.addCallback(callback);
-    };
-
-    this.removeIndoorMapEntranceAddedCallback = function(callback) {
-        _indoorMapEntranceAddedCallbacks.removeCallback(callback);
-    };
-
-    this.addIndoorMapEntranceRemovedCallback = function(callback) {
-        _indoorMapEntranceRemovedCallbacks.addCallback(callback);
-    };
-
-    this.removeIndoorMapEntranceRemovedCallback = function(callback) {
-        _indoorMapEntranceRemovedCallbacks.removeCallback(callback);
+        this.off("indoormapexit", callback);
     };
 
     this.isIndoors = function() {
@@ -124,7 +110,15 @@ var IndoorsModule = function(emscriptenApi, mapController) {
         return _emscriptenApi.indoorsApi.setSelectedFloorIndex(floorIndex);
     };
 
-    this.enterIndoorMap = function(indoorMapId) {
+    this.enter = function(indoorMap) {
+        var indoorMapId = null;
+        if (typeof indoorMap === "object" && "getIndoorMapId" in indoorMap && typeof indoorMap["getIndoorMapId"] === "function") {
+            indoorMapId = indoorMap.getIndoorMapId();
+        }
+        else if (typeof indoorMap === "string") {
+            indoorMapId = indoorMap;
+        }
+
         var entrance = _entrances[indoorMapId] || null;
         if (entrance === null) {
             return false;
@@ -157,6 +151,9 @@ var IndoorsModule = function(emscriptenApi, mapController) {
         return this;
     };
 };
-IndoorsModule.prototype = MapModule;
+
+var IndoorsPrototype = L.extend({}, MapModule, L.Mixin.Events); 
+
+IndoorsModule.prototype = IndoorsPrototype;
 
 module.exports = IndoorsModule;

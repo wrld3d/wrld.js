@@ -14,17 +14,17 @@ var IndoorEntranceMarkerUpdater = function(map, indoorsModule) {
 	    iconAnchor: [24, 48]
 	});
 
-	var _addEntranceMarker = function(entrance) {
+	var _addEntranceMarker = function(event) {
+		var entrance = event.entrance;
 		var id = entrance.getIndoorMapId();
-		var name = entrance.getIndoorMapName();
-		var latLng = entrance.getLatLng();
 
-		var marker = _createEntranceMarker(id, name, latLng);
+		var marker = _createEntranceMarker(entrance);
 		marker.addTo(_layerGroup);
 		_entranceMarkers[id] = marker;
 	};
 
-	var _removeEntranceMarker = function(entrance) {
+	var _removeEntranceMarker = function(event) {
+		var entrance = event.entrance;
 		var id = entrance.getIndoorMapId();
 
 		var marker = _entranceMarkers[id];
@@ -32,13 +32,13 @@ var IndoorEntranceMarkerUpdater = function(map, indoorsModule) {
 		delete _entranceMarkers[id];
 	};
 
-	var _createEntranceMarker = function(id, name, latLng) {
-		var marker = markers.marker(latLng, {
-			title: name,
+	var _createEntranceMarker = function(entrance) {
+		var marker = markers.marker(entrance.getLatLng(), {
+			title: entrance.getIndoorMapName(),
 			icon: _entranceIcon
 		});
 		marker.on("click", function() {
-			_indoorsModule.enterIndoorMap(id);
+			_indoorsModule.enter(entrance);
 		});
 		return marker;
 	};
@@ -53,11 +53,12 @@ var IndoorEntranceMarkerUpdater = function(map, indoorsModule) {
 
 	_showEntranceMarkers();
 
-	_indoorsModule.addIndoorMapEntranceAddedCallback(_addEntranceMarker);
-	_indoorsModule.addIndoorMapEntranceRemovedCallback(_removeEntranceMarker);
+	_indoorsModule.on("indoorentranceadd", _addEntranceMarker);
+	_indoorsModule.on("indoorentranceremove", _removeEntranceMarker);
 
-	_indoorsModule.addIndoorMapEnteredCallback(_hideEntranceMarkers);
-	_indoorsModule.addIndoorMapExitedCallback(_showEntranceMarkers);
+	_indoorsModule.on("indoormapenter", _hideEntranceMarkers);
+	_indoorsModule.on("indoormapexit", _showEntranceMarkers);
+
 };
 
 module.exports = IndoorEntranceMarkerUpdater;
