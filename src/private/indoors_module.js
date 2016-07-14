@@ -1,5 +1,4 @@
 var MapModule = require("./map_module");
-var CallbackCollection = require("./callback_collection");
 var IndoorMap = require("./indoor_map");
 var IndoorMapFloor = require("./indoor_map_floor");
 var IndoorMapEntrance = require("./indoor_map_entrance");
@@ -35,8 +34,6 @@ var IndoorsModule = function(emscriptenApi, mapController) {
         }
         return floors;
     };
-
-    var _this = this;
 
     var _executeIndoorMapEnteredCallbacks = function() {
         _activeIndoorMap = _createIndoorMapObject();
