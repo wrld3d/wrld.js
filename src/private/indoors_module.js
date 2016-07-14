@@ -27,9 +27,10 @@ var IndoorsModule = function(emscriptenApi, mapController) {
         var floors = [];
         for (var i=0; i<floorCount; ++i) {
             var floorId = _emscriptenApi.indoorsApi.getFloorId(i);
+            var floorIndex = i;
             var floorName = _emscriptenApi.indoorsApi.getFloorName(i);
             var floorNumber = _emscriptenApi.indoorsApi.getFloorNumber(i);
-            var floor = new IndoorMapFloor(floorId, floorName, floorNumber);
+            var floor = new IndoorMapFloor(floorId, floorIndex, floorName, floorNumber);
             floors.push(floor);
         }
         return floors;
@@ -71,26 +72,6 @@ var IndoorsModule = function(emscriptenApi, mapController) {
         }
     };
 
-    // Deprecated
-    this.addIndoorMapEnteredCallback = function(callback) {
-        this.on("indoormapenter", callback);
-    };
-
-    // Deprecated
-    this.removeIndoorMapEnteredCallback = function(callback) {
-        this.off("indoormapenter", callback);
-    };
-
-    // Deprecated
-    this.addIndoorMapExitedCallback = function(callback) {
-        this.on("indoormapexit", callback);
-    };
-
-    // Deprecated
-    this.removeIndoorMapExitedCallback = function(callback) {
-        this.off("indoormapexit", callback);
-    };
-
     this.isIndoors = function() {
         return _emscriptenApi.indoorsApi.hasActiveIndoorMap();
     };
@@ -99,12 +80,53 @@ var IndoorsModule = function(emscriptenApi, mapController) {
         return _activeIndoorMap;
     };
 
-    this.getSelectedFloorIndex = function() {
-        return _emscriptenApi.indoorsApi.getSelectedFloorIndex();
+    this.getFloor = function() {
+        if (this.isIndoors()) {
+            var index = _emscriptenApi.indoorsApi.getSelectedFloorIndex();
+            return _activeIndoorMap.getFloors()[index];
+        }
+        return null;
     };
 
-    this.setSelectedFloorIndex = function(floorIndex) {
-        return _emscriptenApi.indoorsApi.setSelectedFloorIndex(floorIndex);
+    this.setFloor = function(floor) {
+        var index = null;
+        if (this.isIndoors()) {
+            var floors = _activeIndoorMap.getFloors();
+
+            if (typeof floor === "number") {
+                index = floor;
+            }
+            else if (typeof floor === "object") {
+                var floorIndex = floors.indexOf(floor);
+                index = (floorIndex >= 0) ? floorIndex : null;
+            }
+            else if (typeof floor === "string") {
+                for (var i=0; i<floors.length; ++i) {
+                    if (floors[i].getFloorId() === floor) {
+                        index = i;
+                        break;
+                    }
+                }
+            }
+        }
+        if (index !== null) {
+            return _emscriptenApi.indoorsApi.setSelectedFloorIndex(index);
+        }
+        return false;
+    };
+
+    this.moveUp = function(numberOfFloors) {
+        var delta = (typeof numberOfFloors === "undefined") ? 1 : numberOfFloors;
+        var thisFloor = this.getFloor();
+        if (thisFloor === null) {
+            return false;
+        }
+        return this.setFloor(thisFloor.getFloorIndex() + delta);
+    };
+
+    this.moveDown = function(numberOfFloors) {
+        var delta = (typeof numberOfFloors === "undefined") ? -1 : -numberOfFloors;
+        return this.moveUp(delta);
     };
 
     this.enter = function(indoorMap) {
