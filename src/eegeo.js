@@ -5,8 +5,10 @@ var marker = require("./public/marker.js");
 var popup = require("./public/popup.js");
 
 
-var _baseUrl = "https://cdn-webgl.eegeo.com/eegeojs/early_access/latest/";
-var _appName = "eeGeoWebGL.jgz";
+// While the routing API is on a branch of eegeo-mobile, eegeo.js must be 
+// relative to a local build.
+var _baseUrl = "http://localhost:80/";
+var _appName = "eeGeoWebGL.js";
 
 var _mapObjects = [];
 var _emscriptenInitialized = false;
@@ -70,6 +72,7 @@ var eeGeo = {
 	space: require("./public/space"),
 	themes: require("./public/themes"),
 	polygon: require("./public/polygon"),
+	polyline: require("./public/polyline"),
 
 	getMapById: function(mapId) {
 		return _mapObjects[mapId];

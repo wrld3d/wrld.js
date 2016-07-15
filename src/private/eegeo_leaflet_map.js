@@ -15,11 +15,22 @@ var EegeoLeafletMap = L.Map.extend({
 
     indoors: null,
 
-    initialize: function(id, options, cameraModule, screenPointMappingModule, precacheModule, themesModule, indoorsModule, polygonModule) {
+    initialize: function(
+        id, 
+        options, 
+        cameraModule, 
+        screenPointMappingModule,
+         precacheModule, 
+         themesModule, 
+         indoorsModule, 
+         polygonModule, 
+         polylineModule
+    ) {
         this._cameraModule = cameraModule;
         this._screenPointMappingModule = screenPointMappingModule;
         this._precacheModule = precacheModule;
         this._polygonModule = polygonModule;
+        this._polylineModule = polylineModule;
         this.themes = themesModule;
         this.indoors = indoorsModule;
 

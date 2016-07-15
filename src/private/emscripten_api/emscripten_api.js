@@ -6,6 +6,7 @@ function EmscriptenApi(emscriptenModule) {
 
     this.screenPointMappingApi = null;
     this.geofenceApi = null;
+    this.routesApi = null;
     this.indoorsApi = null;
     this.precacheApi = null;
     this.spacesApi = null;
@@ -17,6 +18,7 @@ function EmscriptenApi(emscriptenModule) {
 
         var EmscriptenAnnotationsApi = require("./emscripten_screen_point_mapping_api.js");
         var EmscriptenGeofenceApi = require("./emscripten_geofence_api.js");
+        var EmscriptenRoutesApi = require("./emscripten_routes_api.js");
         var EmscriptenIndoorsApi = require("./emscripten_indoors_api.js");
         var EmscriptenPrecacheApi = require("./emscripten_precache_api.js");
         var EmscriptenSpacesApi = require("./emscripten_spaces_api.js");
@@ -25,6 +27,7 @@ function EmscriptenApi(emscriptenModule) {
 
         this.screenPointMappingApi = new EmscriptenAnnotationsApi(_apiPointer, _emscriptenModule.cwrap);
         this.geofenceApi = new EmscriptenGeofenceApi(_apiPointer, _emscriptenModule.cwrap);
+        this.routesApi = new EmscriptenRoutesApi(_apiPointer, _emscriptenModule.cwrap);
         this.indoorsApi = new EmscriptenIndoorsApi(_apiPointer, _emscriptenModule.cwrap);
         this.precacheApi = new EmscriptenPrecacheApi(_apiPointer, _emscriptenModule.cwrap);
         this.spacesApi = new EmscriptenSpacesApi(_apiPointer, _emscriptenModule.cwrap);
