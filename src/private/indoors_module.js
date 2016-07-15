@@ -59,11 +59,43 @@ var IndoorsModule = function(emscriptenApi, mapController) {
         _this.fire("indoorentranceremove", {entrance: entrance});
     };
 
+    var _onCollapseStart = function() {
+        _this.fire("collapsestart");
+    };
+
+    var _onCollapse = function() {
+        _this.fire("collapse");
+    };
+
+    var _onCollapseEnd = function() {
+        _this.fire("collapseend");
+    };
+
+    var _onExpandStart = function() {
+        _this.fire("expandstart");
+    };
+
+    var _onExpand = function() {
+        _this.fire("expand");
+    };
+
+    var _onExpandEnd = function() {
+        _this.fire("expandend");
+    };
+
+
     this.onInitialized = function() {
         _emscriptenApi.indoorsApi.registerIndoorMapEnteredCallback(_executeIndoorMapEnteredCallbacks);
         _emscriptenApi.indoorsApi.registerIndoorMapExitedCallback(_executeIndoorMapExitedCallbacks);
         _emscriptenApi.indoorsApi.registerIndoorMapMarkerAddedCallback(_executeIndoorMapEntranceAddedCallbacks);
         _emscriptenApi.indoorsApi.registerIndoorMapMarkerRemovedCallback(_executeIndoorMapEntranceRemovedCallbacks);
+
+        _emscriptenApi.expandFloorsApi.setCollapseStartCallback(_onCollapseStart);
+        _emscriptenApi.expandFloorsApi.setCollapseCallback(_onCollapse);
+        _emscriptenApi.expandFloorsApi.setCollapseEndCallback(_onCollapseEnd);
+        _emscriptenApi.expandFloorsApi.setExpandStartCallback(_onExpandStart);
+        _emscriptenApi.expandFloorsApi.setExpandCallback(_onExpand);
+        _emscriptenApi.expandFloorsApi.setExpandEndCallback(_onExpandEnd);
     };
     
     this.exit = function() {
@@ -152,21 +184,21 @@ var IndoorsModule = function(emscriptenApi, mapController) {
     };
 
     this.getFloorParam = function() {
-        return _emscriptenApi.indoorsApi.getFloorParam();
+        return _emscriptenApi.expandFloorsApi.getFloorParam();
     };
 
     this.setFloorParam = function(value) {
-        _emscriptenApi.indoorsApi.setFloorParam(value);
+        _emscriptenApi.expandFloorsApi.setFloorParam(value);
         return this;
     };
 
     this.expand = function() {
-        _emscriptenApi.indoorsApi.expandIndoorMap();
+        _emscriptenApi.expandFloorsApi.expandIndoorMap();
         return this;
     };
 
     this.collapse = function() {
-        _emscriptenApi.indoorsApi.collapseIndoorMap();
+        _emscriptenApi.expandFloorsApi.collapseIndoorMap();
         return this;
     };
 };
