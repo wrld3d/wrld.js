@@ -187,6 +187,7 @@ var IndoorsModule = function(emscriptenApi, mapController) {
         if (_activeIndoorMap !== null) {
             var floorParam = _emscriptenApi.expandFloorsApi.getFloorParam();
             var normalizedValue = floorParam / _activeIndoorMap.getFloorCount();
+            return normalizedValue;
         }
         return 0;
     };
