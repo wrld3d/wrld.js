@@ -3,6 +3,7 @@ var EegeoMapController = require("./private/eegeo_map_controller");
 var EmscriptenApi = require("./private/emscripten_api/emscripten_api");
 var marker = require("./public/marker.js");
 var popup = require("./public/popup.js");
+var polygon = require("./public/polygon.js");
 
 
 var _baseUrl = "https://cdn-webgl.eegeo.com/eegeojs/early_access/latest/";
@@ -66,10 +67,12 @@ var eeGeo = {
 	marker: marker.marker,
 	Popup: popup.Popup,
 	popup: popup.popup,
+	Polygon: polygon.Polygon,
+	polygon: polygon.polygon,
 
+	indoors: require("./public/indoors/indoors"),
 	space: require("./public/space"),
 	themes: require("./public/themes"),
-	polygon: require("./public/polygon"),
 
 	getMapById: function(mapId) {
 		return _mapObjects[mapId];

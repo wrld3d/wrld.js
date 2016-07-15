@@ -1,7 +1,7 @@
 var L = require("leaflet");
 var space = require("./space");
 
-function Polygon(latlngs, config) {
+var Polygon = function(latlngs, config) {
 	var _map = null;
 	var _points = [];
 
@@ -52,10 +52,13 @@ function Polygon(latlngs, config) {
 		}
 		return this;
 	};
-}
+};
 
 var polygon = function(latlngs, config) {
 	return new Polygon(latlngs, config || {});
 };
 
-module.exports = polygon;
+module.exports = {
+	Polygon: Polygon,
+	polygon: polygon
+};

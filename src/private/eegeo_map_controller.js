@@ -8,7 +8,7 @@ var PolygonModule = require("./polygon_module");
 
 var IndoorEntranceMarkerUpdater = require("./indoor_entrance_marker_updater");
 
-var EegeoLeafletMap = require("./eegeo_leaflet_map");
+var EegeoLeafletMap = require("../public/eegeo_leaflet_map");
 var MapMoveEvents = require("./events/map_move_events");
 
 var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, options) {

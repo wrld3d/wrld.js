@@ -1,7 +1,5 @@
 var MapModule = require("./map_module");
-var IndoorMap = require("./indoor_map");
-var IndoorMapFloor = require("./indoor_map_floor");
-var IndoorMapEntrance = require("./indoor_map_entrance");
+var indoors = require("../public/indoors/indoors");
 
 var IndoorsModule = function(emscriptenApi, mapController) {
 
@@ -19,7 +17,7 @@ var IndoorsModule = function(emscriptenApi, mapController) {
         var floorCount = _emscriptenApi.indoorsApi.getActiveIndoorMapFloorCount();
         var floors = _createFloorsArray(floorCount);
         var exitFunc = _this.exit;
-        var indoorMap = new IndoorMap(mapId, mapName, floorCount, floors, exitFunc);
+        var indoorMap = new indoors.IndoorMap(mapId, mapName, floorCount, floors, exitFunc);
         return indoorMap;
     };
 
@@ -30,7 +28,7 @@ var IndoorsModule = function(emscriptenApi, mapController) {
             var floorIndex = i;
             var floorName = _emscriptenApi.indoorsApi.getFloorName(i);
             var floorNumber = _emscriptenApi.indoorsApi.getFloorNumber(i);
-            var floor = new IndoorMapFloor(floorId, floorIndex, floorName, floorNumber);
+            var floor = new indoors.IndoorMapFloor(floorId, floorIndex, floorName, floorNumber);
             floors.push(floor);
         }
         return floors;
@@ -48,13 +46,13 @@ var IndoorsModule = function(emscriptenApi, mapController) {
     };
 
     var _executeIndoorMapEntranceAddedCallbacks = function(indoorMapId, indoorMapName, indoorMapLatLng) {
-        var entrance = new IndoorMapEntrance(indoorMapId, indoorMapName, indoorMapLatLng);
+        var entrance = new indoors.IndoorMapEntrance(indoorMapId, indoorMapName, indoorMapLatLng);
         _entrances[entrance.getIndoorMapId()] = entrance;
         _this.fire("indoorentranceadd", {entrance: entrance});
     };
 
     var _executeIndoorMapEntranceRemovedCallbacks = function(indoorMapId, indoorMapName, indoorMapLatLng) {
-        var entrance = new IndoorMapEntrance(indoorMapId, indoorMapName, indoorMapLatLng);
+        var entrance = new indoors.IndoorMapEntrance(indoorMapId, indoorMapName, indoorMapLatLng);
         delete _entrances[entrance.getIndoorMapId()];
         _this.fire("indoorentranceremove", {entrance: entrance});
     };
