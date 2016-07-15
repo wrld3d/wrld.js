@@ -183,13 +183,30 @@ var IndoorsModule = function(emscriptenApi, mapController) {
         return true;
     };
 
-    this.getFloorParam = function() {
-        return _emscriptenApi.expandFloorsApi.getFloorParam();
+    this.getFloorInterpolation = function() {
+        if (_activeIndoorMap !== null) {
+            var floorParam = _emscriptenApi.expandFloorsApi.getFloorParam();
+            var normalizedValue = floorParam / _activeIndoorMap.getFloorCount();
+        }
+        return 0;
     };
 
-    this.setFloorParam = function(value) {
-        _emscriptenApi.expandFloorsApi.setFloorParam(value);
+    this.setFloorInterpolation = function(value) {
+        if (_activeIndoorMap !== null) {
+            var floorParam = value * _activeIndoorMap.getFloorCount();
+            _emscriptenApi.expandFloorsApi.setFloorParam(floorParam);
+        }
         return this;
+    };
+
+    this.setFloorFromInterpolation = function(interpolationParam) {
+        if (_activeIndoorMap === null) {
+            return false;
+        }
+        
+        var t = (typeof interpolationParam === "undefined") ? this.getFloorInterpolation() : interpolationParam;
+        var floorIndex = Math.round(t * _activeIndoorMap.getFloorCount());
+        return this.setFloor(floorIndex);
     };
 
     this.expand = function() {
