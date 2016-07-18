@@ -38,10 +38,10 @@ var EegeoLeafletMap = L.Map.extend({
     _initEvents: function(onOff, surface) {
         if (!L.DomEvent || !surface) { return; }
 
-        L.DomEvent[onOff](surface, 'click', this._onMouseClick, this);
+        L.DomEvent[onOff](surface, "click", this._onMouseClick, this);
 
-        var events = ['dblclick', 'mousedown', 'mouseup', 'mouseenter',
-                      'mouseleave', 'mousemove', 'contextmenu'],
+        var events = ["dblclick", "mousedown", "mouseup", "mouseenter",
+                      "mouseleave", "mousemove", "contextmenu"],
             i, len;
 
         for (i = 0, len = events.length; i < len; i++) {
@@ -49,7 +49,7 @@ var EegeoLeafletMap = L.Map.extend({
         }
 
         if (this.options.trackResize) {
-            L.DomEvent[onOff](window, 'resize', this._onResize, this);
+            L.DomEvent[onOff](window, "resize", this._onResize, this);
         }
     },
 
