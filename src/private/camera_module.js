@@ -114,7 +114,7 @@ var CameraModule = function(emscriptenApi) {
     };
 
     this.getCenter = function() {
-        return _getCenter();
+        return L.latLng(_getCenter());
     };
 };
 
