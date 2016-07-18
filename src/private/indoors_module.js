@@ -9,6 +9,10 @@ var IndoorsModule = function(emscriptenApi, mapController) {
     var _activeIndoorMap = null;
     var _entrances = {};
 
+    var _ready = false;
+    var _pendingEnterTransition = null;
+    var _transitioningToIndoorMap = false;
+
     var _this = this;
 
     var _createIndoorMapObject = function() {
@@ -81,6 +85,26 @@ var IndoorsModule = function(emscriptenApi, mapController) {
         _this.fire("expandend");
     };
 
+    var _enterIndoorMap = function(indoorMapId) {
+        _emscriptenApi.indoorsApi.enterIndoorMap(indoorMapId);
+    };
+
+    var _transitionToIndoorMap = function(config) {
+
+        _transitioningToIndoorMap = true;
+
+        if (!_ready) {
+            _pendingEnterTransition = config;
+            return;
+        }
+
+        _emscriptenApi.cameraApi.setView({location: config.latLng, distance: config.distance, allowInterruption: false});
+        _mapController._setIndoorTransitionCompleteEventListener(function() { _enterIndoorMap(config.indoorMapId); });
+
+        _this.once("indoormapenter", function() {
+            _transitioningToIndoorMap = false;
+        });
+    };
 
     this.onInitialized = function() {
         _emscriptenApi.indoorsApi.registerIndoorMapEnteredCallback(_executeIndoorMapEnteredCallbacks);
@@ -95,15 +119,25 @@ var IndoorsModule = function(emscriptenApi, mapController) {
         _emscriptenApi.expandFloorsApi.setExpandCallback(_onExpand);
         _emscriptenApi.expandFloorsApi.setExpandEndCallback(_onExpandEnd);
     };
+
+    this.onInitialStreamingCompleted = function() {
+        _ready = true;
+        if (_pendingEnterTransition !== null) {
+            _transitionToIndoorMap(_pendingEnterTransition);
+            _pendingEnterTransition = null;
+        }
+    };
     
     this.exit = function() {
         if (_emscriptenApi.ready()) {
             _emscriptenApi.indoorsApi.exitIndoorMap();
         }
+        _pendingEnterTransition = null;
+        return this;
     };
 
     this.isIndoors = function() {
-        return _emscriptenApi.indoorsApi.hasActiveIndoorMap();
+        return _activeIndoorMap !== null;
     };
 
     this.getActiveIndoorMap = function() {
@@ -160,6 +194,10 @@ var IndoorsModule = function(emscriptenApi, mapController) {
     };
 
     this.enter = function(indoorMap) {
+        if (this.isIndoors() || _transitioningToIndoorMap) {
+            return false;
+        }
+
         var indoorMapId = null;
         if (typeof indoorMap === "object" && "getIndoorMapId" in indoorMap && typeof indoorMap["getIndoorMapId"] === "function") {
             indoorMapId = indoorMap.getIndoorMapId();
@@ -176,8 +214,14 @@ var IndoorsModule = function(emscriptenApi, mapController) {
         var latLng = entrance.getLatLng();
         var distance = 400;
 
-        _emscriptenApi.cameraApi.setView({location: latLng, distance: distance, allowInterruption: false});
-        _mapController._setIndoorTransitionCompleteEventListener(function() { _emscriptenApi.indoorsApi.enterIndoorMap(indoorMapId); });
+        var enterConfig = {
+            latLng: latLng,
+            distance: distance,
+            indoorMapId: indoorMapId
+        };
+
+        _transitionToIndoorMap(enterConfig);
+
         return true;
     };
 
