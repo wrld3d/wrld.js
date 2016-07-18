@@ -35,6 +35,24 @@ var EegeoLeafletMap = L.Map.extend({
         this.attributionControl.addAttribution("3D Maps &copy; <a href='https://www.eegeo.com'>eeGeo</a> and <a href='https://www.eegeo.com/legal/'>partners</a>");
     },
 
+    _initEvents: function(onOff, surface) {
+        if (!L.DomEvent || !surface) { return; }
+
+        L.DomEvent[onOff](surface, 'click', this._onMouseClick, this);
+
+        var events = ['dblclick', 'mousedown', 'mouseup', 'mouseenter',
+                      'mouseleave', 'mousemove', 'contextmenu'],
+            i, len;
+
+        for (i = 0, len = events.length; i < len; i++) {
+            L.DomEvent[onOff](surface, events[i], this._fireMouseEvent, this);
+        }
+
+        if (this.options.trackResize) {
+            L.DomEvent[onOff](window, 'resize', this._onResize, this);
+        }
+    },
+
     addLayer: function(layer) {
         L.Map.prototype.addLayer.call(this, layer);
         if ("getElevation" in layer) {
