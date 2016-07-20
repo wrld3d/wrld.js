@@ -124,6 +124,8 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, opti
         _modules.forEach(function(module) {
             module.onUpdate(deltaSeconds);
         });
+
+        _this.leafletMap._onUpdate();
     };
 
     var _onDraw = function(deltaSeconds) {
@@ -131,7 +133,7 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, opti
             module.onDraw(deltaSeconds);
         });
 
-        _this.leafletMap.update();
+        _this.leafletMap._onDraw();
     };
 
     var _onInitialStreamingCompleted = function() {

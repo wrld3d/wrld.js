@@ -207,7 +207,11 @@ var EegeoLeafletMap = L.Map.extend({
         return L.Map.prototype.openPopup.call(this, popup, latLng, options);
     },
 
-    update: function() {
+    _onUpdate: function() {
+        this.fire("update");
+    },
+
+    _onDraw: function() {
         this.eachLayer(function (layer) {
             if (layer.update) {
                 layer.update();
