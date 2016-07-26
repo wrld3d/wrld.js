@@ -1,9 +1,9 @@
-var IndoorMapFloor = function(floorId, floorIndex, floorName, floorNumber) {
+var IndoorMapFloor = function(floorId, floorIndex, floorName, floorShortName) {
 
     var _floorId = floorId;
     var _floorIndex = floorIndex;
     var _floorName = floorName;
-    var _floorNumber = floorNumber;
+    var _floorShortName = floorShortName;
 
     this.getFloorId = function() {
         return _floorId;
@@ -17,8 +17,8 @@ var IndoorMapFloor = function(floorId, floorIndex, floorName, floorNumber) {
         return _floorName;
     };
 
-    this.getFloorNumber = function() {
-        return _floorNumber;
+    this.getFloorShortName = function() {
+        return _floorShortName;
     };
 
 };

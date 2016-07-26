@@ -28,11 +28,11 @@ var IndoorsModule = function(emscriptenApi, mapController) {
     var _createFloorsArray = function(floorCount) {
         var floors = [];
         for (var i=0; i<floorCount; ++i) {
-            var floorId = _emscriptenApi.indoorsApi.getFloorId(i);
             var floorIndex = i;
             var floorName = _emscriptenApi.indoorsApi.getFloorName(i);
-            var floorNumber = _emscriptenApi.indoorsApi.getFloorNumber(i);
-            var floor = new indoors.IndoorMapFloor(floorId, floorIndex, floorName, floorNumber);
+            var floorShortName = _emscriptenApi.indoorsApi.getFloorId(i);
+            var floorId = floorShortName;
+            var floor = new indoors.IndoorMapFloor(floorId, floorIndex, floorName, floorShortName);
             floors.push(floor);
         }
         return floors;
