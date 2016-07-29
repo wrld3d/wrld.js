@@ -2,7 +2,7 @@ var emscriptenMemory = require("./emscripten_memory");
 
 function EmscriptenCameraApi(apiPointer, cwrap) {
     var _apiPointer = apiPointer;
-    var _setViewInterop = cwrap("setView", null, ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", ]);
+    var _setViewInterop = cwrap("setView", null, ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number" ]);
     var _setViewToBoundsInterop = cwrap("setViewToBounds", null, ["number", "number", "number", "number", "number", "number", "number", "number", "number"]);
     var _getDistanceToInterestInterop = cwrap("getDistanceToInterest", "number", ["number"]);
     var _getInterestLatLongInterop = cwrap("getInterestLatLong", null, ["number", "number"]);
@@ -16,10 +16,10 @@ function EmscriptenCameraApi(apiPointer, cwrap) {
         	_apiPointer, 
             animated,
         	location.lat, location.lng, location.alt || 0, true,
-        	distance || 0, distance != null, 
-            headingDegrees || 0, headingDegrees != null, 
-            tiltDegrees || 0, tiltDegrees != null, 
-            durationSeconds || 0, durationSeconds != null, 
+        	distance || 0, distance !== null, 
+            headingDegrees || 0, headingDegrees !== null, 
+            tiltDegrees || 0, tiltDegrees !== null, 
+            durationSeconds || 0, durationSeconds !== null, 
             jumpIfFarAway,
             allowInterruption
         );
