@@ -2,7 +2,7 @@ var emscriptenMemory = require("./emscripten_memory");
 
 function EmscriptenCameraApi(apiPointer, cwrap) {
     var _apiPointer = apiPointer;
-    var _setViewInterop = cwrap("setView", null, ["number", "number", "number", "number", "number", "number", "number"]);
+    var _setViewInterop = cwrap("setView", null, ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", ]);
     var _setViewToBoundsInterop = cwrap("setViewToBounds", null, ["number", "number", "number", "number", "number", "number", "number", "number", "number"]);
     var _getDistanceToInterestInterop = cwrap("getDistanceToInterest", "number", ["number"]);
     var _getInterestLatLongInterop = cwrap("getInterestLatLong", null, ["number", "number"]);
@@ -11,12 +11,16 @@ function EmscriptenCameraApi(apiPointer, cwrap) {
     var _setMoveCallback = cwrap("setMoveCallback", null, ["number", "number"]);
     var _setMoveEndCallback = cwrap("setMoveEndCallback", null, ["number", "number"]);
 
-    var _setView = function(location, distance, animated, allowInterruption) {
+    var _setView = function(animated, location, distance, headingDegrees, tiltDegrees, durationSeconds, jumpIfFarAway, allowInterruption) {
         _setViewInterop(
         	_apiPointer, 
-        	location.lat, location.lng, location.alt || 0, 
-        	distance, 
-        	animated,
+            animated,
+        	location.lat, location.lng, location.alt || 0, true,
+        	distance || 0, distance != null, 
+            headingDegrees || 0, headingDegrees != null, 
+            tiltDegrees || 0, tiltDegrees != null, 
+            durationSeconds || 0, durationSeconds != null, 
+            jumpIfFarAway,
             allowInterruption
         );
     };
@@ -32,12 +36,16 @@ function EmscriptenCameraApi(apiPointer, cwrap) {
     };
 
     this.setView = function(config) {
+        var animated = "animate" in config ? config["animate"] : true;
     	var location = L.latLng(config["location"]);
-    	var distance = config["distance"] || 1781.0;
-    	var animated = "animate" in config ? config["animate"] : true;
+        var distance = "distance" in config ? config["distance"] : null;
+        var headingDegrees = "headingDegrees" in config ? config["headingDegrees"] : null;
+        var tiltDegrees = "tiltDegrees" in config ? config["tiltDegrees"] : null;
+        var durationSeconds = "durationSeconds" in config ? config["durationSeconds"] : null;
+        var jumpIfFarAway = true;
         var allowInterruption = "allowInterruption" in config ? config["allowInterruption"] : true;
-
-        return _setView(location, distance, animated, allowInterruption);
+        
+        return _setView(animated, location, distance, headingDegrees, tiltDegrees, durationSeconds, jumpIfFarAway, allowInterruption);
     };
 
     this.setViewToBounds = function(config) {    	

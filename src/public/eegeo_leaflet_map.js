@@ -138,13 +138,17 @@ var EegeoLeafletMap = L.Map.extend({
     },
 
     zoomIn: function(delta, options) {
+        var config = { location: this.getCenter(), zoom: this.getZoom() + 1, durationSeconds: 0.33 };
+        this._cameraModule.setView(config);
         this._updateZoom();
-        return L.Map.prototype.zoomIn.call(this, delta, options);
+        return this;
     },
 
     zoomOut: function(delta, options) {
+        var config = { location: this.getCenter(), zoom: this.getZoom() - 1, durationSeconds: 0.33 };
+        this._cameraModule.setView(config);
         this._updateZoom();
-        return L.Map.prototype.zoomOut.call(this, delta, options);
+        return this;
     },
 
     setZoomAround: function() {
