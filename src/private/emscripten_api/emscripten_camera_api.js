@@ -2,7 +2,7 @@ var emscriptenMemory = require("./emscripten_memory");
 
 function EmscriptenCameraApi(apiPointer, cwrap) {
     var _apiPointer = apiPointer;
-    var _setViewInterop = cwrap("setView", null, ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number" ]);
+    var _setViewInterop = cwrap("setView", "number", ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number" ]);
     var _setViewToBoundsInterop = cwrap("setViewToBounds", null, ["number", "number", "number", "number", "number", "number", "number", "number", "number"]);
     var _getDistanceToInterestInterop = cwrap("getDistanceToInterest", "number", ["number"]);
     var _getInterestLatLongInterop = cwrap("getInterestLatLong", null, ["number", "number"]);
@@ -12,7 +12,7 @@ function EmscriptenCameraApi(apiPointer, cwrap) {
     var _setMoveEndCallback = cwrap("setMoveEndCallback", null, ["number", "number"]);
 
     var _setView = function(animated, location, distance, headingDegrees, tiltDegrees, durationSeconds, jumpIfFarAway, allowInterruption) {
-        _setViewInterop(
+        return _setViewInterop(
         	_apiPointer, 
             animated,
         	location.lat, location.lng, location.alt || 0, true,

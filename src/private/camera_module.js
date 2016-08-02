@@ -6,7 +6,7 @@ var CameraModule = function(emscriptenApi) {
     var _pendingSetViewData = null;
     var _pendingSetViewToBoundsData = null;
 
-    var _altitudes = [
+    var _lodSwitchAltitudes = [
         5000000,
         2100000,
         1100000,
@@ -20,8 +20,16 @@ var CameraModule = function(emscriptenApi) {
         15000,  // lcm
         7500,   // detail roads, lod2 buildings
         2500,   // lod1 buildings
-        750     // lod0 buildings
+        750,    // lod0 buildings
+        0
     ];
+
+    var _altitudes = new Array(_lodSwitchAltitudes.length - 1);
+    for(var i = 0; i < _lodSwitchAltitudes.length - 1; ++ i) {
+        var top     = _lodSwitchAltitudes[i + 1];
+        var bottom  = _lodSwitchAltitudes[i + 0];
+        _altitudes[i] = bottom + ((top - bottom) * 0.5);
+    }
 
     var _zoomLevelToDistance = function(zoomLevel) {
         if(zoomLevel < 0) {
@@ -38,6 +46,7 @@ var CameraModule = function(emscriptenApi) {
         if ("zoom" in config) {
             config.distance = _zoomLevelToDistance(config.zoom);
         }
+
         if (_ready) {
             _emscriptenApi.cameraApi.setView(config);
         }
@@ -58,7 +67,7 @@ var CameraModule = function(emscriptenApi) {
     var _getCurrentZoomLevel = function() {    
         if (_ready) {
             var cameraApi = _emscriptenApi.cameraApi;
-            var distanceToInterest = cameraApi.getDistanceToInterest();
+            var distanceToInterest = cameraApi.getDistanceToInterest() ;
             var index = _altitudes.findIndex(function(currentAltitude) {
                 return distanceToInterest > currentAltitude;
             });
@@ -66,7 +75,7 @@ var CameraModule = function(emscriptenApi) {
             return index > -1 ? Math.max(0, Math.min(index - 1, _altitudes.length -1)) : _altitudes.length - 1;
         }
         else {
-            return _pendingSetViewData["zoom"] || [-1, -1];
+            return _pendingSetViewData["zoom"] || -1;
         }
     };
 
