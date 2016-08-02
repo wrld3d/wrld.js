@@ -24,6 +24,10 @@ var CameraModule = function(emscriptenApi) {
     ];
 
     var _zoomLevelToDistance = function(zoomLevel) {
+        if(zoomLevel < 0) {
+            return _altitudes[0];
+        }
+
         if (zoomLevel >= _altitudes.length) {
             return _altitudes[_altitudes.length - 1];
         }
