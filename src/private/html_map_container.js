@@ -27,7 +27,7 @@ var HTMLMapContainer = function(parentElement, canvasId, canvasWidth, canvasHeig
             if (e.button === 1) {
                 return false;
             }
-        }
+        };
         return mapContainer;
     };
 
