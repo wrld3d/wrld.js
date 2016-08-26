@@ -72,7 +72,7 @@ var EegeoLeafletMap = L.Map.extend({
         this._ready = true;
         var panes = this.getPanes();
         panes.mapPane.style["z-index"] = "10";
-        panes.mapPane.style["pointer-events"] = "initial";
+        panes.mapPane.style["pointer-events"] = "auto";
         panes.overlayPane.style["pointer-events"] = "none";
     },
 
