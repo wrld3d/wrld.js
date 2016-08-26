@@ -21,7 +21,14 @@ var HTMLMapContainer = function(parentElement, canvasId, canvasWidth, canvasHeig
             "padding": "0px",
             "margin": "0px"
         };
-        return _createDOMElement(parentElement, "div", { "class": "eegeo-map-container"}, style);
+        var mapContainer = _createDOMElement(parentElement, "div", { "class": "eegeo-map-container"}, style);
+        mapContainer.onmousedown = function(e) {
+            // Prevent middle-mouse scrolling on Windows
+            if (e.button === 1) {
+                return false;
+            }
+        }
+        return mapContainer;
     };
 
     var _createLeafletOverlay = function(parentElement) {
