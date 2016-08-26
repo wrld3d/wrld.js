@@ -1,4 +1,5 @@
 var popups = require("./popup");
+var EegeoDomUtil = require("../private/eegeo_dom_util");
 
 var Marker = L.Marker.extend({
     options: {
@@ -20,6 +21,20 @@ var Marker = L.Marker.extend({
             this._setPos(screenPos);
         }
         return this;
+    },
+
+    _setPos: function (pos) {
+        var setPosFunc = (L.Browser.gecko) ? EegeoDomUtil.setPositionSmooth : L.DomUtil.setPosition;
+
+        setPosFunc(this._icon, pos);
+
+        if (this._shadow) {
+            setPosFunc(this._shadow, pos);
+        }
+
+        this._zIndex = pos.y + this.options.zIndexOffset;
+
+        this._resetZIndex();
     },
 
     bindPopup: function(content, options) {
