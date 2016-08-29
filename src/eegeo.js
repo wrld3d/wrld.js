@@ -6,8 +6,8 @@ var popup = require("./public/popup.js");
 var polygon = require("./public/polygon.js");
 
 
-var _baseUrl = "../../../eegeo-mobile/eegeo-webgl/build/";
-var _appName = "eeGeoWebGL.js";
+var _baseUrl = "https://cdn-webgl.eegeo.com/eegeojs/early_access/latest/";
+var _appName = "eeGeoWebGL.jgz";
 
 var _mapObjects = [];
 var _emscriptenInitialized = false;
