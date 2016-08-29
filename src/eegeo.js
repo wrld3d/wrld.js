@@ -6,8 +6,8 @@ var popup = require("./public/popup.js");
 var polygon = require("./public/polygon.js");
 
 
-var _baseUrl = "https://cdn-webgl.eegeo.com/eegeojs/early_access/latest/";
-var _appName = "eeGeoWebGL.jgz";
+var _baseUrl = "../../../eegeo-mobile/eegeo-webgl/build/";
+var _appName = "eeGeoWebGL.js";
 
 var _mapObjects = [];
 var _emscriptenInitialized = false;
@@ -21,7 +21,7 @@ var createEmscriptenModule = function() {
 		return absUrl;
 	};
 	Module["onExit"] = function(exitCode) {
-		if (exitCode == 1) {
+		if (exitCode === 1) {
 			var message = "Error: eegeo.js failed to initialize";
 			if (!Module.ctx) {
 				message = "Error: WebGL unavailable in this browser";
