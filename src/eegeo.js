@@ -14,10 +14,21 @@ var _emscriptenInitialized = false;
 
 
 var createEmscriptenModule = function() {
-	window.Module = {
-		locateFile: function(url) {
-			var absUrl = _baseUrl + url;
-			return absUrl;
+	var Module = window.Module || {};
+	window.Module = Module;
+	Module["locateFile"] = function(url) {
+		var absUrl = _baseUrl + url;
+		return absUrl;
+	};
+	Module["onExit"] = function(exitCode) {
+		if (exitCode == 1) {
+			var message = "Error: eegeo.js failed to initialize";
+			if (!Module.ctx) {
+				message = "Error: WebGL unavailable in this browser";
+			}
+			_mapObjects.forEach(function(map) {
+				map.onError(message);
+			});
 		}
 	};
 };

@@ -112,6 +112,10 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, opti
         this.leafletMap.onInitialized(_emscriptenApi);
     };
 
+    this.onError = function(errorMessage) {
+        _mapContainer.onError(errorMessage);
+    };
+
     this._setIndoorTransitionCompleteEventListener = function(callback) {
         this.leafletMap.once("moveend", callback);
     };

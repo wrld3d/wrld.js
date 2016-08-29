@@ -44,6 +44,23 @@ var HTMLMapContainer = function(parentElement, canvasId, canvasWidth, canvasHeig
         return _createDOMElement(parentElement, "div", attributes, style);
     };
 
+    var _createErrorMessage = function(parentElement, messageText) {
+        var attributes = {"class": "eegeo-error-message"};
+        var style = {
+            "position": "absolute",
+            "left": "0px",
+            "bottom": "0px",
+            "line-height": "normal",
+            "color": "white",
+            "font-family": "sans-serif",
+            "font-weight": "bold",
+            "margin": "0.5em"
+        };
+        var errorMessage = _createDOMElement(parentElement, "div", attributes, style);
+        errorMessage.textContent = messageText;
+        return errorMessage;
+    };
+
     var _createCanvas = function(parentElement, canvasId, width, height) {
         var attributes = {
             "class": "eegeo-map-canvas",
@@ -87,6 +104,11 @@ var HTMLMapContainer = function(parentElement, canvasId, canvasWidth, canvasHeig
     this.onInitialized = function() {
         this.loadingSpinner.stopSpinning();
         this.loadingSpinnerIcon.parentNode.removeChild(this.loadingSpinnerIcon);
+    };
+
+    this.onError = function(message) {
+        this.loadingSpinner.stopSpinning();
+        _createErrorMessage(this.mapContainer, message);
     };
 
     this.width = function() {
