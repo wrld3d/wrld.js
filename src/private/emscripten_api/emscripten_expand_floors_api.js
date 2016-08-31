@@ -1,4 +1,4 @@
-function EmscriptenExpandFloorsApi(apiPointer, cwrap) {
+function EmscriptenExpandFloorsApi(apiPointer, cwrap, runtime) {
 
     var _apiPointer = apiPointer;
     
@@ -31,27 +31,27 @@ function EmscriptenExpandFloorsApi(apiPointer, cwrap) {
     };
 
     this.setCollapseStartCallback = function(callback) {
-        _setCollapseStartCallback(_apiPointer, Runtime.addFunction(callback));
+        _setCollapseStartCallback(_apiPointer, runtime.addFunction(callback));
     };
 
     this.setCollapseCallback = function(callback) {
-        _setCollapseCallback(_apiPointer, Runtime.addFunction(callback));
+        _setCollapseCallback(_apiPointer, runtime.addFunction(callback));
     };
 
     this.setCollapseEndCallback = function(callback) {
-        _setCollapseEndCallback(_apiPointer, Runtime.addFunction(callback));
+        _setCollapseEndCallback(_apiPointer, runtime.addFunction(callback));
     };
 
     this.setExpandStartCallback = function(callback) {
-        _setExpandStartCallback(_apiPointer, Runtime.addFunction(callback));
+        _setExpandStartCallback(_apiPointer, runtime.addFunction(callback));
     };
 
     this.setExpandCallback = function(callback) {
-        _setExpandCallback(_apiPointer, Runtime.addFunction(callback));
+        _setExpandCallback(_apiPointer, runtime.addFunction(callback));
     };
 
     this.setExpandEndCallback = function(callback) {
-        _setExpandEndCallback(_apiPointer, Runtime.addFunction(callback));
+        _setExpandEndCallback(_apiPointer, runtime.addFunction(callback));
     };
 
 }

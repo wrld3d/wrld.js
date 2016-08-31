@@ -1,6 +1,6 @@
 var emscriptenMemory = require("./emscripten_memory");
 
-function EmscriptenIndoorsApi(apiPointer, cwrap) {
+function EmscriptenIndoorsApi(apiPointer, cwrap, runtime) {
 
     var _apiPointer = apiPointer;
     var _exitIndoorMap = cwrap("exitIndoorMap", null, ["number"]);
@@ -35,21 +35,21 @@ function EmscriptenIndoorsApi(apiPointer, cwrap) {
     };
 
     this.registerIndoorMapEnteredCallback = function (callback) {
-        _setIndoorMapEnteredCallback(_apiPointer, Runtime.addFunction(callback));
+        _setIndoorMapEnteredCallback(_apiPointer, runtime.addFunction(callback));
     };
 
     this.registerIndoorMapExitedCallback = function (callback) {
-        _setIndoorMapExitedCallback(_apiPointer, Runtime.addFunction(callback));
+        _setIndoorMapExitedCallback(_apiPointer, runtime.addFunction(callback));
     };
 
     this.registerIndoorMapMarkerAddedCallback = function(callback) {
         var wrappedCallback = _wrapCallback(callback);
-        _setIndoorMapMarkerAddedCallback(_apiPointer, Runtime.addFunction(wrappedCallback));
+        _setIndoorMapMarkerAddedCallback(_apiPointer, runtime.addFunction(wrappedCallback));
     };
 
     this.registerIndoorMapMarkerRemovedCallback = function(callback) {
         var wrappedCallback = _wrapCallback(callback);
-        _setIndoorMapMarkerRemovedCallback(_apiPointer, Runtime.addFunction(wrappedCallback));
+        _setIndoorMapMarkerRemovedCallback(_apiPointer, runtime.addFunction(wrappedCallback));
     };
 
     this.exitIndoorMap = function() {

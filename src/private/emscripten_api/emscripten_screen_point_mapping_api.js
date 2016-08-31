@@ -1,6 +1,6 @@
 var emscriptenMemory = require("./emscripten_memory");
 
-function EmscriptenScreenPointMappingApi(apiPointer, cwrap) {
+function EmscriptenScreenPointMappingApi(apiPointer, cwrap, runtime) {
 
     var _apiPointer = apiPointer;
     var _createAnnotation = cwrap("createAnnotation", null, ["number", "number", "number", "number", "number"]);

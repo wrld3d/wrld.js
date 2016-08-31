@@ -26,18 +26,24 @@ function EmscriptenApi(emscriptenModule) {
     this.onInitialized = function(apiPointer, onUpdateCallback, onDrawCallback, onInitialStreamingCompletedCallback) {
         _apiPointer = apiPointer;
         var cwrap = _emscriptenModule.cwrap;
+        var runtime = _emscriptenModule.Runtime;
 
-        this.screenPointMappingApi = new EmscriptenAnnotationsApi(_apiPointer, cwrap);
-        this.geofenceApi = new EmscriptenGeofenceApi(_apiPointer, cwrap);
-        this.indoorsApi = new EmscriptenIndoorsApi(_apiPointer, cwrap);
-        this.precacheApi = new EmscriptenPrecacheApi(_apiPointer, cwrap);
-        this.spacesApi = new EmscriptenSpacesApi(_apiPointer, cwrap);
-        this.themesApi = new EmscriptenThemesApi(_apiPointer, cwrap);
-        this.cameraApi = new EmscriptenCameraApi(_apiPointer, cwrap);
-        this.expandFloorsApi = new EmscriptenExpandFloorsApi(_apiPointer, cwrap);
+        this.screenPointMappingApi = new EmscriptenAnnotationsApi(_apiPointer, cwrap, runtime);
+        this.geofenceApi = new EmscriptenGeofenceApi(_apiPointer, cwrap, runtime);
+        this.indoorsApi = new EmscriptenIndoorsApi(_apiPointer, cwrap, runtime);
+        this.precacheApi = new EmscriptenPrecacheApi(_apiPointer, cwrap, runtime);
+        this.spacesApi = new EmscriptenSpacesApi(_apiPointer, cwrap, runtime);
+        this.themesApi = new EmscriptenThemesApi(_apiPointer, cwrap, runtime);
+        this.cameraApi = new EmscriptenCameraApi(_apiPointer, cwrap, runtime);
+        this.expandFloorsApi = new EmscriptenExpandFloorsApi(_apiPointer, cwrap, runtime);
 
         var _setTopLevelCallbacks = _emscriptenModule.cwrap("setTopLevelCallbacks", null, ["number", "number", "number", "number"]);
-        _setTopLevelCallbacks(_apiPointer, Runtime.addFunction(onUpdateCallback), Runtime.addFunction(onDrawCallback), Runtime.addFunction(onInitialStreamingCompletedCallback));
+        _setTopLevelCallbacks(
+            _apiPointer, 
+            runtime.addFunction(onUpdateCallback), 
+            runtime.addFunction(onDrawCallback), 
+            runtime.addFunction(onInitialStreamingCompletedCallback)
+        );
         _ready = true;
     };
 

@@ -1,7 +1,7 @@
 var emscriptenMemory = require("./emscripten_memory");
 var space = require("../../public/space");
 
-function EmscriptenSpacesApi(apiPointer, cwrap) {
+function EmscriptenSpacesApi(apiPointer, cwrap, runtime) {
 
     var _apiPointer = apiPointer;
 

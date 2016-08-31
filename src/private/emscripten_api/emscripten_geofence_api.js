@@ -1,6 +1,6 @@
 var emscriptenMemory = require("./emscripten_memory");
 
-function EmscriptenGeofenceApi(apiPointer, cwrap) {
+function EmscriptenGeofenceApi(apiPointer, cwrap, runtime) {
 
     var _apiPointer = apiPointer;
 

@@ -1,6 +1,6 @@
 var emscriptenMemory = require("./emscripten_memory");
 
-function EmscriptenCameraApi(apiPointer, cwrap) {
+function EmscriptenCameraApi(apiPointer, cwrap, runtime) {
     var _apiPointer = apiPointer;
     var _setViewInterop = cwrap("setView", "number", ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number" ]);
     var _setViewToBoundsInterop = cwrap("setViewToBounds", null, ["number", "number", "number", "number", "number", "number", "number", "number", "number"]);
@@ -76,15 +76,15 @@ function EmscriptenCameraApi(apiPointer, cwrap) {
     };
 
     this.setMoveStartCallback = function(callback) {
-        _setMoveStartCallback(_apiPointer, Runtime.addFunction(callback));
+        _setMoveStartCallback(_apiPointer, runtime.addFunction(callback));
     };
 
     this.setMoveCallback = function(callback) {
-        _setMoveCallback(_apiPointer, Runtime.addFunction(callback));
+        _setMoveCallback(_apiPointer, runtime.addFunction(callback));
     };
 
     this.setMoveEndCallback = function(callback) {
-        _setMoveEndCallback(_apiPointer, Runtime.addFunction(callback));
+        _setMoveEndCallback(_apiPointer, runtime.addFunction(callback));
     };
 
 }

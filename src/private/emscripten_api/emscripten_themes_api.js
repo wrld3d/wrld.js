@@ -1,4 +1,4 @@
-function EmscriptenThemesApi(apiPointer, cwrap) {
+function EmscriptenThemesApi(apiPointer, cwrap, runtime) {
 
     var _apiPointer = apiPointer;
     var _setTheme = cwrap("setTheme", null, ["number", "string"]);
@@ -14,7 +14,7 @@ function EmscriptenThemesApi(apiPointer, cwrap) {
     };
 
     this.registerStreamingCompletedCallback = function (callback) {
-        _setCallback(_apiPointer, Runtime.addFunction(callback));
+        _setCallback(_apiPointer, runtime.addFunction(callback));
     };
 }
 
