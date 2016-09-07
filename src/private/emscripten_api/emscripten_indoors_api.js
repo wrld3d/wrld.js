@@ -21,6 +21,7 @@ function EmscriptenIndoorsApi(apiPointer, cwrap, runtime) {
     var _getFloorId = cwrap("getFloorId", "string", ["number", "number"]);
     var _getFloorName = cwrap("getFloorName", "string", ["number", "number"]);
     var _getFloorNumber = cwrap("getFloorNumber", "number", ["number", "number"]);
+    var _getFloorHeightAboveSeaLevel = cwrap("getFloorHeightAboveSeaLevel", "number", ["number", "number"]);
 
     var _enterIndoorMap = cwrap("enterIndoorMap", null, ["number", "string"]);
 
@@ -90,6 +91,10 @@ function EmscriptenIndoorsApi(apiPointer, cwrap, runtime) {
 
     this.getFloorNumber = function(floorIndex) {
         return _getFloorNumber(_apiPointer, floorIndex);
+    };
+
+    this.getFloorHeightAboveSeaLevel = function(floorIndex) {
+        return _getFloorHeightAboveSeaLevel(_apiPointer, floorIndex);
     };
 
     this.enterIndoorMap = function(indoorMapId) {

@@ -234,6 +234,17 @@ var IndoorsModule = function(emscriptenApi, mapController) {
         return 0;
     };
 
+    this.getFloorHeightAboveSeaLevel = function(floorIndex) {
+        if (this.isIndoors() && 
+            floorIndex >= 0 && 
+            floorIndex < _activeIndoorMap.getFloorCount())
+        {
+            return _emscriptenApi.indoorsApi.getFloorHeightAboveSeaLevel(floorIndex);
+        }
+
+        return null;
+    };
+
     this.setFloorInterpolation = function(value) {
         if (_activeIndoorMap !== null) {
             var floorParam = value * _activeIndoorMap.getFloorCount();

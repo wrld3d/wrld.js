@@ -5,6 +5,7 @@ var IndoorsModule = require("./indoors_module");
 var PrecacheModule = require("./precache_module");
 var CameraModule = require("./camera_module");
 var PolygonModule = require("./polygon_module");
+var RoutingModule = require("./routing_module");
 
 var IndoorEntranceMarkerUpdater = require("./indoor_entrance_marker_updater");
 
@@ -37,6 +38,7 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, opti
     var _cameraModule = new CameraModule(emscriptenApi);
     var _indoorsModule = new IndoorsModule(emscriptenApi, this);
     var _polygonModule = new PolygonModule(emscriptenApi);
+    var _routingModule = new RoutingModule(apiKey, _indoorsModule);
 
     var _canvasId = options["canvasId"];
     var _canvasWidth = options["width"] || domElement.clientWidth;
@@ -66,7 +68,7 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, opti
         indoorsEnabledArg
         ];
 
-    this.leafletMap = new EegeoLeafletMap(_mapContainer.overlay, options, _cameraModule, _screenPointMappingModule, _precacheModule, _themesModule, _indoorsModule, _polygonModule);
+    this.leafletMap = new EegeoLeafletMap(_mapContainer.overlay, options, _cameraModule, _screenPointMappingModule, _precacheModule, _themesModule, _indoorsModule, _polygonModule, _routingModule);
     this.leafletMap._initEvents("on", _canvas);
 
     var _mapMoveEvents = new MapMoveEvents(this.leafletMap);
