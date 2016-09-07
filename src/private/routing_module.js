@@ -2,26 +2,26 @@ var MapModule = require("./map_module");
 
 var RoutingModule = function(apiKey, indoorsModule) {
 
-    _urlRoot = "https://routing.eegeo.com/v1/";
-    _apiKey = apiKey;
-    _indoorsModule = indoorsModule;
+    var _urlRoot = "https://routing.eegeo.com/v1/";
+    var _apiKey = apiKey;
+    var _indoorsModule = indoorsModule;
 
     var _parseMetadataTag = function(metadata, tag) {
-        var decoratedTag = "{" + tag + ":"
+        var decoratedTag = "{" + tag + ":";
         var occurrence = metadata.indexOf(decoratedTag);
 
-        if (occurrence != -1)
+        if (occurrence !== -1)
         {
             var postTag = metadata.slice(occurrence + decoratedTag.length);
             var nextBracketIndex = postTag.indexOf("}");
 
-            if (nextBracketIndex != -1)
+            if (nextBracketIndex !== -1)
             {
                 return postTag.substring(0, nextBracketIndex);
             }
         }
 
-        return null
+        return null;
     };
 
     var _parseRouteSteps = function(routeSteps) {
@@ -33,7 +33,7 @@ var RoutingModule = function(apiKey, indoorsModule) {
             var metadata = routeSteps[i].name;
             var level = _parseMetadataTag(metadata, "level");
         
-            if (level != "multiple") 
+            if (level !== "multiple") 
             {
                 height = _indoorsModule.getFloorHeightAboveSeaLevel(level);
             }
@@ -53,8 +53,7 @@ var RoutingModule = function(apiKey, indoorsModule) {
 
     var _parseRoutes = function(routingJson) {
       var routes = routingJson["routes"];
-      var lineCount = 0;
-      results = []
+      var results = [];
 
       for (var routeIndex = 0; routeIndex < routes.length; ++routeIndex)
       {
@@ -76,14 +75,14 @@ var RoutingModule = function(apiKey, indoorsModule) {
             var routeJson = JSON.parse(this.responseText);
             var routes = _parseRoutes(routeJson);
             routeLoadHandler(routes);
-        }
+        };
     };
 
     var _cancelRequest = function(request) {
         return function() {
             request.abort();
-        }
-    }
+        };
+    };
 
     this.getRoutes = function(startPoint, endPoint, onLoadHandler) {
         var url = _urlRoot + "route/?loc=" + startPoint[0] + "," + startPoint[1];
