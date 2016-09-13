@@ -20,6 +20,8 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, opti
         height: undefined,
         indoorsEnabled: false,
         displayEntranceMarkers: true,
+        coverageTreeManifest: "",
+        environmentThemesManifest: "",
 
         // Override Leaflet defaults
         center: L.latLng([37.7858, -122.401]),
@@ -55,6 +57,8 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, opti
     var distance = _cameraModule.zoomLevelToDistance(options.zoom);
 
     var indoorsEnabledArg = (options.indoorsEnabled) ? "1" : "0";
+    var coverageTreeManifest = options.coverageTreeManifest;
+    var environmentThemesManifest = options.environmentThemesManifest;
 
     _Module["arguments"] = [
         _canvasId,
@@ -65,8 +69,10 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, opti
         center.lat.toString(),
         center.lng.toString(),
         distance.toString(),
-        indoorsEnabledArg
-        ];
+        indoorsEnabledArg,
+        coverageTreeManifest,
+        environmentThemesManifest
+    ];
 
     this.leafletMap = new EegeoLeafletMap(_mapContainer.overlay, options, _cameraModule, _screenPointMappingModule, _precacheModule, _themesModule, _indoorsModule, _polygonModule, _routingModule);
     this.leafletMap._initEvents("on", _canvas);
