@@ -48,6 +48,10 @@ var IndoorsModule = function(emscriptenApi, mapController) {
         _activeIndoorMap = null;
         _this.fire("indoormapexit", {indoorMap: indoorMap});
     };
+    
+    var _executeIndoorMapFloorChangedCallbacks = function() {
+        _this.fire("indoormapfloorchange", {floor: _this.getFloor()});
+    };
 
     var _executeIndoorMapEntranceAddedCallbacks = function(indoorMapId, indoorMapName, indoorMapLatLng) {
         var entrance = new indoors.IndoorMapEntrance(indoorMapId, indoorMapName, indoorMapLatLng);
@@ -109,6 +113,7 @@ var IndoorsModule = function(emscriptenApi, mapController) {
     this.onInitialized = function() {
         _emscriptenApi.indoorsApi.registerIndoorMapEnteredCallback(_executeIndoorMapEnteredCallbacks);
         _emscriptenApi.indoorsApi.registerIndoorMapExitedCallback(_executeIndoorMapExitedCallbacks);
+        _emscriptenApi.indoorsApi.registerIndoorMapFloorChangedCallback(_executeIndoorMapFloorChangedCallbacks);
         _emscriptenApi.indoorsApi.registerIndoorMapMarkerAddedCallback(_executeIndoorMapEntranceAddedCallbacks);
         _emscriptenApi.indoorsApi.registerIndoorMapMarkerRemovedCallback(_executeIndoorMapEntranceRemovedCallbacks);
 

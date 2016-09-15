@@ -6,6 +6,7 @@ function EmscriptenIndoorsApi(apiPointer, cwrap, runtime) {
     var _exitIndoorMap = cwrap("exitIndoorMap", null, ["number"]);
     var _setIndoorMapEnteredCallback = cwrap("setIndoorMapEnteredCallback", null, ["number", "number"]);
     var _setIndoorMapExitedCallback = cwrap("setIndoorMapExitedCallback", null, ["number", "number"]);
+    var _setIndoorMapFloorChangedCallback = cwrap("setIndoorMapFloorChangedCallback", null, ["number", "number"]);
 
     var _setIndoorMapMarkerAddedCallback = cwrap("setIndoorMapMarkerAddedCallback", null, ["number", "number"]);
     var _setIndoorMapMarkerRemovedCallback = cwrap("setIndoorMapMarkerRemovedCallback", null, ["number", "number"]);
@@ -41,6 +42,10 @@ function EmscriptenIndoorsApi(apiPointer, cwrap, runtime) {
 
     this.registerIndoorMapExitedCallback = function (callback) {
         _setIndoorMapExitedCallback(_apiPointer, runtime.addFunction(callback));
+    };
+
+    this.registerIndoorMapFloorChangedCallback = function(callback) {
+        _setIndoorMapFloorChangedCallback(_apiPointer, runtime.addFunction(callback));
     };
 
     this.registerIndoorMapMarkerAddedCallback = function(callback) {
