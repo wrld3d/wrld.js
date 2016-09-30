@@ -10,6 +10,7 @@ var EegeoLeafletMap = L.Map.extend({
     _cameraModule: null,
     _screenPointMappingModule: null,
     _precacheModule: null,
+    _viewInitialized: false,
 
     themes: null,
 
@@ -117,7 +118,10 @@ var EegeoLeafletMap = L.Map.extend({
 
     setView: function(center, zoom, options) {
         // Superclass' implementation of setView does some initialization so we have to call it
-        L.Map.prototype.setView.call(this, center, zoom, options);
+        if (!this._viewInitialized) {
+            L.Map.prototype.setView.call(this, center, zoom, { reset: true });
+            this._viewInitialized = true;
+        }
         
         zoom = (typeof zoom === "undefined") ? this._zoom : this._limitZoom(zoom);
         center = this._limitCenter(L.latLng(center), zoom, this.options.maxBounds);
