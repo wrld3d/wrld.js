@@ -74,4 +74,4 @@ If you wish to contribute to this repo, [pull requests](https://github.com/eegeo
 
 ## License
 
-The eeGeo 3D Maps JavaScript API is released under the Eegeo Platform SDK Evaluation license. See [LICENSE.md](https://github.com/eegeo/eegeo.js/blob/master/LICENSE.md) for details.
+The eeGeo 3D Maps JavaScript API is released under the Simplified BSD License. See [LICENSE.md](https://github.com/eegeo/eegeo.js/blob/master/LICENSE.md) for details.
