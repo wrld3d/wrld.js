@@ -143,16 +143,20 @@ var EegeoLeafletMap = L.Map.extend({
     },
 
     zoomIn: function(delta, options) {
-        var config = { location: this.getCenter(), zoom: this.getZoom() + delta, durationSeconds: 0.33, allowInterruption: false };
-        this._cameraModule.setView(config);
-        this._updateZoom();
-        return this;
+        var config = { location: this.getCenter(), zoom: this._cameraModule.getNearestZoomLevelAbove() + delta, durationSeconds: 0.33, allowInterruption: false };
+        if (config.zoom <= this._cameraModule.getMaxZoomLevel()) {
+            this._cameraModule.setView(config);
+            this._updateZoom();
+            return this;
+        }
     },
 
     zoomOut: function(delta, options) {
-        var config = { location: this.getCenter(), zoom: this.getZoom() - delta, durationSeconds: 0.33, allowInterruption: false };
-        this._cameraModule.setView(config);
-        this._updateZoom();
+        var config = { location: this.getCenter(), zoom: this._cameraModule.getNearestZoomLevelBelow() - delta, durationSeconds: 0.33, allowInterruption: false };
+        if (config.zoom >= 0) {
+            this._cameraModule.setView(config);
+            this._updateZoom();
+        }
         return this;
     },
 
@@ -184,13 +188,17 @@ var EegeoLeafletMap = L.Map.extend({
         return this;
     },
 
-    getCenter: function () {
+    getCenter: function() {
         return this._cameraModule.getCenter();
     },
 
-    getZoom: function () {
+    getZoom: function() {
         this._zoom = this._cameraModule.getCurrentZoomLevel();
         return this._zoom;
+    },
+
+    getCameraHeightAboveTerrain: function() {
+        return this._cameraModule.getDistanceToInterest();
     },
 
     locate: function() {

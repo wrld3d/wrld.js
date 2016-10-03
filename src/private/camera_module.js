@@ -64,15 +64,28 @@ var CameraModule = function(emscriptenApi) {
         }
     };
 
-    var _getCurrentZoomLevel = function() {    
-        if (_ready) {
-            var cameraApi = _emscriptenApi.cameraApi;
-            var distanceToInterest = cameraApi.getDistanceToInterest() ;
-            var index = _altitudes.findIndex(function(currentAltitude) {
-                return distanceToInterest > currentAltitude;
-            });
+    var _getCurrentZoomLevel = function(comparisonFunc) {
+        var cameraApi = _emscriptenApi.cameraApi;
+        var distanceToInterest = cameraApi.getDistanceToInterest();
+        return _altitudes.findIndex(function(currentAltitude) {
+            return comparisonFunc(distanceToInterest, currentAltitude);
+        });
+    }
 
-            return index > -1 ? Math.max(0, Math.min(index - 1, _altitudes.length -1)) : _altitudes.length - 1;
+    var _getNearestZoomLevelAbove = function() {
+        if (_ready) {
+            var index = _getCurrentZoomLevel(function(a, b) { return a > b; });
+            return index > -1 ? Math.min(index - 1, _altitudes.length -1) : _altitudes.length - 1;
+        }
+        else {
+            return _pendingSetViewData["zoom"] || -1;
+        }
+    };
+
+    var _getNearestZoomLevelBelow = function() {
+        if (_ready) {
+            var index = _getCurrentZoomLevel(function(a, b) { return a >= b; });
+            return index > -1 ? Math.max(0, Math.min(index, _altitudes.length -1)) : _altitudes.length;
         }
         else {
             return _pendingSetViewData["zoom"] || -1;
@@ -86,6 +99,15 @@ var CameraModule = function(emscriptenApi) {
         }
         else {
             return _pendingSetViewData["location"] || [-1, -1];
+        }
+    };
+
+    var _getDistanceToInterest = function() {
+        if (_ready) {
+            return _emscriptenApi.cameraApi.getDistanceToInterest();
+        }
+        else {
+            return _zoomLevelToDistance(_pendingSetViewData["zoom"]) || -1;
         }
     };
 
@@ -123,11 +145,27 @@ var CameraModule = function(emscriptenApi) {
     };
 
     this.getCurrentZoomLevel = function() {
-        return _getCurrentZoomLevel();
+        return Math.max(0, _getNearestZoomLevelAbove());
+    };
+
+    this.getNearestZoomLevelAbove = function() {
+        return _getNearestZoomLevelAbove();
+    };
+
+    this.getNearestZoomLevelBelow = function() {
+        return _getNearestZoomLevelBelow();
+    };
+
+    this.getMaxZoomLevel = function() {
+        return _altitudes.length - 1;
     };
 
     this.getCenter = function() {
         return L.latLng(_getCenter());
+    };
+
+    this.getDistanceToInterest = function() {
+        return _getDistanceToInterest();
     };
 };
 
