@@ -73,8 +73,21 @@ var RoutingModule = function(apiKey, indoorsModule) {
     var _routeParseHandler = function(routeLoadHandler) {
         return function() {
             var routeJson = JSON.parse(this.responseText);
-            var routes = _parseRoutes(routeJson);
-            routeLoadHandler(routes);
+            var routes;
+            if ("type" in routeJson && routeJson["type"] === "multipart")
+            {
+                var multiroute = routeJson["routes"];
+                for (var index = 0; index < multiroute.length; ++index)
+                {
+                    routes = _parseRoutes(multiroute[index]);
+                    routeLoadHandler(routes);
+                }
+            }
+            else
+            {
+                routes = _parseRoutes(routeJson);
+                routeLoadHandler(routes);
+            }
         };
     };
 
@@ -100,6 +113,19 @@ var RoutingModule = function(apiKey, indoorsModule) {
         url += "%3B" + endPoint[0] + "," + endPoint[1];
         url += "&levels=" + startLevel  + "%3B" + endLevel;
         url += "&apikey=" + _apiKey;
+        var request = new XMLHttpRequest();
+        request.open("GET", url, true);
+        request.onload = _routeParseHandler(onLoadHandler);
+        _indoorsModule.on("indoormapexit", _cancelRequest(request));
+        request.send();
+    };
+
+    this.getMultipartRoutesBetweenLevels = function(startPoint, startLevel, endPoint, endLevel, onLoadHandler) { 
+        var url = _urlRoot + "multiroute/?loc=" + startPoint[0] + "," + startPoint[1];
+        url += "%3B" + endPoint[0] + "," + endPoint[1];
+        url += "&levels=" + startLevel  + "%3B" + endLevel;
+        url += "&apikey=" + _apiKey;
+        url += "&limit=400";
         var request = new XMLHttpRequest();
         request.open("GET", url, true);
         request.onload = _routeParseHandler(onLoadHandler);
