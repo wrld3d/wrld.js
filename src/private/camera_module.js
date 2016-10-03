@@ -70,7 +70,7 @@ var CameraModule = function(emscriptenApi) {
         return _altitudes.findIndex(function(currentAltitude) {
             return comparisonFunc(distanceToInterest, currentAltitude);
         });
-    }
+    };
 
     var _getNearestZoomLevelAbove = function() {
         if (_ready) {
