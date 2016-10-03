@@ -13,6 +13,10 @@ var HTMLMapContainer = function(parentElement, canvasId, canvasWidth, canvasHeig
     };
 
     var _createMapContainer = function(parentElement) {
+        var attributes = {
+            "class": "eegeo-map-container",
+            "id": "eegeo-map-container"
+        };
         var style = {
             "position": "relative",
             "width": "100%",
@@ -21,7 +25,7 @@ var HTMLMapContainer = function(parentElement, canvasId, canvasWidth, canvasHeig
             "padding": "0px",
             "margin": "0px"
         };
-        var mapContainer = _createDOMElement(parentElement, "div", { "class": "eegeo-map-container"}, style);
+        var mapContainer = _createDOMElement(parentElement, "div", attributes, style);
         mapContainer.onmousedown = function(e) {
             // Prevent middle-mouse scrolling on Windows
             if (e.button === 1) {
