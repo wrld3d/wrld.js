@@ -197,10 +197,6 @@ var EegeoLeafletMap = L.Map.extend({
         return this._zoom;
     },
 
-    getCameraHeightAboveTerrain: function() {
-        return this._cameraModule.getDistanceToInterest();
-    },
-
     locate: function() {
         return this;
     },
@@ -237,6 +233,10 @@ var EegeoLeafletMap = L.Map.extend({
                 layer.redraw();
             }
         });
+    },
+
+    getCameraHeightAboveTerrain: function() {
+        return this._cameraModule.getDistanceToInterest();
     },
 
     precache: function(centre, radius, completionCallback) {
