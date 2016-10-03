@@ -10,6 +10,11 @@ function EmscriptenCameraApi(apiPointer, cwrap, runtime) {
     var _setMoveStartCallback = cwrap("setMoveStartCallback", null, ["number", "number"]);
     var _setMoveCallback = cwrap("setMoveCallback", null, ["number", "number"]);
     var _setMoveEndCallback = cwrap("setMoveEndCallback", null, ["number", "number"]);
+    var _setDragStartCallback = cwrap("setDragStartCallback", null, ["number", "number"]);
+    var _setDragCallback = cwrap("setDragCallback", null, ["number", "number"]);
+    var _setDragEndCallback = cwrap("setDragEndCallback", null, ["number", "number"]);
+    var _setZoomStartCallback = cwrap("setZoomStartCallback", null, ["number", "number"]);
+    var _setZoomEndCallback = cwrap("setZoomEndCallback", null, ["number", "number"]);
 
     var _setView = function(animated, location, distance, headingDegrees, tiltDegrees, durationSeconds, jumpIfFarAway, allowInterruption) {
         return _setViewInterop(
@@ -85,6 +90,26 @@ function EmscriptenCameraApi(apiPointer, cwrap, runtime) {
 
     this.setMoveEndCallback = function(callback) {
         _setMoveEndCallback(_apiPointer, runtime.addFunction(callback));
+    };
+
+    this.setDragStartCallback = function(callback) {
+        _setDragStartCallback(_apiPointer, runtime.addFunction(callback));
+    };
+
+    this.setDragCallback = function(callback) {
+        _setDragCallback(_apiPointer, runtime.addFunction(callback));
+    };
+
+    this.setDragEndCallback = function(callback) {
+        _setDragEndCallback(_apiPointer, runtime.addFunction(callback));
+    };
+
+    this.setZoomStartCallback = function(callback) {
+        _setZoomStartCallback(_apiPointer, runtime.addFunction(callback));
+    };
+
+    this.setZoomEndCallback = function(callback) {
+        _setZoomEndCallback(_apiPointer, runtime.addFunction(callback));
     };
 
 }
