@@ -292,17 +292,18 @@ var EegeoLeafletMap = L.Map.extend({
         var cameraVector = convertLatLngToVector(this.getCenter());
         var maxAngle = this._getAngleFromCameraToHorizon();
 
+        var _this = this;
         markerIds.forEach(function(id) {
-            if (this._isLatLngBehindEarth(this._markersAddedToMap[id]._latlng, cameraVector, maxAngle)) {
-                if (this.hasLayer(this._markersAddedToMap[id])) {
-                    this._screenPointMappingModule.removeLayer(this._markersAddedToMap[id]);
-                    L.Map.prototype.removeLayer.call(this, this._markersAddedToMap[id]);
+            if (_this._isLatLngBehindEarth(_this._markersAddedToMap[id]._latlng, cameraVector, maxAngle)) {
+                if (_this.hasLayer(_this._markersAddedToMap[id])) {
+                    _this._screenPointMappingModule.removeLayer(_this._markersAddedToMap[id]);
+                    L.Map.prototype.removeLayer.call(_this, _this._markersAddedToMap[id]);
                 }
                 
             }
-            else if (!this.hasLayer(this._markersAddedToMap[id])) {
-                L.Map.prototype.addLayer.call(this, this._markersAddedToMap[id]);
-                this._screenPointMappingModule.addLayer(this._markersAddedToMap[id]);
+            else if (!_this.hasLayer(_this._markersAddedToMap[id])) {
+                L.Map.prototype.addLayer.call(_this, _this._markersAddedToMap[id]);
+                _this._screenPointMappingModule.addLayer(_this._markersAddedToMap[id]);
             }
         });
     },
