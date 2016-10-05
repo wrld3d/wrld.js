@@ -3,6 +3,21 @@ var popups = require("../public/popup.js");
 var undefinedPoint = L.point(-100, -100);
 var undefinedLatLng = L.latLng(0, 0);
 
+var convertLatLngToVector = function(latLng) {
+    var lat = latLng.lat * Math.PI / 180;
+    var lng = latLng.lng * Math.PI / 180;
+
+    var x = Math.cos(lat) * Math.cos(lng);
+    var y = Math.cos(lat) * Math.sin(lng);
+    var z = Math.sin(lat);
+    
+    return {
+        x: x,
+        y: y,
+        z: z
+    };
+};
+
 var EegeoLeafletMap = L.Map.extend({
 
     _spacesApi: null,
@@ -11,6 +26,7 @@ var EegeoLeafletMap = L.Map.extend({
     _screenPointMappingModule: null,
     _precacheModule: null,
     _viewInitialized: false,
+    _markersAddedToMap: {},
 
     themes: null,
 
@@ -34,6 +50,9 @@ var EegeoLeafletMap = L.Map.extend({
         this.boxZoom.disable();
         this.keyboard.disable();
 
+        this.on("pan", this._hideMarkersBehindEarth);
+        this.on("zoomend", this._hideMarkersBehindEarth);
+
         this.attributionControl.addAttribution("3D Maps &copy; <a href='https://www.eegeo.com'>eeGeo</a> and <a href='https://www.eegeo.com/legal/'>partners</a>");
     },
 
@@ -56,15 +75,28 @@ var EegeoLeafletMap = L.Map.extend({
     },
 
     addLayer: function(layer) {
-        L.Map.prototype.addLayer.call(this, layer);
         if ("getElevation" in layer) {
+            var id = L.stamp(layer);
+            if (id in this._markersAddedToMap) {
+                return;
+            }
+            this._markersAddedToMap[id] = layer;
+
+            if (this._isLatLngBehindEarth(this._markersAddedToMap[id]._latlng, convertLatLngToVector(this.getCenter()), this._getAngleFromCameraToHorizon())) {
+                return;
+            }
             this._screenPointMappingModule.addLayer(layer);
         }
+        L.Map.prototype.addLayer.call(this, layer);
     },
 
     removeLayer: function(layer) {
         if ("getElevation" in layer) {
-            this._screenPointMappingModule.removeLayer(layer);
+            var id = L.stamp(layer);
+            if (id in this._markersAddedToMap) {
+                this._screenPointMappingModule.removeLayer(layer);
+                delete this._markersAddedToMap[id];
+            }
         }
         L.Map.prototype.removeLayer.call(this, layer);
     },
@@ -241,6 +273,38 @@ var EegeoLeafletMap = L.Map.extend({
 
     precache: function(centre, radius, completionCallback) {
         return this._precacheModule.precache(centre, radius, completionCallback);
+    },
+
+    _getAngleFromCameraToHorizon: function() {
+        var altitude = this.getCameraHeightAboveTerrain();
+        var earthRadius = 6378100.0;
+        return Math.acos(earthRadius / (earthRadius + altitude));
+    },
+
+    _isLatLngBehindEarth: function(latlng, cameraVector, maxAngle) {
+        var latlngVector = convertLatLngToVector(latlng);
+        var dotProd = cameraVector.x * latlngVector.x + cameraVector.y * latlngVector.y + cameraVector.z * latlngVector.z;
+        return dotProd < Math.cos(maxAngle);
+    },
+
+    _hideMarkersBehindEarth: function() {
+        var markerIds = Object.keys(this._markersAddedToMap);
+        var cameraVector = convertLatLngToVector(this.getCenter());
+        var maxAngle = this._getAngleFromCameraToHorizon();
+
+        markerIds.forEach(function(id) {
+            if (this._isLatLngBehindEarth(this._markersAddedToMap[id]._latlng, cameraVector, maxAngle)) {
+                if (this.hasLayer(this._markersAddedToMap[id])) {
+                    this._screenPointMappingModule.removeLayer(this._markersAddedToMap[id]);
+                    L.Map.prototype.removeLayer.call(this, this._markersAddedToMap[id]);
+                }
+                
+            }
+            else if (!this.hasLayer(this._markersAddedToMap[id])) {
+                L.Map.prototype.addLayer.call(this, this._markersAddedToMap[id]);
+                this._screenPointMappingModule.addLayer(this._markersAddedToMap[id]);
+            }
+        });
     },
 
     _rawPanBy: function(offset) {
