@@ -14,6 +14,7 @@ function EmscriptenIndoorsApi(apiPointer, cwrap, runtime) {
     var _hasActiveIndoorMap = cwrap("hasActiveIndoorMap", "number", ["number"]);
     var _getActiveIndoorMapId = cwrap("getActiveIndoorMapId", "string", ["number"]);
     var _getActiveIndoorMapName = cwrap("getActiveIndoorMapName", "string", ["number"]);
+    var _getActiveIndoorMapSourceVendor = cwrap("getActiveIndoorMapSourceVendor", "string", ["number"]);
     var _getActiveIndoorMapFloorCount = cwrap("getActiveIndoorMapFloorCount", "number", ["number"]);
 
     var _getSelectedFloorIndex = cwrap("getSelectedFloorIndex", "number", ["number"]);
@@ -72,6 +73,10 @@ function EmscriptenIndoorsApi(apiPointer, cwrap, runtime) {
 
     this.getActiveIndoorMapName = function() {
         return _getActiveIndoorMapName(_apiPointer);
+    };
+
+    this.getActiveIndoorMapSourceVendor = function() {
+        return _getActiveIndoorMapSourceVendor(_apiPointer);
     };
 
     this.getActiveIndoorMapFloorCount = function() {

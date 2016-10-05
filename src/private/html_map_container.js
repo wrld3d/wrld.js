@@ -23,7 +23,8 @@ var HTMLMapContainer = function(parentElement, canvasId, canvasWidth, canvasHeig
             "height": "100%",
             "line-height": "0px",
             "padding": "0px",
-            "margin": "0px"
+            "margin": "0px",
+            "overflow": "hidden"
         };
         var mapContainer = _createDOMElement(parentElement, "div", attributes, style);
         mapContainer.onmousedown = function(e) {
@@ -97,9 +98,30 @@ var HTMLMapContainer = function(parentElement, canvasId, canvasWidth, canvasHeig
         return _createDOMElement(parentElement, "div", {}, style);
     };
 
+    var _createIndoorMapWatermark = function(parentElement) {
+        var attributes = {
+            "id": "eegeo-indoor-map-watermark",
+            "draggable": "false"
+        };
+
+        var style = {
+            "position": "absolute",
+            "z-index": "20",
+            "display": "block",
+            "margin": "auto",
+            "left": "0",
+            "right": "0",
+            "bottom": "-50px",
+            "transition": "all 500ms"
+        };
+
+        return _createDOMElement(parentElement, "img", attributes, style);
+    };
+
     this.mapContainer = _createMapContainer(parentElement);
     this.loadingSpinnerIcon = _createLoadingSpinner(this.mapContainer);
     this.overlay = _createLeafletOverlay(this.mapContainer);
+    this.indoorMapWatermark = _createIndoorMapWatermark(this.mapContainer);
     this.canvas = _createCanvas(this.mapContainer, canvasId, canvasWidth, canvasHeight);
 
     this.loadingSpinner = new LoadingSpinner(this.loadingSpinnerIcon);

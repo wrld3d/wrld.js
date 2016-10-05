@@ -1,5 +1,6 @@
 var MapModule = require("./map_module");
 var indoors = require("../public/indoors/indoors");
+var IndoorWatermarkController = require("./indoor_watermark_controller");
 
 var IndoorsModule = function(emscriptenApi, mapController) {
 
@@ -13,15 +14,18 @@ var IndoorsModule = function(emscriptenApi, mapController) {
     var _pendingEnterTransition = null;
     var _transitioningToIndoorMap = false;
 
+    var _indoorWatermarkController = new IndoorWatermarkController();
+
     var _this = this;
 
     var _createIndoorMapObject = function() {
         var mapId = _emscriptenApi.indoorsApi.getActiveIndoorMapId();
         var mapName = _emscriptenApi.indoorsApi.getActiveIndoorMapName();
+        var sourceVendor = _emscriptenApi.indoorsApi.getActiveIndoorMapSourceVendor();
         var floorCount = _emscriptenApi.indoorsApi.getActiveIndoorMapFloorCount();
         var floors = _createFloorsArray(floorCount);
         var exitFunc = _this.exit;
-        var indoorMap = new indoors.IndoorMap(mapId, mapName, floorCount, floors, exitFunc);
+        var indoorMap = new indoors.IndoorMap(mapId, mapName, sourceVendor, floorCount, floors, exitFunc);
         return indoorMap;
     };
 
@@ -107,6 +111,8 @@ var IndoorsModule = function(emscriptenApi, mapController) {
 
         _this.once("indoormapenter", function() {
             _transitioningToIndoorMap = false;
+            var vendorKey = _activeIndoorMap.getIndoorMapSourceVendor();
+            _indoorWatermarkController.showWatermarkForVendor(vendorKey);
         });
     };
 
@@ -136,6 +142,7 @@ var IndoorsModule = function(emscriptenApi, mapController) {
     this.exit = function() {
         if (_emscriptenApi.ready()) {
             _emscriptenApi.indoorsApi.exitIndoorMap();
+            _indoorWatermarkController.hideWatermark();
         }
         _pendingEnterTransition = null;
         return this;
