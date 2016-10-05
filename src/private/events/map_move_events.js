@@ -17,12 +17,12 @@ var MapMoveEvents = function(leafletMap) {
         "tiltstart",
         "tiltend",
         "zoomstart",
-        "zoomend",
+        "zoomend"
     ];
 
     var _onEvent = function(eventKey) {
         leafletMap.fire(_eventType[eventKey]);
-    }
+    };
 
     this.setEventCallbacks = function(cameraApi) {
         cameraApi.setEventCallback(_onEvent);
