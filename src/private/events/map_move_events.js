@@ -1,46 +1,31 @@
 var MapMoveEvents = function(leafletMap) {
-    
-    var onMoveStart = function() {
-        leafletMap.fire("movestart");
-    };
 
-    var onMove = function() {
-        leafletMap.fire("move");
-    };
+    var _eventType = [
+        "move",
+        "movestart",
+        "moveend",
+        "drag",
+        "dragstart",
+        "dragend",
+        "pan",
+        "panstart",
+        "panend",
+        "rotate",
+        "rotatestart",
+        "rotateend",
+        "tilt",
+        "tiltstart",
+        "tiltend",
+        "zoomstart",
+        "zoomend",
+    ];
 
-    var onMoveEnd = function() {
-        leafletMap.fire("moveend");
-    };
-
-    var onDragStart = function() {
-        leafletMap.fire("dragstart");
-    };
-
-    var onDrag = function() {
-        leafletMap.fire("drag");
-    };
-
-    var onDragEnd = function() {
-        leafletMap.fire("dragend");
-    };
-
-    var onZoomStart = function() {
-        leafletMap.fire("zoomstart");
-    };
-
-    var onZoomEnd = function() {
-        leafletMap.fire("zoomend");
-    };
+    var _onEvent = function(eventKey) {
+        leafletMap.fire(_eventType[eventKey]);
+    }
 
     this.setEventCallbacks = function(cameraApi) {
-        cameraApi.setMoveStartCallback(onMoveStart);
-        cameraApi.setMoveCallback(onMove);
-        cameraApi.setMoveEndCallback(onMoveEnd);
-        cameraApi.setDragStartCallback(onDragStart);
-        cameraApi.setDragCallback(onDrag);
-        cameraApi.setDragEndCallback(onDragEnd);
-        cameraApi.setZoomStartCallback(onZoomStart);
-        cameraApi.setZoomEndCallback(onZoomEnd);
+        cameraApi.setEventCallback(_onEvent);
     };
 };
 module.exports = MapMoveEvents;
