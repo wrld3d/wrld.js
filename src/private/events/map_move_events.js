@@ -21,6 +21,9 @@ var MapMoveEvents = function(leafletMap) {
     ];
 
     var _onEvent = function(eventKey) {
+        if (typeof _eventType[eventKey] === undefined) {
+            return;
+        }
         leafletMap.fire(_eventType[eventKey]);
     };
 
