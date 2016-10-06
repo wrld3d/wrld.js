@@ -2,14 +2,15 @@ var emscriptenMemory = require("./emscripten_memory");
 
 function EmscriptenCameraApi(apiPointer, cwrap, runtime) {
     var _apiPointer = apiPointer;
-    var _setViewInterop = cwrap("setView", "number", ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number" ]);
-    var _setViewToBoundsInterop = cwrap("setViewToBounds", null, ["number", "number", "number", "number", "number", "number", "number", "number", "number"]);
-    var _getDistanceToInterestInterop = cwrap("getDistanceToInterest", "number", ["number"]);
-    var _getInterestLatLongInterop = cwrap("getInterestLatLong", null, ["number", "number"]);
-
-    var _setEventCallback = cwrap("setEventCallback", null, ["number", "number"]);
+    var _setViewInterop = null; 
+    var _setViewToBoundsInterop = null;
+    var _getDistanceToInterestInterop = null;
+    var _getInterestLatLongInterop = null;
+    var _setEventCallback = null;
 
     var _setView = function(animated, location, distance, headingDegrees, tiltDegrees, durationSeconds, jumpIfFarAway, allowInterruption) {
+        _setViewInterop = _setViewInterop || cwrap("setView", "number", ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number" ]);
+       
         return _setViewInterop(
         	_apiPointer, 
             animated,
@@ -24,6 +25,8 @@ function EmscriptenCameraApi(apiPointer, cwrap, runtime) {
     };
 
     var _setViewToBounds = function(northEast, southWest, animated, allowInterruption) {
+        _setViewToBoundsInterop = _setViewToBoundsInterop || cwrap("setViewToBounds", null, ["number", "number", "number", "number", "number", "number", "number", "number", "number"]);
+        
         _setViewToBoundsInterop(
         	_apiPointer, 
         	northEast.lat, northEast.lng, northEast.alt || 0, 
@@ -60,10 +63,13 @@ function EmscriptenCameraApi(apiPointer, cwrap, runtime) {
     };
 
     this.getDistanceToInterest = function() {
+        _getDistanceToInterestInterop = _getDistanceToInterestInterop || cwrap("getDistanceToInterest", "number", ["number"]);
         return _getDistanceToInterestInterop(_apiPointer);
     };
 
     this.getInterestLatLong = function() {
+        _getInterestLatLongInterop = _getInterestLatLongInterop || cwrap("getInterestLatLong", null, ["number", "number"]);
+
         var latLong = [0, 0];
         emscriptenMemory.passDoubles(latLong, function(resultArray, arraySize) {
             _getInterestLatLongInterop(_apiPointer, resultArray);
@@ -74,6 +80,7 @@ function EmscriptenCameraApi(apiPointer, cwrap, runtime) {
     };
 
     this.setEventCallback = function(callback) {
+        _setEventCallback = _setEventCallback || cwrap("setEventCallback", null, ["number", "number"]);
         _setEventCallback(_apiPointer, runtime.addFunction(callback));
     };
 

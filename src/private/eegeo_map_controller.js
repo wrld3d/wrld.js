@@ -12,7 +12,7 @@ var IndoorEntranceMarkerUpdater = require("./indoor_entrance_marker_updater");
 var EegeoLeafletMap = require("../public/eegeo_leaflet_map");
 var MapMoveEvents = require("./events/map_move_events");
 
-var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, options) {
+var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, browserWindow, browserDocument, module, options) {
 
     var _defaultOptions = {
         canvasId: "canvas",
@@ -33,6 +33,8 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, opti
 
     var _mapId = mapId;
     var _emscriptenApi = emscriptenApi;
+    var _browserWindow = browserWindow;
+    var _browserDocument = browserDocument;
 
     var _screenPointMappingModule = new ScreenPointMappingModule(emscriptenApi);
     var _themesModule = new ThemesModule(emscriptenApi);
@@ -46,11 +48,11 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, opti
     var _canvasWidth = options["width"] || domElement.clientWidth;
     var _canvasHeight = options["height"] || domElement.clientHeight;
 
-    var _mapContainer = new HTMLMapContainer(domElement, _canvasId, _canvasWidth, _canvasHeight);
+    var _mapContainer = new HTMLMapContainer(_browserDocument, _browserWindow, domElement, _canvasId, _canvasWidth, _canvasHeight);
 
     var _canvas = _mapContainer.canvas;
 
-    var _Module = window.Module;
+    var _Module = module; 
     _Module["canvas"] = _canvas;
 
     var center = L.latLng(options.center);
@@ -74,7 +76,7 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, opti
         environmentThemesManifest
     ];
 
-    this.leafletMap = new EegeoLeafletMap(_mapContainer.overlay, options, _cameraModule, _screenPointMappingModule, _precacheModule, _themesModule, _indoorsModule, _polygonModule, _routingModule);
+    this.leafletMap = new EegeoLeafletMap(_browserWindow, _mapContainer.overlay, options, _cameraModule, _screenPointMappingModule, _precacheModule, _themesModule, _indoorsModule, _polygonModule, _routingModule);
     this.leafletMap._initEvents("on", _canvas);
 
     var _mapMoveEvents = new MapMoveEvents(this.leafletMap);

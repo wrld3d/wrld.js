@@ -20,6 +20,7 @@ var convertLatLngToVector = function(latLng) {
 
 var EegeoLeafletMap = L.Map.extend({
 
+    _browserWindow: null,
     _spacesApi: null,
     _ready: false,
     _cameraModule: null,
@@ -32,7 +33,8 @@ var EegeoLeafletMap = L.Map.extend({
 
     indoors: null,
 
-    initialize: function(id, options, cameraModule, screenPointMappingModule, precacheModule, themesModule, indoorsModule, polygonModule, routingModule) {
+    initialize: function(browserWindow, id, options, cameraModule, screenPointMappingModule, precacheModule, themesModule, indoorsModule, polygonModule, routingModule) {
+        this._browserWindow = browserWindow;
         this._cameraModule = cameraModule;
         this._screenPointMappingModule = screenPointMappingModule;
         this._precacheModule = precacheModule;
@@ -70,7 +72,7 @@ var EegeoLeafletMap = L.Map.extend({
         }
 
         if (this.options.trackResize) {
-            L.DomEvent[onOff](window, "resize", this._onResize, this);
+            L.DomEvent[onOff](this._browserWindow, "resize", this._onResize, this);
         }
     },
 

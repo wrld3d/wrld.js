@@ -5,17 +5,13 @@ function EmscriptenSpacesApi(apiPointer, cwrap, runtime) {
 
     var _apiPointer = apiPointer;
 
-    var _worldToScreenWrap = cwrap(
-        "worldToScreen", null, ["number", "number", "number", "number", "number"]);
-
-    var _screenToTerrainPointWrap = cwrap(
-        "screenToTerrainPoint", "number", ["number", "number", "number", "number"]);
-
-    var _screenToIndoorPointWrap = cwrap(
-        "screenToIndoorPoint", "number", ["number", "number", "number", "number"]);
-
+    var _worldToScreenWrap = null;
+    var _screenToTerrainPointWrap = null;
+    var _screenToIndoorPointWrap = null;
 
     var _worldToScreen = function(lat, long, alt) {
+        _worldToScreenWrap = _worldToScreenWrap || cwrap("worldToScreen", null, ["number", "number", "number", "number", "number"]);
+
         var screenPos = [0, 0, 0];
         emscriptenMemory.passDoubles(screenPos, function(resultArray, arraySize) {
             _worldToScreenWrap(_apiPointer, lat, long, alt, resultArray);
@@ -36,13 +32,14 @@ function EmscriptenSpacesApi(apiPointer, cwrap, runtime) {
     };
 
     var _screenToTerrainPoint = function(screenX, screenY) {
+        _screenToTerrainPointWrap = _screenToTerrainPointWrap || cwrap("screenToTerrainPoint", "number", ["number", "number", "number", "number"]);
         return _screenToLatLng(screenX, screenY, _screenToTerrainPointWrap);
     };
 
     var _screenToIndoorPoint = function(screenX, screenY) {
+        _screenToIndoorPointWrap = _screenToIndoorPointWrap || cwrap("screenToIndoorPoint", "number", ["number", "number", "number", "number"]);
         return _screenToLatLng(screenX, screenY, _screenToIndoorPointWrap);
     };
-
 
     this.worldToScreen = function(position) {
         var point = L.latLng(position);

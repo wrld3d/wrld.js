@@ -9,6 +9,7 @@ var polygon = require("./public/polygon.js");
 var _baseUrl = "https://cdn-webgl.eegeo.com/eegeojs/early_access/latest/";
 var _appName = "eeGeoWebGL.jgz";
 
+
 var _mapObjects = [];
 var _emscriptenInitialized = false;
 
@@ -63,10 +64,13 @@ var eeGeo = {
 
 		domElement = findMapContainerElement(domElement);
 
+		var browserDocument = document;
+		var browserWindow = window;
+		var module = browserWindow.Module;
 		var mapId = _mapObjects.length;
-		var mapApiObject = new EmscriptenApi(window.Module);
+		var mapApiObject = new EmscriptenApi(module);
 		var mapOptions = options || {};
-		var map = new EegeoMapController(mapId, mapApiObject, domElement, apiKey, mapOptions);
+		var map = new EegeoMapController(mapId, mapApiObject, domElement, apiKey, browserWindow, browserDocument, module, mapOptions);
 		_mapObjects.push(map);
 
 		initializeEmscripten();

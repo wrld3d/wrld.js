@@ -1,7 +1,10 @@
-var HTMLMapContainer = function(parentElement, canvasId, canvasWidth, canvasHeight) {
+var HTMLMapContainer = function(browserDocument, browserWindow, parentElement, canvasId, canvasWidth, canvasHeight) {
 
+    var _browserWindow = browserWindow;
+    var _browserDocument = browserDocument;
+    
     var _createDOMElement = function(parentElement, tagName, attributes, style) {
-        var element = document.createElement(tagName);
+        var element = _browserDocument.createElement(tagName);
         for (var attributeName in attributes) {
             element.setAttribute(attributeName, attributes[attributeName]);
         }
@@ -124,7 +127,7 @@ var HTMLMapContainer = function(parentElement, canvasId, canvasWidth, canvasHeig
     this.indoorMapWatermark = _createIndoorMapWatermark(this.mapContainer);
     this.canvas = _createCanvas(this.mapContainer, canvasId, canvasWidth, canvasHeight);
 
-    this.loadingSpinner = new LoadingSpinner(this.loadingSpinnerIcon);
+    this.loadingSpinner = new LoadingSpinner(_browserWindow, this.loadingSpinnerIcon);
     this.loadingSpinner.startSpinning();
 
     this.onInitialized = function() {
@@ -146,7 +149,8 @@ var HTMLMapContainer = function(parentElement, canvasId, canvasWidth, canvasHeig
     };
 };
 
-var LoadingSpinner = function(domElement) {
+var LoadingSpinner = function(browserWindow, domElement) {
+    var _browserWindow = browserWindow;
     var _domElement = domElement;
     var _speed = 360;
     var _spinning = false;
@@ -158,7 +162,7 @@ var LoadingSpinner = function(domElement) {
         var timeInSeconds = (timestamp || 0) / 1000;
         var degrees = (timeInSeconds * _speed) % 360;
         _domElement.style["transform"] = "rotate(" + degrees + "deg)";
-        window.requestAnimationFrame(spin);
+        _browserWindow.requestAnimationFrame(spin);
     };
 
     this.startSpinning = function() {
