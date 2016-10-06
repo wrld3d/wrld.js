@@ -7,6 +7,18 @@ var IndoorWatermarkController = function() {
     return _urlRoot + vendorKey + "_logo.png";
   };
 
+  var _precacheKnownVendors = function() {
+    var knownVendors = ["eegeo", "micello"];
+
+    knownVendors.forEach(function(vendor) {
+      var vendorImageUrl = _buildUrlForVendor(vendor);
+      var tempImage = new Image();
+      tempImage.src = vendorImageUrl;
+    });
+  };
+
+  _precacheKnownVendors();
+
   this.showWatermarkForVendor = function(vendorKey) {
     var imageUrl = _buildUrlForVendor(vendorKey);
 
