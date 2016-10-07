@@ -26,7 +26,7 @@ function EmscriptenPrecacheApi(apiPointer, cwrap, runtime) {
     };
 
     this.cancelPrecacheOperation = function(operationId) {
-        _cancelPrecacheOperation = _cancelPrecacheOperation || cwrap("cancelPrecacheOperation___", null, ["number", "number"]);
+        _cancelPrecacheOperation = _cancelPrecacheOperation || cwrap("cancelPrecacheOperation", null, ["number", "number"]);
         _cancelPrecacheOperation(_apiPointer, operationId);
     };
 }
