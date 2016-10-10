@@ -16,8 +16,11 @@ var MapMoveEvents = function(leafletMap) {
         "tilt",
         "tiltstart",
         "tiltend",
+        "zoom",
         "zoomstart",
-        "zoomend"
+        "zoomend",
+        "transitionstart",
+        "transitionend"
     ];
 
     var _onEvent = function(eventKey) {

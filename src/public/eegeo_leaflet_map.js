@@ -53,7 +53,8 @@ var EegeoLeafletMap = L.Map.extend({
         this.keyboard.disable();
 
         this.on("pan", this._hideMarkersBehindEarth);
-        this.on("zoomend", this._hideMarkersBehindEarth);
+        this.on("zoom", this._hideMarkersBehindEarth);
+        this.on("transitionend", this._hideMarkersBehindEarth);
 
         this.attributionControl.addAttribution("3D Maps &copy; <a href='https://www.eegeo.com'>eeGeo</a> and <a href='https://www.eegeo.com/legal/'>partners</a>");
     },
