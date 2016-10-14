@@ -132,6 +132,28 @@ var RoutingModule = function(apiKey, indoorsModule) {
         _indoorsModule.on("indoormapexit", _cancelRequest(request));
         request.send();
     };
+
+    this.getRoute = function(viaPoints, onLoadHandler) { 
+        var url = _urlRoot + "route?loc=";
+
+        for (var pointIndex = 0; pointIndex < viaPoints.length; ++pointIndex)
+        {
+            url += viaPoints[pointIndex].join(",");
+
+            if (pointIndex < viaPoints.length - 1)
+            {
+                url += "%3B";
+            }
+            
+        }
+        url += "&apikey=" + _apiKey;
+        url += "&limit=400";
+        var request = new XMLHttpRequest();
+        request.open("GET", url, true);
+        request.onload = _routeParseHandler(onLoadHandler);
+        _indoorsModule.on("indoormapexit", _cancelRequest(request));
+        request.send();
+    };
 };
 
 RoutingModule.prototype = MapModule;
