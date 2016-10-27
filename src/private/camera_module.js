@@ -5,6 +5,7 @@ var CameraModule = function(emscriptenApi) {
     var _ready = false;
     var _pendingSetViewData = null;
     var _pendingSetViewToBoundsData = null;
+    var _shouldFlushPendingViewOperations = false;
 
     var _lodSwitchAltitudes = [
         5000000,
@@ -51,6 +52,9 @@ var CameraModule = function(emscriptenApi) {
             _emscriptenApi.cameraApi.setView(config);
         }
         else {
+            if (_pendingSetViewData !== null) {
+               _shouldFlushPendingViewOperations = true;
+            }
             _pendingSetViewData = config;
         }
     };
@@ -117,7 +121,9 @@ var CameraModule = function(emscriptenApi) {
         }
 
         if(_pendingSetViewData !== null) {
-            _setView(_pendingSetViewData);
+            if (_shouldFlushPendingViewOperations) {
+                _setView(_pendingSetViewData);
+            }
             _pendingSetViewData = null;
         }
 
