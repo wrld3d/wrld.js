@@ -36,6 +36,12 @@ var HTMLMapContainer = function(browserDocument, browserWindow, parentElement, c
                 return false;
             }
         };
+
+        // Fix for IE - onwheel is undefined, but is actually functional
+        if (typeof mapContainer.onwheel === "undefined") {
+            mapContainer.onwheel = null;
+        }
+
         return mapContainer;
     };
 
@@ -81,11 +87,6 @@ var HTMLMapContainer = function(browserDocument, browserWindow, parentElement, c
             "background-color": "black"
         };
         var canvas = _createDOMElement(parentElement, "canvas", attributes, style);
-
-        // Fix for IE - onwheel is undefined, but is actually functional
-        if (typeof canvas.onwheel === "undefined") {
-            canvas.onwheel = null;
-        }
 
         return canvas;
     };
