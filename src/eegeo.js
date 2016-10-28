@@ -4,6 +4,7 @@ var EmscriptenApi = require("./private/emscripten_api/emscripten_api");
 var marker = require("./public/marker.js");
 var popup = require("./public/popup.js");
 var polygon = require("./public/polygon.js");
+require("./private/polyfills.js");
 
 
 var _baseUrl = "https://cdn-webgl.eegeo.com/eegeojs/early_access/latest/";
