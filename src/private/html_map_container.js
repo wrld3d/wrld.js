@@ -112,7 +112,7 @@ var HTMLMapContainer = function(browserDocument, browserWindow, parentElement, c
             "position": "absolute",
             "z-index": "20",
             "display": "block",
-            "margin": "auto",
+            "margin": "auto auto 0 auto",
             "left": "0",
             "right": "0",
             "bottom": "-50px",
