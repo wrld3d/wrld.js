@@ -231,6 +231,13 @@ var EegeoLeafletMap = L.Map.extend({
         this._zoom = this._cameraModule.getCurrentZoomLevel();
         return this._zoom;
     },
+    
+    getBounds: function () {
+        var sw = this.layerPointToLatLng(new L.Point(0, this.getContainer().clientHeight));
+        var ne = this.layerPointToLatLng(new L.Point(this.getContainer().clientWidth, 0));
+
+		return new L.LatLngBounds(sw, ne);
+	},
 
     locate: function() {
         return this;
