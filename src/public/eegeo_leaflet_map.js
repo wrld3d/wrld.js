@@ -233,11 +233,13 @@ var EegeoLeafletMap = L.Map.extend({
     },
     
     getBounds: function () {
-        var sw = this.layerPointToLatLng(new L.Point(0, this.getContainer().clientHeight));
-        var ne = this.layerPointToLatLng(new L.Point(this.getContainer().clientWidth, 0));
-
-		return new L.LatLngBounds(sw, ne);
-	},
+        var topLeft = this.layerPointToLatLng(new L.Point(0, 0));
+        var topRight = this.layerPointToLatLng(new L.Point(this.getContainer().clientWidth, 0));
+        var bottomLeft = this.layerPointToLatLng(new L.Point(0, this.getContainer().clientHeight));
+        var BottomRight = this.layerPointToLatLng(new L.Point(this.getContainer().clientWidth, this.getContainer().clientHeight));
+        
+        return new L.LatLngBounds([topLeft, topRight, bottomLeft, BottomRight]);
+    },
 
     locate: function() {
         return this;
