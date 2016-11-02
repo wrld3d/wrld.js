@@ -30,6 +30,12 @@ var HTMLMapContainer = function(browserDocument, browserWindow, parentElement, c
             "overflow": "hidden"
         };
         var mapContainer = _createDOMElement(parentElement, "div", attributes, style);
+
+        var css = document.createElement("style");
+        css.type = "text/css";
+        css.innerHTML = ".leaflet-dragging .eegeo-map-container { cursor: move; cursor: -webkit-grabbing; cursor: -moz-grabbing; }";
+        document.head.appendChild(css);
+
         mapContainer.onmousedown = function(e) {
             // Prevent middle-mouse scrolling on Windows
             if (e.button === 1) {
