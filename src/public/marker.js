@@ -32,7 +32,7 @@ var Marker = L.Marker.extend({
             setPosFunc(this._shadow, pos);
         }
 
-        this._zIndex = parseInt(pos.y * 100) + this.options.zIndexOffset;
+        this._zIndex = parseInt(pos.y * 10000) + (this.options.zIndexOffset * 10000);
 
         this._resetZIndex();
     },
