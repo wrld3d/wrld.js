@@ -66,7 +66,7 @@ var EegeoLeafletMap = L.Map.extend({
         this._targets = {};
         this._targets[L.stamp(surface)] = this;
 
-        var onOff = remove ? 'off' : 'on';
+        var onOff = remove ? "off" : "on";
 
         // @event click: MouseEvent
         // Fired when the user clicks (or taps) the map.
@@ -89,17 +89,17 @@ var EegeoLeafletMap = L.Map.extend({
         // for a second (also called long press).
         // @event keypress: KeyboardEvent
         // Fired when the user presses a key from the keyboard while the map is focused.
-        L.DomEvent[onOff](surface, 'click dblclick mousedown mouseup ' +
-            'mouseover mouseout mousemove contextmenu keypress', this._handleDOMEvent, this);
+        L.DomEvent[onOff](surface, "click dblclick mousedown mouseup " +
+            "mouseover mouseout mousemove contextmenu keypress", this._handleDOMEvent, this);
 
-        L.DomEvent[onOff](this._container, 'click', this._handleDOMEvent, this);
+        L.DomEvent[onOff](this._container, "click", this._handleDOMEvent, this);
 
         if (this.options.trackResize) {
-            L.DomEvent[onOff](this._browserWindow, 'resize', this._onResize, this);
+            L.DomEvent[onOff](this._browserWindow, "resize", this._onResize, this);
         }
 
         if (L.Browser.any3d && this.options.transform3DLimit) {
-            this[onOff]('moveend', this._onMoveEnd);
+            this[onOff]("moveend", this._onMoveEnd);
         }
     },
 
