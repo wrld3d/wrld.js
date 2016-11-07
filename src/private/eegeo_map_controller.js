@@ -77,7 +77,7 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
     ];
 
     this.leafletMap = new EegeoLeafletMap(_browserWindow, _mapContainer.overlay, options, _cameraModule, _screenPointMappingModule, _precacheModule, _themesModule, _indoorsModule, _polygonModule, _routingModule);
-    this.leafletMap._initEvents("on", _canvas);
+    this.leafletMap._initEvents(false, _canvas);
 
     var _mapMoveEvents = new MapMoveEvents(this.leafletMap);
 

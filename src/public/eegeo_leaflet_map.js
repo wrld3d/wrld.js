@@ -59,21 +59,46 @@ var EegeoLeafletMap = L.Map.extend({
         this.attributionControl.addAttribution("3D Maps &copy; <a href='https://www.eegeo.com'>eeGeo</a> and <a href='https://www.eegeo.com/legal/'>partners</a>");
     },
 
-    _initEvents: function(onOff, surface) {
+    _initEvents: function (remove, surface) {
         if (!L.DomEvent || !surface) { return; }
 
-        L.DomEvent[onOff](surface, "click", this._onMouseClick, this);
+        this._targets = {};
+        this._targets[L.stamp(surface)] = this;
 
-        var events = ["dblclick", "mousedown", "mouseup", "mouseenter",
-                      "mouseleave", "mousemove", "contextmenu"],
-            i, len;
+        var onOff = remove ? 'off' : 'on';
 
-        for (i = 0, len = events.length; i < len; i++) {
-            L.DomEvent[onOff](surface, events[i], this._fireMouseEvent, this);
-        }
+        // @event click: MouseEvent
+        // Fired when the user clicks (or taps) the map.
+        // @event dblclick: MouseEvent
+        // Fired when the user double-clicks (or double-taps) the map.
+        // @event mousedown: MouseEvent
+        // Fired when the user pushes the mouse button on the map.
+        // @event mouseup: MouseEvent
+        // Fired when the user releases the mouse button on the map.
+        // @event mouseover: MouseEvent
+        // Fired when the mouse enters the map.
+        // @event mouseout: MouseEvent
+        // Fired when the mouse leaves the map.
+        // @event mousemove: MouseEvent
+        // Fired while the mouse moves over the map.
+        // @event contextmenu: MouseEvent
+        // Fired when the user pushes the right mouse button on the map, prevents
+        // default browser context menu from showing if there are listeners on
+        // this event. Also fired on mobile when the user holds a single touch
+        // for a second (also called long press).
+        // @event keypress: KeyboardEvent
+        // Fired when the user presses a key from the keyboard while the map is focused.
+        L.DomEvent[onOff](surface, 'click dblclick mousedown mouseup ' +
+            'mouseover mouseout mousemove contextmenu keypress', this._handleDOMEvent, this);
+
+        L.DomEvent[onOff](this._container, 'click', this._handleDOMEvent, this);
 
         if (this.options.trackResize) {
-            L.DomEvent[onOff](this._browserWindow, "resize", this._onResize, this);
+            L.DomEvent[onOff](this._browserWindow, 'resize', this._onResize, this);
+        }
+
+        if (L.Browser.any3d && this.options.transform3DLimit) {
+            this[onOff]('moveend', this._onMoveEnd);
         }
     },
 

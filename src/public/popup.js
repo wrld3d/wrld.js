@@ -16,19 +16,21 @@ var Popup = L.Popup.extend({
         if (!this._map) { return; }
 
         var pos = this._map.getScreenPositionOfLayer(this).round(),
-            animated = this._animated,
-            offset = L.point(this.options.offset);
+            offset = L.point(this.options.offset),
+            anchor = this._getAnchor();
 
-        if (animated) {
-            L.DomUtil.setPosition(this._container, pos);
+        if (this._zoomAnimated) {
+            L.DomUtil.setPosition(this._container, pos.add(anchor));
+        } else {
+            offset = offset.add(pos).add(anchor);
         }
 
-        this._containerBottom = -offset.y - (animated ? 0 : pos.y);
-        this._containerLeft = -Math.round(this._containerWidth / 2) + offset.x + (animated ? 0 : pos.x);
+        var bottom = this._containerBottom = -offset.y,
+            left = this._containerLeft = -Math.round(this._containerWidth / 2) + offset.x;
 
         // bottom position the popup in case the height of the popup changes (images loading etc)
-        this._container.style.bottom = this._containerBottom + "px";
-        this._container.style.left = this._containerLeft + "px";
+        this._container.style.bottom = bottom + 'px';
+        this._container.style.left = left + 'px';
     }
 });
 
