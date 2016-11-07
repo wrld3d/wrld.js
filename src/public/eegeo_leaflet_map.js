@@ -56,7 +56,8 @@ var EegeoLeafletMap = L.Map.extend({
         this.on("zoom", this._hideMarkersBehindEarth);
         this.on("transitionend", this._hideMarkersBehindEarth);
 
-        this.attributionControl.addAttribution("3D Maps &copy; <a href='https://www.eegeo.com'>eeGeo</a> and <a href='https://www.eegeo.com/legal/'>partners</a>");
+        this.attributionControl.setPrefix("<a href='http://leafletjs.com' title='A JS library for interactive maps' target='_blank'>Leaflet</a>");
+        this.attributionControl.addAttribution("3D Maps &copy; <a href='https://www.eegeo.com' target='_blank'>eeGeo</a> and <a href='https://www.eegeo.com/legal/' target='_blank'>partners</a>");
     },
 
     _initEvents: function(onOff, surface) {
