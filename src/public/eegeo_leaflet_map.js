@@ -91,8 +91,8 @@ var EegeoLeafletMap = L.Map.extend({
         // Fired when the user presses a key from the keyboard while the map is focused.
         L.DomEvent[onOff](surface, "click dblclick mousedown mouseup " +
             "mouseover mouseout mousemove contextmenu keypress", this._handleDOMEvent, this);
-
-        L.DomEvent[onOff](this._container, "click", this._handleDOMEvent, this);
+        L.DomEvent[onOff](this._container, "click dblclick mousedown mouseup " +
+            "mouseover mouseout mousemove contextmenu keypress", this._handleDOMEvent, this);
 
         if (this.options.trackResize) {
             L.DomEvent[onOff](this._browserWindow, "resize", this._onResize, this);
