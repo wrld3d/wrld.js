@@ -230,6 +230,13 @@ describe("map_interop:", function() {
         _spacesApi.screenToWorldPoint(point);
       });
     });
+
+    it("the getAltitudeAtLatLng function should exist", function() {
+      _verifyApiFunctionExists(function() {
+        var latLng = L.latLng(0, 0);
+        _spacesApi.getAltitudeAtLatLng(latLng);
+      });
+    });
   });
 
   describe("when using the screen point mapping api", function() {

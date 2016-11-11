@@ -8,6 +8,7 @@ function EmscriptenSpacesApi(apiPointer, cwrap, runtime) {
     var _worldToScreenWrap = null;
     var _screenToTerrainPointWrap = null;
     var _screenToIndoorPointWrap = null;
+    var _getAltitudeAtLatLngWrap = null;
 
     var _worldToScreen = function(lat, long, alt) {
         _worldToScreenWrap = _worldToScreenWrap || cwrap("worldToScreen", null, ["number", "number", "number", "number", "number"]);
@@ -41,6 +42,11 @@ function EmscriptenSpacesApi(apiPointer, cwrap, runtime) {
         return _screenToLatLng(screenX, screenY, _screenToIndoorPointWrap);
     };
 
+    var _getAltitudeAtLatLng = function(lat, long) {
+        _getAltitudeAtLatLngWrap = _getAltitudeAtLatLngWrap || cwrap("getAltitudeAtLatLng", "number", ["number", "number", "number"]);
+        return _getAltitudeAtLatLngWrap(_apiPointer, lat, long);
+    };
+
     this.worldToScreen = function(position) {
         var point = L.latLng(position);
         return _worldToScreen(point.lat, point.lng, point.alt || 0);
@@ -58,6 +64,10 @@ function EmscriptenSpacesApi(apiPointer, cwrap, runtime) {
 
     this.screenToWorldPoint = function(screenPoint) {
         return this.screenToIndoorPoint(screenPoint) || this.screenToTerrainPoint(screenPoint);
+    };
+
+    this.getAltitudeAtLatLng = function(position) {
+        return _getAltitudeAtLatLng(position.lat, position.lng);
     };
 }
 

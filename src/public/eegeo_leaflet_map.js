@@ -305,6 +305,10 @@ var EegeoLeafletMap = L.Map.extend({
         });
     },
 
+    getAltitudeAtLatLng: function(latLng) {
+        return this._spacesApi.getAltitudeAtLatLng(latLng);
+    },
+
     getCameraHeightAboveTerrain: function() {
         return this._cameraModule.getDistanceToInterest();
     },
