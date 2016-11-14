@@ -7,7 +7,7 @@ function EmscriptenCameraApi(apiPointer, cwrap, runtime) {
     var _getDistanceToInterestInterop = null;
     var _getInterestLatLongInterop = null;
     var _getPitchDegreesInterop = null;
-    var _setEventCallback = null;
+    var _setEventCallbackInterop = null;
 
     var _setView = function(animated, location, distance, headingDegrees, tiltDegrees, durationSeconds, jumpIfFarAway, allowInterruption) {
         _setViewInterop = _setViewInterop || cwrap("setView", "number", ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number" ]);
@@ -86,8 +86,8 @@ function EmscriptenCameraApi(apiPointer, cwrap, runtime) {
     };
 
     this.setEventCallback = function(callback) {
-        _setEventCallback = _setEventCallback || cwrap("setEventCallback", null, ["number", "number"]);
-        _setEventCallback(_apiPointer, runtime.addFunction(callback));
+        _setEventCallbackInterop = _setEventCallbackInterop || cwrap("setEventCallback", null, ["number", "number"]);
+        _setEventCallbackInterop(_apiPointer, runtime.addFunction(callback));
     };
 
 }

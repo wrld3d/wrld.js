@@ -109,10 +109,10 @@ describe("map_interop:", function() {
       });
     });
 
-    it("the setEventCallback function should exist", function() {
+    it("the setEventCallbackInterop function should exist", function() {
       _verifyApiFunctionExists(function() {
         var callback = function () {};
-        _cameraApi.setEventCallback(callback);
+        _cameraApi.setEventCallbackInterop(callback);
       });
     });
   });
