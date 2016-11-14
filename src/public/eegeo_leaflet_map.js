@@ -295,7 +295,20 @@ var EegeoLeafletMap = L.Map.extend({
     },
 
     _onDraw: function() {
+        var self = this;
         this.eachLayer(function (layer) {
+            if (layer.getLatLngs) {
+                layer.getLatLngs().forEach(function (path) {
+                    if (path instanceof L.LatLng) {
+                        path.alt = self.getAltitudeAtLatLng(path);
+                    }
+                    else {
+                        path.forEach(function (latLng) {
+                            latLng.alt = self.getAltitudeAtLatLng(latLng);
+                        });
+                    }
+                });
+            }
             if (layer.update) {
                 layer.update();
             }
