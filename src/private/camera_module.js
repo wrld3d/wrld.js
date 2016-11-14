@@ -115,6 +115,15 @@ var CameraModule = function(emscriptenApi) {
         }
     };
 
+    var _getPitchDegrees = function() {
+        if (_ready) {
+            return _emscriptenApi.cameraApi.getPitchDegrees();
+        }
+        else {
+            return 0;
+        }
+    };
+
     var _flushPendingViewOperations = function() {
         if (!_ready) {
             return;
@@ -172,6 +181,10 @@ var CameraModule = function(emscriptenApi) {
 
     this.getDistanceToInterest = function() {
         return _getDistanceToInterest();
+    };
+
+    this.getPitchDegrees = function() {
+        return _getPitchDegrees();
     };
 };
 

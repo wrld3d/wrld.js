@@ -326,6 +326,10 @@ var EegeoLeafletMap = L.Map.extend({
         return this._cameraModule.getDistanceToInterest();
     },
 
+    getCameraPitchDegrees: function() {
+        return this._cameraModule.getPitchDegrees();
+    },
+
     precache: function(centre, radius, completionCallback) {
         return this._precacheModule.precache(centre, radius, completionCallback);
     },

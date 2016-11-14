@@ -6,6 +6,7 @@ function EmscriptenCameraApi(apiPointer, cwrap, runtime) {
     var _setViewToBoundsInterop = null;
     var _getDistanceToInterestInterop = null;
     var _getInterestLatLongInterop = null;
+    var _getPitchDegreesInterop = null;
     var _setEventCallback = null;
 
     var _setView = function(animated, location, distance, headingDegrees, tiltDegrees, durationSeconds, jumpIfFarAway, allowInterruption) {
@@ -77,6 +78,11 @@ function EmscriptenCameraApi(apiPointer, cwrap, runtime) {
         });
 
         return latLong;
+    };
+
+    this.getPitchDegrees = function() {
+        _getPitchDegreesInterop = _getPitchDegreesInterop || cwrap("getPitchDegrees", "number", ["number"]);
+        return _getPitchDegreesInterop(_apiPointer);
     };
 
     this.setEventCallback = function(callback) {

@@ -103,6 +103,12 @@ describe("map_interop:", function() {
       });
     });
 
+    it("the getPitchDegrees function should exist", function() {
+      _verifyApiFunctionExists(function() {
+        _cameraApi.getPitchDegrees();
+      });
+    });
+
     it("the setEventCallback function should exist", function() {
       _verifyApiFunctionExists(function() {
         var callback = function () {};
