@@ -505,4 +505,33 @@ describe("map_interop:", function() {
       });
     });
   });
+
+  describe("when using the highlight api", function() {
+    var EmscriptenHighlightApi = require("../../src/private/emscripten_api/emscripten_highlight_api");
+    var _highlightApi = null;
+
+    beforeEach(function() {
+      refreshSdk();
+      var apiPointer = 0;
+      var cwrap = Module.cwrap;
+      var runtime = Module.Runtime;
+      _highlightApi = new EmscriptenHighlightApi(apiPointer, cwrap, runtime);
+    });
+
+    it("the setEntityHighlight function should exist", function() {
+      _verifyApiFunctionExists(function() {
+        var entityId = "1000";
+        var color = [128, 0, 255, 128];
+        _highlightApi.setEntityHighlight(entityId, color);
+      });
+    });
+
+    it("the setEntityHighlights function should exist", function() {
+      _verifyApiFunctionExists(function() {
+        var entityIds = ["1000", "1001", "2001"];
+        var color = [128, 0, 0, 128];
+        _highlightApi.setEntityHighlights(entityIds, color);
+      });
+    });
+  });
 });
