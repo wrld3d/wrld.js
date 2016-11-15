@@ -284,6 +284,15 @@ var IndoorsModule = function(emscriptenApi, mapController) {
         _emscriptenApi.expandFloorsApi.collapseIndoorMap();
         return this;
     };
+
+    this.setEntityHighlight = function(id, color) {
+        _emscriptenApi.highlightApi.setEntityHighlight(id, color);
+    };
+
+    this.setEntityHighlights = function(ids, color) {
+        _emscriptenApi.highlightApi.setEntityHighlights(ids, color);
+    };
+
 };
 
 var IndoorsPrototype = L.extend({}, MapModule, L.Mixin.Events); 

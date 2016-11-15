@@ -16,6 +16,24 @@ var emscriptenMemory = {
         }
         func(pointer, double_array.length);
         Module._free(pointer);
+    },
+
+    passStrings: function(string_array, func) {
+        // allocate array of pointers to strings
+        // NB Emscripten heap pointers are 32 bits
+        var pointer = Module._malloc(string_array.length*4);
+        var strs = [];
+        for (var i=0; i<string_array.length; ++i) {
+            var str = Module._malloc(string_array[i].length + 1);
+            Module.writeStringToMemory(string_array[i],str);
+            Module.setValue(pointer + i*4, str, "*");
+            strs.push(str);
+        }
+        func(pointer, string_array.length);
+        for (var j=0; j<strs.length; ++j) {
+            Module._free(strs[j]);
+        }
+        Module._free(pointer);
     }
 };
 
