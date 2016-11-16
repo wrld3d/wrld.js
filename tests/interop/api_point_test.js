@@ -243,6 +243,15 @@ describe("map_interop:", function() {
         _spacesApi.getAltitudeAtLatLng(latLng);
       });
     });
+
+    it("the getUpdatedAltitudeAtLatLng function should exist", function() {
+      _verifyApiFunctionExists(function() {
+        var latLng = L.latLng(0, 0);
+        var previousHeight = 0.0;
+        var previousLevel = -1;
+        _spacesApi.getUpdatedAltitudeAtLatLng(latLng, previousHeight, previousLevel);
+      });
+    });
   });
 
   describe("when using the screen point mapping api", function() {

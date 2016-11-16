@@ -9,6 +9,7 @@ function EmscriptenSpacesApi(apiPointer, cwrap, runtime) {
     var _screenToTerrainPointWrap = null;
     var _screenToIndoorPointWrap = null;
     var _getAltitudeAtLatLngWrap = null;
+    var _getUpdatedAltitudeAtLatLngWrap = null;
 
     var _worldToScreen = function(lat, long, alt) {
         _worldToScreenWrap = _worldToScreenWrap || cwrap("worldToScreen", null, ["number", "number", "number", "number", "number"]);
@@ -47,6 +48,20 @@ function EmscriptenSpacesApi(apiPointer, cwrap, runtime) {
         return _getAltitudeAtLatLngWrap(_apiPointer, lat, long);
     };
 
+    var _getUpdatedAltitudeAtLatLng = function(lat, long, previousHeight, previousLevel) {
+        _getUpdatedAltitudeAtLatLngWrap = _getUpdatedAltitudeAtLatLngWrap || cwrap("getUpdatedAltitudeAtLatLng", "number", ["number", "number", "number", "number", "number", "number"]);
+        var results = [0, 0];
+        var altitudeUpdated = false;
+        emscriptenMemory.passDoubles(results, function(resultArray, arraySize) {
+            var success = _getUpdatedAltitudeAtLatLngWrap(_apiPointer, lat, long, previousHeight, previousLevel, resultArray);
+            altitudeUpdated = !!success;
+            if (altitudeUpdated) {
+                results = emscriptenMemory.readDoubles(resultArray, 2);
+            }
+        });
+        return altitudeUpdated ? results : null;
+    };
+
     this.worldToScreen = function(position) {
         var point = L.latLng(position);
         return _worldToScreen(point.lat, point.lng, point.alt || 0);
@@ -68,6 +83,10 @@ function EmscriptenSpacesApi(apiPointer, cwrap, runtime) {
 
     this.getAltitudeAtLatLng = function(position) {
         return _getAltitudeAtLatLng(position.lat, position.lng);
+    };
+
+    this.getUpdatedAltitudeAtLatLng = function(latLng, previousHeight, previousLevel) {
+        return _getUpdatedAltitudeAtLatLng(latLng.lat, latLng.lng, previousHeight, previousLevel);
     };
 }
 

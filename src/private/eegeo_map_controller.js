@@ -1,5 +1,6 @@
 var HTMLMapContainer = require("./html_map_container");
 var ScreenPointMappingModule = require("./screen_point_mapping_module");
+var DefaultAltitudeModule = require("./default_altitude_module");
 var ThemesModule = require("./themes_module");
 var IndoorsModule = require("./indoors_module");
 var PrecacheModule = require("./precache_module");
@@ -37,6 +38,7 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
     var _browserDocument = browserDocument;
 
     var _screenPointMappingModule = new ScreenPointMappingModule(emscriptenApi);
+    var _defaultAltitudeModule = new DefaultAltitudeModule(emscriptenApi);
     var _themesModule = new ThemesModule(emscriptenApi);
     var _precacheModule = new PrecacheModule(emscriptenApi);
     var _cameraModule = new CameraModule(emscriptenApi);
@@ -76,13 +78,26 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
         environmentThemesManifest
     ];
 
-    this.leafletMap = new EegeoLeafletMap(_browserWindow, _mapContainer.overlay, options, _cameraModule, _screenPointMappingModule, _precacheModule, _themesModule, _indoorsModule, _polygonModule, _routingModule);
+    this.leafletMap = new EegeoLeafletMap(
+        _browserWindow,
+        _mapContainer.overlay,
+        options,
+        _cameraModule,
+        _screenPointMappingModule,
+        _defaultAltitudeModule,
+        _precacheModule,
+        _themesModule,
+        _indoorsModule,
+        _polygonModule,
+        _routingModule);
+
     this.leafletMap._initEvents(false, _canvas);
 
     var _mapMoveEvents = new MapMoveEvents(this.leafletMap);
 
     var _modules = [
         _screenPointMappingModule,
+        _defaultAltitudeModule,
         _themesModule,
         _indoorsModule,
         _precacheModule,
