@@ -25,6 +25,7 @@ var EegeoLeafletMap = L.Map.extend({
     _ready: false,
     _cameraModule: null,
     _screenPointMappingModule: null,
+    _defaultAltitudeModule: null,
     _precacheModule: null,
     _viewInitialized: false,
     _markersAddedToMap: {},
@@ -33,10 +34,11 @@ var EegeoLeafletMap = L.Map.extend({
 
     indoors: null,
 
-    initialize: function(browserWindow, id, options, cameraModule, screenPointMappingModule, precacheModule, themesModule, indoorsModule, polygonModule, routingModule) {
+    initialize: function(browserWindow, id, options, cameraModule, screenPointMappingModule, defaultAltitudeModule, precacheModule, themesModule, indoorsModule, polygonModule, routingModule) {
         this._browserWindow = browserWindow;
         this._cameraModule = cameraModule;
         this._screenPointMappingModule = screenPointMappingModule;
+        this._defaultAltitudeModule = defaultAltitudeModule;
         this._precacheModule = precacheModule;
         this._polygonModule = polygonModule;
         this.themes = themesModule;
@@ -116,6 +118,9 @@ var EegeoLeafletMap = L.Map.extend({
             }
             this._screenPointMappingModule.addLayer(layer);
         }
+        else if ("getLatLng" in layer && "setLatLng" in layer) {
+            this._defaultAltitudeModule.addLayer(layer);
+        }
         L.Map.prototype.addLayer.call(this, layer);
     },
 
@@ -126,6 +131,9 @@ var EegeoLeafletMap = L.Map.extend({
                 this._screenPointMappingModule.removeLayer(layer);
                 delete this._markersAddedToMap[id];
             }
+        }
+        else {
+            this._defaultAltitudeModule.removeLayer(layer);
         }
         L.Map.prototype.removeLayer.call(this, layer);
     },
