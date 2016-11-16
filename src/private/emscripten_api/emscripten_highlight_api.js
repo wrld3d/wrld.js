@@ -3,15 +3,10 @@ var emscriptenMemory = require("./emscripten_memory");
 function EmscriptenHighlightApi(apiPointer, cwrap, runtime) {
 
     var _apiPointer = apiPointer;
-    var _setEntityHighlight = null;
     var _setEntityHighlights = null;
-
-    this.setEntityHighlight = function(id, color) {
-        _setEntityHighlight = _setEntityHighlight || cwrap("setEntityHighlight", null, ["number", "string", "number"]);
-        emscriptenMemory.passDoubles(color, function(resultArray, arraySize) {
-            _setEntityHighlight(_apiPointer, id, resultArray);
-        });
-    };
+    var _clearEntityHighlights = null;
+    var _addRoomHighlight = null;
+    var _clearRoomHighlight = null;
 
     this.setEntityHighlights = function(ids, color) {
         _setEntityHighlights = _setEntityHighlights || cwrap("setEntityHighlights", null, ["number", "number", "number", "number"]);
@@ -22,6 +17,22 @@ function EmscriptenHighlightApi(apiPointer, cwrap, runtime) {
         });
     };
 
+    this.clearEntityHighlights = function() {
+        _clearEntityHighlights = _clearEntityHighlights || cwrap("clearEntityHighlights", null, ["number"]);
+        _clearEntityHighlights(_apiPointer);
+    };
+
+    this.addRoomHighlight = function(id, color) {
+        _addRoomHighlight = _addRoomHighlight || cwrap("addRoomHighlight", null, ["number", "string", "number"]);
+        emscriptenMemory.passDoubles(color, function(resultArray, arraySize) {
+            _addRoomHighlight(_apiPointer, id, resultArray);
+        });
+    };
+
+    this.clearRoomHighlight = function(id) {
+        _clearRoomHighlight = _clearRoomHighlight || cwrap("clearRoomHighlight", null, ["number", "string"]);
+        _clearRoomHighlight(_apiPointer, id);
+    };
 }
 
 module.exports = EmscriptenHighlightApi;

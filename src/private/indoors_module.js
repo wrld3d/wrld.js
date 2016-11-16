@@ -293,6 +293,17 @@ var IndoorsModule = function(emscriptenApi, mapController) {
         _emscriptenApi.highlightApi.setEntityHighlights(ids, color);
     };
 
+    this.clearEntityHighlights = function() {
+        _emscriptenApi.highlightApi.clearEntityHighlights();
+    };
+
+    this.addRoomHighlight = function(id, color) {
+        _emscriptenApi.highlightApi.addRoomHighlight(id, color);
+    };
+
+    this.clearRoomHighlight = function(id) {
+        _emscriptenApi.highlightApi.clearRoomHighlight(id);
+    };
 };
 
 var IndoorsPrototype = L.extend({}, MapModule, L.Mixin.Events); 
