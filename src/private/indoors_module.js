@@ -297,12 +297,20 @@ var IndoorsModule = function(emscriptenApi, mapController) {
         _emscriptenApi.highlightApi.clearEntityHighlights();
     };
 
+    this.addAreaHighlight = function(id, color) {
+        _emscriptenApi.highlightApi.addAreaHighlight(id, color);
+    };
+
+    this.clearAreaHighlight = function(id) {
+        _emscriptenApi.highlightApi.clearAreaHighlight(id);
+    };
+
     this.addRoomHighlight = function(id, color) {
-        _emscriptenApi.highlightApi.addRoomHighlight(id, color);
+        _emscriptenApi.highlightApi.addAreaHighlight(id, color);
     };
 
     this.clearRoomHighlight = function(id) {
-        _emscriptenApi.highlightApi.clearRoomHighlight(id);
+        _emscriptenApi.highlightApi.clearAreaHighlight(id);
     };
 };
 

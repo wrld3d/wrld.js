@@ -541,18 +541,18 @@ describe("map_interop:", function() {
       });
     });
 
-    it("the addRoomHighlight function should exist", function() {
+    it("the addAreaHighlight function should exist", function() {
       _verifyApiFunctionExists(function() {
-        var roomId = "A room";
+        var areaId = "An Area";
         var color = [128, 0, 0, 128];
-        _highlightApi.addRoomHighlight(roomId, color);
+        _highlightApi.addAreaHighlight(areaId, color);
       });
     });
 
-    it("the clearRoomHighlight function should exist", function() {
+    it("the clearAreaHighlight function should exist", function() {
       _verifyApiFunctionExists(function() {
-        var roomId = "A room";
-        _highlightApi.clearRoomHighlight(roomId);
+        var areaId = "An Area";
+        _highlightApi.clearAreaHighlight(areaId);
       });
     });
   });
