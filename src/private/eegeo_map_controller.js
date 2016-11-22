@@ -27,7 +27,8 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
         // Override Leaflet defaults
         center: L.latLng([37.7858, -122.401]),
         zoom: 12,
-        zoomControl: false
+        zoomControl: false,
+        zoomAnimation: false
     };
 
     options = L.extend(_defaultOptions, options);

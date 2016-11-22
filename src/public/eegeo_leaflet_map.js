@@ -18,6 +18,13 @@ var convertLatLngToVector = function(latLng) {
     };
 };
 
+
+// Prevent Renderer from panning and scaling the overlay layer
+L.Renderer.include({
+    _updateTransform: function() { }
+});
+
+
 var EegeoLeafletMap = L.Map.extend({
 
     _browserWindow: null,
