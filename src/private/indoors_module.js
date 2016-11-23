@@ -304,14 +304,6 @@ var IndoorsModule = function(emscriptenApi, mapController) {
     this.clearAreaHighlight = function(id) {
         _emscriptenApi.highlightApi.clearAreaHighlight(id);
     };
-
-    this.addRoomHighlight = function(id, color) {
-        _emscriptenApi.highlightApi.addAreaHighlight(id, color);
-    };
-
-    this.clearRoomHighlight = function(id) {
-        _emscriptenApi.highlightApi.clearAreaHighlight(id);
-    };
 };
 
 var IndoorsPrototype = L.extend({}, MapModule, L.Mixin.Events); 
