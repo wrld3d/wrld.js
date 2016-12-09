@@ -385,6 +385,12 @@ describe("map_interop:", function() {
         _indoorsApi.getActiveIndoorMapFloorCount();
       });
     });
+    
+    it("the getActiveIndoorMapUserData function should exist", function() {
+      _verifyApiFunctionExists(function() {
+        _indoorsApi.getActiveIndoorMapUserData();
+      });
+    });
 
     it("the getSelectedFloorIndex function should exist", function() {
       _verifyApiFunctionExists(function() {

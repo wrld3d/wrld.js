@@ -24,8 +24,9 @@ var IndoorsModule = function(emscriptenApi, mapController) {
         var sourceVendor = _emscriptenApi.indoorsApi.getActiveIndoorMapSourceVendor();
         var floorCount = _emscriptenApi.indoorsApi.getActiveIndoorMapFloorCount();
         var floors = _createFloorsArray(floorCount);
+        var searchTags = _createSearchTagsArray();
         var exitFunc = _this.exit;
-        var indoorMap = new indoors.IndoorMap(mapId, mapName, sourceVendor, floorCount, floors, exitFunc);
+        var indoorMap = new indoors.IndoorMap(mapId, mapName, sourceVendor, floorCount, floors, searchTags, exitFunc);
         return indoorMap;
     };
 
@@ -40,6 +41,29 @@ var IndoorsModule = function(emscriptenApi, mapController) {
             floors.push(floor);
         }
         return floors;
+    };
+
+    var _createSearchTagsArray = function() {
+        var userData;
+        try {
+            userData = JSON.parse(_emscriptenApi.indoorsApi.getActiveIndoorMapUserData());
+        }
+        catch (e) {
+            return [];
+        }
+        
+        if (typeof userData.search_menu_items !== "object") { return []; }
+        if (!(userData.search_menu_items.items instanceof Array)) { return []; }
+
+        var searchTags = [];
+        userData.search_menu_items.items.forEach(function(item) {
+            searchTags.push({
+                tag: item.search_tag,
+                readableTag: item.name,
+                iconKey: item.icon_key
+            });
+        });
+        return searchTags;
     };
 
     var _executeIndoorMapEnteredCallbacks = function() {
