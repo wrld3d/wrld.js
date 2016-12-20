@@ -26,7 +26,7 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
 
         // Override Leaflet defaults
         center: L.latLng([37.7858, -122.401]),
-        zoom: 12,
+        zoom: 16,
         zoomControl: false,
         zoomAnimation: false,
         minZoom: 2,
