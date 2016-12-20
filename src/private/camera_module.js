@@ -7,30 +7,35 @@ var CameraModule = function(emscriptenApi) {
     var _pendingSetViewToBoundsData = null;
     var _shouldFlushPendingViewOperations = false;
 
-    var _lodSwitchAltitudes = [
-        5000000,
-        2100000,
-        1100000,
-        520000,
-        260000,
-        130000,
-        75000,
-        60000,
-        40000,
-        25000,
-        15000,  // lcm
-        7500,   // detail roads, lod2 buildings
-        2500,   // lod1 buildings
-        750,    // lod0 buildings
-        0
+    var _altitudes = [
+        // Judging by Leaflet, approx = 2.74287e7 * Math.exp(-0.622331 * zoomLevel)
+        27428700,
+        14720762,
+        8000000,
+        4512909,
+        2087317,
+        1248854,
+        660556,
+        351205,
+        185652,
+        83092,
+        41899,
+        21377,
+        11294,
+        5818,
+        3106,
+        1890,
+        1300,
+        821,
+        500,
+        300,
+        108,
+        58,
+        31,
+        17,
+        9,
+        5
     ];
-
-    var _altitudes = new Array(_lodSwitchAltitudes.length - 1);
-    for(var i = 0; i < _lodSwitchAltitudes.length - 1; ++ i) {
-        var top     = _lodSwitchAltitudes[i + 1];
-        var bottom  = _lodSwitchAltitudes[i + 0];
-        _altitudes[i] = bottom + ((top - bottom) * 0.5);
-    }
 
     var _zoomLevelToDistance = function(zoomLevel) {
         if(zoomLevel < 0) {
@@ -169,10 +174,6 @@ var CameraModule = function(emscriptenApi) {
 
     this.getNearestZoomLevelBelow = function() {
         return _getNearestZoomLevelBelow();
-    };
-
-    this.getMaxZoomLevel = function() {
-        return _altitudes.length - 1;
     };
 
     this.getCenter = function() {

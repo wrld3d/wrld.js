@@ -28,7 +28,9 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
         center: L.latLng([37.7858, -122.401]),
         zoom: 12,
         zoomControl: false,
-        zoomAnimation: false
+        zoomAnimation: false,
+        minZoom: 2,
+        maxZoom: 20
     };
 
     options = L.extend(_defaultOptions, options);

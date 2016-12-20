@@ -220,7 +220,7 @@ var EegeoLeafletMap = L.Map.extend({
 
     zoomIn: function(delta, options) {
         var config = { location: this.getCenter(), zoom: this._cameraModule.getNearestZoomLevelAbove() + delta, durationSeconds: 0.33, allowInterruption: false };
-        if (config.zoom <= this._cameraModule.getMaxZoomLevel()) {
+        if (config.zoom <= this.getMaxZoom()) {
             this._cameraModule.setView(config);
             this._updateZoom();
             return this;
@@ -229,7 +229,7 @@ var EegeoLeafletMap = L.Map.extend({
 
     zoomOut: function(delta, options) {
         var config = { location: this.getCenter(), zoom: this._cameraModule.getNearestZoomLevelBelow() - delta, durationSeconds: 0.33, allowInterruption: false };
-        if (config.zoom >= 0) {
+        if (config.zoom >= this.getMinZoom()) {
             this._cameraModule.setView(config);
             this._updateZoom();
         }
