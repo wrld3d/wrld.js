@@ -58,9 +58,9 @@ var IndoorsModule = function(emscriptenApi, mapController) {
         var searchTags = [];
         userData.search_menu_items.items.forEach(function(item) {
             searchTags.push({
-                tag: item.search_tag,
-                readableTag: item.name,
-                iconKey: item.icon_key
+                name: item.name,
+                search_tag: item.search_tag,
+                icon_key: item.icon_key
             });
         });
         return searchTags;
