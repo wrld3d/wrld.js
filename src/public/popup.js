@@ -16,7 +16,7 @@ var Popup = L.Popup.extend({
 		if (!this._content) { return; }
 
 		var node = this._contentNode;
-		var content = (typeof this._content === 'function') ? this._content(this._source || this) : this._content;
+		var content = (typeof this._content === "function") ? this._content(this._source || this) : this._content;
 
         var contentNeedsUpdate = true;
         if (content.outerHTML && content.outerHTML === node.innerHTML) {
@@ -25,7 +25,7 @@ var Popup = L.Popup.extend({
             contentNeedsUpdate = false;
         }
 
-		if (typeof content === 'string') {
+		if (typeof content === "string") {
 			node.innerHTML = content;
 		} else if (!node.hasChildNodes() || contentNeedsUpdate) {
 			while (node.hasChildNodes()) {
@@ -33,7 +33,7 @@ var Popup = L.Popup.extend({
 			}
 			node.appendChild(content);
 		}
-		this.fire('contentupdate');
+		this.fire("contentupdate");
 	},
 
     _updatePosition: function() {
