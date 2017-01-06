@@ -81,6 +81,11 @@ function EmscriptenSpacesApi(apiPointer, cwrap, runtime) {
             _getMortonKeyCornersWrap(mortonKey, resultArray);
             latLngCornersArray = emscriptenMemory.readDoubles(resultArray, 8);
         });
+        latLngCornersArray.forEach(function(value, index) {
+            if (isNaN(value)) {
+                latLngCornersArray[index] = 0;
+            }
+        });
         return [
             L.latLng(latLngCornersArray.slice(0, 2)),
             L.latLng(latLngCornersArray.slice(2, 4)),
