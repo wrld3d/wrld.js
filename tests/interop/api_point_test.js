@@ -260,6 +260,13 @@ describe("map_interop:", function() {
       });
     });
 
+    it("the getMortonKeyCenter function should exist", function() {
+      _verifyApiFunctionExists(function() {
+        var mortonKey = "";
+        _spacesApi.getMortonKeyCenter(mortonKey);
+      });
+    });
+
     it("the getMortonKeyCorners function should exist", function() {
       _verifyApiFunctionExists(function() {
         var mortonKey = "";

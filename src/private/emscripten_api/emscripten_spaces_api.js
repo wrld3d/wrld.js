@@ -11,6 +11,7 @@ function EmscriptenSpacesApi(apiPointer, cwrap, runtime) {
     var _getAltitudeAtLatLngWrap = null;
     var _getUpdatedAltitudeAtLatLngWrap = null;
     var _getMortonKeyAtLatLngWrap = null;
+    var _getMortonKeyCenterWrap = null;
     var _getMortonKeyCornersWrap = null;
 
     var _worldToScreen = function(lat, long, alt) {
@@ -74,6 +75,21 @@ function EmscriptenSpacesApi(apiPointer, cwrap, runtime) {
         return mortonKey;
     };
 
+    var _getMortonKeyCenter = function(mortonKey) {
+        _getMortonKeyCenterWrap = _getMortonKeyCenterWrap || cwrap("getMortonKeyCenter", null, ["string", "number"]);
+        var latLngCenterArray = [0, 0];
+        emscriptenMemory.passDoubles(latLngCenterArray, function(resultArray, arraySize) {
+            _getMortonKeyCenterWrap(mortonKey, resultArray);
+            latLngCenterArray = emscriptenMemory.readDoubles(resultArray, 2);
+        });
+        latLngCenterArray.forEach(function(value, index) {
+            if (isNaN(value)) {
+                latLngCenterArray[index] = 0;
+            }
+        });
+        return L.latLng(latLngCenterArray);
+    };
+
     var _getMortonKeyCorners = function(mortonKey) {
         _getMortonKeyCornersWrap = _getMortonKeyCornersWrap || cwrap("getMortonKeyCorners", null, ["string", "number"]);
         var latLngCornersArray = [0, 0, 0, 0, 0, 0, 0, 0];
@@ -123,6 +139,10 @@ function EmscriptenSpacesApi(apiPointer, cwrap, runtime) {
 
     this.getMortonKeyAtLatLng = function(latLng) {
         return _getMortonKeyAtLatLng(latLng.lat, latLng.lng);
+    };
+
+    this.getMortonKeyCenter = function(mortonKey) {
+        return _getMortonKeyCenter(mortonKey);
     };
 
     this.getMortonKeyCorners = function(mortonKey) {

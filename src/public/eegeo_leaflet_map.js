@@ -343,6 +343,10 @@ var EegeoLeafletMap = L.Map.extend({
         return this._spacesApi.getMortonKeyAtLatLng(latLng);
     },
 
+    getMortonKeyCenter: function(mortonKey) {
+        return this._spacesApi.getMortonKeyCenter(mortonKey);
+    },
+
     getMortonKeyCorners: function(mortonKey) {
         return this._spacesApi.getMortonKeyCorners(mortonKey);
     },
