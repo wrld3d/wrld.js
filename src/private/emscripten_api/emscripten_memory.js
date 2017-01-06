@@ -18,6 +18,13 @@ var emscriptenMemory = {
         Module._free(pointer);
     },
 
+    passString: function(string, func) {
+        var pointer = Module._malloc(32);
+        Module.stringToUTF8(string, pointer, 32);
+        func(pointer);
+        Module._free(pointer);
+    },
+
     passStrings: function(string_array, func) {
         // allocate array of pointers to strings
         // NB Emscripten heap pointers are 32 bits

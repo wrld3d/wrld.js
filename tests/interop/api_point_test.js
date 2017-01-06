@@ -252,6 +252,20 @@ describe("map_interop:", function() {
         _spacesApi.getUpdatedAltitudeAtLatLng(latLng, previousHeight, previousLevel);
       });
     });
+
+    it("the getMortonKeyAtLatLng function should exist", function() {
+      _verifyApiFunctionExists(function() {
+        var latLng = L.latLng(0, 0);
+        _spacesApi.getMortonKeyAtLatLng(latLng);
+      });
+    });
+
+    it("the getMortonKeyCorners function should exist", function() {
+      _verifyApiFunctionExists(function() {
+        var mortonKey = "";
+        _spacesApi.getMortonKeyCorners(mortonKey);
+      });
+    });
   });
 
   describe("when using the screen point mapping api", function() {

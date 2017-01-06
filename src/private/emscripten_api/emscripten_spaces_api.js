@@ -10,6 +10,8 @@ function EmscriptenSpacesApi(apiPointer, cwrap, runtime) {
     var _screenToIndoorPointWrap = null;
     var _getAltitudeAtLatLngWrap = null;
     var _getUpdatedAltitudeAtLatLngWrap = null;
+    var _getMortonKeyAtLatLngWrap = null;
+    var _getMortonKeyCornersWrap = null;
 
     var _worldToScreen = function(lat, long, alt) {
         _worldToScreenWrap = _worldToScreenWrap || cwrap("worldToScreen", null, ["number", "number", "number", "number", "number"]);
@@ -62,6 +64,31 @@ function EmscriptenSpacesApi(apiPointer, cwrap, runtime) {
         return altitudeUpdated ? results : null;
     };
 
+    var _getMortonKeyAtLatLng = function(lat, long) {
+        _getMortonKeyAtLatLngWrap = _getMortonKeyAtLatLngWrap || cwrap("getMortonKeyAtLatLng", null, ["number", "number", "number"]);
+        var mortonKey = "";
+        emscriptenMemory.passString(mortonKey, function(resultString){
+            _getMortonKeyAtLatLngWrap(lat, long, resultString);
+            mortonKey = Module.Pointer_stringify(resultString);
+        });
+        return mortonKey;
+    };
+
+    var _getMortonKeyCorners = function(mortonKey) {
+        _getMortonKeyCornersWrap = _getMortonKeyCornersWrap || cwrap("getMortonKeyCorners", null, ["string", "number"]);
+        var latLngCornersArray = [0, 0, 0, 0, 0, 0, 0, 0];
+        emscriptenMemory.passDoubles(latLngCornersArray, function(resultArray, arraySize) {
+            _getMortonKeyCornersWrap(mortonKey, resultArray);
+            latLngCornersArray = emscriptenMemory.readDoubles(resultArray, 8);
+        });
+        return [
+            L.latLng(latLngCornersArray.slice(0, 2)),
+            L.latLng(latLngCornersArray.slice(2, 4)),
+            L.latLng(latLngCornersArray.slice(4, 6)),
+            L.latLng(latLngCornersArray.slice(6))
+        ];
+    };
+
     this.worldToScreen = function(position) {
         var point = L.latLng(position);
         return _worldToScreen(point.lat, point.lng, point.alt || 0);
@@ -81,12 +108,20 @@ function EmscriptenSpacesApi(apiPointer, cwrap, runtime) {
         return this.screenToIndoorPoint(screenPoint) || this.screenToTerrainPoint(screenPoint);
     };
 
-    this.getAltitudeAtLatLng = function(position) {
-        return _getAltitudeAtLatLng(position.lat, position.lng);
+    this.getAltitudeAtLatLng = function(latLng) {
+        return _getAltitudeAtLatLng(latLng.lat, latLng.lng);
     };
 
     this.getUpdatedAltitudeAtLatLng = function(latLng, previousHeight, previousLevel) {
         return _getUpdatedAltitudeAtLatLng(latLng.lat, latLng.lng, previousHeight, previousLevel);
+    };
+
+    this.getMortonKeyAtLatLng = function(latLng) {
+        return _getMortonKeyAtLatLng(latLng.lat, latLng.lng);
+    };
+
+    this.getMortonKeyCorners = function(mortonKey) {
+        return _getMortonKeyCorners(mortonKey);
     };
 }
 

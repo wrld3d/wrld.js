@@ -339,6 +339,14 @@ var EegeoLeafletMap = L.Map.extend({
         return this._spacesApi.getAltitudeAtLatLng(latLng);
     },
 
+    getMortonKeyAtLatLng: function(latLng) {
+        return this._spacesApi.getMortonKeyAtLatLng(latLng);
+    },
+
+    getMortonKeyCorners: function(mortonKey) {
+        return this._spacesApi.getMortonKeyCorners(mortonKey);
+    },
+
     getCameraHeightAboveTerrain: function() {
         return this._cameraModule.getDistanceToInterest();
     },
