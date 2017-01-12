@@ -1,0 +1,46 @@
+<!-- Create a map in an HTML element with eegeo.js -->
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <script src="http://localhost:1337/dist/eegeo.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" rel="stylesheet" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap -->
+    <link href="http://localhost:1337/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://localhost:1337/css/main.css" rel="stylesheet">
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://localhost:1337/js/bootstrap.min.js"></script>
+
+    <!--<script src="http://localhost:1337/js/main.js"></script>-->
+  </head>
+  
+  <body>
+
+    <div id="content" style="position: relative">
+
+        <div id="floorButtons">
+            <button type="button" class="btn btn-default" onclick="doShader()">BootSTRAP</button>
+        </div>
+
+        <div id="map" style="height: 768px;">
+        </div>
+        
+        <!--<script src="http://localhost:1337/js/main.js"></script>-->
+        
+        <script>
+        window.map = L.eeGeo.map("map", "9ce4509b3e6dc7ed2c936a6cfb89217e");
+
+          function doShader() {
+            window.map.createShaderPair();
+          }
+        </script>
+    </div>
+  </body>
+</html>

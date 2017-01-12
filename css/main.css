@@ -1,0 +1,9 @@
+#floorButtons {
+    position: absolute;
+    z-index: 20;
+}
+
+#floorButtons button {
+    display: block;
+    width: 100%;
+}
