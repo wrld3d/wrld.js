@@ -42,7 +42,7 @@
             </div>
             
             <div id="vertex">
-              <textarea id="vertex-code" class="form-control" rows="40" >
+              <textarea id="vertex-code" class="form-control" rows="40" oninput="shaderChanged()">
 //=======================================
 attribute mediump vec4 Position;
 attribute lowp vec2 UV;
@@ -69,7 +69,7 @@ void main(void) {
             </div>
 
             <div id="fragment">
-              <textarea id="fragment-code" class="form-control" rows="40">
+              <textarea id="fragment-code" class="form-control" rows="40" oninput="shaderChanged()">
 varying lowp vec4 ColorVarying;
 varying mediump vec2 DestinationUV;
 
@@ -113,6 +113,15 @@ void main(void) {
 
           function applyTransport() {
             window.map.applyShadersToTransport();
+          }
+
+          function shaderChanged() {
+            var shaderStatus = document.getElementById("shader-status");
+
+            if (shaderStatus.className == "bg-success") {
+              shaderStatus.innerHTML = "Shader Compile Status";
+              shaderStatus.className = "bg-primary";
+            }
           }
         </script>
     </div>
