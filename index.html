@@ -25,7 +25,7 @@
 
     <div id="content">
 
-        <div id="map" style="height: 768px;"></div>
+        <div id="map" style="height: 800px;"></div>
         
         <div id="shader-controls">
           <p id="shader-status" class="bg-primary">
@@ -34,6 +34,9 @@
 
             <div id="createButton">
               <button type="button" class="btn btn-primary" onclick="doShader()">Create Shaders</button>
+              <button type="button" class="btn btn-primary" onclick="applyBuildings()">Apply to Buildings</button>
+              <button type="button" class="btn btn-primary" onclick="applyTerrain()">Apply to Terrain</button>
+              <button type="button" class="btn btn-primary" onclick="applyTransport()">Apply to Transport</button>
               <input id="uniforms-list" type="text" class="form-control" placeholder="Shader Uniforms">
               <input id="samplers-list" type="text" class="form-control" placeholder="Shader Samplers">
             </div>
@@ -74,6 +77,7 @@ uniform sampler2D Diffuse;
 
 void main(void) {
   vec3 tempColor = vec3(1.0, 0.0, 1.0);
+  gl_FragColor.rgb = texture2D(Diffuse, DestinationUV).rgb * ColorVarying.rgb;
   gl_FragColor.rgb =  tempColor * ColorVarying.rgb;
 }
 </textarea>
@@ -86,12 +90,29 @@ void main(void) {
         window.map = L.eeGeo.map("map", "9ce4509b3e6dc7ed2c936a6cfb89217e");
 
           function doShader() {
+            var shaderStatus = document.getElementById("shader-status");
+
+            shaderStatus.innerHTML = "Shader Compile Status";
+            shaderStatus.className = "bg-primary";
+
             var vertexCode = document.getElementById("vertex-code").value;
             var fragCode = document.getElementById("fragment-code").value;
             var uniforms = document.getElementById("uniforms-list").value;
             var samplers = document.getElementById("samplers-list").value;
 
             window.map.createShaderPair(vertexCode, fragCode, uniforms, samplers);
+          }
+
+          function applyBuildings() {
+            window.map.applyShadersToBuildings();
+          }
+
+          function applyTerrain() {
+            window.map.applyShadersToTerrain();
+          }
+
+          function applyTransport() {
+            window.map.applyShadersToTransport();
           }
         </script>
     </div>

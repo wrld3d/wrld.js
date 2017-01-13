@@ -3,6 +3,9 @@ var emscriptenMemory = require("./emscripten_memory");
 function EmscriptenRenderingApi(apiPointer, cwrap, runtime) {
     var _apiPointer = apiPointer;
     var _createShaderPairInterop = null; 
+    var _applyShadersToBuildingsInterop = null;
+    var _applyShadersToTerrainInterop = null;
+    var _applyShadersToTransportInterop = null;
 
     var _createShaderPair = function(vertexCode, fragmentCode, uniforms, samplers) {
         _createShaderPairInterop = _createShaderPairInterop || cwrap("CreateShaderPair", "number", ["number", "number", "number", "number", "number", "number", "number", "number"]);
@@ -59,6 +62,33 @@ function EmscriptenRenderingApi(apiPointer, cwrap, runtime) {
 
     this.createShaderPair = function(vertexCode, fragmentCode, uniforms, samplers) {
         return _createShaderPair(vertexCode, fragmentCode, uniforms, samplers);
+    }
+
+    var _applyShadersToBuildings = function() {
+      _applyShadersToBuildingsInterop = _applyShadersToBuildingsInterop  || cwrap("ApplyShadersToBuildings", null, ["number"]);
+      _applyShadersToBuildingsInterop(_apiPointer);
+    }
+
+    this.applyShadersToBuildings = function () {
+      return _applyShadersToBuildings();
+    }
+
+    var _applyShadersToTerrain = function() {
+      _applyShadersToTerrainInterop = _applyShadersToTerrainInterop  || cwrap("ApplyShadersToTerrain", null, ["number"]);
+      _applyShadersToTerrainInterop(_apiPointer);
+    }
+
+    this.applyShadersToTerrain = function () {
+      return _applyShadersToTerrain();
+    }
+
+     var _applyShadersToTransport = function() {
+      _applyShadersToTransportInterop = _applyShadersToTransportInterop  || cwrap("ApplyShadersToTransport", null, ["number"]);
+      _applyShadersToTransportInterop(_apiPointer);
+    }
+
+    this.applyShadersToTransport = function () {
+      return _applyShadersToTransport();
     }
 }
 

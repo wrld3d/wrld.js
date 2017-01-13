@@ -404,6 +404,21 @@ var EegeoLeafletMap = L.Map.extend({
     createShaderPair: function (vertexCode, fragmentCode, uniforms, samplers) {
         this._renderingModule.createShaderPair(vertexCode, fragmentCode, uniforms, samplers);
         return this;
+    },
+
+    applyShadersToBuildings: function() {
+        this._renderingModule.applyShadersToBuildings();
+        return this;
+    },
+
+    applyShadersToTerrain: function() {
+        this._renderingModule.applyShadersToTerrain();
+        return this;
+    },
+
+    applyShadersToTransport: function() {
+        this._renderingModule.applyShadersToTransport();
+        return this;
     }
 
 });
