@@ -1,9 +1,39 @@
-#floorButtons {
-    position: absolute;
-    z-index: 20;
+#shader-controls {
+    /*position: absolute;
+    z-index: 20;*/
+    margin-left: 50px;
+    margin-top: 50px;
 }
 
-#floorButtons button {
-    display: block;
-    width: 100%;
+#uniforms-list {
+    float: left;
+    max-width: 500px;
+    margin-right: 100px;
+}
+
+#samplers-list {
+    float: left;
+    max-width: 500px;
+    margin-right: 10px;
+}
+
+#vertex {
+    margin-top: 10px;
+    margin-bottom: 50px;
+    float: left;
+    width: 45%;
+}
+
+#fragment {
+    position: absolute;
+    float: left;
+    margin-top: 10px;
+    margin-bottom: 50px;
+    margin-left: 45%;
+    width: 45%;
+}
+
+#shader-status {
+    padding: 10px;
+    max-width: 1100px;
 }

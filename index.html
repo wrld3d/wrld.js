@@ -23,22 +23,75 @@
   
   <body>
 
-    <div id="content" style="position: relative">
+    <div id="content">
 
-        <div id="floorButtons">
-            <button type="button" class="btn btn-default" onclick="doShader()">BootSTRAP</button>
-        </div>
-
-        <div id="map" style="height: 768px;">
-        </div>
+        <div id="map" style="height: 768px;"></div>
         
+        <div id="shader-controls">
+          <p id="shader-status" class="bg-primary">
+            Shader Compile Status
+          </p>
+
+            <div id="createButton">
+              <button type="button" class="btn btn-primary" onclick="doShader()">Create Shaders</button>
+              <input id="uniforms-list" type="text" class="form-control" placeholder="Shader Uniforms">
+              <input id="samplers-list" type="text" class="form-control" placeholder="Shader Samplers">
+            </div>
+            
+            <div id="vertex">
+              <textarea id="vertex-code" class="form-control" rows="40" >
+//=======================================
+attribute mediump vec4 Position;
+attribute lowp vec2 UV;
+
+uniform highp mat4 UnpackModelViewProjectionMatrix;
+
+uniform highp vec2 MinUVRange;
+uniform highp vec2 MaxUVRange;
+
+uniform lowp mat4 LightColorMatrix;
+uniform highp vec3 LightDotUnpack;
+							 
+//=======================================
+
+varying lowp vec4 ColorVarying;
+varying mediump vec2 DestinationUV;
+
+void main(void) { 
+	DestinationUV = mix(MinUVRange, MaxUVRange, UV);
+	ColorVarying = LightColorMatrix * vec4(fract(Position.w * LightDotUnpack), 1.0);
+	gl_Position = UnpackModelViewProjectionMatrix * vec4(Position.xyz, 1.0);
+}
+</textarea>
+            </div>
+
+            <div id="fragment">
+              <textarea id="fragment-code" class="form-control" rows="40">
+varying lowp vec4 ColorVarying;
+varying mediump vec2 DestinationUV;
+
+uniform sampler2D Diffuse;
+
+void main(void) {
+  vec3 tempColor = vec3(1.0, 0.0, 1.0);
+  gl_FragColor.rgb =  tempColor * ColorVarying.rgb;
+}
+</textarea>
+            </div>
+
+        </div>
         <!--<script src="http://localhost:1337/js/main.js"></script>-->
         
         <script>
         window.map = L.eeGeo.map("map", "9ce4509b3e6dc7ed2c936a6cfb89217e");
 
           function doShader() {
-            window.map.createShaderPair();
+            var vertexCode = document.getElementById("vertex-code").value;
+            var fragCode = document.getElementById("fragment-code").value;
+            var uniforms = document.getElementById("uniforms-list").value;
+            var samplers = document.getElementById("samplers-list").value;
+
+            window.map.createShaderPair(vertexCode, fragCode, uniforms, samplers);
           }
         </script>
     </div>

@@ -9,6 +9,10 @@ var emscriptenMemory = {
         return result;
     },
 
+    readString: function (pointer) {
+        return Module.Pointer_stringify(pointer);
+    },
+
     passDoubles: function(double_array, func) {
         var pointer = Module._malloc(double_array.length * 8);
         for (var i=0; i<double_array.length; ++i) {
@@ -19,13 +23,18 @@ var emscriptenMemory = {
     },
 
     passString: function(string, func) {
-        var pointer = Module._malloc(32);
-        Module.stringToUTF8(string, pointer, 32);
+        var pointer = Module._malloc(string.length);
+        Module.stringToUTF8(string, pointer, string.length);
         func(pointer);
         Module._free(pointer);
     },
 
     passStrings: function(string_array, func) {
+        if (string_array.length <= 0) {
+            func(0, 0);
+            return;
+        }
+
         // allocate array of pointers to strings
         // NB Emscripten heap pointers are 32 bits
         var pointer = Module._malloc(string_array.length*4);
