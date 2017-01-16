@@ -44,7 +44,8 @@ function EmscriptenCameraApi(apiPointer, cwrap, runtime) {
         var headingDegrees = "headingDegrees" in config ? config["headingDegrees"] : null;
         var tiltDegrees = "tiltDegrees" in config ? config["tiltDegrees"] : null;
         var durationSeconds = "durationSeconds" in config ? config["durationSeconds"] : null;
-        var jumpIfFarAway = true;
+        var alwaysAnimate = "animate" in config && config["animate"] == true;
+        var jumpIfFarAway = !alwaysAnimate;
         var allowInterruption = "allowInterruption" in config ? config["allowInterruption"] : true;
         
         return _setView(animated, location, distance, headingDegrees, tiltDegrees, durationSeconds, jumpIfFarAway, allowInterruption);
