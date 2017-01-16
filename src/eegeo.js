@@ -8,6 +8,7 @@ require("./private/polyfills.js");
 
 
 var _baseUrl = "http://localhost:8000/";
+var _baseUrl = "http://webgl-cdn1.eegeo.com/test_builds/vimmy/js/";
 var _appName = "eeGeoWebGL.js";
 
 
