@@ -52,6 +52,8 @@ var EegeoLeafletMap = L.Map.extend({
         this.indoors = indoorsModule;
         this.routes = routingModule;
 
+        this.graphicsApi = null;
+
         L.Map.prototype.initialize.call(this, id, options);
 
         this.dragging.disable();
@@ -147,6 +149,7 @@ var EegeoLeafletMap = L.Map.extend({
 
     onInitialized: function(emscriptenApi) {
         this._spacesApi = emscriptenApi.spacesApi;
+        this.graphicsApi = emscriptenApi.graphicsApi;
         this._ready = true;
         var panes = this.getPanes();
         panes.mapPane.style["z-index"] = "10";
