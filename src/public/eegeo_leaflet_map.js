@@ -155,6 +155,7 @@ var EegeoLeafletMap = L.Map.extend({
         panes.mapPane.style["z-index"] = "10";
         panes.mapPane.style["pointer-events"] = "auto";
         panes.overlayPane.style["pointer-events"] = "none";
+        this.fire("initialize");
     },
 
     getScreenPositionOfLayer: function(layer) {
