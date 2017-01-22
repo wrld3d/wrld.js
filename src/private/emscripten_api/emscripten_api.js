@@ -7,6 +7,7 @@ var EmscriptenThemesApi = require("./emscripten_themes_api.js");
 var EmscriptenCameraApi = require("./emscripten_camera_api.js");
 var EmscriptenExpandFloorsApi = require("./emscripten_expand_floors_api.js");
 var EmscriptenHighlightApi = require("./emscripten_highlight_api.js");
+var EmscriptenRenderingApi = require("./emscripten_rendering_api.js");
 
 
 function EmscriptenApi(emscriptenModule) {
@@ -24,6 +25,7 @@ function EmscriptenApi(emscriptenModule) {
     this.cameraApi = null;
     this.expandFloorsApi = null;
     this.highlightApi = null;
+    this.renderingApi = null;
 
     this.onInitialized = function(apiPointer, onUpdateCallback, onDrawCallback, onInitialStreamingCompletedCallback) {
         _apiPointer = apiPointer;
@@ -39,6 +41,7 @@ function EmscriptenApi(emscriptenModule) {
         this.cameraApi = new EmscriptenCameraApi(_apiPointer, cwrap, runtime);
         this.expandFloorsApi = new EmscriptenExpandFloorsApi(_apiPointer, cwrap, runtime);
         this.highlightApi = new EmscriptenHighlightApi(_apiPointer, cwrap, runtime);
+        this.renderingApi = new EmscriptenRenderingApi(_apiPointer, cwrap, runtime);
 
         var _setTopLevelCallbacks = _emscriptenModule.cwrap("setTopLevelCallbacks", null, ["number", "number", "number", "number"]);
         _setTopLevelCallbacks(

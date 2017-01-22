@@ -7,8 +7,8 @@ var polygon = require("./public/polygon.js");
 require("./private/polyfills.js");
 
 
-var _baseUrl = "https://cdn-webgl.eegeo.com/eegeojs/early_access/latest/";
-var _appName = "eeGeoWebGL.jgz";
+var _baseUrl = "../../eegeo-mobile/eegeo-webgl/build/";
+var _appName = "eeGeoWebGL.js";
 
 
 var _mapObjects = [];
