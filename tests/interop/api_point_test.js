@@ -585,4 +585,49 @@ describe("map_interop:", function() {
       });
     });
   });
+
+  describe("when using the rendering api", function() {
+    var EmscriptenRenderingApi = require("../../src/private/emscripten_api/emscripten_rendering_api");
+    var _renderingApi = null;
+
+    beforeEach(function() {
+      refreshSdk();
+      var apiPointer = 0;
+      var cwrap = Module.cwrap;
+      var runtime = Module.Runtime;
+      _renderingApi = new EmscriptenRenderingApi(apiPointer, cwrap, runtime);
+    });   
+
+    it("the getCameraRelativePosition function should exist", function() {
+      _verifyApiFunctionExists(function() {
+        var latLng = L.latLng(0, 0);
+        _renderingApi.getCameraRelativePosition(latLng);
+      });
+    });
+
+    it("the getNorthFacingOrientationMatrix function should exist", function() {
+      _verifyApiFunctionExists(function() {
+        var latLng = L.latLng(0, 0);
+        _renderingApi.getNorthFacingOrientationMatrix(latLng);
+      });
+    });
+
+    it("the getCameraProjectionMatrix function should exist", function() {
+      _verifyApiFunctionExists(function() {
+        _renderingApi.getCameraProjectionMatrix();
+      });
+    });
+
+    it("the getCameraOrientationMatrix function should exist", function() {
+      _verifyApiFunctionExists(function() {
+        _renderingApi.getCameraOrientationMatrix();
+      });
+    });
+
+    it("the getLightingData function should exist", function() {
+      _verifyApiFunctionExists(function() {
+        _renderingApi.getLightingData();
+      });
+    });
+  });
 });
