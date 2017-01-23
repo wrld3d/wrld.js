@@ -75,9 +75,9 @@ function EmscriptenRenderingApi(apiPointer, cwrap, runtime) {
             ambient: {
                 color: new space.Vector3(lightingData[18], lightingData[19], lightingData[20])
             }
-        }
+        };
         return lighting;
-    }
+    };
 }
 
 module.exports = EmscriptenRenderingApi;
