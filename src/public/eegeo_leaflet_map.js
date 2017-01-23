@@ -41,7 +41,7 @@ var EegeoLeafletMap = L.Map.extend({
 
     indoors: null,
 
-    initialize: function(browserWindow, id, options, cameraModule, screenPointMappingModule, defaultAltitudeModule, precacheModule, themesModule, indoorsModule, polygonModule, routingModule) {
+    initialize: function(browserWindow, id, options, cameraModule, screenPointMappingModule, defaultAltitudeModule, precacheModule, themesModule, indoorsModule, polygonModule, routingModule, renderingModule) {
         this._browserWindow = browserWindow;
         this._cameraModule = cameraModule;
         this._screenPointMappingModule = screenPointMappingModule;
@@ -51,6 +51,7 @@ var EegeoLeafletMap = L.Map.extend({
         this.themes = themesModule;
         this.indoors = indoorsModule;
         this.routes = routingModule;
+        this.rendering = renderingModule;
 
         L.Map.prototype.initialize.call(this, id, options);
 
@@ -152,6 +153,7 @@ var EegeoLeafletMap = L.Map.extend({
         panes.mapPane.style["z-index"] = "10";
         panes.mapPane.style["pointer-events"] = "auto";
         panes.overlayPane.style["pointer-events"] = "none";
+        this.fire("initialize");
     },
 
     getScreenPositionOfLayer: function(layer) {
@@ -333,6 +335,7 @@ var EegeoLeafletMap = L.Map.extend({
                 layer.redraw();
             }
         });
+        this.fire("draw");
     },
 
     getAltitudeAtLatLng: function(latLng) {
