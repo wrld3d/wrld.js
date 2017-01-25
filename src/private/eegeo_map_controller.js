@@ -14,6 +14,15 @@ var IndoorEntranceMarkerUpdater = require("./indoor_entrance_marker_updater");
 var EegeoLeafletMap = require("../public/eegeo_leaflet_map");
 var MapMoveEvents = require("./events/map_move_events");
 
+var removeFileExtension = function(fileName, extensionToRemove) {
+    var extensionPosition = fileName.lastIndexOf(".");
+    var extension = fileName.slice(extensionPosition);
+    if (extension === extensionToRemove) {
+        return fileName.slice(0, extensionPosition);
+    }
+    return fileName;
+};
+
 var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, browserWindow, browserDocument, module, options) {
 
     var _defaultOptions = {
@@ -66,8 +75,8 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
     var distance = _cameraModule.zoomLevelToDistance(options.zoom);
 
     var indoorsEnabledArg = (options.indoorsEnabled) ? "1" : "0";
-    var coverageTreeManifest = options.coverageTreeManifest;
-    var environmentThemesManifest = options.environmentThemesManifest;
+    var coverageTreeManifest = removeFileExtension(options.coverageTreeManifest, ".gz");
+    var environmentThemesManifest = removeFileExtension(options.environmentThemesManifest, ".gz");
 
     _Module["arguments"] = [
         _canvasId,
