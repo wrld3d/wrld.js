@@ -33,6 +33,7 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
         displayEntranceMarkers: true,
         coverageTreeManifest: "",
         environmentThemesManifest: "",
+        headingDegrees: 0,
 
         // Override Leaflet defaults
         center: L.latLng([37.7858, -122.401]),
@@ -73,6 +74,7 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
 
     var center = L.latLng(options.center);
     var distance = _cameraModule.zoomLevelToDistance(options.zoom);
+    var headingDegrees = options.headingDegrees;
 
     var indoorsEnabledArg = (options.indoorsEnabled) ? "1" : "0";
     var coverageTreeManifest = removeFileExtension(options.coverageTreeManifest, ".gz");
@@ -87,6 +89,7 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
         center.lat.toString(),
         center.lng.toString(),
         distance.toString(),
+        headingDegrees.toString(),
         indoorsEnabledArg,
         coverageTreeManifest,
         environmentThemesManifest
