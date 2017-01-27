@@ -129,6 +129,15 @@ var CameraModule = function(emscriptenApi) {
         }
     };
 
+    var _getHeadingDegrees = function() {
+        if (_ready) {
+            return _emscriptenApi.cameraApi.getHeadingDegrees();
+        }
+        else {
+            return _pendingSetViewData["headingDegrees"] || 0;
+        }
+    };
+
     var _flushPendingViewOperations = function() {
         if (!_ready) {
             return;
@@ -186,6 +195,10 @@ var CameraModule = function(emscriptenApi) {
 
     this.getPitchDegrees = function() {
         return _getPitchDegrees();
+    };
+
+    this.getHeadingDegrees = function() {
+        return _getHeadingDegrees();
     };
 };
 

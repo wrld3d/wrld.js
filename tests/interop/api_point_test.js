@@ -109,6 +109,12 @@ describe("map_interop:", function() {
       });
     });
 
+    it("the getHeadingDegrees function should exist", function() {
+      _verifyApiFunctionExists(function() {
+        _cameraApi.getHeadingDegrees();
+      });
+    });
+
     it("the setEventCallback function should exist", function() {
       _verifyApiFunctionExists(function() {
         var callback = function () {};
