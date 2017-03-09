@@ -339,19 +339,19 @@ var EegeoLeafletMap = L.Map.extend({
     },
 
     getAltitudeAtLatLng: function(latLng) {
-        return this._spacesApi.getAltitudeAtLatLng(latLng);
+        return (this._ready) ? this._spacesApi.getAltitudeAtLatLng(latLng) : 0;
     },
 
     getMortonKeyAtLatLng: function(latLng) {
-        return this._spacesApi.getMortonKeyAtLatLng(latLng);
+        return (this._ready) ? this._spacesApi.getMortonKeyAtLatLng(latLng) : null;
     },
 
     getMortonKeyCenter: function(mortonKey) {
-        return this._spacesApi.getMortonKeyCenter(mortonKey);
+        return (this._ready) ? this._spacesApi.getMortonKeyCenter(mortonKey) : null;
     },
 
     getMortonKeyCorners: function(mortonKey) {
-        return this._spacesApi.getMortonKeyCorners(mortonKey);
+        return (this._ready) ? this._spacesApi.getMortonKeyCorners(mortonKey) : null;
     },
 
     getCameraDistanceToInterest: function() {
