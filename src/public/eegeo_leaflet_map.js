@@ -354,7 +354,7 @@ var EegeoLeafletMap = L.Map.extend({
         return this._spacesApi.getMortonKeyCorners(mortonKey);
     },
 
-    getCameraHeightAboveTerrain: function() {
+    getCameraDistanceToInterest: function() {
         return this._cameraModule.getDistanceToInterest();
     },
 
@@ -371,7 +371,7 @@ var EegeoLeafletMap = L.Map.extend({
     },
 
     _getAngleFromCameraToHorizon: function() {
-        var altitude = this.getCameraHeightAboveTerrain();
+        var altitude = this.getCameraDistanceToInterest();
         var earthRadius = 6378100.0;
         return Math.acos(earthRadius / (earthRadius + altitude));
     },
