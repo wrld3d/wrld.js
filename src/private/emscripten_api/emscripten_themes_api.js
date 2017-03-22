@@ -3,6 +3,7 @@ function EmscriptenThemesApi(apiPointer, cwrap, runtime) {
     var _apiPointer = apiPointer;
     var _setTheme = null;
     var _setState = null;
+    var _setThemeManifest = null;
     var _setCallback = null;
 
     this.setTheme = function(themeName) {
@@ -13,6 +14,11 @@ function EmscriptenThemesApi(apiPointer, cwrap, runtime) {
     this.setState = function(stateName, transitionTime) {
         _setState = _setState || cwrap("setState", null, ["number", "string", "number"]);
     	_setState(_apiPointer, stateName, transitionTime);
+    };
+
+    this.setThemeManifest = function(themeManifest) {
+        _setThemeManifest = _setThemeManifest || cwrap("setThemeMainfest", null, ["number", "string"]);
+        _setThemeManifest(_apiPointer, themeManifest);
     };
 
     this.registerStreamingCompletedCallback = function (callback) {

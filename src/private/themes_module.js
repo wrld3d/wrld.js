@@ -86,6 +86,13 @@ var ThemesModule = function(emscriptenApi) {
         this.setTheme(_season, _time, weather);        
     };
 
+    this.setEnvironmentThemesManifest = function(environmentThemesManifest) {
+        if (!_ready) {
+            return;
+        }
+        _emscriptenApi.themesApi.setThemeManifest(environmentThemesManifest);
+    };
+
     this.onInitialized = function() {
         _emscriptenApi.themesApi.registerStreamingCompletedCallback(_onThemesStreamingCompleted);
     };

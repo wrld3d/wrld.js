@@ -148,6 +148,12 @@ describe("map_interop:", function() {
       });
     });
 
+    it("the setThemeMainfest function should exist", function() {
+      _verifyApiFunctionExists(function() {
+        _themesApi.setThemeMainfest("themeMainfest");
+      });
+    });
+
     it("the registerStreamingCompletedCallback function should exist", function() {
       _verifyApiFunctionExists(function() {
         var callback = function () {};
