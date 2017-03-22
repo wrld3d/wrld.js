@@ -148,9 +148,9 @@ describe("map_interop:", function() {
       });
     });
 
-    it("the setThemeMainfest function should exist", function() {
+    it("the setThemeManifest function should exist", function() {
       _verifyApiFunctionExists(function() {
-        _themesApi.setThemeMainfest("themeMainfest");
+        _themesApi.setThemeManifest("themeManifest");
       });
     });
 

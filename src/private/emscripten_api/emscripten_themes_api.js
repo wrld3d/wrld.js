@@ -17,7 +17,7 @@ function EmscriptenThemesApi(apiPointer, cwrap, runtime) {
     };
 
     this.setThemeManifest = function(themeManifest) {
-        _setThemeManifest = _setThemeManifest || cwrap("setThemeMainfest", null, ["number", "string"]);
+        _setThemeManifest = _setThemeManifest || cwrap("setThemeManifest", null, ["number", "string"]);
         _setThemeManifest(_apiPointer, themeManifest);
     };
 
