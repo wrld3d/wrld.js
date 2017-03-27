@@ -368,8 +368,8 @@ var EegeoLeafletMap = L.Map.extend({
         return (this._ready) ? this._spacesApi.getMortonKeyCenter(mortonKey) : null;
     },
 
-    getMortonKeyCorners: function(mortonKey) {
-        return (this._ready) ? this._spacesApi.getMortonKeyCorners(mortonKey) : null;
+    getMortonKeyCorners: function(mortonKey, insetMeters) {
+        return (this._ready) ? this._spacesApi.getMortonKeyCorners(mortonKey, insetMeters) : null;
     },
 
     getCameraDistanceToInterest: function() {

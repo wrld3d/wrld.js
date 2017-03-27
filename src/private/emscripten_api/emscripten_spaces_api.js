@@ -90,11 +90,11 @@ function EmscriptenSpacesApi(apiPointer, cwrap, runtime) {
         return L.latLng(latLngCenterArray);
     };
 
-    var _getMortonKeyCorners = function(mortonKey) {
-        _getMortonKeyCornersWrap = _getMortonKeyCornersWrap || cwrap("getMortonKeyCorners", null, ["string", "number"]);
+    var _getMortonKeyCorners = function(mortonKey, insetMeters) {
+        _getMortonKeyCornersWrap = _getMortonKeyCornersWrap || cwrap("getMortonKeyCorners", null, ["string", "number", "number"]);
         var latLngCornersArray = [0, 0, 0, 0, 0, 0, 0, 0];
         emscriptenMemory.passDoubles(latLngCornersArray, function(resultArray, arraySize) {
-            _getMortonKeyCornersWrap(mortonKey, resultArray);
+            _getMortonKeyCornersWrap(mortonKey, insetMeters, resultArray);
             latLngCornersArray = emscriptenMemory.readDoubles(resultArray, 8);
         });
         latLngCornersArray.forEach(function(value, index) {
@@ -145,8 +145,8 @@ function EmscriptenSpacesApi(apiPointer, cwrap, runtime) {
         return _getMortonKeyCenter(mortonKey);
     };
 
-    this.getMortonKeyCorners = function(mortonKey) {
-        return _getMortonKeyCorners(mortonKey);
+    this.getMortonKeyCorners = function(mortonKey, insetMeters) {
+        return _getMortonKeyCorners(mortonKey, insetMeters || 0.0);
     };
 }
 
