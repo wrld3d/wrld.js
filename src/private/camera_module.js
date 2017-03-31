@@ -1,4 +1,5 @@
 var MapModule = require("./map_module");
+var space = require("../public/space");
 
 var CameraModule = function(emscriptenApi) {
     var _emscriptenApi = emscriptenApi;
@@ -7,50 +8,10 @@ var CameraModule = function(emscriptenApi) {
     var _pendingSetViewToBoundsData = null;
     var _shouldFlushPendingViewOperations = false;
 
-    var _altitudes = [
-        // Judging by Leaflet, approx = 2.74287e7 * Math.exp(-0.622331 * zoomLevel)
-        27428700,
-        14720762,
-        8000000,
-        4512909,
-        2087317,
-        1248854,
-        660556,
-        351205,
-        185652,
-        83092,
-        41899,
-        21377,
-        11294,
-        5818,
-        3106,
-        1890,
-        1300,
-        821,
-        500,
-        300,
-        108,
-        58,
-        31,
-        17,
-        9,
-        5
-    ];
-
-    var _zoomLevelToDistance = function(zoomLevel) {
-        if(zoomLevel < 0) {
-            return _altitudes[0];
-        }
-
-        if (zoomLevel >= _altitudes.length) {
-            return _altitudes[_altitudes.length - 1];
-        }
-        return _altitudes[zoomLevel];
-    };
 
     var _setView = function(config) {
         if ("zoom" in config) {
-            config.distance = _zoomLevelToDistance(config.zoom);
+            config.distance = space.zoomToDistance(config.zoom);
         }
 
         if (_ready) {
@@ -73,18 +34,11 @@ var CameraModule = function(emscriptenApi) {
         }
     };
 
-    var _getCurrentZoomLevel = function(comparisonFunc) {
-        var cameraApi = _emscriptenApi.cameraApi;
-        var distanceToInterest = cameraApi.getDistanceToInterest();
-        return _altitudes.findIndex(function(currentAltitude) {
-            return comparisonFunc(distanceToInterest, currentAltitude);
-        });
-    };
-
     var _getNearestZoomLevelAbove = function() {
         if (_ready) {
-            var index = _getCurrentZoomLevel(function(a, b) { return a > b; });
-            return index > -1 ? Math.min(index - 1, _altitudes.length -1) : _altitudes.length - 1;
+            var cameraApi = _emscriptenApi.cameraApi;
+            var distanceToInterest = cameraApi.getDistanceToInterest();
+            return space.nearestZoomAbove(distanceToInterest);
         }
         else {
             return _pendingSetViewData["zoom"] || -1;
@@ -93,8 +47,9 @@ var CameraModule = function(emscriptenApi) {
 
     var _getNearestZoomLevelBelow = function() {
         if (_ready) {
-            var index = _getCurrentZoomLevel(function(a, b) { return a >= b; });
-            return index > -1 ? Math.max(0, Math.min(index, _altitudes.length -1)) : _altitudes.length;
+            var cameraApi = _emscriptenApi.cameraApi;
+            var distanceToInterest = cameraApi.getDistanceToInterest();
+            return space.nearestZoomBelow(distanceToInterest);
         }
         else {
             return _pendingSetViewData["zoom"] || -1;
@@ -116,7 +71,7 @@ var CameraModule = function(emscriptenApi) {
             return _emscriptenApi.cameraApi.getDistanceToInterest();
         }
         else {
-            return _zoomLevelToDistance(_pendingSetViewData["zoom"]) || -1;
+            return space.zoomToDistance(_pendingSetViewData["zoom"]) || -1;
         }
     };
 
@@ -165,7 +120,7 @@ var CameraModule = function(emscriptenApi) {
     };
 
     this.zoomLevelToDistance = function(zoomLevel) {
-        return _zoomLevelToDistance(zoomLevel);
+        return space.zoomToDistance(zoomLevel);
     };
 
     this.onInitialStreamingCompleted = function() {
