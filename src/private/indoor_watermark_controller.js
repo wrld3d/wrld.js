@@ -4,7 +4,12 @@ var IndoorWatermarkController = function() {
   var _urlRoot = "https://cdn-webgl.eegeo.com/eegeojs/resources/indoor-vendors/";
 
   var _buildUrlForVendor = function(vendorKey) {
-    return _urlRoot + vendorKey + "_logo.png";
+    var vendorKeyLower = vendorKey.toLowerCase();
+    if (vendorKeyLower === "eegeo")
+    {
+        vendorKeyLower = "wrld";
+    }
+    return _urlRoot + vendorKeyLower + "_logo.png";
   };
 
   var _precacheKnownVendors = function() {
