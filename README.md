@@ -25,11 +25,11 @@ Before you begin, you will need to acquire an API key, which you can do by [sign
 You can easily embed a 3D map in any web page. The code below shows a simple example:
 
 ```html
-<!-- Create a map in an HTML element with eegeo.js -->
+<!-- Create a map in an HTML element with wrld.js -->
 <!DOCTYPE HTML>
 <html>
   <head>
-    <script src="https://cdn-webgl.eegeo.com/eegeojs/early_access/latest/eegeo.js"></script>
+    <script src="https://cdn-webgl.wrld3d.com/wrldjs/latest/wrld.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" rel="stylesheet" />
   </head>
   <body>
