@@ -11,12 +11,18 @@ function EmscriptenCameraApi(apiPointer, cwrap, runtime) {
     var _setEventCallbackInterop = null;
 
     var _setView = function(animated, location, distance, headingDegrees, tiltDegrees, durationSeconds, jumpIfFarAway, allowInterruption) {
-        _setViewInterop = _setViewInterop || cwrap("setView", "number", ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number" ]);
+        _setViewInterop = _setViewInterop || cwrap("setViewUsingZenithAngle", "number", ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number" ]);
+       
+       var modifyLocation = true;
+       if(location === null ) {
+         location = {lat:0, lng: 0, alt: 0};
+         modifyLocation = false;
+       }
        
         return _setViewInterop(
         	_apiPointer, 
             animated,
-        	location.lat, location.lng, location.alt || 0, true,
+        	location.lat || 0, location.lng || 0, location.alt || 0, modifyLocation,
         	distance || 0, distance !== null, 
             headingDegrees || 0, headingDegrees !== null, 
             tiltDegrees || 0, tiltDegrees !== null, 
@@ -40,7 +46,7 @@ function EmscriptenCameraApi(apiPointer, cwrap, runtime) {
 
     this.setView = function(config) {
         var animated = "animate" in config ? config["animate"] : true;
-    	var location = L.latLng(config["location"]);
+        var location = "location" in config ? L.latLng(config["location"]): null;
         var distance = "distance" in config ? config["distance"] : null;
         var headingDegrees = "headingDegrees" in config ? config["headingDegrees"] : null;
         var tiltDegrees = "tiltDegrees" in config ? config["tiltDegrees"] : null;

@@ -379,9 +379,23 @@ var EegeoLeafletMap = L.Map.extend({
     getCameraPitchDegrees: function() {
         return this._cameraModule.getPitchDegrees();
     },
-
+    
+    setCameraTiltDegrees: function(tilt) {
+      this._cameraModule.setTiltDegrees(tilt);
+      return this;
+    },
+    
+    getCameraTiltDegrees: function() {
+      return this._cameraModule.getTiltDegrees();
+    },
+    
     getCameraHeadingDegrees: function() {
         return this._cameraModule.getHeadingDegrees();
+    },
+
+    setCameraHeadingDegrees: function(heading) {
+      this._cameraModule.setHeadingDegrees(heading);
+      return this;
     },
 
     precache: function(centre, radius, completionCallback) {

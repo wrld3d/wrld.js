@@ -6,7 +6,6 @@ var CameraModule = function(emscriptenApi) {
     var _ready = false;
     var _pendingSetViewData = null;
     var _pendingSetViewToBoundsData = null;
-    var _shouldFlushPendingViewOperations = false;
 
 
     var _setView = function(config) {
@@ -18,10 +17,12 @@ var CameraModule = function(emscriptenApi) {
             _emscriptenApi.cameraApi.setView(config);
         }
         else {
-            if (_pendingSetViewData !== null) {
-               _shouldFlushPendingViewOperations = true;
+            if(_pendingSetViewData === null) {
+              _pendingSetViewData = {};
             }
-            _pendingSetViewData = config;
+            else {
+              _pendingSetViewData = Object.assign(_pendingSetViewData, config);
+            }
         }
     };
 
@@ -83,6 +84,19 @@ var CameraModule = function(emscriptenApi) {
             return 0;
         }
     };
+    
+    var _getTiltDegrees = function() {
+      if (_ready) {
+          return 90 - _emscriptenApi.cameraApi.getPitchDegrees();
+      }
+      else {
+          return 0;
+      }
+    };
+    
+    var _setTiltDegrees = function(pitch) {
+        _setView({"tiltDegrees":pitch, animate: true});
+    };
 
     var _getHeadingDegrees = function() {
         if (_ready) {
@@ -92,6 +106,10 @@ var CameraModule = function(emscriptenApi) {
             return _pendingSetViewData["headingDegrees"] || 0;
         }
     };
+    
+    var _setHeadingDegrees = function(heading) {
+        return _setView({"headingDegrees":heading, "animate":true});
+    };
 
     var _flushPendingViewOperations = function() {
         if (!_ready) {
@@ -99,9 +117,7 @@ var CameraModule = function(emscriptenApi) {
         }
 
         if(_pendingSetViewData !== null) {
-            if (_shouldFlushPendingViewOperations) {
-                _setView(_pendingSetViewData);
-            }
+            _setView(_pendingSetViewData);
             _pendingSetViewData = null;
         }
 
@@ -151,9 +167,21 @@ var CameraModule = function(emscriptenApi) {
     this.getPitchDegrees = function() {
         return _getPitchDegrees();
     };
+    
+    this.getTiltDegrees = function() {
+      return _getTiltDegrees();
+    };
+    
+    this.setTiltDegrees = function(pitch) {
+      return _setTiltDegrees(pitch);
+    };
 
     this.getHeadingDegrees = function() {
         return _getHeadingDegrees();
+    };
+    
+    this.setHeadingDegrees = function(heading) {
+      return _setHeadingDegrees(heading);
     };
 };
 
