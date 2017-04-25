@@ -51,13 +51,13 @@ var Popup = L.Popup.extend({
     update: function() {
         if (!this._map) { return; }
 
-        this._container.style.visibility = 'hidden';
+        this._container.style.visibility = "hidden";
 
         this._updateContent();
         this._updateLayout();
         this._updatePosition();
 
-        this._container.style.visibility = '';
+        this._container.style.visibility = "";
 
         this._adjustPan();
 
@@ -104,7 +104,7 @@ var Popup = L.Popup.extend({
         var offTop = rect.top < mapRect.top - rectHeight/2.0;
         var offRight = rect.right > mapRect.right + rectWidth/2.0;
         var offleft = rect.left < mapRect.left - rectWidth/2.0;
-        return (offBottom || offTop || offRight || offleft)
+        return (offBottom || offTop || offRight || offleft);
     }
 });
 
