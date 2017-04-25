@@ -18,6 +18,8 @@ var ScreenPointMappingModule = function(emscriptenApi) {
 
         if (_ready) {
             _emscriptenApi.screenPointMappingApi.createScreenPointMapping(id, screenPointMapping);
+            var screenPos = _emscriptenApi.screenPointMappingApi.getScreenPosition(id);
+            screenPointMapping.setCanvasPos(screenPos);
         }
     };
 
@@ -71,6 +73,9 @@ var ScreenPointMappingModule = function(emscriptenApi) {
         var api = _emscriptenApi.screenPointMappingApi;
         for (var id in _screenPointMappings) {
             api.createScreenPointMapping(id, _screenPointMappings[id]);
+            var screenPointMapping = _screenPointMappings[id];
+            var screenPos = api.getScreenPosition(id);
+            screenPointMapping.setCanvasPos(screenPos);
         }
     };
 

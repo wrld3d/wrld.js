@@ -1,7 +1,10 @@
 var Popup = L.Popup.extend({
     options: {
-        elevation: 0
+        elevation: 0,
+        closeWhenMovedOffscreen: false
     },
+
+    _onScreen: false,
 
     getElevation: function() {
         return this.options.elevation;
@@ -9,6 +12,15 @@ var Popup = L.Popup.extend({
 
     setElevation: function(elevation) {
         this.options.elevation = elevation;
+        return this;
+    },
+
+    getCloseWhenMovedOffscreen: function() {
+        return this.options.closeWhenMovedOffscreen;
+    },
+
+    setCloseWhenMovedOffscreen: function(closeWhenMovedOffscreen) {
+        this.options.closeWhenMovedOffscreen = closeWhenMovedOffscreen;
         return this;
     },
 
@@ -36,6 +48,31 @@ var Popup = L.Popup.extend({
 		this.fire("contentupdate");
 	},
 
+    update: function() {
+        if (!this._map) { return; }
+
+        this._container.style.visibility = 'hidden';
+
+        this._updateContent();
+        this._updateLayout();
+        this._updatePosition();
+
+        this._container.style.visibility = '';
+
+        this._adjustPan();
+
+        if(this.options.closeWhenMovedOffscreen) {
+
+            if(this._onScreen && this._checkOutOfBounds()) {
+                this._onScreen = false;
+                this._close();
+            }
+            else {
+                this._onScreen = !this._checkOutOfBounds();
+            }
+        }
+    },
+
     _updatePosition: function() {
         if (!this._map) { return; }
 
@@ -55,6 +92,19 @@ var Popup = L.Popup.extend({
         // bottom position the popup in case the height of the popup changes (images loading etc)
         this._container.style.bottom = bottom + "px";
         this._container.style.left = left + "px";
+    },
+
+    _checkOutOfBounds: function() {
+        var rect = this._container.getBoundingClientRect();
+        var rectHeight = rect.bottom - rect.top;
+        var rectWidth = rect.right - rect.left;
+        var mapRect = this._map._container.getBoundingClientRect();
+
+        var offBottom = rect.bottom > mapRect.bottom + rectHeight/2.0;
+        var offTop = rect.top < mapRect.top - rectHeight/2.0;
+        var offRight = rect.right > mapRect.right + rectWidth/2.0;
+        var offleft = rect.left < mapRect.left - rectWidth/2.0;
+        return (offBottom || offTop || offRight || offleft)
     }
 });
 
