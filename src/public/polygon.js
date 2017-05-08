@@ -1,15 +1,42 @@
 var L = require("leaflet");
 var space = require("./space");
 
-var Polygon = function(latlngs, config) {
+var Polygon = function(latLngs, config) {
 	var _map = null;
-	var _points = [];
+	var _outerRing = [];
+	var _holes = [];
 
-	(function() {
-		for (var i=0; i < latlngs.length; ++i) {
-			_points.push(L.latLng(latlngs[i]));
-		}
-	})();
+	function loadLatLngs(coords){
+    var points = [];
+		coords.forEach(function(coord) {
+			points.push(L.latLng(coord));
+		});
+    return points;
+	}
+
+  var arrayDepth = 0;
+  var testElement = latLngs;
+  do {
+    testElement = testElement[0];
+    arrayDepth++;
+  } while (Array.isArray(testElement));
+
+  if (arrayDepth === 2)
+  {
+    _outerRing = loadLatLngs(latLngs);
+  }
+  else if (arrayDepth === 3)
+  {
+    _outerRing = loadLatLngs(latLngs[0]);
+    var holeLatLngs = latLngs.splice(1);
+    holeLatLngs.forEach(function(holeLatLng) {
+      _holes.push(loadLatLngs(holeLatLng));
+    });
+  }
+  else
+  {
+    throw new Error("Incorrect array input format.");
+  }
 
 	var _color = new space.Vector4(config["color"] || [0.0, 0.0, 1.0, 0.5]);
 	var _colorNeedsChanged = true;
@@ -24,8 +51,17 @@ var Polygon = function(latlngs, config) {
 		_colorNeedsChanged = true;
 	};
 
+	this.addHole = function(points) {
+    _holes.push(loadLatLngs(points));
+		return this;
+	};
+
+	this.getHoles = function() {
+		return _holes;
+	};
+
 	this.getPoints = function() {
-		return _points;
+		return _outerRing;
 	};
 
 	this.colorNeedsChanged = function() {
