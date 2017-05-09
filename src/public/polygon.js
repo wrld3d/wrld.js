@@ -5,6 +5,7 @@ var Polygon = function(latLngs, config) {
 	var _map = null;
 	var _outerRing = [];
 	var _holes = [];
+  var _config = config || {};
 
 	function loadLatLngs(coords){
     var points = [];
@@ -49,6 +50,7 @@ var Polygon = function(latLngs, config) {
 	this.setColor = function(color) {
 		_color = new space.Vector4(color);
 		_colorNeedsChanged = true;
+    return this;
 	};
 
 	this.addHole = function(points) {
@@ -88,6 +90,10 @@ var Polygon = function(latLngs, config) {
 		}
 		return this;
 	};
+
+  this.getConfig = function() {
+    return _config;
+  };
 };
 
 var polygon = function(latlngs, config) {

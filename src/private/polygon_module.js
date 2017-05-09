@@ -12,7 +12,7 @@ function PolygonsModule(emscriptenApi) {
         var api = _emscriptenApi.geofenceApi;
 
         _polygons.forEachItem(function(polygonId, polygon) {
-            api.createGeofenceWithHoles(polygonId, polygon.getPoints(), polygon.getHoles());
+            api.createGeofenceWithHoles(polygonId, polygon.getPoints(), polygon.getHoles(), polygon.getConfig());
         });
     };
 
@@ -20,7 +20,7 @@ function PolygonsModule(emscriptenApi) {
         var polygonId = _polygons.insertObject(polygon);
 
         if (_ready) {
-          _emscriptenApi.createGeofenceWithHoles(polygonId, polygon.getPoints(), polygon.getHoles());
+          _emscriptenApi.createGeofenceWithHoles(polygonId, polygon.getPoints(), polygon.getHoles(), polygon.getConfig());
     	}
     };
 

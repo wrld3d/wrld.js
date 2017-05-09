@@ -4,9 +4,10 @@ function EmscriptenGeofenceApi(apiPointer, cwrap, runtime) {
 
     var _removeGeofence = cwrap("removeGeofence", null, ["number", "number"]);
     var _setGeofenceColor = cwrap("setGeofenceColor", null, ["number", "number", "number", "number", "number", "number"]);
-    var _createGeofenceWithHoles = cwrap("createGeofenceWithHoles", null, ["number", "number", "number", "number", "number", "number", "number"]);
+    var _createGeofenceWithHoles = cwrap("createGeofenceWithHoles", null, ["number", "number", "number", "number", "number",
+      "number", "number", "number", "number"]);
 
-    this.createGeofenceWithHoles = function(polygonId, outerPoints, holes) {
+    this.createGeofenceWithHoles = function(polygonId, outerPoints, holes, config) {
       var outerData = [];
       var holesData = [];
       var holesLengths = [];
@@ -40,7 +41,8 @@ function EmscriptenGeofenceApi(apiPointer, cwrap, runtime) {
           Module.setValue(innerRingLengthsPointer + k*4, holesLengths[k], "i32");
       }
 
-      _createGeofenceWithHoles(_apiPointer, polygonId, outerDataPointer, outerData.length, holesDataPointer, holes.length, innerRingLengthsPointer);
+      _createGeofenceWithHoles(_apiPointer, polygonId, outerDataPointer, outerData.length,
+         holesDataPointer, holes.length, innerRingLengthsPointer, config.offsetFromSeaLevel || false, config.altitudeOffset || 0.0);
 
       Module._free(outerDataPointer);
       Module._free(holesDataPointer);
