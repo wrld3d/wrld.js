@@ -310,22 +310,27 @@ var IndoorsModule = function(emscriptenApi, mapController) {
     };
 
     this.setEntityHighlight = function(id, color) {
+        if (!_ready) return;
         _emscriptenApi.highlightApi.setEntityHighlight(id, color);
     };
 
     this.setEntityHighlights = function(ids, color) {
+        if (!_ready) return;
         _emscriptenApi.highlightApi.setEntityHighlights(ids, color);
     };
 
     this.clearEntityHighlights = function() {
+        if (!_ready) return;
         _emscriptenApi.highlightApi.clearEntityHighlights();
     };
 
     this.addAreaHighlight = function(id, color) {
+        if (!_ready) return;
         _emscriptenApi.highlightApi.addAreaHighlight(id, color);
     };
 
     this.clearAreaHighlight = function(id) {
+        if (!_ready) return;
         _emscriptenApi.highlightApi.clearAreaHighlight(id);
     };
 };
