@@ -4,11 +4,11 @@ var undefinedPoint = L.point(-100, -100);
 var undefinedLatLng = L.latLng(0, 0);
 
 var getCenterOfLayer = function(layer) {
-    if ("getBounds" in layer) {
-        return layer.getBounds().getCenter();
-    }
     if ("getLatLng" in layer) {
         return layer.getLatLng();
+    }
+    if ("getBounds" in layer) {
+        return layer.getBounds().getCenter();
     }
     return null;
 };

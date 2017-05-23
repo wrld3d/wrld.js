@@ -4,6 +4,7 @@ var EmscriptenApi = require("./private/emscripten_api/emscripten_api");
 var marker = require("./public/marker.js");
 var popup = require("./public/popup.js");
 var polygon = require("./public/polygon.js");
+var circle = require("./public/circle.js");
 require("./private/polyfills.js");
 
 
@@ -94,6 +95,9 @@ var eeGeo = {
 		return _mapObjects[mapId];
 	}
 };
+
+L.Circle = circle.Circle;
+L.circle = circle.circle;
 
 window.L = L;
 L.eeGeo = eeGeo;
