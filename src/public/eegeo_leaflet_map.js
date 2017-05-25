@@ -123,6 +123,25 @@ var EegeoLeafletMap = L.Map.extend({
         }
     },
 
+    _handleDOMEvent: function (e) {
+        L.Map.prototype._handleDOMEvent.call(this, e);
+
+        if (e.type === "contextmenu") {
+            L.DomEvent.preventDefault(e);
+        }
+
+		if (e.type === "mousedown") {
+            var element = e.target;
+            while (element && typeof element.className === "string" && element.className !== "eegeo-map-container") {
+                if (element.className.indexOf("leaflet-marker") !== -1) {
+                    L.DomEvent.stopPropagation(e);
+                    break;
+                }
+                element = element.parentNode;
+            }
+		}
+	},
+
     addLayer: function(layer) {
         var latLng = getCenterOfLayer(layer);
         var isPositionedLayer = latLng !== null;
