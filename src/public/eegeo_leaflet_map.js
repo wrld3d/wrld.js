@@ -4,11 +4,11 @@ var undefinedPoint = L.point(-100, -100);
 var undefinedLatLng = L.latLng(0, 0);
 
 var getCenterOfLayer = function(layer) {
-    if ("getBounds" in layer) {
-        return layer.getBounds().getCenter();
-    }
     if ("getLatLng" in layer) {
         return layer.getLatLng();
+    }
+    if ("getBounds" in layer) {
+        return layer.getBounds().getCenter();
     }
     return null;
 };
@@ -129,6 +129,25 @@ var EegeoLeafletMap = L.Map.extend({
             this[onOff]("moveend", this._onMoveEnd);
         }
     },
+
+    _handleDOMEvent: function (e) {
+        L.Map.prototype._handleDOMEvent.call(this, e);
+
+        if (e.type === "contextmenu") {
+            L.DomEvent.preventDefault(e);
+        }
+
+		if (e.type === "mousedown") {
+            var element = e.target;
+            while (element && typeof element.className === "string" && element.className !== "eegeo-map-container") {
+                if (element.className.indexOf("leaflet-marker") !== -1) {
+                    L.DomEvent.stopPropagation(e);
+                    break;
+                }
+                element = element.parentNode;
+            }
+		}
+	},
 
     addLayer: function(layer) {
         var latLng = getCenterOfLayer(layer);
