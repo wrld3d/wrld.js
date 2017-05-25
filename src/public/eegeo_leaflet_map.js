@@ -78,6 +78,13 @@ var EegeoLeafletMap = L.Map.extend({
 
         this.attributionControl.setPrefix("<a href='http://leafletjs.com' title='A JS library for interactive maps' target='_blank'>Leaflet</a>");
         this.attributionControl.addAttribution("3D Maps &copy; <a href='https://www.wrld3d.com' target='_blank'>WRLD</a> and <a href='https://www.wrld3d.com/legal/' target='_blank'>partners</a>");
+
+        this.indoors.on("indoormapenter", this._updateIndoorLayers.bind(this));
+        this.indoors.on("indoormapexit", this._updateIndoorLayers.bind(this));
+        this.indoors.on("indoormapfloorchange", this._updateIndoorLayers.bind(this));
+        this.on("pan", this._updateIndoorLayers.bind(this));
+        this.on("zoom", this._updateIndoorLayers.bind(this));
+        this.on("transitionend", this._updateIndoorLayers.bind(this));
     },
 
     _initEvents: function (remove, surface) {
@@ -136,6 +143,11 @@ var EegeoLeafletMap = L.Map.extend({
             if (this._isLatLngBehindEarth(latLng, convertLatLngToVector(this.getCenter()), this._getAngleFromCameraToHorizon())) {
                 return;
             }
+
+            if (!this._interiorMatchesLayer(layer)) {
+              return;
+            }
+
             if ("getElevation" in layer) {
                 this._screenPointMappingModule.addLayer(layer);
             }
@@ -332,7 +344,7 @@ var EegeoLeafletMap = L.Map.extend({
     _onDraw: function() {
         var self = this;
         this.eachLayer(function (layer) {
-            if (this._ready && layer.getLatLngs) {
+            if (self._ready && layer.getLatLngs) {
                 if ((!layer.options) || (layer.options.preserveAltitude !== true)) {
                     layer.getLatLngs().forEach(function (path) {
                         if (path instanceof L.LatLng) {
@@ -439,6 +451,40 @@ var EegeoLeafletMap = L.Map.extend({
                 }
             }
         });
+    },
+
+    _updateIndoorLayers: function() {
+      var self = this;
+      var keys = Object.keys(this._layersOnMap);
+      keys.forEach(function(key) {
+        var layer = self._layersOnMap[key];
+        if(self._interiorMatchesLayer(layer)) {
+          L.Map.prototype.addLayer.call(self, layer);
+        }
+        else {
+          L.Map.prototype.removeLayer.call(self, layer);
+        }
+      });
+    },
+
+    _interiorMatchesLayer: function(layer) {
+      if(this.indoors.isIndoors()) {
+        if(this.indoors.getActiveIndoorMap().getIndoorMapId() === layer.options.indoorMapId &&
+            this.indoors.getFloor().getFloorIndex() === layer.options.indoorFloorIndex ) {
+          return true;
+        }
+        else {
+          return false;
+        }
+      }
+      else {
+        if(!layer.options.indoorMapId) {
+          return true;
+        }
+        else {
+          return false;
+        }
+      }
     },
 
     _rawPanBy: function(offset) {
