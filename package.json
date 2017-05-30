@@ -1,21 +1,21 @@
 {
-  "name": "eegeo.js",
+  "name": "wrld.js",
   "version": "0.0.1",
   "description": "A JavaScript API for beautiful 3D maps",
-  "main": "src/eegeo.js",
+  "main": "src/wrld.js",
   "scripts": {
     "clean": "rm -rf dist",
     "build": "npm run build-min",
-    "build-dist": "npm run clean && mkdir dist && browserify -s eeGeo src/eegeo.js > dist/eegeo.js",
-    "build-min": "npm run build-dist && uglifyjs -c -m < dist/eegeo.js > dist/eegeo.min.js",
-    "watch": "npm run build-dist && watchify -s eeGeo src/eegeo.js -o dist/eegeo.js -v --debug",
+    "build-dist": "npm run clean && mkdir dist && browserify -s WRLD src/wrld.js > dist/wrld.js",
+    "build-min": "npm run build-dist && uglifyjs -c -m < dist/wrld.js > dist/wrld.min.js",
+    "watch": "npm run build-dist && watchify -s WRLD src/wrld.js -o dist/wrld.js -v --debug",
     "lint": "eslint src -c src/.eslintrc.json",
     "test": "sh -c './node_modules/jasmine/bin/jasmine.js JASMINE_CONFIG_PATH=tests/jasmine.json'"
   },
-  "author": "eeGeo",
+  "author": "WRLD",
   "repository": {
     "type": "git",
-    "url": "https://github.com/eegeo/eegeo.js.git"
+    "url": "https://github.com/wrld3d/wrld.js.git"
   },
   "license": "See license in LICENSE.md",
   "devDependencies": {
