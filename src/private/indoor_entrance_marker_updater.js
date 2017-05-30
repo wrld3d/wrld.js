@@ -8,8 +8,8 @@ var IndoorEntranceMarkerUpdater = function(map, indoorsModule) {
 	var _layerGroup = L.layerGroup([]);
 
 	var _entranceIcon = L.icon({
-	    iconUrl: "https://cdn-webgl.eegeo.com/eegeojs/resources/indoor_map_entrance_marker.png",
-	    iconRetinaUrl: "https://cdn-webgl.eegeo.com/eegeojs/resources/indoor_map_entrance_marker@2.png",
+	    iconUrl: "https://cdn-webgl.wrld3d.com/wrldjs/resources/indoor_map_entrance_marker.png",
+	    iconRetinaUrl: "https://cdn-webgl.wrld3d.com/wrldjs/resources/indoor_map_entrance_marker@2.png",
 	    iconSize: [48, 48],
 	    iconAnchor: [24, 48]
 	});

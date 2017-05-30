@@ -2,7 +2,7 @@ var MapModule = require("./map_module");
 
 var RoutingModule = function(apiKey, indoorsModule) {
 
-    var _urlRoot = "https://routing.eegeo.com/v1/";
+    var _urlRoot = "https://routing.wrld3d.com/v1/";
     var _apiKey = apiKey;
     var _indoorsModule = indoorsModule;
 

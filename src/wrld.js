@@ -7,7 +7,7 @@ var polygon = require("./public/polygon.js");
 require("./private/polyfills.js");
 
 
-var _baseUrl = "https://cdn-webgl.eegeo.com/eegeojs/early_access/latest/";
+var _baseUrl = "https://cdn-webgl.wrld3d.com/wrldjs/early_access/latest/";
 var _appName = "eeGeoWebGL.jgz";
 
 

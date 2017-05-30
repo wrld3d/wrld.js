@@ -1,7 +1,7 @@
 var IndoorWatermarkController = function() {
   var _indoorWatermarkElement = null;
   var _elementId = "eegeo-indoor-map-watermark";
-  var _urlRoot = "https://cdn-webgl.eegeo.com/eegeojs/resources/indoor-vendors/";
+  var _urlRoot = "https://cdn-webgl.wrld3d.com/wrldjs/resources/indoor-vendors/";
 
   var _buildUrlForVendor = function(vendorKey) {
     var vendorKeyLower = vendorKey.toLowerCase();
