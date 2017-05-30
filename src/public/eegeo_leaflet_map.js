@@ -487,6 +487,16 @@ var EegeoLeafletMap = L.Map.extend({
     },
 
     _interiorMatchesLayer: function(layer) {
+      if (!layer.options.indoorMapId)
+      {
+        return true;
+      }
+
+      if (!layer.options.indoorFloorIndex)
+      {
+        return true;
+      }
+
       if(this.indoors.isIndoors()) {
         if(this.indoors.getActiveIndoorMap().getIndoorMapId() === layer.options.indoorMapId &&
             this.indoors.getFloor().getFloorIndex() === layer.options.indoorFloorIndex ) {
