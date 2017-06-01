@@ -41,7 +41,7 @@ You can easily embed a 3D map in any web page. The code below shows a simple exa
 </html>
 ```
 
-Just replace `your_api_key_here` with an API key from [wrld3d.com](https://www.eegeo.com/register/).
+Just replace `your_api_key_here` with an API key from [wrld3d.com](https://www.wrld3d.com/register/).
 
 ## Support
 

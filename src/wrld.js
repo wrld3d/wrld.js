@@ -8,7 +8,7 @@ var circle = require("./public/circle.js");
 require("./private/polyfills.js");
 
 
-var _baseUrl = "https://cdn-webgl.eegeo.com/eegeojs/early_access/latest/";
+var _baseUrl = "https://cdn-webgl.wrld3d.com/wrldjs/early_access/latest/";
 var _appName = "eeGeoWebGL.jgz";
 
 
@@ -25,7 +25,7 @@ var createEmscriptenModule = function() {
 	};
 	Module["onExit"] = function(exitCode) {
 		if (exitCode === 1) {
-			var message = "Error: eegeo.js failed to initialize";
+			var message = "Error: wrld.js failed to initialize";
 			if (!Module.ctx) {
 				message = "Error: WebGL unavailable in this browser";
 			}

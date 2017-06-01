@@ -103,7 +103,7 @@ var HTMLMapContainer = function(browserDocument, browserWindow, parentElement, c
             "width": "18px",
             "height": "18px",
             "z-index": "20",
-            "background-image": "url('https://cdn-webgl.eegeo.com/eegeojs/resources/loading_spinner.png')"
+            "background-image": "url('https://cdn-webgl.wrld3d.com/wrldjs/resources/loading_spinner.png')"
         };
         return _createDOMElement(parentElement, "div", {}, style);
     };
