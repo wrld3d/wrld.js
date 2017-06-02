@@ -82,9 +82,6 @@ var EegeoLeafletMap = L.Map.extend({
         this.indoors.on("indoormapenter", this._updateIndoorLayers.bind(this));
         this.indoors.on("indoormapexit", this._updateIndoorLayers.bind(this));
         this.indoors.on("indoormapfloorchange", this._updateIndoorLayers.bind(this));
-        this.on("pan", this._updateIndoorLayers.bind(this));
-        this.on("zoom", this._updateIndoorLayers.bind(this));
-        this.on("transitionend", this._updateIndoorLayers.bind(this));
     },
 
     _initEvents: function (remove, surface) {
