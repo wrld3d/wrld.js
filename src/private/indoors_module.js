@@ -309,11 +309,6 @@ var IndoorsModule = function(emscriptenApi, mapController) {
         return this;
     };
 
-    this.setEntityHighlight = function(id, color) {
-        if (!_ready) return;
-        _emscriptenApi.highlightApi.setEntityHighlight(id, color);
-    };
-
     this.setEntityHighlights = function(ids, color) {
         if (!_ready) return;
         _emscriptenApi.highlightApi.setEntityHighlights(ids, color);
