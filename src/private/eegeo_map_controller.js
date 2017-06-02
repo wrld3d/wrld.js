@@ -40,7 +40,7 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
         zoom: 16,
         zoomControl: false,
         zoomAnimation: false,
-        minZoom: 2,
+        minZoom: 0,
         maxZoom: 20
     };
 
