@@ -271,8 +271,8 @@ var EegeoLeafletMap = L.Map.extend({
         if (config.zoom <= this.getMaxZoom()) {
             this._cameraModule.setView(config);
             this._updateZoom();
-            return this;
         }
+        return this;
     },
 
     zoomOut: function(delta, options) {
