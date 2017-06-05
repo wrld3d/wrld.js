@@ -27,7 +27,8 @@ var HTMLMapContainer = function(browserDocument, browserWindow, parentElement, c
             "line-height": "0px",
             "padding": "0px",
             "margin": "0px",
-            "overflow": "hidden"
+            "overflow": "hidden",
+            "cursor": "default"
         };
         var mapContainer = _createDOMElement(parentElement, "div", attributes, style);
 

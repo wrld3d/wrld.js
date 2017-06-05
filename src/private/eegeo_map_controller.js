@@ -38,6 +38,7 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
         // Override Leaflet defaults
         center: L.latLng([37.7858, -122.401]),
         zoom: 16,
+        doubleClickZoom: true,
         zoomControl: false,
         zoomAnimation: false,
         minZoom: 0,
@@ -79,6 +80,7 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
     var indoorsEnabledArg = (options.indoorsEnabled) ? "1" : "0";
     var coverageTreeManifest = removeFileExtension(options.coverageTreeManifest, ".gz");
     var environmentThemesManifest = removeFileExtension(options.environmentThemesManifest, ".gz");
+    var doubleClickZoom = (options.doubleClickZoom) ? "1" : "0";
 
     _Module["arguments"] = [
         _canvasId,
@@ -92,7 +94,8 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
         headingDegrees.toString(),
         indoorsEnabledArg,
         coverageTreeManifest,
-        environmentThemesManifest
+        environmentThemesManifest,
+        doubleClickZoom
     ];
 
     this.leafletMap = new EegeoLeafletMap(
