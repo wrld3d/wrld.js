@@ -20,7 +20,7 @@ function PolygonsModule(emscriptenApi) {
         var polygonId = _polygons.insertObject(polygon);
 
         if (_ready) {
-          _emscriptenApi.createGeofenceWithHoles(polygonId, polygon.getPoints(), polygon.getHoles(), polygon.getConfig());
+          _emscriptenApi.geofenceApi.createGeofenceWithHoles(polygonId, polygon.getPoints(), polygon.getHoles(), polygon.getConfig());
     	}
     };
 
