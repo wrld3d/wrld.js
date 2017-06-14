@@ -1,12 +1,13 @@
 var MapModule = require("./map_module");
 var space = require("../public/space");
 
-var CameraModule = function(emscriptenApi, startLatLng) {
+var CameraModule = function(emscriptenApi, startLatLng, initialZoom) {
     var _emscriptenApi = emscriptenApi;
     var _ready = false;
     var _pendingSetViewData = null;
     var _pendingSetViewToBoundsData = null;
     var _center = startLatLng;
+    var _initialZoom = initialZoom;
 
 
     var _setView = function(config) {
@@ -74,7 +75,12 @@ var CameraModule = function(emscriptenApi, startLatLng) {
             return _emscriptenApi.cameraApi.getDistanceToInterest();
         }
         else {
+          if ("zoom" in _pendingSetViewData) {
             return space.zoomToDistance(_pendingSetViewData["zoom"]) || -1;
+          }
+          else {
+            return space.zoomToDistance(_initialZoom) || -1;
+          }
         }
     };
 
