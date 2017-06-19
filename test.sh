@@ -34,5 +34,8 @@ mkdir -p ${sdk_dir}
 curl ${sdk_url} 2>/dev/null >${sdk_dir}/eeGeoWebGL.js.gz
 gunzip ${sdk_dir}/eeGeoWebGL.js.gz 
 
+#Appending line to work with require.js loader used in jasmine tests
+echo 'module.exports = createWrldModule;' >> tmp/sdk/eeGeoWebGL.js
+
 npm install
 npm run test

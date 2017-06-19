@@ -1,8 +1,7 @@
-var emscriptenMemory = require("./emscripten_memory");
-
-function EmscriptenIndoorsApi(apiPointer, cwrap, runtime) {
+function EmscriptenIndoorsApi(apiPointer, cwrap, runtime, emscriptenMemory) {
 
     var _apiPointer = apiPointer;
+    var _emscriptenMemory = emscriptenMemory;
     var _exitIndoorMap = null;
     var _setIndoorMapEnteredCallback = null;
     var _setIndoorMapExitedCallback = null;
@@ -30,9 +29,9 @@ function EmscriptenIndoorsApi(apiPointer, cwrap, runtime) {
 
     var _wrapCallback = function(callback) {
         return function(indoorMapIdPtr, indoorMapNamePtr, indoorMapLatLngPtr) {
-            var indoorMapId = Module.Pointer_stringify(indoorMapIdPtr);
-            var indoorMapName = Module.Pointer_stringify(indoorMapNamePtr);
-            var latLngArray = emscriptenMemory.readDoubles(indoorMapLatLngPtr, 3);
+            var indoorMapId = _emscriptenMemory.stringifyPointer(indoorMapIdPtr);
+            var indoorMapName = _emscriptenMemory.stringifyPointer(indoorMapNamePtr);
+            var latLngArray = _emscriptenMemory.readDoubles(indoorMapLatLngPtr, 3);
             var markerLatLng = L.latLng(latLngArray);
             callback(indoorMapId, indoorMapName, markerLatLng);
         };

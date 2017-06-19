@@ -1,5 +1,6 @@
 // Populate environment globals.
 window = { 
+  createWrldModule: require("../../tmp/sdk/eeGeoWebGL.js"),
   location: { pathname: "" },
   encodeURIComponent: function(s) {}
 };
@@ -44,9 +45,8 @@ describe("map_interop:", function() {
   };
 
   function refreshSdk() {
-      var sdkModule = "../../tmp/sdk/eeGeoWebGL.js";
-      delete require.cache[require.resolve(sdkModule)];
-      require(sdkModule);
+    Module = {};
+    window.createWrldModule(Module);
   }
 
   describe("when instantiating the native api", function() {
@@ -67,14 +67,17 @@ describe("map_interop:", function() {
 
   describe("when using the camera api", function() {
     var EmscriptenCameraApi = require("../../src/private/emscripten_api/emscripten_camera_api");
+    var EmscriptenMemory = require("../../src/private/emscripten_api/emscripten_memory");
     var _cameraApi = null;
+    var _emscriptenMemory = null;
 
     beforeEach(function() {
       refreshSdk();
       var apiPointer = 0;
       var cwrap = Module.cwrap;
       var runtime = Module.Runtime;
-      _cameraApi = new EmscriptenCameraApi(apiPointer, cwrap, runtime);
+      _emscriptenMemory = new EmscriptenMemory(Module);
+      _cameraApi = new EmscriptenCameraApi(apiPointer, cwrap, runtime, _emscriptenMemory);
     });
 
     it("the setView function should exist", function() {
@@ -176,7 +179,7 @@ describe("map_interop:", function() {
         var apiPointer = 0;
         var cwrap = Module.cwrap;
         var runtime = Module.Runtime;
-        _geofenceApi = new EmscriptenGeofenceApi(apiPointer, cwrap, runtime);
+        _geofenceApi = new EmscriptenGeofenceApi(apiPointer, cwrap, runtime, Module);
       });
     });
   });
@@ -213,14 +216,17 @@ describe("map_interop:", function() {
 
   describe("when using the spaces api", function() {
     var EmscriptenSpacesApi = require("../../src/private/emscripten_api/emscripten_spaces_api");
+    var EmscriptenMemory = require("../../src/private/emscripten_api/emscripten_memory");
     var _spacesApi = null;
+    var _emscriptenMemory = null;
 
     beforeEach(function() {
       refreshSdk();
       var apiPointer = 0;
       var cwrap = Module.cwrap;
       var runtime = Module.Runtime;
-      _spacesApi = new EmscriptenSpacesApi(apiPointer, cwrap, runtime);
+      _emscriptenMemory = new EmscriptenMemory(Module);
+      _spacesApi = new EmscriptenSpacesApi(apiPointer, cwrap, runtime, _emscriptenMemory);
     });   
 
     it("the worldToScreen function should exist", function() {
@@ -292,15 +298,18 @@ describe("map_interop:", function() {
   describe("when using the screen point mapping api", function() {
     var EmscriptenScreenPointMappingApi = require("../../src/private/emscripten_api/emscripten_screen_point_mapping_api");
     var ScreenPointMapping = require("../../src/private/screen_point_mapping");
+    var EmscriptenMemory = require("../../src/private/emscripten_api/emscripten_memory");
     var _screenPointMappingApi = null;
     var _screenPointMapping = null;
+    var _emscriptenMemory = null;
 
     beforeEach(function() {
       refreshSdk();
       var apiPointer = 0;
       var cwrap = Module.cwrap;
       var runtime = Module.Runtime;
-      _screenPointMappingApi = new EmscriptenScreenPointMappingApi(apiPointer, cwrap, runtime);
+      _emscriptenMemory = new EmscriptenMemory(Module);
+      _screenPointMappingApi = new EmscriptenScreenPointMappingApi(apiPointer, cwrap, runtime, _emscriptenMemory);
 
       var layer = { getLatLng: function() { return L.latLng(0, 0); }, getElevation: function() { return 0; } }; 
       _screenPointMapping = new ScreenPointMapping(layer);
@@ -558,14 +567,17 @@ describe("map_interop:", function() {
 
   describe("when using the highlight api", function() {
     var EmscriptenHighlightApi = require("../../src/private/emscripten_api/emscripten_highlight_api");
+    var EmscriptenMemory = require("../../src/private/emscripten_api/emscripten_memory");
     var _highlightApi = null;
+    var _emscriptenMemory = null;
 
     beforeEach(function() {
       refreshSdk();
       var apiPointer = 0;
       var cwrap = Module.cwrap;
       var runtime = Module.Runtime;
-      _highlightApi = new EmscriptenHighlightApi(apiPointer, cwrap, runtime);
+      _emscriptenMemory = new EmscriptenMemory(Module);
+      _highlightApi = new EmscriptenHighlightApi(apiPointer, cwrap, runtime, _emscriptenMemory);
     });
 
     it("the setEntityHighlights function should exist", function() {
@@ -600,14 +612,17 @@ describe("map_interop:", function() {
 
   describe("when using the rendering api", function() {
     var EmscriptenRenderingApi = require("../../src/private/emscripten_api/emscripten_rendering_api");
+    var EmscriptenMemory = require("../../src/private/emscripten_api/emscripten_memory");
     var _renderingApi = null;
+    var _emscriptenMemory = null;
 
     beforeEach(function() {
       refreshSdk();
       var apiPointer = 0;
       var cwrap = Module.cwrap;
       var runtime = Module.Runtime;
-      _renderingApi = new EmscriptenRenderingApi(apiPointer, cwrap, runtime);
+      _emscriptenMemory = new EmscriptenMemory(Module);
+      _renderingApi = new EmscriptenRenderingApi(apiPointer, cwrap, runtime, _emscriptenMemory);
     });   
 
     it("the getCameraRelativePosition function should exist", function() {

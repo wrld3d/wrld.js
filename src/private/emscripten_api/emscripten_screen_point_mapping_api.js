@@ -1,7 +1,7 @@
-var emscriptenMemory = require("./emscripten_memory");
+function EmscriptenScreenPointMappingApi(apiPointer, cwrap, runtime, emscriptenMemory) {
 
-function EmscriptenScreenPointMappingApi(apiPointer, cwrap, runtime) {
     var _apiPointer = apiPointer;
+    var _emscriptenMemory = emscriptenMemory;
     var _createAnnotation = null;
     var _moveAnnotation = null;
     var _removeAnnotation = null;
@@ -31,7 +31,7 @@ function EmscriptenScreenPointMappingApi(apiPointer, cwrap, runtime) {
         _getAnnotationScreenPosition = _getAnnotationScreenPosition || cwrap("getAnnotationScreenPosition", "number", ["number", "number"]);
 
         var doublePointer = _getAnnotationScreenPosition(_apiPointer, mappingId);
-        var screenPos = emscriptenMemory.readDoubles(doublePointer, 3);
+        var screenPos = _emscriptenMemory.readDoubles(doublePointer, 3);
         return screenPos;
     };
 }

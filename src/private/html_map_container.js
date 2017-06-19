@@ -1,4 +1,4 @@
-var HTMLMapContainer = function(browserDocument, browserWindow, parentElement, canvasId, canvasWidth, canvasHeight) {
+var HTMLMapContainer = function(browserDocument, browserWindow, parentElement, canvasId, canvasWidth, canvasHeight, containerId, mapId) {
 
     var _browserWindow = browserWindow;
     var _browserDocument = browserDocument;
@@ -17,8 +17,8 @@ var HTMLMapContainer = function(browserDocument, browserWindow, parentElement, c
 
     var _createMapContainer = function(parentElement) {
         var attributes = {
-            "class": "eegeo-map-container",
-            "id": "eegeo-map-container"
+            "class": "wrld-map-container",
+            "id": containerId
         };
         var style = {
             "position": "relative",
@@ -34,7 +34,7 @@ var HTMLMapContainer = function(browserDocument, browserWindow, parentElement, c
 
         var css = document.createElement("style");
         css.type = "text/css";
-        css.innerHTML = ".leaflet-dragging .eegeo-map-container { cursor: move; cursor: -webkit-grabbing; cursor: -moz-grabbing; }";
+        css.innerHTML = ".leaflet-dragging .wrld-map-container { cursor: move; cursor: -webkit-grabbing; cursor: -moz-grabbing; }";
         document.head.appendChild(css);
 
         mapContainer.onmousedown = function(e) {
@@ -53,7 +53,7 @@ var HTMLMapContainer = function(browserDocument, browserWindow, parentElement, c
     };
 
     var _createLeafletOverlay = function(parentElement) {
-        var attributes = {"class": "eegeo-leaflet-overlay"};
+        var attributes = {"class": "wrld-leaflet-overlay"};
         var style = {
             "position": "absolute",
             "overflow": "hidden",
@@ -66,7 +66,7 @@ var HTMLMapContainer = function(browserDocument, browserWindow, parentElement, c
     };
 
     var _createErrorMessage = function(parentElement, messageText) {
-        var attributes = {"class": "eegeo-error-message"};
+        var attributes = {"class": "wrld-error-message"};
         var style = {
             "position": "absolute",
             "left": "0px",
@@ -84,7 +84,7 @@ var HTMLMapContainer = function(browserDocument, browserWindow, parentElement, c
 
     var _createCanvas = function(parentElement, canvasId, width, height) {
         var attributes = {
-            "class": "eegeo-map-canvas",
+            "class": "wrld-map-canvas",
             "id": canvasId,
             "oncontextmenu": "event.preventDefault();",
             "width": width.toString(),
@@ -111,7 +111,8 @@ var HTMLMapContainer = function(browserDocument, browserWindow, parentElement, c
 
     var _createIndoorMapWatermark = function(parentElement) {
         var attributes = {
-            "id": "eegeo-indoor-map-watermark",
+            "id": "wrld-indoor-map-watermark" + mapId,
+            "class": "wrld-indoor-map-watermark",
             "draggable": "false"
         };
 

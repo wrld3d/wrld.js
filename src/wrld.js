@@ -13,12 +13,28 @@ var _appName = "eeGeoWebGL.jgz";
 
 
 var _mapObjects = [];
-var _emscriptenInitialized = false;
+var _emscriptenStartedLoading = false;
+var _emscriptenFinishedLoading = false;
+var _mapsWaitingInitialization = [];
 
+var onEmscriptenLoaded = function() {
+  _emscriptenFinishedLoading = true;
+  _mapsWaitingInitialization.forEach(function(module) {
+    window.createWrldModule(module);
+  });
+  _mapsWaitingInitialization = [];
+};
 
 var createEmscriptenModule = function() {
-	var Module = window.Module || {};
-	window.Module = Module;
+  if (!_emscriptenStartedLoading) {
+		var script = document.createElement("script");
+		script.src = _baseUrl + _appName;
+    script.onload = onEmscriptenLoaded;
+		document.body.appendChild(script);
+		_emscriptenStartedLoading = true;
+  }
+
+	var Module = {};
 	Module["locateFile"] = function(url) {
 		var absUrl = _baseUrl + url;
 		return absUrl;
@@ -34,15 +50,16 @@ var createEmscriptenModule = function() {
 			});
 		}
 	};
+  return Module;
 };
 
-var initializeEmscripten = function() {
-	if (!_emscriptenInitialized) {
-		var script = document.createElement("script");
-		script.src = _baseUrl + _appName;
-		document.body.appendChild(script);
-		_emscriptenInitialized = true;
-	}
+var initializeMap = function(module) {
+  if (!_emscriptenFinishedLoading) {
+    _mapsWaitingInitialization.push(module);
+  }
+  else {
+    window.createWrldModule(module);
+  }
 };
 
 var findMapContainerElement = function(elementOrId) {
@@ -62,20 +79,19 @@ var findMapContainerElement = function(elementOrId) {
 var eeGeo = {
 	map: function(domElement, apiKey, options) {
 
-		createEmscriptenModule();
+		var wrldModule = createEmscriptenModule();
 
 		domElement = findMapContainerElement(domElement);
 
 		var browserDocument = document;
 		var browserWindow = window;
-		var module = browserWindow.Module;
 		var mapId = _mapObjects.length;
-		var mapApiObject = new EmscriptenApi(module);
+		var mapApiObject = new EmscriptenApi(wrldModule);
 		var mapOptions = options || {};
-		var map = new EegeoMapController(mapId, mapApiObject, domElement, apiKey, browserWindow, browserDocument, module, mapOptions);
+		var map = new EegeoMapController(mapId, mapApiObject, domElement, apiKey, browserWindow, browserDocument, wrldModule, mapOptions);
 		_mapObjects.push(map);
 
-		initializeEmscripten();
+		initializeMap(wrldModule);
 
 		return map.leafletMap;
 	},

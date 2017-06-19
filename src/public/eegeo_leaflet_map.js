@@ -37,20 +37,6 @@ L.Renderer.include({
 
 var EegeoLeafletMap = L.Map.extend({
 
-    _browserWindow: null,
-    _spacesApi: null,
-    _ready: false,
-    _cameraModule: null,
-    _screenPointMappingModule: null,
-    _defaultAltitudeModule: null,
-    _precacheModule: null,
-    _viewInitialized: false,
-    _layersOnMap: {},
-
-    themes: null,
-
-    indoors: null,
-
     initialize: function(browserWindow, id, options, cameraModule, screenPointMappingModule, defaultAltitudeModule, precacheModule, themesModule, indoorsModule, polygonModule, routingModule, renderingModule) {
         this._browserWindow = browserWindow;
         this._cameraModule = cameraModule;
@@ -62,6 +48,10 @@ var EegeoLeafletMap = L.Map.extend({
         this.indoors = indoorsModule;
         this.routes = routingModule;
         this.rendering = renderingModule;
+        this._layersOnMap = {};
+        this._spacesApi = null;
+        this._ready = false;
+        this._viewInitialized = false;
 
         L.Map.prototype.initialize.call(this, id, options);
 
@@ -136,7 +126,7 @@ var EegeoLeafletMap = L.Map.extend({
 
 		if (e.type === "mousedown") {
             var element = e.target;
-            while (element && typeof element.className === "string" && element.className !== "eegeo-map-container") {
+            while (element && typeof element.className === "string" && element.className !== "wrld-map-container") {
                 if (element.className.indexOf("leaflet-marker") !== -1) {
                     L.DomEvent.stopPropagation(e);
                     break;

@@ -1,10 +1,9 @@
-var emscriptenMemory = require("./emscripten_memory");
 var space = require("../../public/space");
 
-function EmscriptenSpacesApi(apiPointer, cwrap, runtime) {
+function EmscriptenSpacesApi(apiPointer, cwrap, runtime, emscriptenMemory) {
 
     var _apiPointer = apiPointer;
-
+    var _emscriptenMemory = emscriptenMemory;
     var _worldToScreenWrap = null;
     var _screenToTerrainPointWrap = null;
     var _screenToIndoorPointWrap = null;
@@ -18,9 +17,9 @@ function EmscriptenSpacesApi(apiPointer, cwrap, runtime) {
         _worldToScreenWrap = _worldToScreenWrap || cwrap("worldToScreen", null, ["number", "number", "number", "number", "number"]);
 
         var screenPos = [0, 0, 0];
-        emscriptenMemory.passDoubles(screenPos, function(resultArray, arraySize) {
+        _emscriptenMemory.passDoubles(screenPos, function(resultArray, arraySize) {
             _worldToScreenWrap(_apiPointer, lat, long, alt, resultArray);
-            screenPos = emscriptenMemory.readDoubles(resultArray, 3);
+            screenPos = _emscriptenMemory.readDoubles(resultArray, 3);
         });
         return new space.Vector3(screenPos);
     };
@@ -28,10 +27,10 @@ function EmscriptenSpacesApi(apiPointer, cwrap, runtime) {
     var _screenToLatLng = function(screenX, screenY, raycastFunc) {
         var latLngAltArray = [0, 0, 0];
         var foundWorldPoint = false;
-        emscriptenMemory.passDoubles(latLngAltArray, function(resultArray, arraySize) {
+        _emscriptenMemory.passDoubles(latLngAltArray, function(resultArray, arraySize) {
             var success = raycastFunc(_apiPointer, screenX, screenY, resultArray);
             foundWorldPoint = !!success;
-            latLngAltArray = emscriptenMemory.readDoubles(resultArray, 3);
+            latLngAltArray = _emscriptenMemory.readDoubles(resultArray, 3);
         });
         return (foundWorldPoint) ? L.latLng(latLngAltArray) : null;
     };
@@ -55,11 +54,11 @@ function EmscriptenSpacesApi(apiPointer, cwrap, runtime) {
         _getUpdatedAltitudeAtLatLngWrap = _getUpdatedAltitudeAtLatLngWrap || cwrap("getUpdatedAltitudeAtLatLng", "number", ["number", "number", "number", "number", "number", "number"]);
         var results = [0, 0];
         var altitudeUpdated = false;
-        emscriptenMemory.passDoubles(results, function(resultArray, arraySize) {
+        _emscriptenMemory.passDoubles(results, function(resultArray, arraySize) {
             var success = _getUpdatedAltitudeAtLatLngWrap(_apiPointer, lat, long, previousHeight, previousLevel, resultArray);
             altitudeUpdated = !!success;
             if (altitudeUpdated) {
-                results = emscriptenMemory.readDoubles(resultArray, 2);
+                results = _emscriptenMemory.readDoubles(resultArray, 2);
             }
         });
         return altitudeUpdated ? results : null;
@@ -68,9 +67,9 @@ function EmscriptenSpacesApi(apiPointer, cwrap, runtime) {
     var _getMortonKeyAtLatLng = function(lat, long) {
         _getMortonKeyAtLatLngWrap = _getMortonKeyAtLatLngWrap || cwrap("getMortonKeyAtLatLng", null, ["number", "number", "number"]);
         var mortonKey = "";
-        emscriptenMemory.passString(mortonKey, function(resultString){
+        _emscriptenMemory.passString(mortonKey, function(resultString){
             _getMortonKeyAtLatLngWrap(lat, long, resultString);
-            mortonKey = Module.Pointer_stringify(resultString);
+            mortonKey = _emscriptenMemory.stringifyPointer(resultString);
         });
         return mortonKey;
     };
@@ -78,9 +77,9 @@ function EmscriptenSpacesApi(apiPointer, cwrap, runtime) {
     var _getMortonKeyCenter = function(mortonKey) {
         _getMortonKeyCenterWrap = _getMortonKeyCenterWrap || cwrap("getMortonKeyCenter", null, ["string", "number"]);
         var latLngCenterArray = [0, 0];
-        emscriptenMemory.passDoubles(latLngCenterArray, function(resultArray, arraySize) {
+        _emscriptenMemory.passDoubles(latLngCenterArray, function(resultArray, arraySize) {
             _getMortonKeyCenterWrap(mortonKey, resultArray);
-            latLngCenterArray = emscriptenMemory.readDoubles(resultArray, 2);
+            latLngCenterArray = _emscriptenMemory.readDoubles(resultArray, 2);
         });
         latLngCenterArray.forEach(function(value, index) {
             if (isNaN(value)) {
@@ -93,9 +92,9 @@ function EmscriptenSpacesApi(apiPointer, cwrap, runtime) {
     var _getMortonKeyCorners = function(mortonKey, insetMeters) {
         _getMortonKeyCornersWrap = _getMortonKeyCornersWrap || cwrap("getMortonKeyCorners", null, ["string", "number", "number"]);
         var latLngCornersArray = [0, 0, 0, 0, 0, 0, 0, 0];
-        emscriptenMemory.passDoubles(latLngCornersArray, function(resultArray, arraySize) {
+        _emscriptenMemory.passDoubles(latLngCornersArray, function(resultArray, arraySize) {
             _getMortonKeyCornersWrap(mortonKey, insetMeters, resultArray);
-            latLngCornersArray = emscriptenMemory.readDoubles(resultArray, 8);
+            latLngCornersArray = _emscriptenMemory.readDoubles(resultArray, 8);
         });
         latLngCornersArray.forEach(function(value, index) {
             if (isNaN(value)) {

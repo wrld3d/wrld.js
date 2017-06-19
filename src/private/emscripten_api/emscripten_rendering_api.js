@@ -1,9 +1,9 @@
-var emscriptenMemory = require("./emscripten_memory");
 var space = require("../../public/space");
 
-function EmscriptenRenderingApi(apiPointer, cwrap, runtime) {
-    var _apiPointer = apiPointer;
+function EmscriptenRenderingApi(apiPointer, cwrap, runtime, emscriptenMemory) {
 
+    var _apiPointer = apiPointer;
+    var _emscriptenMemory = emscriptenMemory;
     var _getNorthFacingOrientationMatrix = null;
     var _getCameraRelativePosition = null;
     var _getCameraProjectionMatrix = null;
@@ -14,9 +14,9 @@ function EmscriptenRenderingApi(apiPointer, cwrap, runtime) {
     this.getCameraRelativePosition = function(latLng) {
         _getCameraRelativePosition = _getCameraRelativePosition || cwrap("getCameraRelativePosition", null, ["number", "number", "number", "number", "number", "number"]);
         var renderPosition = new Array(3);
-        emscriptenMemory.passDoubles(renderPosition, function(resultArray, arraySize) {
+        _emscriptenMemory.passDoubles(renderPosition, function(resultArray, arraySize) {
             _getCameraRelativePosition(_apiPointer, latLng.lat, latLng.lng, latLng.alt || 0.0, arraySize, resultArray);
-            renderPosition = emscriptenMemory.readDoubles(resultArray, arraySize);
+            renderPosition = _emscriptenMemory.readDoubles(resultArray, arraySize);
         });
         return new space.Vector3(renderPosition);
     };
@@ -24,9 +24,9 @@ function EmscriptenRenderingApi(apiPointer, cwrap, runtime) {
     this.getNorthFacingOrientationMatrix = function(latLng) {
         _getNorthFacingOrientationMatrix = _getNorthFacingOrientationMatrix || cwrap("getNorthFacingOrientationMatrix", null, ["number", "number", "number", "number", "number"]);
         var orientation = new Array(16);
-        emscriptenMemory.passDoubles(orientation, function(resultArray, arraySize) {
+        _emscriptenMemory.passDoubles(orientation, function(resultArray, arraySize) {
             _getNorthFacingOrientationMatrix(_apiPointer, latLng.lat, latLng.lng, arraySize, resultArray);
-            orientation = emscriptenMemory.readDoubles(resultArray, arraySize);
+            orientation = _emscriptenMemory.readDoubles(resultArray, arraySize);
         });
         return orientation;
     };
@@ -34,9 +34,9 @@ function EmscriptenRenderingApi(apiPointer, cwrap, runtime) {
     this.getCameraProjectionMatrix = function() {
         _getCameraProjectionMatrix = _getCameraProjectionMatrix || cwrap("getCameraProjectionMatrix", null, ["number", "number", "number"]);
         var projection = new Array(16);
-        emscriptenMemory.passDoubles(projection, function(resultArray, arraySize) {
+        _emscriptenMemory.passDoubles(projection, function(resultArray, arraySize) {
             _getCameraProjectionMatrix(_apiPointer, arraySize, resultArray);
-            projection = emscriptenMemory.readDoubles(resultArray, arraySize);
+            projection = _emscriptenMemory.readDoubles(resultArray, arraySize);
         });
         return projection;
     };
@@ -44,9 +44,9 @@ function EmscriptenRenderingApi(apiPointer, cwrap, runtime) {
     this.getCameraOrientationMatrix = function() {
         _getCameraOrientationMatrix = _getCameraOrientationMatrix || cwrap("getCameraOrientationMatrix", null, ["number", "number", "number"]);
         var orientation = new Array(16);
-        emscriptenMemory.passDoubles(orientation, function(resultArray, arraySize) {
+        _emscriptenMemory.passDoubles(orientation, function(resultArray, arraySize) {
             _getCameraOrientationMatrix(_apiPointer, arraySize, resultArray);
-            orientation = emscriptenMemory.readDoubles(resultArray, arraySize);
+            orientation = _emscriptenMemory.readDoubles(resultArray, arraySize);
         });
         return orientation;
     };
@@ -54,9 +54,9 @@ function EmscriptenRenderingApi(apiPointer, cwrap, runtime) {
     this.getLightingData = function() {
         _getLightingData = _getLightingData || cwrap("getLightingData", null, ["number", "number", "number"]);
         var lightingData = new Array(21);
-        emscriptenMemory.passDoubles(lightingData, function (resultArray, arraySize) {
+        _emscriptenMemory.passDoubles(lightingData, function (resultArray, arraySize) {
             _getLightingData(_apiPointer, arraySize, resultArray);
-            lightingData = emscriptenMemory.readDoubles(resultArray, arraySize);
+            lightingData = _emscriptenMemory.readDoubles(resultArray, arraySize);
         });
 
         var lighting = {

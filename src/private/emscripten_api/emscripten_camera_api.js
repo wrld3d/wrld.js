@@ -1,7 +1,7 @@
-var emscriptenMemory = require("./emscripten_memory");
+function EmscriptenCameraApi(apiPointer, cwrap, runtime, emscriptenMemory) {
 
-function EmscriptenCameraApi(apiPointer, cwrap, runtime) {
     var _apiPointer = apiPointer;
+    var _emscriptenMemory = emscriptenMemory;
     var _setViewInterop = null; 
     var _setViewToBoundsInterop = null;
     var _getDistanceToInterestInterop = null;
@@ -80,9 +80,9 @@ function EmscriptenCameraApi(apiPointer, cwrap, runtime) {
         _getInterestLatLongInterop = _getInterestLatLongInterop || cwrap("getInterestLatLong", null, ["number", "number"]);
 
         var latLong = [0, 0];
-        emscriptenMemory.passDoubles(latLong, function(resultArray, arraySize) {
+        _emscriptenMemory.passDoubles(latLong, function(resultArray, arraySize) {
             _getInterestLatLongInterop(_apiPointer, resultArray);
-            latLong = emscriptenMemory.readDoubles(resultArray, 2);
+            latLong = _emscriptenMemory.readDoubles(resultArray, 2);
         });
 
         return latLong;

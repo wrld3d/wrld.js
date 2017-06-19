@@ -57,16 +57,17 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
     var _themesModule = new ThemesModule(emscriptenApi);
     var _precacheModule = new PrecacheModule(emscriptenApi);
     var _cameraModule = new CameraModule(emscriptenApi, options.center, options.zoom);
-    var _indoorsModule = new IndoorsModule(emscriptenApi, this);
+    var _indoorsModule = new IndoorsModule(emscriptenApi, this, _mapId);
     var _polygonModule = new PolygonModule(emscriptenApi);
     var _routingModule = new RoutingModule(apiKey, _indoorsModule);
     var _renderingModule = new RenderingModule(emscriptenApi);
 
-    var _canvasId = options["canvasId"];
+    var _canvasId = _mapId ? options["canvasId"] + _mapId : options["canvasId"];
     var _canvasWidth = options["width"] || domElement.clientWidth;
     var _canvasHeight = options["height"] || domElement.clientHeight;
+    var _containerId = "wrld-map-container" + _mapId;
 
-    var _mapContainer = new HTMLMapContainer(_browserDocument, _browserWindow, domElement, _canvasId, _canvasWidth, _canvasHeight);
+    var _mapContainer = new HTMLMapContainer(_browserDocument, _browserWindow, domElement, _canvasId, _canvasWidth, _canvasHeight, _containerId, _mapId);
 
     var _canvas = _mapContainer.canvas;
 
@@ -95,7 +96,8 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
         indoorsEnabledArg,
         coverageTreeManifest,
         environmentThemesManifest,
-        doubleClickZoom
+        doubleClickZoom,
+        _containerId
     ];
 
     this.leafletMap = new EegeoLeafletMap(

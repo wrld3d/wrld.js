@@ -1,7 +1,7 @@
-function EmscriptenGeofenceApi(apiPointer, cwrap, runtime) {
+function EmscriptenGeofenceApi(apiPointer, cwrap, runtime, emscriptenModule) {
 
     var _apiPointer = apiPointer;
-
+    var _emscriptenModule = emscriptenModule;
     var _removeGeofence = cwrap("removeGeofence", null, ["number", "number"]);
     var _setGeofenceColor = cwrap("setGeofenceColor", null, ["number", "number", "number", "number", "number", "number"]);
     var _createGeofenceFromRawCoords = cwrap("createGeofenceFromRawCoords", null, ["number", "number", "number", "number", "number", "number", "number", "string", "number", "number"]);
@@ -23,14 +23,14 @@ function EmscriptenGeofenceApi(apiPointer, cwrap, runtime) {
         });
       });
 
-      var coordsPointer = Module._malloc(coords.length * 8);
+      var coordsPointer = _emscriptenModule._malloc(coords.length * 8);
       for (var i=0; i<coords.length; ++i) {
-          Module.setValue(coordsPointer + i*8, coords[i], "double");
+          _emscriptenModule.setValue(coordsPointer + i*8, coords[i], "double");
       }
 
-      var ringVertexCountsPointer = Module._malloc(ringVertexCounts.length * 4);
+      var ringVertexCountsPointer = _emscriptenModule._malloc(ringVertexCounts.length * 4);
       for (var k=0; k<ringVertexCounts.length; ++k) {
-          Module.setValue(ringVertexCountsPointer + k*4, ringVertexCounts[k], "i32");
+          _emscriptenModule.setValue(ringVertexCountsPointer + k*4, ringVertexCounts[k], "i32");
       }
 
       var indoorMapId = config.indoorMapId || "";
@@ -45,8 +45,8 @@ function EmscriptenGeofenceApi(apiPointer, cwrap, runtime) {
           config.indoorMapFloorId || 0
           );
 
-      Module._free(coordsPointer);
-      Module._free(ringVertexCountsPointer);
+      _emscriptenModule._free(coordsPointer);
+      _emscriptenModule._free(ringVertexCountsPointer);
 
       return polygonId;
     };
