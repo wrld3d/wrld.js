@@ -1,49 +1,64 @@
 var MapModule = require("./map_module");
-var ProxiedObjectCollection = require("./id_to_object_map");
 
 function PolygonsModule(emscriptenApi) {
 
     var _emscriptenApi = emscriptenApi;
-    var _polygons = new ProxiedObjectCollection();
+    var _polygonIdToPolygons = {};
+    var _pendingPolygons = [];
     var _ready = false;
 
 
-    var _createPolygons = function() {
-        var api = _emscriptenApi.geofenceApi;
-
-        _polygons.forEachItem(function(polygonId, polygon) {
-            api.createGeofenceWithHoles(polygonId, polygon.getPoints(), polygon.getHoles(), polygon.getConfig());
+    var _createPendingPolygons = function() {
+        _pendingPolygons.forEach(function(polygon) {
+            _createAndAdd(polygon);
         });
+        _pendingPolygons = [];
+    };
+
+    var _createAndAdd = function(polygon) {
+        var polygonId = _emscriptenApi.geofenceApi.createGeofence(polygon.getPoints(), polygon.getHoles(), polygon.getConfig());
+        _polygonIdToPolygons[polygonId] = polygon;
+        return polygonId;
     };
 
     this.addPolygon = function(polygon) {
-        var polygonId = _polygons.insertObject(polygon);
-
         if (_ready) {
-          _emscriptenApi.geofenceApi.createGeofenceWithHoles(polygonId, polygon.getPoints(), polygon.getHoles(), polygon.getConfig());
+            _createAndAdd(polygon);
     	}
+        else {
+            _pendingPolygons.push(polygon);
+        }
     };
 
     this.removePolygon = function(polygon) {
-        var polygonId = _polygons.idForObject(polygon);
-        if (polygonId === null) {
+
+        if (!_ready) {
+            var index = _pendingPolygons.indexOf(polygon);
+            if (index > -1) {
+                _pendingPolygons.splice(index, 1);
+            }
+            return; 
+        }
+
+        var polygonId = Object.keys(_polygonIdToPolygons).find(function(key) { 
+                return _polygonIdToPolygons[key] === polygon;
+            }
+        );
+        if (polygonId === undefined) {
             return;
         }
 
-        _polygons.removeObjectById(polygonId);
-
-        if (_ready) {
-            _emscriptenApi.geofenceApi.removeGeofence(polygonId);
-        }
+        _emscriptenApi.geofenceApi.removeGeofence(polygonId);
+        _polygonIdToPolygons.delete(polygonId);
     };
 
     this.onUpdate = function() {
         if (_ready) {
-            var api = _emscriptenApi.geofenceApi;
 
-            _polygons.forEachItem(function(polygonId, polygon) {
+            Object.keys(_polygonIdToPolygons).forEach(function(polygonId) {
+                var polygon = _polygonIdToPolygons[polygonId];
                 if (polygon.colorNeedsChanged()) {
-                    api.setGeofenceColor(polygonId, polygon.getColor());
+                    _emscriptenApi.geofenceApi.setGeofenceColor(polygonId, polygon.getColor());
                     polygon.onColorChanged();
                 }
             });
@@ -52,7 +67,7 @@ function PolygonsModule(emscriptenApi) {
 
     this.onInitialized = function() {
         _ready = true;
-        _createPolygons();
+        _createPendingPolygons();
     };
 }
 PolygonsModule.prototype = MapModule;
