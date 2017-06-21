@@ -1,10 +1,10 @@
 <a href="https://www.wrld3d.com/">
-    <img src="https://cdn2.eegeo.com/wp-content/uploads/2017/04/WRLD_Blue.png"  align="right" height="80px" />
+    <img src="https://cdn2.wrld3d.com/wp-content/uploads/2017/04/WRLD_Blue.png"  align="right" height="80px" />
 </a>
 
 # wrld.js
 
-![WRLD](https://cdn2.eegeo.com/wp-content/uploads/2017/04/screenselection01.png)
+![WRLD](https://cdn2.wrld3d.com/wp-content/uploads/2017/04/screenselection01.png)
 
 The WRLD JavaScript API allows you to easily embed [beautiful 3D maps](https://www.wrld3d.com/) into any web page for any modern, WebGL supporting browser. For an example of our 3D maps in action, see [https://www.wrld3d.com/developers/javascript-maps/](https://www.wrld3d.com/developers/javascript-maps/).
 
@@ -35,7 +35,7 @@ You can easily embed a 3D map in any web page. The code below shows a simple exa
   <body>
     <div id="map" style="width: 400px; height: 400px;"></div>
     <script type="text/javascript">
-      var map = L.eeGeo.map("map", "your_api_key_here");
+      var map = L.Wrld.map("map", "your_api_key_here");
     </script>
   </body>
 </html>
@@ -74,4 +74,4 @@ If you wish to contribute to this repo, [pull requests](https://github.com/wrld3
 
 ## License
 
-The eeGeo 3D Maps JavaScript API is released under the Simplified BSD License. See [LICENSE.md](https://github.com/wrld3d/wrld.js/blob/master/LICENSE.md) for details.
+The WRLD 3D Maps JavaScript API is released under the Simplified BSD License. See [LICENSE.md](https://github.com/wrld3d/wrld.js/blob/master/LICENSE.md) for details.

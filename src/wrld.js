@@ -76,7 +76,7 @@ var findMapContainerElement = function(elementOrId) {
 	return element;
 };
 
-var eeGeo = {
+var Wrld = {
 	map: function(domElement, apiKey, options) {
 
 		var wrldModule = createEmscriptenModule();
@@ -116,9 +116,10 @@ L.Circle = circle.Circle;
 L.circle = circle.circle;
 
 window.L = L;
-L.eeGeo = eeGeo;
+L.Wrld = Wrld;
+L.eeGeo = L.Wrld;
 
 // The default image path is broken when using Browserify - it searches the script tags on the page
 L.Icon.Default.imagePath = "http://cdn.leafletjs.com/leaflet/v1.0.1/images/";
 
-module.exports = L.eeGeo;
+module.exports = L.Wrld;
