@@ -62,9 +62,9 @@ var EegeoLeafletMap = L.Map.extend({
         this.boxZoom.disable();
         this.keyboard.disable();
 
-        this.on("pan", this._hideMarkersBehindEarth);
-        this.on("zoom", this._hideMarkersBehindEarth);
-        this.on("transitionend", this._hideMarkersBehindEarth);
+        this.on("pan", this._updateLayerVisibility);
+        this.on("zoom", this._updateLayerVisibility);
+        this.on("transitionend", this._updateLayerVisibility);
 
         this.attributionControl.setPrefix("<a href='http://leafletjs.com' title='A JS library for interactive maps' target='_blank'>Leaflet</a>");
         this.attributionControl.addAttribution("3D Maps &copy; <a href='https://www.wrld3d.com' target='_blank'>WRLD</a> and <a href='https://www.wrld3d.com/legal/' target='_blank'>partners</a>");
@@ -432,7 +432,7 @@ var EegeoLeafletMap = L.Map.extend({
         return dotProd < Math.cos(maxAngle);
     },
 
-    _hideMarkersBehindEarth: function() {
+    _updateLayerVisibility: function() {
         var layerIds = Object.keys(this._layersOnMap);
         var cameraVector = convertLatLngToVector(this.getCenter());
         var maxAngle = this._getAngleFromCameraToHorizon();
