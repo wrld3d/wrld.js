@@ -442,20 +442,23 @@ var EegeoLeafletMap = L.Map.extend({
             var layer = _this._layersOnMap[id];
             var latlng = getCenterOfLayer(layer);
             var hasElevation = "getElevation" in layer;
-            if (_this._isLatLngBehindEarth(latlng, cameraVector, maxAngle)) {
-                if (_this.hasLayer(layer)) {
-                    if (hasElevation) {
-                        _this._screenPointMappingModule.removeLayer(layer);
-                    }
-                    L.Map.prototype.removeLayer.call(_this, layer);
+
+            var latLngBehindEarth = _this._isLatLngBehindEarth(latlng, cameraVector, maxAngle);
+            var hasLayer = _this.hasLayer(layer);
+            var indoorMapDisplayFilter = _this._interiorMatchesLayer(layer);
+                        
+            if (hasLayer && (latLngBehindEarth || !indoorMapDisplayFilter)) {
+                if (hasElevation) {
+                    _this._screenPointMappingModule.removeLayer(layer);
                 }
+                L.Map.prototype.removeLayer.call(_this, layer);                            
             }
-            else if (!_this.hasLayer(layer)) {
+            else if (!hasLayer && !latLngBehindEarth && indoorMapDisplayFilter) {
                 L.Map.prototype.addLayer.call(_this, layer);
                 if (hasElevation) {
                     _this._screenPointMappingModule.addLayer(layer);
-                }
-            }
+                }                         
+            }                        
         });
     },
 
@@ -473,34 +476,18 @@ var EegeoLeafletMap = L.Map.extend({
       });
     },
 
-    _interiorMatchesLayer: function(layer) {
-      if (!layer.options.indoorMapId)
+    _interiorMatchesLayer: function(layer) {             
+      if (layer.options.indoorMapId === undefined || layer.options.indoorFloorIndex === undefined)
       {
         return true;
       }
 
-      if (!layer.options.indoorFloorIndex)
-      {
-        return true;
+      if(!this.indoors.isIndoors()) {
+        return false;
       }
 
-      if(this.indoors.isIndoors()) {
-        if(this.indoors.getActiveIndoorMap().getIndoorMapId() === layer.options.indoorMapId &&
-            this.indoors.getFloor().getFloorIndex() === layer.options.indoorFloorIndex ) {
-          return true;
-        }
-        else {
-          return false;
-        }
-      }
-      else {
-        if(!layer.options.indoorMapId) {
-          return true;
-        }
-        else {
-          return false;
-        }
-      }
+      return this.indoors.getActiveIndoorMap().getIndoorMapId() === layer.options.indoorMapId &&
+                  this.indoors.getFloor().getFloorIndex() === layer.options.indoorFloorIndex;
     },
 
     _rawPanBy: function(offset) {
