@@ -49,7 +49,7 @@ function PolygonsModule(emscriptenApi) {
         }
 
         _emscriptenApi.geofenceApi.removeGeofence(polygonId);
-        _polygonIdToPolygons.delete(polygonId);
+        delete _polygonIdToPolygons[polygonId];
     };
 
     this.onUpdate = function() {
