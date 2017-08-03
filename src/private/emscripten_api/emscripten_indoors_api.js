@@ -9,6 +9,7 @@ function EmscriptenIndoorsApi(apiPointer, cwrap, runtime, emscriptenMemory) {
 
     var _setIndoorMapMarkerAddedCallback = null;
     var _setIndoorMapMarkerRemovedCallback = null;
+    var _setAreaClickedCallback = null;
 
     var _hasActiveIndoorMap = null;
     var _getActiveIndoorMapId = null;
@@ -62,6 +63,12 @@ function EmscriptenIndoorsApi(apiPointer, cwrap, runtime, emscriptenMemory) {
         _setIndoorMapMarkerRemovedCallback = _setIndoorMapMarkerRemovedCallback || cwrap("setIndoorMapMarkerRemovedCallback", null, ["number", "number"]);
         var wrappedCallback = _wrapCallback(callback);
         _setIndoorMapMarkerRemovedCallback(_apiPointer, runtime.addFunction(wrappedCallback));
+    };
+
+    this.registerAreaClickedCallback = function(callback) {
+        _setAreaClickedCallback = _setAreaClickedCallback || cwrap("setAreaPickedCallback", null, ["number", "number"]);
+        var wrappedCallback = _wrapCallback(callback);
+        _setAreaClickedCallback(_apiPointer, runtime.addFunction(wrappedCallback));
     };
 
     this.exitIndoorMap = function() {
