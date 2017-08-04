@@ -6,7 +6,7 @@
 
 ![WRLD](https://cdn2.wrld3d.com/wp-content/uploads/2017/04/screenselection01.png)
 
-The WRLD JavaScript API allows you to easily embed [beautiful 3D maps](https://www.wrld3d.com/) into any web page for any modern, WebGL supporting browser. For an example of our 3D maps in action, see [https://www.wrld3d.com/developers/javascript-maps/](https://www.wrld3d.com/developers/javascript-maps/).
+The WRLD JavaScript API allows you to easily embed [beautiful 3D maps](https://www.wrld3d.com/) into any web page for any modern, WebGL supporting browser. For an example of our 3D maps in action, see [https://www.wrld3d.com/wrld.js/examples/](https://www.wrld3d.com/wrld.js/examples/).
 
 It is based on [Leaflet.js](http://leafletjs.com/), providing a familiar API for embedding 3D maps in a web page.
 
@@ -29,8 +29,8 @@ You can easily embed a 3D map in any web page. The code below shows a simple exa
 <!DOCTYPE HTML>
 <html>
   <head>
-    <script src="https://cdn-webgl.wrld3d.com/wrldjs/latest/wrld.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" rel="stylesheet" />
+    <script src="https://cdn-webgl.wrld3d.com/wrldjs/dist/latest/wrld.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.1/leaflet.css" rel="stylesheet" />
   </head>
   <body>
     <div id="map" style="width: 400px; height: 400px;"></div>
