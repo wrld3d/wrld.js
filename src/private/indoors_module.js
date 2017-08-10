@@ -93,8 +93,9 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId) {
         _this.fire("indoorentranceremove", {entrance: entrance});
     };
 
-    var _executeAreaClickedCallbacks = function(id) {
-        _this.fire("indoorareaclick", {id: id});
+    var _executeAreaClickedCallbacks = function(ids) {
+        var idArray = ids.split("|");
+        _this.fire("indoorareaclick", {ids: idArray});
     };
 
     var _onCollapseStart = function() {
