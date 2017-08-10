@@ -394,6 +394,13 @@ describe("map_interop:", function() {
       });
     });
 
+    it("the registerAreaClickedCallback function should exist", function() {
+      _verifyApiFunctionExists(function() {
+        var callback = function() {};
+        _indoorsApi.registerAreaClickedCallback(callback);
+      });
+    });
+
     it("the exitIndoorMap function should exist", function() {
       _verifyApiFunctionExists(function() {
         _indoorsApi.exitIndoorMap();

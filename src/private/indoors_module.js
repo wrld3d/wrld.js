@@ -93,6 +93,10 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId) {
         _this.fire("indoorentranceremove", {entrance: entrance});
     };
 
+    var _executeAreaClickedCallbacks = function(id) {
+        _this.fire("indoorareaclick", {id: id});
+    };
+
     var _onCollapseStart = function() {
         _this.fire("collapsestart");
     };
@@ -146,6 +150,7 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId) {
         _emscriptenApi.indoorsApi.registerIndoorMapFloorChangedCallback(_executeIndoorMapFloorChangedCallbacks);
         _emscriptenApi.indoorsApi.registerIndoorMapMarkerAddedCallback(_executeIndoorMapEntranceAddedCallbacks);
         _emscriptenApi.indoorsApi.registerIndoorMapMarkerRemovedCallback(_executeIndoorMapEntranceRemovedCallbacks);
+        _emscriptenApi.indoorsApi.registerAreaClickedCallback(_executeAreaClickedCallbacks);
 
         _emscriptenApi.expandFloorsApi.setCollapseStartCallback(_onCollapseStart);
         _emscriptenApi.expandFloorsApi.setCollapseCallback(_onCollapse);
