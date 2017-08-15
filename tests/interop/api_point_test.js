@@ -394,13 +394,6 @@ describe("map_interop:", function() {
       });
     });
 
-    it("the registerAreaClickedCallback function should exist", function() {
-      _verifyApiFunctionExists(function() {
-        var callback = function() {};
-        _indoorsApi.registerAreaClickedCallback(callback);
-      });
-    });
-
     it("the exitIndoorMap function should exist", function() {
       _verifyApiFunctionExists(function() {
         _indoorsApi.exitIndoorMap();
@@ -586,33 +579,32 @@ describe("map_interop:", function() {
       _emscriptenMemory = new EmscriptenMemory(Module);
       _highlightApi = new EmscriptenHighlightApi(apiPointer, cwrap, runtime, _emscriptenMemory);
     });
-
-    it("the setEntityHighlights function should exist", function() {
+    
+    it("the registerHighlightClickedCallback function should exist", function() {
       _verifyApiFunctionExists(function() {
-        var entityIds = ["1000", "1001", "2001"];
+        var callback = function() {};
+        _highlightApi.registerHighlightClickedCallback(callback);
+      });
+    });
+    
+    it("the setHighlights function should exist", function() {
+      _verifyApiFunctionExists(function() {
+        var ids = ["1000", "1001", "2001"];
         var color = [128, 0, 0, 128];
-        _highlightApi.setEntityHighlights(entityIds, color);
+        _highlightApi.setHighlights(ids, color);
+      });
+    });
+    
+    it("the clearHighlights function should exist", function() {
+      _verifyApiFunctionExists(function() {
+        var ids = ["1000", "1001", "2001"];
+        _highlightApi.clearHighlights(ids);
       });
     });
 
-    it("the clearEntityHighlights function should exist", function() {
+    it("the clearAllHighlights function should exist", function() {
       _verifyApiFunctionExists(function() {
-        _highlightApi.clearEntityHighlights();
-      });
-    });
-
-    it("the addAreaHighlight function should exist", function() {
-      _verifyApiFunctionExists(function() {
-        var areaId = "An Area";
-        var color = [128, 0, 0, 128];
-        _highlightApi.addAreaHighlight(areaId, color);
-      });
-    });
-
-    it("the clearAreaHighlight function should exist", function() {
-      _verifyApiFunctionExists(function() {
-        var areaId = "An Area";
-        _highlightApi.clearAreaHighlight(areaId);
+        _highlightApi.clearAllHighlights();
       });
     });
   });

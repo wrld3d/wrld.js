@@ -93,9 +93,9 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId) {
         _this.fire("indoorentranceremove", {entrance: entrance});
     };
 
-    var _executeAreaClickedCallbacks = function(ids) {
+    var _executeHighlightClickedCallbacks = function(ids) {
         var idArray = ids.split("|");
-        _this.fire("indoorareaclick", {ids: idArray});
+        _this.fire("indoorhighlightclick", {ids: idArray});
     };
 
     var _onCollapseStart = function() {
@@ -151,7 +151,7 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId) {
         _emscriptenApi.indoorsApi.registerIndoorMapFloorChangedCallback(_executeIndoorMapFloorChangedCallbacks);
         _emscriptenApi.indoorsApi.registerIndoorMapMarkerAddedCallback(_executeIndoorMapEntranceAddedCallbacks);
         _emscriptenApi.indoorsApi.registerIndoorMapMarkerRemovedCallback(_executeIndoorMapEntranceRemovedCallbacks);
-        _emscriptenApi.indoorsApi.registerAreaClickedCallback(_executeAreaClickedCallbacks);
+        _emscriptenApi.highlightApi.registerHighlightClickedCallback(_executeHighlightClickedCallbacks);
 
         _emscriptenApi.expandFloorsApi.setCollapseStartCallback(_onCollapseStart);
         _emscriptenApi.expandFloorsApi.setCollapseCallback(_onCollapse);
@@ -315,24 +315,14 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId) {
         return this;
     };
 
-    this.setEntityHighlights = function(ids, color) {
+    this.setHighlights = function(ids, color) {
         if (!_ready) return;
-        _emscriptenApi.highlightApi.setEntityHighlights(ids, color);
+        _emscriptenApi.highlightApi.setHighlights(ids, color);
     };
-
-    this.clearEntityHighlights = function() {
+    
+    this.clearHighlights = function(ids) {
         if (!_ready) return;
-        _emscriptenApi.highlightApi.clearEntityHighlights();
-    };
-
-    this.addAreaHighlight = function(id, color) {
-        if (!_ready) return;
-        _emscriptenApi.highlightApi.addAreaHighlight(id, color);
-    };
-
-    this.clearAreaHighlight = function(id) {
-        if (!_ready) return;
-        _emscriptenApi.highlightApi.clearAreaHighlight(id);
+        _emscriptenApi.highlightApi.clearHighlights(ids);
     };
 };
 

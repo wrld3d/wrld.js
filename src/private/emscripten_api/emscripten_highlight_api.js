@@ -2,35 +2,62 @@ function EmscriptenHighlightApi(apiPointer, cwrap, runtime, emscriptenMemory) {
 
     var _apiPointer = apiPointer;
     var _emscriptenMemory = emscriptenMemory;
-    var _setEntityHighlights = null;
-    var _clearEntityHighlights = null;
-    var _addAreaHighlight = null;
-    var _clearAreaHighlight = null;
+    var _setHighlightsInterop = null;
+    var _clearHighlightsInterop = null;
+    var _clearAllHighlightsInterop = null;
+    var _setHighlightClickedCallbackInterop = null;
+    
+    var _wrapCallback = function(callback) {
+        return function(idsPtr) {
+            var ids = _emscriptenMemory.stringifyPointer(idsPtr);
+            callback(ids);
+        };
+    };
 
-    this.setEntityHighlights = function(ids, color) {
-        _setEntityHighlights = _setEntityHighlights || cwrap("setEntityHighlights", null, ["number", "number", "number", "number"]);
+    var _setHighlights = function(ids, color) {
+        _setHighlightsInterop = _setHighlightsInterop || cwrap("setHighlights", null, ["number", "number", "number", "number"]);
         _emscriptenMemory.passStrings(ids, function(resultStrings, stringArraySize){
             _emscriptenMemory.passDoubles(color, function(doubleArray, arraySize) {
-                _setEntityHighlights(_apiPointer, resultStrings, stringArraySize, doubleArray);
+                _setHighlightsInterop(_apiPointer, resultStrings, stringArraySize, doubleArray);
             });
         });
     };
 
-    this.clearEntityHighlights = function() {
-        _clearEntityHighlights = _clearEntityHighlights || cwrap("clearEntityHighlights", null, ["number"]);
-        _clearEntityHighlights(_apiPointer);
-    };
-
-    this.addAreaHighlight = function(id, color) {
-        _addAreaHighlight = _addAreaHighlight || cwrap("addAreaHighlight", null, ["number", "string", "number"]);
-        _emscriptenMemory.passDoubles(color, function(resultArray, arraySize) {
-            _addAreaHighlight(_apiPointer, id, resultArray);
+    var _clearHighlights = function(ids) {
+        _clearHighlightsInterop = _clearHighlightsInterop || cwrap("clearHighlights", null, ["number", "number", "number"]);
+        _emscriptenMemory.passStrings(ids, function(resultStrings, stringArraySize){
+            _clearHighlightsInterop(_apiPointer, resultStrings, stringArraySize);
         });
     };
 
-    this.clearAreaHighlight = function(id) {
-        _clearAreaHighlight = _clearAreaHighlight || cwrap("clearAreaHighlight", null, ["number", "string"]);
-        _clearAreaHighlight(_apiPointer, id);
+    var _clearAllHighlights = function() {
+        _clearAllHighlightsInterop = _clearAllHighlightsInterop || cwrap("clearAllHighlights", null, ["number"]);
+        _clearAllHighlightsInterop(_apiPointer);
+    };
+
+    this.registerHighlightClickedCallback = function(callback) {
+        _setHighlightClickedCallbackInterop = _setHighlightClickedCallbackInterop || cwrap("setHighlightPickedCallback", null, ["number", "number"]);
+        var wrappedCallback = _wrapCallback(callback);
+        _setHighlightClickedCallbackInterop(_apiPointer, runtime.addFunction(wrappedCallback));
+    };
+
+    this.setHighlights = function(ids, color) {
+        if (typeof ids === "string") {
+            ids = [ids];
+        }
+        _setHighlights(ids, color);
+    };
+    
+    this.clearHighlights = function(ids) {
+        if (ids === undefined) {
+            _clearAllHighlights();
+        }
+        else {
+            if (typeof ids === "string") {
+                ids = [ids];
+            }
+            _clearHighlights(ids);
+        }
     };
 }
 
