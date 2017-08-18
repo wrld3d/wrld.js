@@ -580,31 +580,24 @@ describe("map_interop:", function() {
       _highlightApi = new EmscriptenHighlightApi(apiPointer, cwrap, runtime, _emscriptenMemory);
     });
     
-    it("the registerHighlightClickedCallback function should exist", function() {
+    it("the registerEntityClickedCallback function should exist", function() {
       _verifyApiFunctionExists(function() {
         var callback = function() {};
-        _highlightApi.registerHighlightClickedCallback(callback);
+        _highlightApi.registerEntityClickedCallback(callback);
       });
     });
     
-    it("the setHighlights function should exist", function() {
+    it("the setEntityHighlights function should exist", function() {
       _verifyApiFunctionExists(function() {
         var ids = ["1000", "1001", "2001"];
         var color = [128, 0, 0, 128];
-        _highlightApi.setHighlights(ids, color);
+        _highlightApi.setEntityHighlights(ids, color);
       });
     });
     
-    it("the clearHighlights function should exist", function() {
+    it("the clearEntityHighlights function should exist", function() {
       _verifyApiFunctionExists(function() {
-        var ids = ["1000", "1001", "2001"];
-        _highlightApi.clearHighlights(ids);
-      });
-    });
-
-    it("the clearAllHighlights function should exist", function() {
-      _verifyApiFunctionExists(function() {
-        _highlightApi.clearAllHighlights();
+        _highlightApi.clearEntityHighlights();
       });
     });
   });

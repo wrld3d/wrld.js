@@ -93,9 +93,9 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId) {
         _this.fire("indoorentranceremove", {entrance: entrance});
     };
 
-    var _executeHighlightClickedCallbacks = function(ids) {
+    var _executeEntityClickedCallbacks = function(ids) {
         var idArray = ids.split("|");
-        _this.fire("indoorhighlightclick", {ids: idArray});
+        _this.fire("indoorentityclick", {ids: idArray});
     };
 
     var _onCollapseStart = function() {
@@ -151,7 +151,7 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId) {
         _emscriptenApi.indoorsApi.registerIndoorMapFloorChangedCallback(_executeIndoorMapFloorChangedCallbacks);
         _emscriptenApi.indoorsApi.registerIndoorMapMarkerAddedCallback(_executeIndoorMapEntranceAddedCallbacks);
         _emscriptenApi.indoorsApi.registerIndoorMapMarkerRemovedCallback(_executeIndoorMapEntranceRemovedCallbacks);
-        _emscriptenApi.highlightApi.registerHighlightClickedCallback(_executeHighlightClickedCallbacks);
+        _emscriptenApi.highlightApi.registerEntityClickedCallback(_executeEntityClickedCallbacks);
 
         _emscriptenApi.expandFloorsApi.setCollapseStartCallback(_onCollapseStart);
         _emscriptenApi.expandFloorsApi.setCollapseCallback(_onCollapse);
@@ -315,14 +315,14 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId) {
         return this;
     };
 
-    this.setHighlights = function(ids, color) {
+    this.setEntityHighlights = function(ids, color) {
         if (!_ready) return;
-        _emscriptenApi.highlightApi.setHighlights(ids, color);
+        _emscriptenApi.highlightApi.setEntityHighlights(ids, color);
     };
     
-    this.clearHighlights = function(ids) {
+    this.clearEntityHighlights = function(ids) {
         if (!_ready) return;
-        _emscriptenApi.highlightApi.clearHighlights(ids);
+        _emscriptenApi.highlightApi.clearEntityHighlights(ids);
     };
 };
 
