@@ -37,7 +37,7 @@ L.Renderer.include({
 
 var EegeoLeafletMap = L.Map.extend({
 
-    initialize: function(browserWindow, id, options, cameraModule, screenPointMappingModule, defaultAltitudeModule, precacheModule, themesModule, indoorsModule, polygonModule, routingModule, renderingModule) {
+    initialize: function(browserWindow, id, options, cameraModule, screenPointMappingModule, defaultAltitudeModule, precacheModule, themesModule, indoorsModule, polygonModule, routingModule, renderingModule, BuildingsModule) {
         this._browserWindow = browserWindow;
         this._cameraModule = cameraModule;
         this._screenPointMappingModule = screenPointMappingModule;
@@ -48,6 +48,7 @@ var EegeoLeafletMap = L.Map.extend({
         this.indoors = indoorsModule;
         this.routes = routingModule;
         this.rendering = renderingModule;
+        this.buildings = BuildingsModule;
         this._layersOnMap = {};
         this._spacesApi = null;
         this._ready = false;
