@@ -76,9 +76,12 @@ var Popup = L.Popup.extend({
     _updatePosition: function() {
         if (!this._map) { return; }
 
-        var pos = this._map.getScreenPositionOfLayer(this).round(),
-            offset = L.point(this.options.offset),
-            anchor = this._getAnchor();
+        // todo: should probably just have a single api point here to get screen pos
+        var latLngs = this._map.latLngsForLayer(this);            
+        var pos = this._map.latLngToLayerPoint(latLngs[0]);
+
+        var offset = L.point(this.options.offset);
+        var anchor = this._getAnchor();
 
         if (this._zoomAnimated) {
             L.DomUtil.setPosition(this._container, pos.add(anchor));

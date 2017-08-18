@@ -1,14 +1,19 @@
 var Circle = L.Circle.extend({
 
     _project: function () {
+        // Circles are defined as a single LatLng, and consequently won't scale correctly when indoor maps are expanded
+        // (other prims like polygons 'just work', as all LatLngs are transformed on the C++ side).        
+        // To fix this, we'd need to adjust the calculations below to take into account a scale transform, or similar
+        // (this is not currently exposed in the api).
+        var latLng = this._map.latLngsForLayer(this)[0];
+        var lat = latLng.lat;
+        var lng = latLng.lng;
+        var alt = latLng.alt || 0.0;
 
-        var lng = this._latlng.lng,
-            lat = this._latlng.lat,
-            map = this._map,
+        var map = this._map,
             degToRad = Math.PI / 180,
             earthRadius = 6378100;
-
-        var alt = map.getAltitudeAtLatLng(this._latlng);
+        
         var latR = (this._mRadius / earthRadius) / degToRad;
         var a = Math.sin(lat * degToRad);
         var b = Math.cos(lat * degToRad);

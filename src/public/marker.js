@@ -1,9 +1,25 @@
+var indoorOptions = require("../private/indoor_map_layer_options.js");
 var popups = require("./popup");
+
 var EegeoDomUtil = require("../private/eegeo_dom_util");
 
 var Marker = L.Marker.extend({
+    initialize: function(latlng, options) {
+        L.Marker.prototype.initialize.call(this, latlng, options);
+
+        var _this = this;
+        this.on("drag", function(e) {             
+            _this._map._createPointMapping(_this);
+        });
+
+        this.on("dragend", function(e) {             
+            _this._map._createPointMapping(_this);
+        });
+    },    
+
     options: {
-        elevation: 0
+        elevation: 0,
+        elevationMode: "heightAboveGround"
     },
 
     getElevation: function() {
@@ -12,12 +28,79 @@ var Marker = L.Marker.extend({
 
     setElevation: function(elevation) {
         this.options.elevation = elevation;
+
+        if (this._map !== null) {
+            this._map._createPointMapping(this);
+        }
+        
         return this;
     },
 
+    setElevationMode: function(elevationMode) {
+        if (elevationMode === "heightAboveGround" && elevationMode === "heightAboveSeaLevel")  {                
+            this.options.elevationMode = elevationMode;
+
+            if (this._map !== null) {
+                this._map._createPointMapping(this);
+            }
+        }
+
+        return this;
+    },
+
+    getElevationMode: function() {
+        return this.options.elevationMode;
+    },
+
+    setIndoorMapWithFloorId: function(indoorMapId, indoorMapFloorId) {
+        this.options.indoorMapId = indoorMapId;
+        this.options.indoorMapFloorId = indoorMapFloorId;
+
+        if (this._map !== null) {
+            this._map._createPointMapping(this);
+        }
+
+        return this;
+    },
+    
+    setIndoorMapWithFloorIndex: function(indoorMapId, indoorMapFloorIndex) {
+        this.options.indoorMapId = indoorMapId;
+        this.options.indoorMapFloorIndex = indoorMapFloorIndex;
+
+        if (this._map !== null) {
+            this._map._createPointMapping(this);
+        }
+        
+        return this;
+    },
+
+    setOutdoor: function() {
+        delete this.options.indoorMapId;
+        delete this.options.indoorMapFloorId;
+        delete this.options.indoorMapFloorIndex;
+
+        if (this._map !== null) {
+            this._map._createPointMapping(this);
+        }
+
+        return this;
+    },
+    
+    setLatLng: function (latlng) {
+        var baseReturnValue = L.Marker.prototype.setLatLng.call(this, latlng);
+        
+        if (this._map) {
+            this._map._createPointMapping(this);
+        }
+
+        return baseReturnValue;
+	},
+
     update: function() {
         if (this._icon) {
-            var screenPos = this._map.getScreenPositionOfLayer(this);
+            // todo: should probably just have a single api point here to get screen pos
+            var latLngs = this._map.latLngsForLayer(this);            
+            var screenPos = this._map.latLngToLayerPoint(latLngs[0]);
             this._setPos(screenPos);
         }
         return this;
@@ -43,9 +126,18 @@ var Marker = L.Marker.extend({
             if (!options) {
                 options = {};
             }
+            
+            // copy relevant marker options into popup
             if (!("elevation" in options)) {
                 options["elevation"] = this.getElevation();
             }
+
+            if (!("elevationMode" in options)) {
+                options["elevationMode"] = this.options.elevationMode;
+            }
+
+            indoorOptions.copyIndoorMapOptions(this.options, options);
+
             popup = new popups.Popup(options, this).setContent(content);
         }
         return L.Marker.prototype.bindPopup.call(this, popup, options);

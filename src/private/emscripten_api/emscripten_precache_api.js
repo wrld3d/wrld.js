@@ -1,7 +1,7 @@
 
-function EmscriptenPrecacheApi(apiPointer, cwrap, runtime) {
+function EmscriptenPrecacheApi(eegeoApiPointer, cwrap, runtime) {
 
-    var _apiPointer = apiPointer;
+    var _eegeoApiPointer = eegeoApiPointer;
     var _beginPrecacheOperation = null;
     var _cancelPrecacheOperation = null;
     var _cancelCallback = null;
@@ -22,12 +22,12 @@ function EmscriptenPrecacheApi(apiPointer, cwrap, runtime) {
         _beginPrecacheOperation = _beginPrecacheOperation || cwrap("beginPrecacheOperation", null, ["number", "number", "number", "number", "number", "number", "number"]);
       
         var latlong = operation.getCentre();
-        _beginPrecacheOperation(_apiPointer, operationId, latlong.lat, latlong.lng, operation.getRadius(), _completeCallback, _cancelCallback);
+        _beginPrecacheOperation(_eegeoApiPointer, operationId, latlong.lat, latlong.lng, operation.getRadius(), _completeCallback, _cancelCallback);
     };
 
     this.cancelPrecacheOperation = function(operationId) {
         _cancelPrecacheOperation = _cancelPrecacheOperation || cwrap("cancelPrecacheOperation", null, ["number", "number"]);
-        _cancelPrecacheOperation(_apiPointer, operationId);
+        _cancelPrecacheOperation(_eegeoApiPointer, operationId);
     };
 }
 

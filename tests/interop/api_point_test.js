@@ -295,12 +295,10 @@ describe("map_interop:", function() {
     });
   });
 
-  describe("when using the screen point mapping api", function() {
-    var EmscriptenScreenPointMappingApi = require("../../src/private/emscripten_api/emscripten_screen_point_mapping_api");
-    var ScreenPointMapping = require("../../src/private/screen_point_mapping");
+  describe("when using the layer point mapping api", function() {
+    var EmscriptenLayerPointMappingApi = require("../../src/private/emscripten_api/emscripten_layer_point_mapping_api");    
     var EmscriptenMemory = require("../../src/private/emscripten_api/emscripten_memory");
-    var _screenPointMappingApi = null;
-    var _screenPointMapping = null;
+    var _layerPointMappingApi = null;    
     var _emscriptenMemory = null;
 
     beforeEach(function() {
@@ -309,42 +307,43 @@ describe("map_interop:", function() {
       var cwrap = Module.cwrap;
       var runtime = Module.Runtime;
       _emscriptenMemory = new EmscriptenMemory(Module);
-      _screenPointMappingApi = new EmscriptenScreenPointMappingApi(apiPointer, cwrap, runtime, _emscriptenMemory);
-
-      var layer = { getLatLng: function() { return L.latLng(0, 0); }, getElevation: function() { return 0; } }; 
-      _screenPointMapping = new ScreenPointMapping(layer);
+      _layerPointMappingApi = new EmscriptenLayerPointMappingApi(apiPointer, cwrap, runtime, _emscriptenMemory);      
     });   
 
-    it("the createScreenPointMapping function should exist", function() {
+    it("the createPointMapping function should exist", function() {
       _verifyApiFunctionExists(function() {
         var mappingId = 0;
-        _screenPointMappingApi.createScreenPointMapping(mappingId, _screenPointMapping);
+        var elevation = 100.0;
+        var indoorMapFloorId = 2;
+        var latLngs = [ L.latLng(0, 1), L.latLng(-2, 3) ];
+        _layerPointMappingApi.createPointMapping(mappingId, elevation, "my_indoor_map_id", indoorMapFloorId, latLngs);
       });
     });
 
-    it("the createScreenPointMapping function should exist", function() {
+    it("the createPointMappingWithFloorIndex function should exist", function() {
       _verifyApiFunctionExists(function() {
         var mappingId = 0;
-        _screenPointMappingApi.createScreenPointMapping(mappingId, _screenPointMapping);
-        _screenPointMappingApi.updateScreenPointMapping(mappingId, _screenPointMapping);
+        var elevation = 100.0;
+        var indoorMapFloorIndex = 0;
+        var latLngs = [ L.latLng(0, 1), L.latLng(-2, 3) ];
+        _layerPointMappingApi.createPointMappingWithFloorIndex(mappingId, elevation, "my_indoor_map_id", indoorMapFloorIndex, latLngs);
       });
     });
 
-    it("the createScreenPointMapping function should exist", function() {
+    it("the removePointMapping function should exist", function() {
       _verifyApiFunctionExists(function() {
-        var mappingId = 0;
-        _screenPointMappingApi.createScreenPointMapping(mappingId, _screenPointMapping);
-        _screenPointMappingApi.removeScreenPointMapping(mappingId);
+        var mappingId = 0;        
+        _layerPointMappingApi.removePointMapping(mappingId);
       });
     });
 
-    it("the getScreenPosition function should exist", function() {
+    it("the getLatLngsForLayer function should exist", function() {
       _verifyApiFunctionExists(function() {
-        var mappingId = 0;
-        _screenPointMappingApi.createScreenPointMapping(mappingId, _screenPointMapping);
-        _screenPointMappingApi.getScreenPosition(mappingId);
+        var mappingId = 0;        
+        var latLngCount = 0;
+        _layerPointMappingApi.getLatLngsForLayer(mappingId, latLngCount);
       });
-    });
+    });    
   });
 
   describe("when using the indoors api", function() {
@@ -456,17 +455,17 @@ describe("map_interop:", function() {
       });
     });
 
-    it("the getFloorId function should exist", function() {
-      _verifyApiFunctionExists(function() {
-        var floorIndex = 0;
-        _indoorsApi.getFloorId(floorIndex);
-      });
-    });
-
     it("the getFloorName function should exist", function() {
       _verifyApiFunctionExists(function() {
         var floorIndex = 0;
         _indoorsApi.getFloorName(floorIndex);
+      });
+    });
+
+    it("the getFloorShortName function should exist", function() {
+      _verifyApiFunctionExists(function() {
+        var floorIndex = 0;
+        _indoorsApi.getFloorShortName(floorIndex);
       });
     });
 

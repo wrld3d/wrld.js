@@ -1,8 +1,8 @@
 var space = require("../../public/space");
 
-function EmscriptenRenderingApi(apiPointer, cwrap, runtime, emscriptenMemory) {
+function EmscriptenRenderingApi(eegeoApiPointer, cwrap, runtime, emscriptenMemory) {
 
-    var _apiPointer = apiPointer;
+    var _eegeoApiPointer = eegeoApiPointer;
     var _emscriptenMemory = emscriptenMemory;
     var _getNorthFacingOrientationMatrix = null;
     var _getCameraRelativePosition = null;
@@ -15,7 +15,7 @@ function EmscriptenRenderingApi(apiPointer, cwrap, runtime, emscriptenMemory) {
         _getCameraRelativePosition = _getCameraRelativePosition || cwrap("getCameraRelativePosition", null, ["number", "number", "number", "number", "number", "number"]);
         var renderPosition = new Array(3);
         _emscriptenMemory.passDoubles(renderPosition, function(resultArray, arraySize) {
-            _getCameraRelativePosition(_apiPointer, latLng.lat, latLng.lng, latLng.alt || 0.0, arraySize, resultArray);
+            _getCameraRelativePosition(_eegeoApiPointer, latLng.lat, latLng.lng, latLng.alt || 0.0, arraySize, resultArray);
             renderPosition = _emscriptenMemory.readDoubles(resultArray, arraySize);
         });
         return new space.Vector3(renderPosition);
@@ -25,7 +25,7 @@ function EmscriptenRenderingApi(apiPointer, cwrap, runtime, emscriptenMemory) {
         _getNorthFacingOrientationMatrix = _getNorthFacingOrientationMatrix || cwrap("getNorthFacingOrientationMatrix", null, ["number", "number", "number", "number", "number"]);
         var orientation = new Array(16);
         _emscriptenMemory.passDoubles(orientation, function(resultArray, arraySize) {
-            _getNorthFacingOrientationMatrix(_apiPointer, latLng.lat, latLng.lng, arraySize, resultArray);
+            _getNorthFacingOrientationMatrix(_eegeoApiPointer, latLng.lat, latLng.lng, arraySize, resultArray);
             orientation = _emscriptenMemory.readDoubles(resultArray, arraySize);
         });
         return orientation;
@@ -35,7 +35,7 @@ function EmscriptenRenderingApi(apiPointer, cwrap, runtime, emscriptenMemory) {
         _getCameraProjectionMatrix = _getCameraProjectionMatrix || cwrap("getCameraProjectionMatrix", null, ["number", "number", "number"]);
         var projection = new Array(16);
         _emscriptenMemory.passDoubles(projection, function(resultArray, arraySize) {
-            _getCameraProjectionMatrix(_apiPointer, arraySize, resultArray);
+            _getCameraProjectionMatrix(_eegeoApiPointer, arraySize, resultArray);
             projection = _emscriptenMemory.readDoubles(resultArray, arraySize);
         });
         return projection;
@@ -45,7 +45,7 @@ function EmscriptenRenderingApi(apiPointer, cwrap, runtime, emscriptenMemory) {
         _getCameraOrientationMatrix = _getCameraOrientationMatrix || cwrap("getCameraOrientationMatrix", null, ["number", "number", "number"]);
         var orientation = new Array(16);
         _emscriptenMemory.passDoubles(orientation, function(resultArray, arraySize) {
-            _getCameraOrientationMatrix(_apiPointer, arraySize, resultArray);
+            _getCameraOrientationMatrix(_eegeoApiPointer, arraySize, resultArray);
             orientation = _emscriptenMemory.readDoubles(resultArray, arraySize);
         });
         return orientation;
@@ -55,7 +55,7 @@ function EmscriptenRenderingApi(apiPointer, cwrap, runtime, emscriptenMemory) {
         _getLightingData = _getLightingData || cwrap("getLightingData", null, ["number", "number", "number"]);
         var lightingData = new Array(21);
         _emscriptenMemory.passDoubles(lightingData, function (resultArray, arraySize) {
-            _getLightingData(_apiPointer, arraySize, resultArray);
+            _getLightingData(_eegeoApiPointer, arraySize, resultArray);
             lightingData = _emscriptenMemory.readDoubles(resultArray, arraySize);
         });
 

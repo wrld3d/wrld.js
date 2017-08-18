@@ -1,10 +1,20 @@
-function EmscriptenGeofenceApi(apiPointer, cwrap, runtime, emscriptenModule) {
+function EmscriptenGeofenceApi(eegeoApiPointer, cwrap, runtime, emscriptenModule) {
 
-    var _apiPointer = apiPointer;
+    var _eegeoApiPointer = eegeoApiPointer;
     var _emscriptenModule = emscriptenModule;
     var _removeGeofence = cwrap("removeGeofence", null, ["number", "number"]);
     var _setGeofenceColor = cwrap("setGeofenceColor", null, ["number", "number", "number", "number", "number", "number"]);
     var _createGeofenceFromRawCoords = cwrap("createGeofenceFromRawCoords", null, ["number", "number", "number", "number", "number", "number", "number", "string", "number", "number"]);
+    
+    this._getElevationIsAboveSeaLevelFromConfig = function(config) {
+        var configUsingNewApi = typeof config.elevationMode !== "undefined";
+        return configUsingNewApi ? config.elevationMode.toLowerCase() === "heightabovesealevel" : (config.offsetFromSeaLevel || false);
+    };
+    
+    this._getAltitudeOffsetFromConfig = function(config) {
+        var configUsingNewApi = typeof config.elevation !== "undefined";
+        return configUsingNewApi ? config.elevation : (config.altitudeOffset || 0.0);
+    };
 
     this.createGeofence = function(outerPoints, holes, config) {
       var coords = [];
@@ -33,13 +43,15 @@ function EmscriptenGeofenceApi(apiPointer, cwrap, runtime, emscriptenModule) {
           _emscriptenModule.setValue(ringVertexCountsPointer + k*4, ringVertexCounts[k], "i32");
       }
 
-      var indoorMapId = config.indoorMapId || "";
-
-      var polygonId = _createGeofenceFromRawCoords(_apiPointer, 
+      var indoorMapId = config.indoorMapId || "";      
+      var elevationModeAboveSeaLevel = this._getElevationIsAboveSeaLevelFromConfig(config);
+      var altitudeOffset = this._getAltitudeOffsetFromConfig(config);     
+      
+      var polygonId = _createGeofenceFromRawCoords(_eegeoApiPointer, 
           coordsPointer, coords.length,
-          ringVertexCountsPointer, ringVertexCounts.length, 
-          config.offsetFromSeaLevel || false, 
-          config.altitudeOffset || 0.0,
+          ringVertexCountsPointer, ringVertexCounts.length,
+          elevationModeAboveSeaLevel, 
+          altitudeOffset,
           indoorMapId,
           indoorMapId.length,
           config.indoorMapFloorId || 0
@@ -52,11 +64,11 @@ function EmscriptenGeofenceApi(apiPointer, cwrap, runtime, emscriptenModule) {
     };
 
     this.removeGeofence = function(polygonId) {
-        _removeGeofence(_apiPointer, polygonId);
+        _removeGeofence(_eegeoApiPointer, polygonId);
     };
 
     this.setGeofenceColor = function(polygonId, color) {
-        _setGeofenceColor(_apiPointer, polygonId, color.x, color.y, color.z, color.w);
+        _setGeofenceColor(_eegeoApiPointer, polygonId, color.x, color.y, color.z, color.w);
     };
 }
 

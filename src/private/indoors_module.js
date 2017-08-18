@@ -33,10 +33,13 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId) {
     var _createFloorsArray = function(floorCount) {
         var floors = [];
         for (var i=0; i<floorCount; ++i) {
-            var floorIndex = i;
+            var floorIndex = i;            
             var floorName = _emscriptenApi.indoorsApi.getFloorName(i);
-            var floorShortName = _emscriptenApi.indoorsApi.getFloorId(i);
-            var floorId = floorShortName;
+            var floorShortName = _emscriptenApi.indoorsApi.getFloorShortName(i);
+            var floorNumber = _emscriptenApi.indoorsApi.getFloorNumber(i);
+                        
+            var floorId = floorNumber;
+
             var floor = new indoors.IndoorMapFloor(floorId, floorIndex, floorName, floorShortName);
             floors.push(floor);
         }
@@ -82,7 +85,9 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId) {
     };
 
     var _executeIndoorMapEntranceAddedCallbacks = function(indoorMapId, indoorMapName, indoorMapLatLng) {
-        var entrance = new indoors.IndoorMapEntrance(indoorMapId, indoorMapName, indoorMapLatLng);
+        // discard the altitude, as we're going to use the SDK IPointOnMap positioning to snap it to the terrain (this is now default)
+        // alternative is to use the altitude, but use "elevationMode: heightAboveSeaLevel" when creating the indoor entrance marker
+        var entrance = new indoors.IndoorMapEntrance(indoorMapId, indoorMapName, L.latLng([indoorMapLatLng.lat, indoorMapLatLng.lng]));
         _entrances[entrance.getIndoorMapId()] = entrance;
         _this.fire("indoorentranceadd", {entrance: entrance});
     };
@@ -195,29 +200,33 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId) {
     };
 
     this.setFloor = function(floor) {
+        if (!this.isIndoors()) {
+            return false;
+        }
+        
         var index = null;
-        if (this.isIndoors()) {
-            var floors = _activeIndoorMap.getFloors();
+        var floors = _activeIndoorMap.getFloors();
 
-            if (typeof floor === "number") {
-                index = floor;
-            }
-            else if (typeof floor === "object") {
-                var floorIndex = floors.indexOf(floor);
-                index = (floorIndex >= 0) ? floorIndex : null;
-            }
-            else if (typeof floor === "string") {
-                for (var i=0; i<floors.length; ++i) {
-                    if (floors[i].getFloorId() === floor) {
-                        index = i;
-                        break;
-                    }
+        if (typeof floor === "number") {
+            index = floor;
+        }
+        else if (typeof floor === "object") {
+            var floorIndex = floors.indexOf(floor);
+            index = (floorIndex >= 0) ? floorIndex : null;
+        }
+        else if (typeof floor === "string") {
+            for (var i=0; i<floors.length; ++i) {
+                if (floors[i].getFloorShortName() === floor) {
+                    index = i;
+                    break;
                 }
             }
         }
+        
         if (index !== null) {
             return _emscriptenApi.indoorsApi.setSelectedFloorIndex(index);
         }
+
         return false;
     };
 

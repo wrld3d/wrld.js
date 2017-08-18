@@ -1,6 +1,6 @@
-function EmscriptenHighlightApi(apiPointer, cwrap, runtime, emscriptenMemory) {
+function EmscriptenHighlightApi(eegeoApiPointer, cwrap, runtime, emscriptenMemory) {
 
-    var _apiPointer = apiPointer;
+    var _eegeoApiPointer = eegeoApiPointer;
     var _emscriptenMemory = emscriptenMemory;
     var _setEntityHighlights = null;
     var _clearEntityHighlights = null;
@@ -11,26 +11,26 @@ function EmscriptenHighlightApi(apiPointer, cwrap, runtime, emscriptenMemory) {
         _setEntityHighlights = _setEntityHighlights || cwrap("setEntityHighlights", null, ["number", "number", "number", "number"]);
         _emscriptenMemory.passStrings(ids, function(resultStrings, stringArraySize){
             _emscriptenMemory.passDoubles(color, function(doubleArray, arraySize) {
-                _setEntityHighlights(_apiPointer, resultStrings, stringArraySize, doubleArray);
+                _setEntityHighlights(_eegeoApiPointer, resultStrings, stringArraySize, doubleArray);
             });
         });
     };
 
     this.clearEntityHighlights = function() {
         _clearEntityHighlights = _clearEntityHighlights || cwrap("clearEntityHighlights", null, ["number"]);
-        _clearEntityHighlights(_apiPointer);
+        _clearEntityHighlights(_eegeoApiPointer);
     };
 
     this.addAreaHighlight = function(id, color) {
         _addAreaHighlight = _addAreaHighlight || cwrap("addAreaHighlight", null, ["number", "string", "number"]);
         _emscriptenMemory.passDoubles(color, function(resultArray, arraySize) {
-            _addAreaHighlight(_apiPointer, id, resultArray);
+            _addAreaHighlight(_eegeoApiPointer, id, resultArray);
         });
     };
 
     this.clearAreaHighlight = function(id) {
         _clearAreaHighlight = _clearAreaHighlight || cwrap("clearAreaHighlight", null, ["number", "string"]);
-        _clearAreaHighlight(_apiPointer, id);
+        _clearAreaHighlight(_eegeoApiPointer, id);
     };
 }
 

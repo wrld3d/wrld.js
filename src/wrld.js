@@ -4,6 +4,9 @@ var EmscriptenApi = require("./private/emscripten_api/emscripten_api");
 var marker = require("./public/marker.js");
 var popup = require("./public/popup.js");
 var polygon = require("./public/polygon.js");
+var polygonShim = require("./private/polygon_shim.js");
+var polylineShim = require("./private/polyline_shim.js");
+var rectangleShim = require("./private/rectangle_shim.js");
 var circle = require("./public/circle.js");
 require("./private/polyfills.js");
 
@@ -103,6 +106,7 @@ var Wrld = {
 	Polygon: polygon.Polygon,
 	polygon: polygon.polygon,
 
+
 	indoors: require("./public/indoors/indoors"),
 	space: require("./public/space"),
 	themes: require("./public/themes"),
@@ -112,8 +116,12 @@ var Wrld = {
 	}
 };
 
-L.Circle = circle.Circle;
+L.popup = popup.popup;
 L.circle = circle.circle;
+L.marker = marker.marker;
+L.polygon = polygonShim.polygonShim;
+L.polyline = polylineShim.polylineShim;
+L.rectangle = rectangleShim.rectangleShim;
 
 window.L = L;
 L.Wrld = Wrld;
