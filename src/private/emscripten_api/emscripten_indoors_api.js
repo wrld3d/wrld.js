@@ -74,7 +74,7 @@ function EmscriptenIndoorsApi(eegeoApiPointer, cwrap, runtime, emscriptenMemory)
     this.registerAreaClickedCallback = function(callback) {
         _setAreaClickedCallback = _setAreaClickedCallback || cwrap("setAreaPickedCallback", null, ["number", "number"]);
         var wrappedCallback = _wrapCallback(callback);
-        _setAreaClickedCallback(_apiPointer, runtime.addFunction(wrappedCallback));
+        _setAreaClickedCallback(_eegeoApiPointer, runtime.addFunction(wrappedCallback));
     };
 
     this.exitIndoorMap = function() {
