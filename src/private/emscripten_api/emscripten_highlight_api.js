@@ -1,6 +1,6 @@
-function EmscriptenHighlightApi(apiPointer, cwrap, runtime, emscriptenMemory) {
+function EmscriptenHighlightApi(eegeoApiPointer, cwrap, runtime, emscriptenMemory) {
 
-    var _apiPointer = apiPointer;
+    var _eegeoApiPointer = eegeoApiPointer;
     var _emscriptenMemory = emscriptenMemory;
     var _setEntityHighlightsInterop = null;
     var _clearEntityHighlightsInterop = null;
@@ -18,7 +18,7 @@ function EmscriptenHighlightApi(apiPointer, cwrap, runtime, emscriptenMemory) {
         _setEntityHighlightsInterop = _setEntityHighlightsInterop || cwrap("setHighlights", null, ["number", "number", "number", "number"]);
         _emscriptenMemory.passStrings(ids, function(resultStrings, stringArraySize){
             _emscriptenMemory.passDoubles(color, function(doubleArray, arraySize) {
-                _setEntityHighlightsInterop(_apiPointer, resultStrings, stringArraySize, doubleArray);
+                _setEntityHighlights(_eegeoApiPointer, resultStrings, stringArraySize, doubleArray);
             });
         });
     };
@@ -26,19 +26,19 @@ function EmscriptenHighlightApi(apiPointer, cwrap, runtime, emscriptenMemory) {
     var _clearEntityHighlights = function(ids) {
         _clearEntityHighlightsInterop = _clearEntityHighlightsInterop || cwrap("clearHighlights", null, ["number", "number", "number"]);
         _emscriptenMemory.passStrings(ids, function(resultStrings, stringArraySize){
-            _clearEntityHighlightsInterop(_apiPointer, resultStrings, stringArraySize);
+            _clearEntityHighlightsInterop(_eegeoApiPointer, resultStrings, stringArraySize);
         });
     };
 
     var _clearAllEntityHighlights = function() {
         _clearAllEntityHighlightsInterop = _clearAllEntityHighlightsInterop || cwrap("clearAllHighlights", null, ["number"]);
-        _clearAllEntityHighlightsInterop(_apiPointer);
+        _clearAllEntityHighlightsInterop(_eegeoApiPointer);
     };
 
     this.registerEntityClickedCallback = function(callback) {
         _setEntityClickedCallbackInterop = _setEntityClickedCallbackInterop || cwrap("setEntityPickedCallback", null, ["number", "number"]);
         var wrappedCallback = _wrapCallback(callback);
-        _setEntityClickedCallbackInterop(_apiPointer, runtime.addFunction(wrappedCallback));
+        _setEntityClickedCallbackInterop(_eegeoApiPointer, runtime.addFunction(wrappedCallback));
     };
 
     this.setEntityHighlights = function(ids, color) {

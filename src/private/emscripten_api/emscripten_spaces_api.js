@@ -1,8 +1,8 @@
 var space = require("../../public/space");
 
-function EmscriptenSpacesApi(apiPointer, cwrap, runtime, emscriptenMemory) {
+function EmscriptenSpacesApi(eegeoApiPointer, cwrap, runtime, emscriptenMemory) {
 
-    var _apiPointer = apiPointer;
+    var _eegeoApiPointer = eegeoApiPointer;
     var _emscriptenMemory = emscriptenMemory;
     var _worldToScreenWrap = null;
     var _screenToTerrainPointWrap = null;
@@ -18,7 +18,7 @@ function EmscriptenSpacesApi(apiPointer, cwrap, runtime, emscriptenMemory) {
 
         var screenPos = [0, 0, 0];
         _emscriptenMemory.passDoubles(screenPos, function(resultArray, arraySize) {
-            _worldToScreenWrap(_apiPointer, lat, long, alt, resultArray);
+            _worldToScreenWrap(_eegeoApiPointer, lat, long, alt, resultArray);
             screenPos = _emscriptenMemory.readDoubles(resultArray, 3);
         });
         return new space.Vector3(screenPos);
@@ -28,7 +28,7 @@ function EmscriptenSpacesApi(apiPointer, cwrap, runtime, emscriptenMemory) {
         var latLngAltArray = [0, 0, 0];
         var foundWorldPoint = false;
         _emscriptenMemory.passDoubles(latLngAltArray, function(resultArray, arraySize) {
-            var success = raycastFunc(_apiPointer, screenX, screenY, resultArray);
+            var success = raycastFunc(_eegeoApiPointer, screenX, screenY, resultArray);
             foundWorldPoint = !!success;
             latLngAltArray = _emscriptenMemory.readDoubles(resultArray, 3);
         });
@@ -47,7 +47,7 @@ function EmscriptenSpacesApi(apiPointer, cwrap, runtime, emscriptenMemory) {
 
     var _getAltitudeAtLatLng = function(lat, long) {
         _getAltitudeAtLatLngWrap = _getAltitudeAtLatLngWrap || cwrap("getAltitudeAtLatLng", "number", ["number", "number", "number"]);
-        return _getAltitudeAtLatLngWrap(_apiPointer, lat, long);
+        return _getAltitudeAtLatLngWrap(_eegeoApiPointer, lat, long);
     };
 
     var _getUpdatedAltitudeAtLatLng = function(lat, long, previousHeight, previousLevel) {
@@ -55,7 +55,7 @@ function EmscriptenSpacesApi(apiPointer, cwrap, runtime, emscriptenMemory) {
         var results = [0, 0];
         var altitudeUpdated = false;
         _emscriptenMemory.passDoubles(results, function(resultArray, arraySize) {
-            var success = _getUpdatedAltitudeAtLatLngWrap(_apiPointer, lat, long, previousHeight, previousLevel, resultArray);
+            var success = _getUpdatedAltitudeAtLatLngWrap(_eegeoApiPointer, lat, long, previousHeight, previousLevel, resultArray);
             altitudeUpdated = !!success;
             if (altitudeUpdated) {
                 results = _emscriptenMemory.readDoubles(resultArray, 2);

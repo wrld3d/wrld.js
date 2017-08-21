@@ -1,6 +1,4 @@
 var HTMLMapContainer = require("./html_map_container");
-var ScreenPointMappingModule = require("./screen_point_mapping_module");
-var DefaultAltitudeModule = require("./default_altitude_module");
 var ThemesModule = require("./themes_module");
 var IndoorsModule = require("./indoors_module");
 var PrecacheModule = require("./precache_module");
@@ -8,6 +6,8 @@ var CameraModule = require("./camera_module");
 var PolygonModule = require("./polygon_module");
 var RoutingModule = require("./routing_module");
 var RenderingModule = require("./rendering_module");
+
+var LayerPointMappingModule = require("./layer_point_mapping_module");
 
 var IndoorEntranceMarkerUpdater = require("./indoor_entrance_marker_updater");
 
@@ -51,14 +51,13 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
     var _emscriptenApi = emscriptenApi;
     var _browserWindow = browserWindow;
     var _browserDocument = browserDocument;
-
-    var _screenPointMappingModule = new ScreenPointMappingModule(emscriptenApi);
-    var _defaultAltitudeModule = new DefaultAltitudeModule(emscriptenApi);
+    
     var _themesModule = new ThemesModule(emscriptenApi);
     var _precacheModule = new PrecacheModule(emscriptenApi);
     var _cameraModule = new CameraModule(emscriptenApi, options.center, options.zoom);
     var _indoorsModule = new IndoorsModule(emscriptenApi, this, _mapId);
     var _polygonModule = new PolygonModule(emscriptenApi);
+    var _layerPointMappingModule = new LayerPointMappingModule(emscriptenApi);
     var _routingModule = new RoutingModule(apiKey, _indoorsModule);
     var _renderingModule = new RenderingModule(emscriptenApi);
 
@@ -104,13 +103,12 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
         _browserWindow,
         _mapContainer.overlay,
         options,
-        _cameraModule,
-        _screenPointMappingModule,
-        _defaultAltitudeModule,
+        _cameraModule,        
         _precacheModule,
         _themesModule,
         _indoorsModule,
         _polygonModule,
+        _layerPointMappingModule,
         _routingModule,
         _renderingModule);
 
@@ -118,9 +116,8 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
 
     var _mapMoveEvents = new MapMoveEvents(this.leafletMap);
 
-    var _modules = [
-        _screenPointMappingModule,
-        _defaultAltitudeModule,
+    var _modules = [        
+        _layerPointMappingModule,
         _themesModule,
         _indoorsModule,
         _precacheModule,
@@ -148,10 +145,10 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
         }
     };
 
-    this.onInitialized = function(apiPointer) {
+    this.onInitialized = function(eegeoApiPointer, emscriptenApiPointer) {
         _mapContainer.onInitialized();
         _resizeCanvas = _Module.cwrap("resizeCanvas", null, ["number", "number"]);
-        _emscriptenApi.onInitialized(apiPointer, _onUpdate, _onDraw, _onInitialStreamingCompleted);
+        _emscriptenApi.onInitialized(eegeoApiPointer, emscriptenApiPointer, _onUpdate, _onDraw, _onInitialStreamingCompleted);
 
         _mapMoveEvents.setEventCallbacks(_emscriptenApi.cameraApi);
 

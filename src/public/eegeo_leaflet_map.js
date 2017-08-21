@@ -1,4 +1,5 @@
 var popups = require("../public/popup.js");
+var indoorOptions = require("../private/indoor_map_layer_options.js");
 
 var undefinedPoint = L.point(-100, -100);
 var undefinedLatLng = L.latLng(0, 0);
@@ -37,13 +38,24 @@ L.Renderer.include({
 
 var EegeoLeafletMap = L.Map.extend({
 
-    initialize: function(browserWindow, id, options, cameraModule, screenPointMappingModule, defaultAltitudeModule, precacheModule, themesModule, indoorsModule, polygonModule, routingModule, renderingModule) {
+    initialize: function(
+            browserWindow, 
+            id, 
+            options,
+            cameraModule,             
+            precacheModule, 
+            themesModule, 
+            indoorsModule, 
+            polygonModule, 
+            layerPointMappingModule,
+            routingModule, 
+            renderingModule
+            ) {
         this._browserWindow = browserWindow;
-        this._cameraModule = cameraModule;
-        this._screenPointMappingModule = screenPointMappingModule;
-        this._defaultAltitudeModule = defaultAltitudeModule;
+        this._cameraModule = cameraModule;        
         this._precacheModule = precacheModule;
         this._polygonModule = polygonModule;
+        this._layerPointMappingModule = layerPointMappingModule;
         this.themes = themesModule;
         this.indoors = indoorsModule;
         this.routes = routingModule;
@@ -62,16 +74,9 @@ var EegeoLeafletMap = L.Map.extend({
         this.boxZoom.disable();
         this.keyboard.disable();
 
-        this.on("pan", this._updateLayerVisibility);
-        this.on("zoom", this._updateLayerVisibility);
-        this.on("transitionend", this._updateLayerVisibility);
-
+      
         this.attributionControl.setPrefix("<a href='http://leafletjs.com' title='A JS library for interactive maps' target='_blank'>Leaflet</a>");
-        this.attributionControl.addAttribution("3D Maps &copy; <a href='https://www.wrld3d.com' target='_blank'>WRLD</a> and <a href='https://www.wrld3d.com/legal/' target='_blank'>partners</a>");
-
-        this.indoors.on("indoormapenter", this._updateIndoorLayers.bind(this));
-        this.indoors.on("indoormapexit", this._updateIndoorLayers.bind(this));
-        this.indoors.on("indoormapfloorchange", this._updateIndoorLayers.bind(this));
+        this.attributionControl.addAttribution("3D Maps &copy; <a href='https://www.wrld3d.com' target='_blank'>WRLD</a> and <a href='https://www.wrld3d.com/legal/' target='_blank'>partners</a>");        
     },
 
     _initEvents: function (remove, surface) {
@@ -136,50 +141,31 @@ var EegeoLeafletMap = L.Map.extend({
 		}
 	},
 
-    addLayer: function(layer) {
-        var latLng = getCenterOfLayer(layer);
-        var isPositionedLayer = latLng !== null;
-        if (isPositionedLayer) {
-            var id = L.stamp(layer);
-            if (id in this._layersOnMap) {
-                return;
-            }
-            this._layersOnMap[id] = layer;
-
-            if (this._isLatLngBehindEarth(latLng, convertLatLngToVector(this.getCenter()), this._getAngleFromCameraToHorizon())) {
-                return;
-            }
-
-            if (!this._interiorMatchesLayer(layer)) {
-              return;
-            }
-
-            if ("getElevation" in layer) {
-                this._screenPointMappingModule.addLayer(layer);
-            }
-            else if ("getLatLng" in layer && "setLatLng" in layer) {
-                this._defaultAltitudeModule.addLayer(layer);
-            }
+    addLayer: function(layer) {                
+        var id = L.stamp(layer);
+        
+        if (id in this._layersOnMap) {
+            return;
         }
+            
+        this._createPointMapping(layer);
+
+        this._layersOnMap[id] = layer;        
+
         L.Map.prototype.addLayer.call(this, layer);
     },
 
     removeLayer: function(layer) {
-        var latLng = getCenterOfLayer(layer);
-        var isPositionedLayer = latLng !== null;
-        if (isPositionedLayer) {
-            var id = L.stamp(layer);
-            if (id in this._layersOnMap) {
-                if ("getElevation" in layer) {
-                    this._screenPointMappingModule.removeLayer(layer);
-                }
-                else {
-                    this._defaultAltitudeModule.removeLayer(layer);
-                }
-                delete this._layersOnMap[id];
-            }
+        var id = L.stamp(layer);
+
+        if(!(id in this._layersOnMap)) {
+            return;
         }
+
+        this._removePointMapping(layer);
         L.Map.prototype.removeLayer.call(this, layer);
+                
+        delete this._layersOnMap[id];
     },
 
     onInitialized: function(emscriptenApi) {
@@ -190,15 +176,6 @@ var EegeoLeafletMap = L.Map.extend({
         panes.mapPane.style["pointer-events"] = "auto";
         panes.overlayPane.style["pointer-events"] = "none";
         this.fire("initialize");
-    },
-
-    getScreenPositionOfLayer: function(layer) {
-        var layerPoint = this._screenPointMappingModule.tryGetScreenPositionOfLayer(layer);
-        if (layerPoint === null) {
-            layerPoint = this.latLngToLayerPoint(layer.getLatLng());
-        }
-        layerPoint = L.point(layerPoint.x, layerPoint.y);
-        return layerPoint;
     },
 
     latLngToLayerPoint: function(latLng) {
@@ -226,6 +203,22 @@ var EegeoLeafletMap = L.Map.extend({
         return point;
     },
 
+    latLngsForLayer: function(layer) {
+        return this._layerPointMappingModule.latLngsForLayer(layer);       
+    },
+        
+    _createPointMapping: function(layer) {        
+        this._layerPointMappingModule.createPointMapping(layer);
+    },
+
+    _removePointMapping: function(layer) {
+        this._layerPointMappingModule.removePointMapping(layer);
+    },
+    
+    _projectLatlngs: function(layer, latlngs, result, projectedBounds) {
+        return this._layerPointMappingModule.projectLatlngs(layer, latlngs, result, projectedBounds);
+    },
+    
     _updateZoom: function() {
         this._zoom = this.getZoom();
     },
@@ -348,22 +341,9 @@ var EegeoLeafletMap = L.Map.extend({
     },
 
     _onDraw: function() {
-        var self = this;
-        this.eachLayer(function (layer) {
-            if (self._ready && layer.getLatLngs) {
-                if ((!layer.options) || (layer.options.preserveAltitude !== true)) {
-                    layer.getLatLngs().forEach(function (path) {
-                        if (path instanceof L.LatLng) {
-                            path.alt = self.getAltitudeAtLatLng(path);
-                        }
-                        else {
-                            path.forEach(function (latLng) {
-                                latLng.alt = self.getAltitudeAtLatLng(latLng);
-                            });
-                        }
-                    });
-                }
-            }
+        this._updateLayerVisibility();
+
+        this.eachLayer(function (layer) {            
             if (layer.update) {
                 layer.update();
             }
@@ -440,55 +420,56 @@ var EegeoLeafletMap = L.Map.extend({
         var _this = this;
         layerIds.forEach(function(id) {
             var layer = _this._layersOnMap[id];
-            var latlng = getCenterOfLayer(layer);
-            var hasElevation = "getElevation" in layer;
 
+            // we're checking for null, as there's a few potentially confusing interactions that can happen.
+            // e.g. if we have a marker with an associated popup (say markerId = 23 and popupId = 75), then on starting this loop, we'll
+            // have layerIds = [ 23, 75 ] and both of these ids exist in the _layersOnMap dictionary. However, a side-effect of removing 
+            // a marker is that any associated popup will be removed. We're spinning over the layerIds that we copied _before_ 
+            // removing anything, so we now have a stale id (75) that no longer exists in _layersOnMap, and we can skip it.
+            if(layer === undefined) {
+                return;
+            }
+            
+            var latlng = getCenterOfLayer(layer);
+
+            // certain layers (such as L.layerGroup) don't have positions and are purely organisational tools, so we can ignore them
+            if (latlng === null) {
+                return;
+            }
+            
             var latLngBehindEarth = _this._isLatLngBehindEarth(latlng, cameraVector, maxAngle);
             var hasLayer = _this.hasLayer(layer);
-            var indoorMapDisplayFilter = _this._interiorMatchesLayer(layer);
+            var indoorMapDisplayFilter = _this._isVisibleForCurrentMapState(layer);
             
-            if (!hasLayer && !latLngBehindEarth && indoorMapDisplayFilter) {
-                L.Map.prototype.addLayer.call(_this, layer);
-                if (hasElevation) {
-                    _this._screenPointMappingModule.addLayer(layer);
-                }                         
+            if (!hasLayer && !latLngBehindEarth && indoorMapDisplayFilter) {                
+                L.Map.prototype.addLayer.call(_this, layer);                
             }                                    
-            else if (hasLayer && (latLngBehindEarth || !indoorMapDisplayFilter)) {
-                if (hasElevation) {
-                    _this._screenPointMappingModule.removeLayer(layer);
-                }
-                L.Map.prototype.removeLayer.call(_this, layer);                            
+            else if (hasLayer && (latLngBehindEarth || !indoorMapDisplayFilter)) {                
+                L.Map.prototype.removeLayer.call(_this, layer);
             }
             
         });
     },
-
-    _updateIndoorLayers: function() {
-      var self = this;
-      var keys = Object.keys(this._layersOnMap);
-      keys.forEach(function(key) {
-        var layer = self._layersOnMap[key];
-        if(self._interiorMatchesLayer(layer)) {
-          L.Map.prototype.addLayer.call(self, layer);
+    
+    _isVisibleForCurrentMapState: function(layer) {
+        var currentMapStateIsOutdoors = !this.indoors.isIndoors();
+        var layerIsOutdoors = !indoorOptions.hasIndoorMap(layer);
+        
+        if (currentMapStateIsOutdoors)
+        {
+            return layerIsOutdoors;
         }
-        else {
-          L.Map.prototype.removeLayer.call(self, layer);
+
+        // from here on in, we know our map state is indoors
+        if (layerIsOutdoors) {
+            return false;
         }
-      });
-    },
-
-    _interiorMatchesLayer: function(layer) {             
-      if (layer.options.indoorMapId === undefined || layer.options.indoorFloorIndex === undefined)
-      {
-        return true;
-      }
-
-      if(!this.indoors.isIndoors()) {
-        return false;
-      }
-
-      return this.indoors.getActiveIndoorMap().getIndoorMapId() === layer.options.indoorMapId &&
-                  this.indoors.getFloor().getFloorIndex() === layer.options.indoorFloorIndex;
+                
+        return indoorOptions.matchesIndoorMap(
+            this.indoors.getActiveIndoorMap().getIndoorMapId(),
+            this.indoors.getFloor()._getFloorId(),
+            this.indoors.getFloor().getFloorIndex(),
+            layer);
     },
 
     _rawPanBy: function(offset) {
