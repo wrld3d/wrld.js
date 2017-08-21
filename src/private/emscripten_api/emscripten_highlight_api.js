@@ -2,35 +2,62 @@ function EmscriptenHighlightApi(eegeoApiPointer, cwrap, runtime, emscriptenMemor
 
     var _eegeoApiPointer = eegeoApiPointer;
     var _emscriptenMemory = emscriptenMemory;
-    var _setEntityHighlights = null;
-    var _clearEntityHighlights = null;
-    var _addAreaHighlight = null;
-    var _clearAreaHighlight = null;
+    var _setEntityHighlightsInterop = null;
+    var _clearEntityHighlightsInterop = null;
+    var _clearAllEntityHighlightsInterop = null;
+    var _setEntityClickedCallbackInterop = null;
+    
+    var _wrapCallback = function(callback) {
+        return function(idsPtr) {
+            var ids = _emscriptenMemory.stringifyPointer(idsPtr);
+            callback(ids);
+        };
+    };
 
-    this.setEntityHighlights = function(ids, color) {
-        _setEntityHighlights = _setEntityHighlights || cwrap("setEntityHighlights", null, ["number", "number", "number", "number"]);
+    var _setEntityHighlights = function(ids, color) {
+        _setEntityHighlightsInterop = _setEntityHighlightsInterop || cwrap("setHighlights", null, ["number", "number", "number", "number"]);
         _emscriptenMemory.passStrings(ids, function(resultStrings, stringArraySize){
             _emscriptenMemory.passDoubles(color, function(doubleArray, arraySize) {
-                _setEntityHighlights(_eegeoApiPointer, resultStrings, stringArraySize, doubleArray);
+                _setEntityHighlightsInterop(_eegeoApiPointer, resultStrings, stringArraySize, doubleArray);
             });
         });
     };
 
-    this.clearEntityHighlights = function() {
-        _clearEntityHighlights = _clearEntityHighlights || cwrap("clearEntityHighlights", null, ["number"]);
-        _clearEntityHighlights(_eegeoApiPointer);
-    };
-
-    this.addAreaHighlight = function(id, color) {
-        _addAreaHighlight = _addAreaHighlight || cwrap("addAreaHighlight", null, ["number", "string", "number"]);
-        _emscriptenMemory.passDoubles(color, function(resultArray, arraySize) {
-            _addAreaHighlight(_eegeoApiPointer, id, resultArray);
+    var _clearEntityHighlights = function(ids) {
+        _clearEntityHighlightsInterop = _clearEntityHighlightsInterop || cwrap("clearHighlights", null, ["number", "number", "number"]);
+        _emscriptenMemory.passStrings(ids, function(resultStrings, stringArraySize){
+            _clearEntityHighlightsInterop(_eegeoApiPointer, resultStrings, stringArraySize);
         });
     };
 
-    this.clearAreaHighlight = function(id) {
-        _clearAreaHighlight = _clearAreaHighlight || cwrap("clearAreaHighlight", null, ["number", "string"]);
-        _clearAreaHighlight(_eegeoApiPointer, id);
+    var _clearAllEntityHighlights = function() {
+        _clearAllEntityHighlightsInterop = _clearAllEntityHighlightsInterop || cwrap("clearAllHighlights", null, ["number"]);
+        _clearAllEntityHighlightsInterop(_eegeoApiPointer);
+    };
+
+    this.registerEntityClickedCallback = function(callback) {
+        _setEntityClickedCallbackInterop = _setEntityClickedCallbackInterop || cwrap("setEntityPickedCallback", null, ["number", "number"]);
+        var wrappedCallback = _wrapCallback(callback);
+        _setEntityClickedCallbackInterop(_eegeoApiPointer, runtime.addFunction(wrappedCallback));
+    };
+
+    this.setEntityHighlights = function(ids, color) {
+        if (typeof ids === "string") {
+            ids = [ids];
+        }
+        _setEntityHighlights(ids, color);
+    };
+    
+    this.clearEntityHighlights = function(ids) {
+        if (ids === undefined) {
+            _clearAllEntityHighlights();
+        }
+        else {
+            if (typeof ids === "string") {
+                ids = [ids];
+            }
+            _clearEntityHighlights(ids);
+        }
     };
 }
 
