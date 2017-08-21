@@ -18,7 +18,7 @@ function EmscriptenHighlightApi(eegeoApiPointer, cwrap, runtime, emscriptenMemor
         _setEntityHighlightsInterop = _setEntityHighlightsInterop || cwrap("setHighlights", null, ["number", "number", "number", "number"]);
         _emscriptenMemory.passStrings(ids, function(resultStrings, stringArraySize){
             _emscriptenMemory.passDoubles(color, function(doubleArray, arraySize) {
-                _setEntityHighlights(_eegeoApiPointer, resultStrings, stringArraySize, doubleArray);
+                _setEntityHighlightsInterop(_eegeoApiPointer, resultStrings, stringArraySize, doubleArray);
             });
         });
     };
