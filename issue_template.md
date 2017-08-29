@@ -28,4 +28,4 @@ Before filling out the issue details, please check a few things (as your questio
 
 Any additional information, configuration or data that might be necessary to reproduce the issue, e.g.:
 * What device, operating system & web browser are you using?
-* A simple [JSFiddle](https://jsfiddle.net/) link that reproduces the problem (you can fork this [example](https://jsfiddle.net/1348xhej/) and modify it. Please remove any sensitive credentials or API keys before posting.
+* A simple https://jsfiddle.net link that reproduces the problem. (Please remove any sensitive credentials or API keys before posting, though! For convenience, you can fork & modify this JSFiddle https://jsfiddle.net/1348xhej/)
