@@ -250,7 +250,8 @@ var EegeoLeafletMap = L.Map.extend({
     },
 
     zoomIn: function(delta, options) {
-        var config = { location: this.getCenter(), zoom: this._cameraModule.getNearestZoomLevelAbove() + delta, durationSeconds: 0.33, allowInterruption: false };
+        delta = delta || 1;
+        var config = { location: this.getCenter(), zoom: this._cameraModule.getCurrentZoomLevel() + delta, durationSeconds: 0.33, allowInterruption: false };
         if (config.zoom <= this.getMaxZoom()) {
             this._cameraModule.setView(config);
             this._updateZoom();
@@ -259,7 +260,8 @@ var EegeoLeafletMap = L.Map.extend({
     },
 
     zoomOut: function(delta, options) {
-        var config = { location: this.getCenter(), zoom: this._cameraModule.getNearestZoomLevelBelow() - delta, durationSeconds: 0.33, allowInterruption: false };
+        delta = delta || 1;
+        var config = { location: this.getCenter(), zoom: this._cameraModule.getCurrentZoomLevel() - delta, durationSeconds: 0.33, allowInterruption: false };
         if (config.zoom >= this.getMinZoom()) {
             this._cameraModule.setView(config);
             this._updateZoom();

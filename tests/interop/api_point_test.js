@@ -124,6 +124,20 @@ describe("map_interop:", function() {
         _cameraApi.setEventCallback(callback);
       });
     });
+
+    it("the getDistanceFromZoomLevel function should exist", function() {
+      _verifyApiFunctionExists(function() {
+        var zoomlevel = 1;
+        _cameraApi.getDistanceFromZoomLevel(zoomlevel);
+      });
+    });
+
+    it("the getZoomLevel function should exist", function() {
+      _verifyApiFunctionExists(function() {
+        _cameraApi.getZoomLevel();
+      });
+    });
+
   });
 
   describe("when using the themes api", function() {

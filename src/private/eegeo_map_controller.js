@@ -74,7 +74,7 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
     _Module["canvas"] = _canvas;
 
     var center = L.latLng(options.center);
-    var distance = _cameraModule.zoomLevelToDistance(options.zoom);
+    var zoom = options.zoom;
     var headingDegrees = options.headingDegrees;
 
     var indoorsEnabledArg = (options.indoorsEnabled) ? "1" : "0";
@@ -90,7 +90,7 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
         apiKey,
         center.lat.toString(),
         center.lng.toString(),
-        distance.toString(),
+        zoom.toString(),
         headingDegrees.toString(),
         indoorsEnabledArg,
         coverageTreeManifest,

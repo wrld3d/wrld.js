@@ -9,6 +9,8 @@ function EmscriptenCameraApi(eegeoApiPointer, cwrap, runtime, emscriptenMemory) 
     var _getPitchDegreesInterop = null;
     var _getHeadingDegreesInterop = null;
     var _setEventCallbackInterop = null;
+    var _getDistanceFromZoomLevelInterop = null;
+    var _getZoomLevelInterop = null;
 
     var _setView = function(animated, location, distance, headingDegrees, tiltDegrees, durationSeconds, jumpIfFarAway, allowInterruption) {
         _setViewInterop = _setViewInterop || cwrap("setViewUsingZenithAngle", "number", ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number" ]);
@@ -47,7 +49,7 @@ function EmscriptenCameraApi(eegeoApiPointer, cwrap, runtime, emscriptenMemory) 
     this.setView = function(config) {
         var animated = "animate" in config ? config["animate"] : true;
         var location = "location" in config ? L.latLng(config["location"]): null;
-        var distance = "distance" in config ? config["distance"] : null;
+        var distance = "zoom" in config ? this.getDistanceFromZoomLevel(config["zoom"]) : null;
         var headingDegrees = "headingDegrees" in config ? config["headingDegrees"] : null;
         var tiltDegrees = "tiltDegrees" in config ? config["tiltDegrees"] : null;
         var durationSeconds = "durationSeconds" in config ? config["durationSeconds"] : null;
@@ -101,6 +103,16 @@ function EmscriptenCameraApi(eegeoApiPointer, cwrap, runtime, emscriptenMemory) 
     this.setEventCallback = function(callback) {
         _setEventCallbackInterop = _setEventCallbackInterop || cwrap("setEventCallback", null, ["number", "number"]);
         _setEventCallbackInterop(_eegeoApiPointer, runtime.addFunction(callback));
+    };
+
+    this.getDistanceFromZoomLevel = function(zoomLevel) {
+        _getDistanceFromZoomLevelInterop = _getDistanceFromZoomLevelInterop || cwrap("getDistanceFromZoomLevel", "number", ["number", "number"]);
+        return _getDistanceFromZoomLevelInterop(_eegeoApiPointer, zoomLevel);
+    };
+
+    this.getZoomLevel = function() {
+        _getZoomLevelInterop = _getZoomLevelInterop || cwrap("getZoomLevel", "number", ["number"]);
+        return _getZoomLevelInterop(_eegeoApiPointer);
     };
 
 }

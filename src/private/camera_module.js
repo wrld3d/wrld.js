@@ -1,5 +1,4 @@
 var MapModule = require("./map_module");
-var space = require("../public/space");
 
 var CameraModule = function(emscriptenApi, startLatLng, initialZoom) {
     var _emscriptenApi = emscriptenApi;
@@ -7,14 +6,9 @@ var CameraModule = function(emscriptenApi, startLatLng, initialZoom) {
     var _pendingSetViewData = null;
     var _pendingSetViewToBoundsData = null;
     var _center = startLatLng;
-    var _initialZoom = initialZoom;
 
 
     var _setView = function(config) {
-        if ("zoom" in config) {
-            config.distance = space.zoomToDistance(config.zoom);
-        }
-
         if (_ready) {
             _emscriptenApi.cameraApi.setView(config);
         }
@@ -37,28 +31,6 @@ var CameraModule = function(emscriptenApi, startLatLng, initialZoom) {
         }
     };
 
-    var _getNearestZoomLevelAbove = function() {
-        if (_ready) {
-            var cameraApi = _emscriptenApi.cameraApi;
-            var distanceToInterest = cameraApi.getDistanceToInterest();
-            return space.nearestZoomAbove(distanceToInterest);
-        }
-        else {
-            return _pendingSetViewData["zoom"] || -1;
-        }
-    };
-
-    var _getNearestZoomLevelBelow = function() {
-        if (_ready) {
-            var cameraApi = _emscriptenApi.cameraApi;
-            var distanceToInterest = cameraApi.getDistanceToInterest();
-            return space.nearestZoomBelow(distanceToInterest);
-        }
-        else {
-            return _pendingSetViewData["zoom"] || -1;
-        }
-    };
-
     var _getCenter = function() {
         if (_ready) {
             var cameraApi = _emscriptenApi.cameraApi;
@@ -75,12 +47,8 @@ var CameraModule = function(emscriptenApi, startLatLng, initialZoom) {
             return _emscriptenApi.cameraApi.getDistanceToInterest();
         }
         else {
-          if ("zoom" in _pendingSetViewData) {
-            return space.zoomToDistance(_pendingSetViewData["zoom"]) || -1;
-          }
-          else {
-            return space.zoomToDistance(_initialZoom) || -1;
-          }
+            //Can't convert zoom level to distance before the api is loaded.
+          return 0;
         }
     };
 
@@ -135,6 +103,16 @@ var CameraModule = function(emscriptenApi, startLatLng, initialZoom) {
         }
     };
 
+    var _getZoomLevel = function() {
+         if (_ready) {
+            return _emscriptenApi.cameraApi.getZoomLevel();
+        }
+        else {
+            return  _pendingSetViewData["zoom"] || 0;
+        }
+    };
+
+
     this.setView = function(config) {
         _setView(config);
     };
@@ -143,25 +121,13 @@ var CameraModule = function(emscriptenApi, startLatLng, initialZoom) {
         _setViewToBounds(config);
     };
 
-    this.zoomLevelToDistance = function(zoomLevel) {
-        return space.zoomToDistance(zoomLevel);
-    };
-
     this.onInitialStreamingCompleted = function() {
         _ready = true;
         _flushPendingViewOperations();
     };
 
     this.getCurrentZoomLevel = function() {
-        return Math.max(0, _getNearestZoomLevelAbove());
-    };
-
-    this.getNearestZoomLevelAbove = function() {
-        return _getNearestZoomLevelAbove();
-    };
-
-    this.getNearestZoomLevelBelow = function() {
-        return _getNearestZoomLevelBelow();
+        return _getZoomLevel();
     };
 
     this.getCenter = function() {
