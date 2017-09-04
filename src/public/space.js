@@ -63,7 +63,7 @@ var _altitudes = [
 
 var _lerp = function (a,  b,  c) {
     return a + c * (b - a);
-}
+};
 
 var _altitudeToZoom = function(altitude, comparisonFunc) {
     var zoom = _altitudes.findIndex(function(zoomLevelDistance) {
