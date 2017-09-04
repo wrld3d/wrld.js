@@ -42,7 +42,8 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
         zoomControl: false,
         zoomAnimation: false,
         minZoom: 0,
-        maxZoom: 20
+        maxZoom: 20,
+        zoomSnap: 0
     };
 
     options = L.extend(_defaultOptions, options);
