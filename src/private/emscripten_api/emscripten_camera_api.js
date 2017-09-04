@@ -49,7 +49,7 @@ function EmscriptenCameraApi(eegeoApiPointer, cwrap, runtime, emscriptenMemory) 
     this.setView = function(config) {
         var animated = "animate" in config ? config["animate"] : true;
         var location = "location" in config ? L.latLng(config["location"]): null;
-        var distance = "zoom" in config ? this.getDistanceFromZoomLevel(config["zoom"]) : null;
+        var distance = "zoom" in config ? this.getDistanceFromZoomLevel(config["zoom"]) : "distance" in config ? config["distance"] : null;
         var headingDegrees = "headingDegrees" in config ? config["headingDegrees"] : null;
         var tiltDegrees = "tiltDegrees" in config ? config["tiltDegrees"] : null;
         var durationSeconds = "durationSeconds" in config ? config["durationSeconds"] : null;
