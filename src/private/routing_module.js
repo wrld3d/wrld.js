@@ -25,30 +25,45 @@ var RoutingModule = function(apiKey, indoorsModule) {
     };
 
     var _parseRouteSteps = function(routeSteps) {
-        var latLongAltPoints = [];
-        var height = 0;
-
+        var parsedSteps = [];
         for (var i = 0; i < routeSteps.length; i++) 
         {   
             var metadata = routeSteps[i].name;
             var level = _parseMetadataTag(metadata, "level");
-        
-            if (level !== "multiple") 
+            if (level === "multiple") 
             {
-                height = _indoorsModule.getFloorHeightAboveSeaLevel(level);
+                // skip route segments which change floor for now
+                continue;
             }
+            var routeStep = {};
+            var latLongPoints = [];
 
+            routeStep.indoorMapId = _parseMetadataTag(metadata, "bid");
+            // Hack to preserve Westport/West ward works example behaviour:
+            // Routes are defined relative to an indoor map submission, but 
+            // Westport House was built before the era of UIDs
+            if (routeStep.indoorMapId === "e2657c93-2d13-412a-89fe-0949a14e7eea") {
+                routeStep.indoorMapId = "westport_house";
+            } else if (routeStep.indoorMapId === "c857d08d-7de1-4447-9ff8-6747649a00e0") {
+                // West Ward Works also has an unusual history
+                routeStep.indoorMapId = "70f9b00f-8c4f-4570-9a23-62bd80a76f8a";
+            }
+            if (level) {
+                routeStep.indoorMapFloorId = parseInt(level);
+            }
             var stepGeometry = routeSteps[i]["geometry"]["coordinates"];
 
             for (var j=0; j<stepGeometry.length; j++) 
             {
                 var lonlat = stepGeometry[j];     
-                var latLonAlt = [lonlat[1], lonlat[0], height];
-                latLongAltPoints.push(latLonAlt); 
+                var latLon = [lonlat[1], lonlat[0]];
+                latLongPoints.push(latLon); 
             }
+            routeStep.points = latLongPoints;
+            parsedSteps.push(routeStep);
         }
 
-        return latLongAltPoints;
+        return parsedSteps;
     };
 
     var _parseRoutes = function(routingJson) {
@@ -62,8 +77,8 @@ var RoutingModule = function(apiKey, indoorsModule) {
         for (var legIndex = 0; legIndex < legs.length; ++legIndex)
         {
             var steps = legs[legIndex]["steps"]; 
-            var points = _parseRouteSteps(steps);
-            results.push(points);
+            var routeSteps = _parseRouteSteps(steps);
+            results.push(routeSteps);
         }
       }
 
