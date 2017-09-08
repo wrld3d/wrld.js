@@ -36,16 +36,39 @@ exports.getIndoorMapFloorIndex = function(layer) {
     return _getOptionsPropertyOrNull(layer, "indoorFloorIndex");
 };
 
-exports.matchesIndoorMap = function(activeIndoorMapId, activeIndoorMapFloorId, activeIndoorMapFloorIndex, layer) {    
-    if (activeIndoorMapId !== this.getIndoorMapId(layer)) {
-        return false;
-    }        
+exports.getLayerDisplayOption = function(layer) {
+    var displayOption = _getOptionsPropertyOrNull(layer, "displayOption") || "currentFloor";
+    return displayOption;
+}
 
+exports.matchesCurrentFloor = function(activeIndoorMapFloorId, activeIndoorMapFloorIndex, layer) {
     if (activeIndoorMapFloorId === this.getIndoorMapFloorId(layer)) {
         return true;
     }
-
+    
     return activeIndoorMapFloorIndex === this.getIndoorMapFloorIndex(layer);
+}
+
+exports.matchesIndoorMap = function(activeIndoorMapId, activeIndoorMapFloorId, activeIndoorMapFloorIndex, layer) {  
+    var displayOption = this.getLayerDisplayOption(layer);
+    
+    if (displayOption === "always") {
+        return true;
+    }
+
+    if (displayOption === "currentIndoorMap" && activeIndoorMapId === this.getIndoorMapId(layer)) {
+        return true;
+    }        
+
+    if (displayOption === "currentFloor" && 
+        activeIndoorMapId === this.getIndoorMapId(layer) &&
+        this.matchesCurrentFloor(activeIndoorMapFloorId, activeIndoorMapFloorIndex, layer)
+    ) {
+        return true;
+    }
+
+    return false;
+
 };
 
 var _copyOption = function(sourceOptions, destOptions, sourcePropertyName, destPropertyName) {
