@@ -85,23 +85,34 @@ var RoutingModule = function(apiKey, indoorsModule) {
       return results;
     };
 
-    var _routeParseHandler = function(routeLoadHandler) {
+    var _routeParseHandler = function(routeLoadHandler, routeLoadErrorHandler) {
         return function() {
             var routeJson = JSON.parse(this.responseText);
-            var routes;
-            if ("type" in routeJson && routeJson["type"] === "multipart")
+
+            if (routeJson["code"] === "Ok")
             {
-                var multiroute = routeJson["routes"];
-                for (var index = 0; index < multiroute.length; ++index)
+                var routes;
+                if ("type" in routeJson && routeJson["type"] === "multipart")
                 {
-                    routes = _parseRoutes(multiroute[index]);
+                    var multiroute = routeJson["routes"];
+                    for (var index = 0; index < multiroute.length; ++index)
+                    {
+                        routes = _parseRoutes(multiroute[index]);
+                        routeLoadHandler(routes);
+                    }
+                }
+                else
+                {
+                    routes = _parseRoutes(routeJson);
                     routeLoadHandler(routes);
                 }
             }
             else
             {
-                routes = _parseRoutes(routeJson);
-                routeLoadHandler(routes);
+                if (routeLoadErrorHandler !== null && routeLoadErrorHandler !== undefined)
+                {
+                    routeLoadErrorHandler(routeJson);
+                }
             }
         };
     };
@@ -112,43 +123,7 @@ var RoutingModule = function(apiKey, indoorsModule) {
         };
     };
 
-    this.getRoutes = function(startPoint, endPoint, onLoadHandler) {
-        var url = _urlRoot + "route/?loc=" + startPoint[0] + "," + startPoint[1];
-        url += "%3B" + endPoint[0] + "," + endPoint[1];
-        url += "&apikey=" + _apiKey;
-        var request = new XMLHttpRequest();
-        request.open("GET", url, true);
-        request.onload = _routeParseHandler(onLoadHandler);
-        _indoorsModule.on("indoormapexit", _cancelRequest(request));
-        request.send();
-    };
-
-    this.getRoutesBetweenLevels = function(startPoint, startLevel, endPoint, endLevel, onLoadHandler) { 
-        var url = _urlRoot + "routelevels/?loc=" + startPoint[0] + "," + startPoint[1];
-        url += "%3B" + endPoint[0] + "," + endPoint[1];
-        url += "&levels=" + startLevel  + "%3B" + endLevel;
-        url += "&apikey=" + _apiKey;
-        var request = new XMLHttpRequest();
-        request.open("GET", url, true);
-        request.onload = _routeParseHandler(onLoadHandler);
-        _indoorsModule.on("indoormapexit", _cancelRequest(request));
-        request.send();
-    };
-
-    this.getMultipartRoutesBetweenLevels = function(startPoint, startLevel, endPoint, endLevel, onLoadHandler) { 
-        var url = _urlRoot + "multiroute/?loc=" + startPoint[0] + "," + startPoint[1];
-        url += "%3B" + endPoint[0] + "," + endPoint[1];
-        url += "&levels=" + startLevel  + "%3B" + endLevel;
-        url += "&apikey=" + _apiKey;
-        url += "&limit=400";
-        var request = new XMLHttpRequest();
-        request.open("GET", url, true);
-        request.onload = _routeParseHandler(onLoadHandler);
-        _indoorsModule.on("indoormapexit", _cancelRequest(request));
-        request.send();
-    };
-
-    this.getRoute = function(viaPoints, onLoadHandler) { 
+    this.getRoute = function(viaPoints, onLoadHandler, onErrorHandler) { 
         var url = _urlRoot + "route?loc=";
 
         for (var pointIndex = 0; pointIndex < viaPoints.length; ++pointIndex)
@@ -165,7 +140,7 @@ var RoutingModule = function(apiKey, indoorsModule) {
         url += "&limit=400";
         var request = new XMLHttpRequest();
         request.open("GET", url, true);
-        request.onload = _routeParseHandler(onLoadHandler);
+        request.onload = _routeParseHandler(onLoadHandler, onErrorHandler);
         _indoorsModule.on("indoormapexit", _cancelRequest(request));
         request.send();
     };
