@@ -7,6 +7,7 @@ var EmscriptenThemesApi = require("./emscripten_themes_api.js");
 var EmscriptenCameraApi = require("./emscripten_camera_api.js");
 var EmscriptenExpandFloorsApi = require("./emscripten_expand_floors_api.js");
 var EmscriptenHighlightApi = require("./emscripten_highlight_api.js");
+var EmscriptenBuildingsApi = require("./emscripten_buildings_api.js");
 var EmscriptenRenderingApi = require("./emscripten_rendering_api.js");
 var EmscriptenLayerPointMappingApi = require("./emscripten_layer_point_mapping_api.js");
 
@@ -26,6 +27,7 @@ function EmscriptenApi(emscriptenModule) {
     this.expandFloorsApi = null;
     this.highlightApi = null;
     this.renderingApi = null;
+    this.buildingsApi = null;
     this.layerPointMappingApi = null;
 
     this.onInitialized = function(eegeoApiPointer, emscriptenApiPointer, onUpdateCallback, onDrawCallback, onInitialStreamingCompletedCallback) {
@@ -47,6 +49,7 @@ function EmscriptenApi(emscriptenModule) {
         this.expandFloorsApi = new EmscriptenExpandFloorsApi(_eegeoApiPointer, cwrap, runtime);
         this.highlightApi = new EmscriptenHighlightApi(_eegeoApiPointer, cwrap, runtime, emscriptenMemory);
         this.renderingApi = new EmscriptenRenderingApi(_eegeoApiPointer, cwrap, runtime, emscriptenMemory);
+        this.buildingsApi = new EmscriptenBuildingsApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
 
         // emscripten-specific api usage via emscripten api pointer        
         this.layerPointMappingApi = new EmscriptenLayerPointMappingApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);

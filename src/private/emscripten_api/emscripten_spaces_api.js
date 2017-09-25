@@ -13,6 +13,9 @@ function EmscriptenSpacesApi(eegeoApiPointer, cwrap, runtime, emscriptenMemory) 
     var _getMortonKeyCenterWrap = null;
     var _getMortonKeyCornersWrap = null;
 
+    var _spacesApi_ScreenPointToRay = cwrap("spacesApi_ScreenPointToRay", null, ["number", "number", "number", "number"]);
+    var _spacesApi_LatLongToVerticallyDownRay = cwrap("spacesApi_LatLongToVerticallyDownRay", null, ["number", "number", "number", "number"]);
+
     var _worldToScreen = function(lat, long, alt) {
         _worldToScreenWrap = _worldToScreenWrap || cwrap("worldToScreen", null, ["number", "number", "number", "number", "number"]);
 
@@ -135,6 +138,33 @@ function EmscriptenSpacesApi(eegeoApiPointer, cwrap, runtime, emscriptenMemory) 
     this.getUpdatedAltitudeAtLatLng = function(latLng, previousHeight, previousLevel) {
         return _getUpdatedAltitudeAtLatLng(latLng.lat, latLng.lng, previousHeight, previousLevel);
     };
+
+
+    this.screenPointToRay = function(screenPoint) {
+        var point = L.point(screenPoint);
+        var resultRayBuffer = _emscriptenMemory.createDoubleBuffer(6);
+        _spacesApi_ScreenPointToRay(_eegeoApiPointer, point.x, point.y, resultRayBuffer.ptr);
+        var resultArray = _emscriptenMemory.consumeBufferToArray(resultRayBuffer);
+        var rayOrigin = new space.Vector3(resultArray[0], resultArray[1], resultArray[2]);
+        var rayDirection = new space.Vector3(resultArray[3], resultArray[4], resultArray[5]);
+        return {
+            origin: rayOrigin,
+            direction: rayDirection
+        };
+    };
+
+    this.latLongToVerticallyDownRay = function(latLng) {
+        var resultRayBuffer = _emscriptenMemory.createDoubleBuffer(6);
+        _spacesApi_LatLongToVerticallyDownRay(_eegeoApiPointer, latLng.lat, latLng.lng, resultRayBuffer.ptr);
+        var resultArray = _emscriptenMemory.consumeBufferToArray(resultRayBuffer);
+        var rayOrigin = new space.Vector3(resultArray[0], resultArray[1], resultArray[2]);
+        var rayDirection = new space.Vector3(resultArray[3], resultArray[4], resultArray[5]);
+        return {
+            origin: rayOrigin,
+            direction: rayDirection
+        };
+    };
+
 
     this.getMortonKeyAtLatLng = function(latLng) {
         return _getMortonKeyAtLatLng(latLng.lat, latLng.lng);

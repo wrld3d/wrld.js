@@ -21,7 +21,7 @@ var convertLatLngToVector = function(latLng) {
     var x = Math.cos(lat) * Math.cos(lng);
     var y = Math.cos(lat) * Math.sin(lng);
     var z = Math.sin(lat);
-    
+
     return {
         x: x,
         y: y,
@@ -39,20 +39,21 @@ L.Renderer.include({
 var EegeoLeafletMap = L.Map.extend({
 
     initialize: function(
-            browserWindow, 
-            id, 
+            browserWindow,
+            id,
             options,
-            cameraModule,             
-            precacheModule, 
-            themesModule, 
-            indoorsModule, 
-            polygonModule, 
+            cameraModule,
+            precacheModule,
+            themesModule,
+            indoorsModule,
+            polygonModule,
             layerPointMappingModule,
-            routingModule, 
-            renderingModule
+            routingModule,
+            renderingModule,
+            buildingsModule
             ) {
         this._browserWindow = browserWindow;
-        this._cameraModule = cameraModule;        
+        this._cameraModule = cameraModule;
         this._precacheModule = precacheModule;
         this._polygonModule = polygonModule;
         this._layerPointMappingModule = layerPointMappingModule;
@@ -60,6 +61,7 @@ var EegeoLeafletMap = L.Map.extend({
         this.indoors = indoorsModule;
         this.routes = routingModule;
         this.rendering = renderingModule;
+        this.buildings = buildingsModule;
         this._layersOnMap = {};
         this._spacesApi = null;
         this._ready = false;
@@ -74,9 +76,9 @@ var EegeoLeafletMap = L.Map.extend({
         this.boxZoom.disable();
         this.keyboard.disable();
 
-      
+
         this.attributionControl.setPrefix("<a href='http://leafletjs.com' title='A JS library for interactive maps' target='_blank'>Leaflet</a>");
-        this.attributionControl.addAttribution("3D Maps &copy; <a href='https://www.wrld3d.com' target='_blank'>WRLD</a> and <a href='https://www.wrld3d.com/legal/' target='_blank'>partners</a>");        
+        this.attributionControl.addAttribution("3D Maps &copy; <a href='https://www.wrld3d.com' target='_blank'>WRLD</a> and <a href='https://www.wrld3d.com/legal/' target='_blank'>partners</a>");
     },
 
     _initEvents: function (remove, surface) {
@@ -141,16 +143,16 @@ var EegeoLeafletMap = L.Map.extend({
 		}
 	},
 
-    addLayer: function(layer) {                
+    addLayer: function(layer) {
         var id = L.stamp(layer);
-        
+
         if (id in this._layersOnMap) {
             return;
         }
-            
+
         this._createPointMapping(layer);
 
-        this._layersOnMap[id] = layer;        
+        this._layersOnMap[id] = layer;
 
         L.Map.prototype.addLayer.call(this, layer);
     },
@@ -164,7 +166,7 @@ var EegeoLeafletMap = L.Map.extend({
 
         this._removePointMapping(layer);
         L.Map.prototype.removeLayer.call(this, layer);
-                
+
         delete this._layersOnMap[id];
     },
 
@@ -204,21 +206,30 @@ var EegeoLeafletMap = L.Map.extend({
     },
 
     latLngsForLayer: function(layer) {
-        return this._layerPointMappingModule.latLngsForLayer(layer);       
+        return this._layerPointMappingModule.latLngsForLayer(layer);
     },
-        
-    _createPointMapping: function(layer) {        
+
+    screenPointToRay: function(point) {
+        return (this._ready) ? this._spacesApi.screenPointToRay(point) : undefined;
+    },
+
+    latLngToVerticallyDownRay: function(latLng) {
+        return (this._ready) ? this._spacesApi.latLongToVerticallyDownRay(latLng) : undefined;
+    },
+
+
+    _createPointMapping: function(layer) {
         this._layerPointMappingModule.createPointMapping(layer);
     },
 
     _removePointMapping: function(layer) {
         this._layerPointMappingModule.removePointMapping(layer);
     },
-    
+
     _projectLatlngs: function(layer, latlngs, result, projectedBounds) {
         return this._layerPointMappingModule.projectLatlngs(layer, latlngs, result, projectedBounds);
     },
-    
+
     _updateZoom: function() {
         this._zoom = this.getZoom();
     },
@@ -229,7 +240,7 @@ var EegeoLeafletMap = L.Map.extend({
             L.Map.prototype.setView.call(this, center, zoom, { reset: true });
             this._viewInitialized = true;
         }
-        
+
         zoom = (typeof zoom === "undefined") ? this._zoom : this._limitZoom(zoom);
         center = this._limitCenter(L.latLng(center), zoom, this.options.maxBounds);
         options = options || {};
@@ -305,13 +316,13 @@ var EegeoLeafletMap = L.Map.extend({
         this._zoom = this._cameraModule.getCurrentZoomLevel();
         return this._zoom;
     },
-    
+
     getBounds: function () {
         var topLeft = this.layerPointToLatLng(new L.Point(0, 0));
         var topRight = this.layerPointToLatLng(new L.Point(this.getContainer().clientWidth, 0));
         var bottomLeft = this.layerPointToLatLng(new L.Point(0, this.getContainer().clientHeight));
         var BottomRight = this.layerPointToLatLng(new L.Point(this.getContainer().clientWidth, this.getContainer().clientHeight));
-        
+
         return new L.LatLngBounds([topLeft, topRight, bottomLeft, BottomRight]);
     },
 
@@ -345,7 +356,7 @@ var EegeoLeafletMap = L.Map.extend({
     _onDraw: function() {
         this._updateLayerVisibility();
 
-        this.eachLayer(function (layer) {            
+        this.eachLayer(function (layer) {
             if (layer.update) {
                 layer.update();
             }
@@ -379,16 +390,16 @@ var EegeoLeafletMap = L.Map.extend({
     getCameraPitchDegrees: function() {
         return this._cameraModule.getPitchDegrees();
     },
-    
+
     setCameraTiltDegrees: function(tilt) {
       this._cameraModule.setTiltDegrees(tilt);
       return this;
     },
-    
+
     getCameraTiltDegrees: function() {
       return this._cameraModule.getTiltDegrees();
     },
-    
+
     getCameraHeadingDegrees: function() {
         return this._cameraModule.getHeadingDegrees();
     },
@@ -400,6 +411,16 @@ var EegeoLeafletMap = L.Map.extend({
 
     precache: function(centre, radius, completionCallback) {
         return this._precacheModule.precache(centre, radius, completionCallback);
+    },
+
+    findBuildingAtScreenPoint: function(screenPoint) {
+        var ray = this.screenPointToRay(screenPoint);
+        return this.buildings.findIntersectionWithBuilding(ray);
+    },
+
+    findBuildingAtLatLng: function(latLng) {
+        var ray = this.latLngToVerticallyDownRay(latLng);
+        return this.buildings.findIntersectionWithBuilding(ray);
     },
 
     _getAngleFromCameraToHorizon: function() {
@@ -425,38 +446,38 @@ var EegeoLeafletMap = L.Map.extend({
 
             // we're checking for null, as there's a few potentially confusing interactions that can happen.
             // e.g. if we have a marker with an associated popup (say markerId = 23 and popupId = 75), then on starting this loop, we'll
-            // have layerIds = [ 23, 75 ] and both of these ids exist in the _layersOnMap dictionary. However, a side-effect of removing 
-            // a marker is that any associated popup will be removed. We're spinning over the layerIds that we copied _before_ 
+            // have layerIds = [ 23, 75 ] and both of these ids exist in the _layersOnMap dictionary. However, a side-effect of removing
+            // a marker is that any associated popup will be removed. We're spinning over the layerIds that we copied _before_
             // removing anything, so we now have a stale id (75) that no longer exists in _layersOnMap, and we can skip it.
             if(layer === undefined) {
                 return;
             }
-            
+
             var latlng = getCenterOfLayer(layer);
 
             // certain layers (such as L.layerGroup) don't have positions and are purely organisational tools, so we can ignore them
             if (latlng === null) {
                 return;
             }
-            
+
             var latLngBehindEarth = _this._isLatLngBehindEarth(latlng, cameraVector, maxAngle);
             var hasLayer = _this.hasLayer(layer);
             var indoorMapDisplayFilter = _this._isVisibleForCurrentMapState(layer);
-            
-            if (!hasLayer && !latLngBehindEarth && indoorMapDisplayFilter) {                
-                L.Map.prototype.addLayer.call(_this, layer);                
-            }                                    
-            else if (hasLayer && (latLngBehindEarth || !indoorMapDisplayFilter)) {                
+
+            if (!hasLayer && !latLngBehindEarth && indoorMapDisplayFilter) {
+                L.Map.prototype.addLayer.call(_this, layer);
+            }
+            else if (hasLayer && (latLngBehindEarth || !indoorMapDisplayFilter)) {
                 L.Map.prototype.removeLayer.call(_this, layer);
             }
-            
+
         });
     },
-    
+
     _isVisibleForCurrentMapState: function(layer) {
         var currentMapStateIsOutdoors = !this.indoors.isIndoors();
         var layerIsOutdoors = !indoorOptions.hasIndoorMap(layer);
-        
+
         if (currentMapStateIsOutdoors)
         {
             return layerIsOutdoors;
@@ -466,7 +487,7 @@ var EegeoLeafletMap = L.Map.extend({
         if (layerIsOutdoors) {
             return false;
         }
-                
+
         return indoorOptions.matchesIndoorMap(
             this.indoors.getActiveIndoorMap().getIndoorMapId(),
             this.indoors.getFloor()._getFloorId(),
