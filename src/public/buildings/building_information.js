@@ -23,7 +23,7 @@ var BuildingInformation = function(
         return {
             building_id: _buildingId,
             building_dimensions: _buildingDimensions.toJson(),
-            building_contours:_buildingContours.map(function(_x) {_x.toJson();})
+            building_contours:_buildingContours.map(function(_x) { return _x.toJson();})
         };
     };
 
