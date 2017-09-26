@@ -2,7 +2,7 @@ var MapModule = require("./map_module");
 var indoors = require("../public/indoors/indoors");
 var IndoorWatermarkController = require("./indoor_watermark_controller");
 
-var IndoorsModule = function(emscriptenApi, mapController, mapId) {
+var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floorIndex) {
 
     var _emscriptenApi = emscriptenApi;
     var _mapController = mapController;
@@ -15,6 +15,9 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId) {
     var _transitioningToIndoorMap = false;
 
     var _indoorWatermarkController = new IndoorWatermarkController(mapId);
+
+    var _startingIndoorId = indoorId;
+    var _startingFloorIndex = floorIndex;
 
     var _this = this;
 
@@ -168,6 +171,22 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId) {
 
     this.onInitialStreamingCompleted = function() {
         _ready = true;
+
+        if(_startingIndoorId)
+        {
+            var foundIndoorMap = this.enter(_startingIndoorId);
+
+            if(foundIndoorMap === false)
+            {
+                console.error('Failed to enter indoor map. Please check your indoor Id is correct and the starting location is the same as your indoor map.');
+            }
+
+            if(_startingFloorIndex)
+            {
+                this.once("indoormapenter", function() { this.setFloor(_startingFloorIndex); });
+            }
+        }
+
         if (_pendingEnterTransition !== null) {
             _transitionToIndoorMap(_pendingEnterTransition);
             _pendingEnterTransition = null;
