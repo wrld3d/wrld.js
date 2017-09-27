@@ -1,12 +1,12 @@
 var MapModule = require("./map_module");
 
-function BuildingsModule(emscriptenApi) {
+function BuildingsModuleImpl(emscriptenApi) {
 
     var _emscriptenApi = emscriptenApi;
     var _nativeIdToBuildingHighlights = {};
     var _pendingBuildingHighlights = [];
     var _ready = false;
-    var _this = this;
+    var _notifyBuildingInformationReceivedCallback = null;
 
     var _createPendingBuildingHighlights = function() {
         _pendingBuildingHighlights.forEach(function(buildingHighlight) {
@@ -92,17 +92,54 @@ function BuildingsModule(emscriptenApi) {
         _createPendingBuildingHighlights();
     };
 
+    this.isReady = function() {
+        return _ready;
+    }
+
+    this.setBuildingInformationReceivedCallback = function(callback) {
+        _notifyBuildingInformationReceivedCallback = callback;
+    }
+
     var _executeBuildingInformationReceivedCallback = function(buildingHighlightId) {
         if (buildingHighlightId in _nativeIdToBuildingHighlights) {
-            var _buildingHighlight = _nativeIdToBuildingHighlights[buildingHighlightId];
+            var buildingHighlight = _nativeIdToBuildingHighlights[buildingHighlightId];
             var buildingInformation = _emscriptenApi.buildingsApi.tryGetBuildingInformation(buildingHighlightId);
             if (buildingInformation !== null) {
-                _buildingHighlight._setBuildingInformation(buildingInformation);
+                buildingHighlight._setBuildingInformation(buildingInformation);
             }
-            _this.fire("buildinginformationreceived", {buildingHighlight: _buildingHighlight});
+            if (_notifyBuildingInformationReceivedCallback !== null) {
+                _notifyBuildingInformationReceivedCallback(buildingHighlight);
+            }
         }
     };
 }
+
+function BuildingsModule(emscriptenApi) {
+    var _buildingsModuleImpl = new BuildingsModuleImpl(emscriptenApi);
+    var _this = this;
+
+    var _buildingInformationReceivedHandler = function(buildingHighlight) {
+        _this.fire("buildinginformationreceived", {buildingHighlight: buildingHighlight});
+    }
+
+    this.findBuildingAtScreenPoint = function(screenPoint) {
+        return _buildingsModuleImpl.findBuildingAtScreenPoint(screenPoint);
+    };
+
+    this.findBuildingAtLatLng = function(latLng) {
+        return _buildingsModuleImpl.findBuildingAtLatLng(latLng);
+    };
+
+    this.onInitialized = function() {
+        _buildingsModuleImpl.setBuildingInformationReceivedCallback(_buildingInformationReceivedHandler);
+        _buildingsModuleImpl.onInitialized();
+    }
+
+    this._getImpl = function() {
+        return _buildingsModuleImpl;
+    }
+}
+
 var BuildingsModulePrototype = L.extend({}, MapModule, L.Mixin.Events);
 
 BuildingsModule.prototype = BuildingsModulePrototype;

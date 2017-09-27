@@ -19,7 +19,7 @@ var BuildingHighlight = function(options) {
     this.setColor = function(color) {
         _color = new space.Vector4(color);
         if (_map !== null) {
-            _map.buildings.notifyBuildingHighlightChanged(this);
+            _map.buildings._getImpl().notifyBuildingHighlightChanged(this);
         }
         return this;
     };
@@ -33,13 +33,13 @@ var BuildingHighlight = function(options) {
             this.remove();
         }
         _map = map;
-        map.buildings.addBuildingHighlight(this);
+        _map.buildings._getImpl().addBuildingHighlight(this);
         return this;
     };
 
     this.remove = function() {
         if (_map !== null) {
-            _map.buildings.removeBuildingHighlight(this);
+            _map.buildings._getImpl().removeBuildingHighlight(this);
             _map = null;
         }
         return this;
