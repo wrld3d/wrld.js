@@ -68,6 +68,24 @@ function BuildingsModule(emscriptenApi) {
         return _emscriptenApi.buildingsApi.findIntersectionWithBuilding(ray);
     };
 
+    this.findBuildingAtScreenPoint = function(screenPoint) {
+        if (!_ready) {
+            return undefined;
+        }
+
+        var ray = _emscriptenApi.spacesApi.screenPointToRay(screenPoint);
+        return this.findIntersectionWithBuilding(ray);
+    };
+
+    this.findBuildingAtLatLng = function(latLng) {
+        if (!_ready) {
+            return undefined;
+        }
+
+        var ray = _emscriptenApi.spacesApi.latLongToVerticallyDownRay(latLng);
+        return this.findIntersectionWithBuilding(ray);
+    };
+
     this.onInitialized = function() {
         _ready = true;
         _emscriptenApi.buildingsApi.registerBuildingInformationReceivedCallback(_executeBuildingInformationReceivedCallback);

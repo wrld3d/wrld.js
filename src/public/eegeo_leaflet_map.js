@@ -209,15 +209,6 @@ var EegeoLeafletMap = L.Map.extend({
         return this._layerPointMappingModule.latLngsForLayer(layer);
     },
 
-    screenPointToRay: function(point) {
-        return (this._ready) ? this._spacesApi.screenPointToRay(point) : undefined;
-    },
-
-    latLngToVerticallyDownRay: function(latLng) {
-        return (this._ready) ? this._spacesApi.latLongToVerticallyDownRay(latLng) : undefined;
-    },
-
-
     _createPointMapping: function(layer) {
         this._layerPointMappingModule.createPointMapping(layer);
     },
@@ -411,16 +402,6 @@ var EegeoLeafletMap = L.Map.extend({
 
     precache: function(centre, radius, completionCallback) {
         return this._precacheModule.precache(centre, radius, completionCallback);
-    },
-
-    findBuildingAtScreenPoint: function(screenPoint) {
-        var ray = this.screenPointToRay(screenPoint);
-        return this.buildings.findIntersectionWithBuilding(ray);
-    },
-
-    findBuildingAtLatLng: function(latLng) {
-        var ray = this.latLngToVerticallyDownRay(latLng);
-        return this.buildings.findIntersectionWithBuilding(ray);
     },
 
     _getAngleFromCameraToHorizon: function() {
