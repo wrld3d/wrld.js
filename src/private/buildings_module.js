@@ -94,11 +94,11 @@ function BuildingsModuleImpl(emscriptenApi) {
 
     this.isReady = function() {
         return _ready;
-    }
+    };
 
     this.setBuildingInformationReceivedCallback = function(callback) {
         _notifyBuildingInformationReceivedCallback = callback;
-    }
+    };
 
     var _executeBuildingInformationReceivedCallback = function(buildingHighlightId) {
         if (buildingHighlightId in _nativeIdToBuildingHighlights) {
@@ -120,7 +120,7 @@ function BuildingsModule(emscriptenApi) {
 
     var _buildingInformationReceivedHandler = function(buildingHighlight) {
         _this.fire("buildinginformationreceived", {buildingHighlight: buildingHighlight});
-    }
+    };
 
     this.findBuildingAtScreenPoint = function(screenPoint) {
         return _buildingsModuleImpl.findBuildingAtScreenPoint(screenPoint);
@@ -133,11 +133,11 @@ function BuildingsModule(emscriptenApi) {
     this.onInitialized = function() {
         _buildingsModuleImpl.setBuildingInformationReceivedCallback(_buildingInformationReceivedHandler);
         _buildingsModuleImpl.onInitialized();
-    }
+    };
 
     this._getImpl = function() {
         return _buildingsModuleImpl;
-    }
+    };
 }
 
 var BuildingsModulePrototype = L.extend({}, MapModule, L.Mixin.Events);
