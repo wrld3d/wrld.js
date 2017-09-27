@@ -174,13 +174,7 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
 
         if(_startingIndoorId)
         {
-            var foundIndoorMap = this.enter(_startingIndoorId);
-
-            if(foundIndoorMap === false)
-            {
-                // todo - this failing lint
-                //console.error('Failed to enter indoor map. Please check your indoor Id is correct and the starting location is the same as your indoor map.');
-            }
+            this.enter(_startingIndoorId);
 
             if(_startingFloorIndex)
             {
