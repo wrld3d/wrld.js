@@ -2,7 +2,7 @@ var MapModule = require("./map_module");
 var indoors = require("../public/indoors/indoors");
 var IndoorWatermarkController = require("./indoor_watermark_controller");
 
-var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floorIndex) {
+var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floorIndex, center, headingDegrees, zoom) {
 
     var _emscriptenApi = emscriptenApi;
     var _mapController = mapController;
@@ -18,6 +18,9 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
 
     var _startingIndoorId = indoorId;
     var _startingFloorIndex = floorIndex;
+    var _center = center;
+    var _headingDegrees = headingDegrees;
+    var _zoom = zoom;
 
     var _this = this;
 
@@ -142,11 +145,14 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
             _pendingEnterTransition = config;
             return;
         }
-
-        _emscriptenApi.cameraApi.setView({location: config.latLng, distance: config.distance, allowInterruption: false, headingDegrees: 0});
+        _emscriptenApi.cameraApi.setView({location: config.latLng, distance: config.distance, allowInterruption: false, headingDegrees: config.orientation});
         _mapController._setIndoorTransitionCompleteEventListener(function() { _enterIndoorMap(config.indoorMapId); });
 
         _this.once("indoormapenter", function() {
+            if(config.setLocationAfterEntry)
+            {
+                _emscriptenApi.cameraApi.setView({location: config.latLng, zoom: config.zoom, allowInterruption: false, headingDegrees: config.orientation});
+            }
             _transitioningToIndoorMap = false;
             var vendorKey = _activeIndoorMap.getIndoorMapSourceVendor();
             _indoorWatermarkController.showWatermarkForVendor(vendorKey);
@@ -174,11 +180,18 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
 
         if(_startingIndoorId)
         {
-            this.enter(_startingIndoorId);
+            var config = {
+                latLng: _center,
+                zoom: _zoom,
+                indoorMapId: _startingIndoorId,
+                orientation: _headingDegrees,
+                setLocationAfterEntry: true
+            };
+            this.enter(_startingIndoorId, config);
 
             if(_startingFloorIndex)
             {
-                this.once("indoormapenter", function() { this.setFloor(_startingFloorIndex); });
+                this.once("indoormapenter", function() { this.setFloor(Number(_startingFloorIndex)); });
             }
         }
 
@@ -258,7 +271,7 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
         return this.moveUp(delta);
     };
 
-    this.enter = function(indoorMap) {
+    this.enter = function(indoorMap, config) {
         if (this.isIndoors() || _transitioningToIndoorMap) {
             return false;
         }
@@ -279,13 +292,16 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
         var latLng = entrance.getLatLng();
         var distance = 400;
 
-        var enterConfig = {
-            latLng: latLng,
-            distance: distance,
-            indoorMapId: indoorMapId
-        };
+        if(!config) {
+            config = {
+                latLng: latLng,
+                distance: distance,
+                indoorMapId: indoorMapId,
+                orientation: 0
+            };
+        }
 
-        _transitionToIndoorMap(enterConfig);
+        _transitionToIndoorMap(config);
 
         return true;
     };
