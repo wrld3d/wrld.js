@@ -444,11 +444,11 @@ var EegeoLeafletMap = L.Map.extend({
             var latLngBehindEarth = _this._isLatLngBehindEarth(latlng, cameraVector, maxAngle);
             var hasLayer = _this.hasLayer(layer);
             var indoorMapDisplayFilter = _this._isVisibleForCurrentMapState(layer);
-            
-            if (!hasLayer && !latLngBehindEarth && indoorMapDisplayFilter) {                
-                L.Map.prototype.addLayer.call(_this, layer);                
-            }                                    
-            else if (hasLayer && (latLngBehindEarth)) {               
+
+            if (!hasLayer && !latLngBehindEarth && indoorMapDisplayFilter) {
+                L.Map.prototype.addLayer.call(_this, layer);
+            }
+            else if (hasLayer && (latLngBehindEarth || !indoorMapDisplayFilter)) {
                 L.Map.prototype.removeLayer.call(_this, layer);
             }
 
