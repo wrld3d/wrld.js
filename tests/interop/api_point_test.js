@@ -328,9 +328,10 @@ describe("map_interop:", function() {
       _verifyApiFunctionExists(function() {
         var mappingId = 0;
         var elevation = 100.0;
+        var elevationModeInt = 0;
         var indoorMapFloorId = 2;
         var latLngs = [ L.latLng(0, 1), L.latLng(-2, 3) ];
-        _layerPointMappingApi.createPointMapping(mappingId, elevation, "my_indoor_map_id", indoorMapFloorId, latLngs);
+        _layerPointMappingApi.createPointMapping(mappingId, elevation, elevationModeInt, "my_indoor_map_id", indoorMapFloorId, latLngs);
       });
     });
 
@@ -338,9 +339,10 @@ describe("map_interop:", function() {
       _verifyApiFunctionExists(function() {
         var mappingId = 0;
         var elevation = 100.0;
+        var elevationModeInt = 0;
         var indoorMapFloorIndex = 0;
         var latLngs = [ L.latLng(0, 1), L.latLng(-2, 3) ];
-        _layerPointMappingApi.createPointMappingWithFloorIndex(mappingId, elevation, "my_indoor_map_id", indoorMapFloorIndex, latLngs);
+        _layerPointMappingApi.createPointMappingWithFloorIndex(mappingId, elevation, elevationModeInt, "my_indoor_map_id", indoorMapFloorIndex, latLngs);
       });
     });
 

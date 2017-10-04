@@ -9,7 +9,7 @@ var PolygonShim = L.Polygon.extend({
 	},
 
 	// @method setLatLngs(latlngs: LatLng[]): this
-	// Replaces all the points in the polyline with the given array of geographical points.
+	// Replaces all the points in the polygon with the given array of geographical points.
 	setLatLngs: function (latlngs) {
 		var redraw = L.Polygon.prototype.setLatLngs.call(this, latlngs);
 
