@@ -104,11 +104,7 @@ var LayerPointMappingModule = function(emscriptenApi) {
         this._createAndAdd(layer);
     };
 
-    this.removePointMapping = function(layer) {
-        if (!this._useWrldSdkPointMappingForLayer(layer)) {
-            return;
-        }
-
+    this.removePointMapping = function(layer) {        
         if(!_ready) {
             var index = _pendingMappings.indexOf(layer);
             if (index > -1) {
@@ -119,9 +115,14 @@ var LayerPointMappingModule = function(emscriptenApi) {
         }
 
         var layerId = this._getLayerId(layer);
-        _emscriptenApi.layerPointMappingApi.removePointMapping(layerId);
 
-        delete _layerToLatLngsMapping[layerId];
+        // try to remove the mapping for this layer, even if it doesn't follow the rules that
+        // would permit a mapping to be created in the first place. This is to guard against a 
+        // user mutating the layer options _after_ adding it to the map
+        if (layerId in _layerToLatLngsMapping) {
+            _emscriptenApi.layerPointMappingApi.removePointMapping(layerId);
+            delete _layerToLatLngsMapping[layerId];
+        }
     };
 
     this._updateMappings = function() {
