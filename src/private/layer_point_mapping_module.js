@@ -1,5 +1,6 @@
 var MapModule = require("./map_module");
 var indoorOptions = require("./indoor_map_layer_options.js");
+var elevationMode = require("./elevation_mode.js");
 
 var _undefinedPoint = L.point(-100, -100);
 
@@ -33,7 +34,23 @@ var LayerPointMappingModule = function(emscriptenApi) {
             return false;
         }
         return true;
-    };    
+    };
+
+    this._getLayerElevationMode = function(layer) {
+        var elevationModes = {
+            heightAboveSeaLevel: 0,
+            heightAboveGround: 1
+        };
+
+        var elevationModeInt = elevationModes.heightAboveGround;
+
+        if (layer.options.elevationMode && 
+            layer.options.elevationMode.toLowerCase() === elevationMode.ElevationModeType.HEIGHT_ABOVE_SEA_LEVEL.toLowerCase()) {
+            elevationModeInt = elevationModes.heightAboveSeaLevel;
+        }
+
+        return elevationModeInt;
+    };
 
     this._createAndAdd = function(layer) {
         if (!this._useWrldSdkPointMappingForLayer(layer)) {
@@ -50,14 +67,8 @@ var LayerPointMappingModule = function(emscriptenApi) {
         var latLngsFlatArray = _flatten(sourceLatLngArray);
 
         var elevation = layer.options.elevation || 0.0;
-        var elevationModes = {
-            heightAboveSeaLevel: 0,
-            heightAboveGround: 1
-        };
-        var elevationModeInt = elevationModes.heightAboveGround;
-        if (layer.options.elevationMode && layer.options.elevationMode.toLowerCase() === "heightabovesealevel") {
-            elevationModeInt = elevationModes.heightAboveSeaLevel;
-        }
+        
+        var elevationModeInt = this._getLayerElevationMode(layer);
 
         var api = _emscriptenApi.layerPointMappingApi;
         

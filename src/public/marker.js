@@ -1,4 +1,6 @@
 var indoorOptions = require("../private/indoor_map_layer_options.js");
+var elevationMode = require("../private/elevation_mode.js");
+
 var popups = require("./popup");
 
 var EegeoDomUtil = require("../private/eegeo_dom_util");
@@ -19,7 +21,7 @@ var Marker = L.Marker.extend({
 
     options: {
         elevation: 0,
-        elevationMode: "heightAboveGround"
+        elevationMode: elevationMode.ElevationModeType.HEIGHT_ABOVE_GROUND
     },
 
     getElevation: function() {
@@ -36,9 +38,9 @@ var Marker = L.Marker.extend({
         return this;
     },
 
-    setElevationMode: function(elevationMode) {
-        if (elevationMode === "heightAboveGround" && elevationMode === "heightAboveSeaLevel")  {                
-            this.options.elevationMode = elevationMode;
+    setElevationMode: function(mode) {
+        if (elevationMode.isValidElevationMode(mode)) {
+            this.options.elevationMode = mode;
 
             if (this._map !== null) {
                 this._map._createPointMapping(this);
