@@ -68,7 +68,7 @@ function EmscriptenGeofenceApi(eegeoApiPointer, cwrap, runtime, emscriptenModule
     };
 
     this.setGeofenceColor = function(polygonId, color) {
-        _setGeofenceColor(_eegeoApiPointer, polygonId, color.x, color.y, color.z, color.w);
+        _setGeofenceColor(_eegeoApiPointer, polygonId, color.x/255, color.y/255, color.z/255, color.w/255);
     };
 }
 
