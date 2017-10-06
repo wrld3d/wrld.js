@@ -1,4 +1,10 @@
+var elevationMode = require("../private/elevation_mode.js");
+
 var Circle = L.Circle.extend({
+    options: {
+        elevation: 0,
+        elevationMode: elevationMode.ElevationModeType.HEIGHT_ABOVE_GROUND
+    },
 
     _project: function () {
         // Circles are defined as a single LatLng, and consequently won't scale correctly when indoor maps are expanded
@@ -31,6 +37,36 @@ var Circle = L.Circle.extend({
         this._radiusY = Math.max(Math.round(this._point.distanceTo(map.latLngToLayerPoint(forwardLatLng))), 1);
 
         this._updateBounds();
+    },
+
+    getElevation: function() {
+        return this.options.elevation;
+    },
+
+    setElevation: function(elevation) {
+        this.options.elevation = elevation;
+
+        if (this._map !== null) {
+            this._map._createPointMapping(this);
+        }
+        
+        return this;
+    },
+
+    setElevationMode: function(mode) {
+        if (elevationMode.isValidElevationMode(mode)) {
+            this.options.elevationMode = mode;
+
+            if (this._map !== null) {
+                this._map._createPointMapping(this);
+            }
+        }
+
+        return this;
+    },
+
+    getElevationMode: function() {
+        return this.options.elevationMode;
     }
 });
 

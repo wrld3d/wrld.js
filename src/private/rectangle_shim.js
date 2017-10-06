@@ -1,6 +1,12 @@
 var L = require("leaflet");
+var elevationMode = require("./elevation_mode.js");
 
-var RectangleShim = L.Rectangle.extend({		
+var RectangleShim = L.Rectangle.extend({
+	options: {
+        elevation: 0,
+        elevationMode: elevationMode.ElevationModeType.HEIGHT_ABOVE_GROUND
+	},
+	
 	_projectLatlngs: function (latlngs, result, projectedBounds) {						
 		if(!this._map._projectLatlngs(this, latlngs, result, projectedBounds))
 		{			
@@ -18,7 +24,37 @@ var RectangleShim = L.Rectangle.extend({
 		}
 
 		return redraw;
-	}
+	},
+
+	getElevation: function() {
+        return this.options.elevation;
+    },
+
+    setElevation: function(elevation) {
+        this.options.elevation = elevation;
+
+        if (this._map !== null) {
+            this._map._createPointMapping(this);
+        }
+        
+        return this;
+    },
+
+    setElevationMode: function(mode) {
+        if (elevationMode.isValidElevationMode(mode)) {
+            this.options.elevationMode = mode;
+
+            if (this._map !== null) {
+                this._map._createPointMapping(this);
+            }
+        }
+
+        return this;
+    },
+
+    getElevationMode: function() {
+        return this.options.elevationMode;
+    }
 });
 
 var rectangleShim = function (latlng, options) {
