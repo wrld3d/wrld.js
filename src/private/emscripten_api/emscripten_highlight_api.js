@@ -14,19 +14,23 @@ function EmscriptenHighlightApi(eegeoApiPointer, cwrap, runtime, emscriptenMemor
         };
     };
 
-    var _setEntityHighlights = function(ids, color) {
-        _setEntityHighlightsInterop = _setEntityHighlightsInterop || cwrap("setHighlights", null, ["number", "number", "number", "number"]);
+    var _setEntityHighlights = function(ids, color, indoorMapId) {
+        _setEntityHighlightsInterop = _setEntityHighlightsInterop || cwrap("setHighlights", null, ["number", "string", "number", "number", "number"]);
+
+        var interiorId = indoorMapId || 0;
         _emscriptenMemory.passStrings(ids, function(resultStrings, stringArraySize){
             _emscriptenMemory.passDoubles(color, function(doubleArray, arraySize) {
-                _setEntityHighlightsInterop(_eegeoApiPointer, resultStrings, stringArraySize, doubleArray);
+                _setEntityHighlightsInterop(_eegeoApiPointer, interiorId, resultStrings, stringArraySize, doubleArray);
             });
         });
     };
 
-    var _clearEntityHighlights = function(ids) {
-        _clearEntityHighlightsInterop = _clearEntityHighlightsInterop || cwrap("clearHighlights", null, ["number", "number", "number"]);
+    var _clearEntityHighlights = function(ids, indoorMapId) {
+        _clearEntityHighlightsInterop = _clearEntityHighlightsInterop || cwrap("clearHighlights", null, ["number", "string", "number", "number"]);
+
+        var interiorId = indoorMapId || 0;
         _emscriptenMemory.passStrings(ids, function(resultStrings, stringArraySize){
-            _clearEntityHighlightsInterop(_eegeoApiPointer, resultStrings, stringArraySize);
+            _clearEntityHighlightsInterop(_eegeoApiPointer, interiorId, resultStrings, stringArraySize);
         });
     };
 
@@ -41,14 +45,14 @@ function EmscriptenHighlightApi(eegeoApiPointer, cwrap, runtime, emscriptenMemor
         _setEntityClickedCallbackInterop(_eegeoApiPointer, runtime.addFunction(wrappedCallback));
     };
 
-    this.setEntityHighlights = function(ids, color) {
+    this.setEntityHighlights = function(ids, color, indoorMapId) {
         if (typeof ids === "string") {
             ids = [ids];
         }
-        _setEntityHighlights(ids, color);
+        _setEntityHighlights(ids, color, indoorMapId);
     };
     
-    this.clearEntityHighlights = function(ids) {
+    this.clearEntityHighlights = function(ids, indoorMapId) {
         if (ids === undefined) {
             _clearAllEntityHighlights();
         }
@@ -56,7 +60,7 @@ function EmscriptenHighlightApi(eegeoApiPointer, cwrap, runtime, emscriptenMemor
             if (typeof ids === "string") {
                 ids = [ids];
             }
-            _clearEntityHighlights(ids);
+            _clearEntityHighlights(ids, indoorMapId);
         }
     };
 }

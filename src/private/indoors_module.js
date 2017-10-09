@@ -354,14 +354,14 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
         return this;
     };
 
-    this.setEntityHighlights = function(ids, color) {
+    this.setEntityHighlights = function(ids, color, indoorMapId) {
         if (!_ready) return;
-        _emscriptenApi.highlightApi.setEntityHighlights(ids, color);
+        _emscriptenApi.highlightApi.setEntityHighlights(ids, color, indoorMapId);
     };
     
-    this.clearEntityHighlights = function(ids) {
+    this.clearEntityHighlights = function(ids, indoorMapId) {
         if (!_ready) return;
-        _emscriptenApi.highlightApi.clearEntityHighlights(ids);
+        _emscriptenApi.highlightApi.clearEntityHighlights(ids, indoorMapId);
     };
 };
 
