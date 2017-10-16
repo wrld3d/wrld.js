@@ -66,24 +66,24 @@ var Polygon = function(latLngs, config) {
 		return _outerRing;
 	};
 
-	this.colorNeedsChanged = function() {
+	this._colorNeedsChanged = function() {
 		return _colorNeedsChanged;
 	};
 
-	this.onColorChanged = function() {
+	this._onColorChanged = function() {
 		_colorNeedsChanged = false;
 	};
 
 	this.addTo = function(map) {
 		if (_map !== null) {
-			this.removeFromMap();
+			this.remove();
 		}
 		_map = map;
 		map._polygonModule.addPolygon(this);
 		return this;
 	};
-
-	this.removeFromMap = function() {
+	
+	this.remove = function() {
 		if (_map !== null) {
 			_map._polygonModule.removePolygon(this);
 			_map = null;
@@ -91,7 +91,7 @@ var Polygon = function(latLngs, config) {
 		return this;
 	};
 
-  this.getConfig = function() {
+  this._getConfig = function() {
     return _config;
   };
 };

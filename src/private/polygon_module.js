@@ -16,7 +16,7 @@ function PolygonsModule(emscriptenApi) {
     };
 
     var _createAndAdd = function(polygon) {
-        var polygonId = _emscriptenApi.geofenceApi.createGeofence(polygon.getPoints(), polygon.getHoles(), polygon.getConfig());
+        var polygonId = _emscriptenApi.geofenceApi.createGeofence(polygon.getPoints(), polygon.getHoles(), polygon._getConfig());
         _polygonIdToPolygons[polygonId] = polygon;
         return polygonId;
     };
@@ -57,9 +57,9 @@ function PolygonsModule(emscriptenApi) {
 
             Object.keys(_polygonIdToPolygons).forEach(function(polygonId) {
                 var polygon = _polygonIdToPolygons[polygonId];
-                if (polygon.colorNeedsChanged()) {
+                if (polygon._colorNeedsChanged()) {
                     _emscriptenApi.geofenceApi.setGeofenceColor(polygonId, polygon.getColor());
-                    polygon.onColorChanged();
+                    polygon._onColorChanged();
                 }
             });
 		}
