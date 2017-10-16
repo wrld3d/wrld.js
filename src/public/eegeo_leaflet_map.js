@@ -180,6 +180,10 @@ var EegeoLeafletMap = L.Map.extend({
         this.fire("initialize");
     },
 
+    onInitialStreamingCompleted: function() {
+        this.fire("initialstreamingcomplete");
+    },
+
     latLngToLayerPoint: function(latLng) {
         return (this._ready) ? this._spacesApi.worldToScreen(latLng).toPoint() : undefinedPoint;
     },

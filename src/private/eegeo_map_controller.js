@@ -195,6 +195,7 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
         _modules.forEach(function(module) {
             module.onInitialStreamingCompleted();
         });
+        _this.leafletMap.onInitialStreamingCompleted();
     };
 };
 
