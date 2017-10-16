@@ -22,26 +22,26 @@ function EmscriptenLayerPointMappingApi(emscriptenApiPointer, cwrap, runtime, em
         return latLngsNumberArray;
     };
 
-    this.createPointMapping = function(layerId, elevation, indoorMapId, indoorMapFloorId, latLngs) {                
-        _createPointMapping = _createPointMapping || cwrap("createLayerMapping", null, ["number", "number", "number", "string", "number", "number", "number", "number"]);
+    this.createPointMapping = function(layerId, elevation, elevationModeInt, indoorMapId, indoorMapFloorId, latLngs) {                
+        _createPointMapping = _createPointMapping || cwrap("createLayerMapping", null, ["number", "number", "number", "number", "string", "number", "number", "number", "number"]);
               
         var latLngsNumberArray = this._createLatLngsNumberArray(latLngs);
         
         _emscriptenMemory.passDoubles(latLngsNumberArray, function(resultArray, arraySize) {            
             _createPointMapping(
-                _emscriptenApiPointer, layerId, elevation, indoorMapId, indoorMapId.length, indoorMapFloorId, resultArray, arraySize);
+                _emscriptenApiPointer, layerId, elevation, elevationModeInt, indoorMapId, indoorMapId.length, indoorMapFloorId, resultArray, arraySize);
         });        
     };
 
-    this.createPointMappingWithFloorIndex = function(layerId, elevation, indoorMapId, indoorMapFloorIndex, latLngs) {                
+    this.createPointMappingWithFloorIndex = function(layerId, elevation, elevationModeInt, indoorMapId, indoorMapFloorIndex, latLngs) {                
         _createPointMappingWithFloorIndex = _createPointMappingWithFloorIndex || 
-            cwrap("createLayerMappingWithFloorIndex", null, ["number", "number", "number", "string", "number", "number", "number", "number"]);
+            cwrap("createLayerMappingWithFloorIndex", null, ["number", "number", "number", "number", "string", "number", "number", "number", "number"]);
               
         var latLngsNumberArray = this._createLatLngsNumberArray(latLngs);
         
         _emscriptenMemory.passDoubles(latLngsNumberArray, function(resultArray, arraySize) {            
             _createPointMappingWithFloorIndex(
-                _emscriptenApiPointer, layerId, elevation, indoorMapId, indoorMapId.length, indoorMapFloorIndex, resultArray, arraySize);
+                _emscriptenApiPointer, layerId, elevation, elevationModeInt, indoorMapId, indoorMapId.length, indoorMapFloorIndex, resultArray, arraySize);
         });        
     };
 

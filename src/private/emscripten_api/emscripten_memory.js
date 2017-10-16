@@ -2,7 +2,7 @@
 function EmscriptenMemory(emscriptenModule) {
 
     var _emscriptenModule = emscriptenModule;
-    
+
     this.readDoubles = function(pointer, count) {
         var result = [];
         for (var i=0; i<count; ++i) {
@@ -48,6 +48,73 @@ function EmscriptenMemory(emscriptenModule) {
 
     this.stringifyPointer = function(ptr) {
       return _emscriptenModule.Pointer_stringify(ptr);
+    };
+
+    this.createInt8Buffer = function(bufferLen) {
+        var bufferPtr = _emscriptenModule._malloc(bufferLen);
+        return {
+            ptr: bufferPtr,
+            element_count: bufferLen,
+            element_type: "i8",
+            element_size_bytes: 1
+        };
+    };
+
+    this.createInt32Buffer = function(elementCount) {
+        var elementSizeBytes = 4;
+        var bufferPtr = _emscriptenModule._malloc(elementCount * elementSizeBytes);
+        return {
+            ptr: bufferPtr,
+            element_count: elementCount,
+            element_type: "i32",
+            element_size_bytes: elementSizeBytes
+        };
+    };
+
+    this.createDoubleBuffer = function(elementCount) {
+        var elementSizeBytes = 8;
+        var bufferPtr = _emscriptenModule._malloc(elementCount * elementSizeBytes);
+        return {
+            ptr: bufferPtr,
+            element_count: elementCount,
+            element_type: "double",
+            element_size_bytes: elementSizeBytes
+        };
+    };
+
+    this.createBufferFromArray = function(number_array, createXBufferFunc) {
+        var buffer = createXBufferFunc(number_array.length);
+        for (var i = 0; i < buffer.element_count; ++i) {
+            _emscriptenModule.setValue(buffer.ptr + i*buffer.element_size_bytes, number_array[i], buffer.element_type);
+        }
+        return buffer;
+    };
+
+    this.consumeBufferToArray = function(buffer) {
+        var result = [];
+        for (var i = 0; i < buffer.element_count; ++i) {
+            var item = _emscriptenModule.getValue(buffer.ptr + i*buffer.element_size_bytes, buffer.element_type);
+            result.push(item);
+        }
+        _emscriptenModule._free(buffer.ptr);
+        return result;
+    };
+
+    this.freeBuffer = function(buffer) {
+        _emscriptenModule._free(buffer.ptr);
+    };
+
+    this.createUtf8BufferFromString = function(str) {
+        var bufferLen = _emscriptenModule.lengthBytesUTF8(str) + 1;
+        var buffer = this.createInt8Buffer(bufferLen);
+        _emscriptenModule.stringToUTF8(str, buffer.ptr, bufferLen);
+        return buffer;
+    };
+
+    this.consumeUtf8BufferToString = function(buffer) {
+        var result = _emscriptenModule.UTF8ToString(buffer.ptr);
+        _emscriptenModule._free(buffer.ptr);
+        return result;
     };
 }
 

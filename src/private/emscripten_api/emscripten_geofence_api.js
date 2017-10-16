@@ -1,3 +1,5 @@
+var elevationMode = require("../elevation_mode.js");
+
 function EmscriptenGeofenceApi(eegeoApiPointer, cwrap, runtime, emscriptenModule) {
 
     var _eegeoApiPointer = eegeoApiPointer;
@@ -8,7 +10,8 @@ function EmscriptenGeofenceApi(eegeoApiPointer, cwrap, runtime, emscriptenModule
     
     this._getElevationIsAboveSeaLevelFromConfig = function(config) {
         var configUsingNewApi = typeof config.elevationMode !== "undefined";
-        return configUsingNewApi ? config.elevationMode.toLowerCase() === "heightabovesealevel" : (config.offsetFromSeaLevel || false);
+        return configUsingNewApi ? config.elevationMode.toLowerCase() === elevationMode.ElevationModeType.HEIGHT_ABOVE_SEA_LEVEL.toLowerCase() : 
+            (config.offsetFromSeaLevel || false);
     };
     
     this._getAltitudeOffsetFromConfig = function(config) {
@@ -68,7 +71,7 @@ function EmscriptenGeofenceApi(eegeoApiPointer, cwrap, runtime, emscriptenModule
     };
 
     this.setGeofenceColor = function(polygonId, color) {
-        _setGeofenceColor(_eegeoApiPointer, polygonId, color.x, color.y, color.z, color.w);
+        _setGeofenceColor(_eegeoApiPointer, polygonId, color.x/255, color.y/255, color.z/255, color.w/255);
     };
 }
 

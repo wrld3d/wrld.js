@@ -39,7 +39,7 @@ var Polygon = function(latLngs, config) {
     throw new Error("Incorrect array input format.");
   }
 
-	var _color = new space.Vector4(config["color"] || [0.0, 0.0, 1.0, 0.5]);
+	var _color = new space.Vector4(config["color"] || [0, 0, 255, 128]);
 	var _colorNeedsChanged = true;
 
 
