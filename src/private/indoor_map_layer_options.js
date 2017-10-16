@@ -39,7 +39,7 @@ exports.getIndoorMapFloorIndex = function(layer) {
 exports.getLayerDisplayOption = function(layer) {
     var displayOption = _getOptionsPropertyOrNull(layer, "displayOption") || "currentFloor";
     return displayOption;
-}
+};
 
 exports.matchesCurrentFloor = function(activeIndoorMapFloorId, activeIndoorMapFloorIndex, layer) {
     if (activeIndoorMapFloorId === this.getIndoorMapFloorId(layer)) {
@@ -47,7 +47,7 @@ exports.matchesCurrentFloor = function(activeIndoorMapFloorId, activeIndoorMapFl
     }
     
     return activeIndoorMapFloorIndex === this.getIndoorMapFloorIndex(layer);
-}
+};
 
 exports.matchesIndoorMap = function(activeIndoorMapId, activeIndoorMapFloorId, activeIndoorMapFloorIndex, layer) {  
     var displayOption = this.getLayerDisplayOption(layer);
