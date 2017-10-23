@@ -1,5 +1,6 @@
-function EmscriptenIndoorsApi(eegeoApiPointer, cwrap, runtime, emscriptenMemory) {
+function EmscriptenIndoorsApi(emscriptenApiPointer, eegeoApiPointer, cwrap, runtime, emscriptenMemory) {
 
+    var _emscriptenApiPointer = emscriptenApiPointer;
     var _eegeoApiPointer = eegeoApiPointer;
     var _emscriptenMemory = emscriptenMemory;
     var _exitIndoorMap = null;
@@ -9,16 +10,20 @@ function EmscriptenIndoorsApi(eegeoApiPointer, cwrap, runtime, emscriptenMemory)
 
     var _setIndoorMapMarkerAddedCallback = null;
     var _setIndoorMapMarkerRemovedCallback = null;
+    var _registerIndoorMapEnterFailedCallback = null;
+    var _setIndoorMapEnterFailedCallback = null;
+    var _indoorsApi_SetIndoorMapEnterFailedCallback = cwrap("indoorsApi_SetIndoorMapEnterFailedCallback", null, ["number"]);
+
 
     var _hasActiveIndoorMap = null;
     var _getActiveIndoorMapId = null;
     var _getActiveIndoorMapName = null;
     var _getActiveIndoorMapSourceVendor = null;
-    var _getActiveIndoorMapFloorCount = null; 
+    var _getActiveIndoorMapFloorCount = null;
     var _getActiveIndoorMapUserData = null;
 
-    var _getSelectedFloorIndex = null; 
-    var _setSelectedFloorIndex = null; 
+    var _getSelectedFloorIndex = null;
+    var _setSelectedFloorIndex = null;
 
     var _getFloorName = null;
     var _getFloorShortName = null;
@@ -40,6 +45,10 @@ function EmscriptenIndoorsApi(eegeoApiPointer, cwrap, runtime, emscriptenMemory)
     this.registerIndoorMapEnteredCallback = function (callback) {
         _setIndoorMapEnteredCallback = _setIndoorMapEnteredCallback || cwrap("setIndoorMapEnteredCallback", null, ["number", "number"]);
         _setIndoorMapEnteredCallback(_eegeoApiPointer, runtime.addFunction(callback));
+    };
+
+    this.registerIndoorMapEnterFailedCallback = function (callback) {
+        _indoorsApi_SetIndoorMapEnterFailedCallback(_emscriptenApiPointer, runtime.addFunction(callback));
     };
 
     this.registerIndoorMapExitedCallback = function (callback) {
@@ -98,7 +107,7 @@ function EmscriptenIndoorsApi(eegeoApiPointer, cwrap, runtime, emscriptenMemory)
         _getActiveIndoorMapUserData = _getActiveIndoorMapUserData || cwrap("getActiveIndoorMapUserData", "string", ["number"]);
         return _getActiveIndoorMapUserData(_eegeoApiPointer);
     };
-    
+
     this.getSelectedFloorIndex = function() {
         _getSelectedFloorIndex = _getSelectedFloorIndex || cwrap("getSelectedFloorIndex", "number", ["number"]);
         return _getSelectedFloorIndex(_eegeoApiPointer);
@@ -108,7 +117,7 @@ function EmscriptenIndoorsApi(eegeoApiPointer, cwrap, runtime, emscriptenMemory)
         _setSelectedFloorIndex = _setSelectedFloorIndex || cwrap("setSelectedFloorIndex", "number", ["number", "number"]);
         return !!_setSelectedFloorIndex(_eegeoApiPointer, floorIndex);
     };
-    
+
     this.getFloorName = function(floorIndex) {
         _getFloorName = _getFloorName || cwrap("getFloorName", "string", ["number", "number"]);
         return _getFloorName(_eegeoApiPointer, floorIndex);

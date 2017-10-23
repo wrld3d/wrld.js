@@ -41,7 +41,7 @@ function EmscriptenApi(emscriptenModule) {
 
         // standard eegeo api usage via eegeo api pointer
         this.geofenceApi = new EmscriptenGeofenceApi(_eegeoApiPointer, cwrap, runtime, _emscriptenModule);
-        this.indoorsApi = new EmscriptenIndoorsApi(_eegeoApiPointer, cwrap, runtime, emscriptenMemory);
+        this.indoorsApi = new EmscriptenIndoorsApi(_emscriptenApiPointer, _eegeoApiPointer, cwrap, runtime, emscriptenMemory);
         this.precacheApi = new EmscriptenPrecacheApi(_eegeoApiPointer, cwrap, runtime);
         this.spacesApi = new EmscriptenSpacesApi(_eegeoApiPointer, cwrap, runtime, emscriptenMemory);
         this.themesApi = new EmscriptenThemesApi(_eegeoApiPointer, cwrap, runtime);

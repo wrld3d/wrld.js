@@ -39,11 +39,11 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
     var _createFloorsArray = function(floorCount) {
         var floors = [];
         for (var i=0; i<floorCount; ++i) {
-            var floorIndex = i;            
+            var floorIndex = i;
             var floorName = _emscriptenApi.indoorsApi.getFloorName(i);
             var floorShortName = _emscriptenApi.indoorsApi.getFloorShortName(i);
             var floorNumber = _emscriptenApi.indoorsApi.getFloorNumber(i);
-                        
+
             var floorId = floorNumber;
 
             var floor = new indoors.IndoorMapFloor(floorId, floorIndex, floorName, floorShortName);
@@ -60,7 +60,7 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
         catch (e) {
             return [];
         }
-        
+
         if (typeof userData.search_menu_items !== "object") { return []; }
         if (!(userData.search_menu_items.items instanceof Array)) { return []; }
 
@@ -80,12 +80,16 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
         _this.fire("indoormapenter", {indoorMap: _activeIndoorMap});
     };
 
+    var _executeIndoorMapEnterFailedCallbacks = function() {
+        _this.fire("indoormapenterfailed", {});
+    };
+
     var _executeIndoorMapExitedCallbacks = function() {
         var indoorMap = _activeIndoorMap;
         _activeIndoorMap = null;
         _this.fire("indoormapexit", {indoorMap: indoorMap});
     };
-    
+
     var _executeIndoorMapFloorChangedCallbacks = function() {
         _this.fire("indoormapfloorchange", {floor: _this.getFloor()});
     };
@@ -157,10 +161,14 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
             var vendorKey = _activeIndoorMap.getIndoorMapSourceVendor();
             _indoorWatermarkController.showWatermarkForVendor(vendorKey);
         });
+        _this.once("indoormapenterfailed", function() {
+            _transitioningToIndoorMap = false;
+        });
     };
 
     this.onInitialized = function() {
         _emscriptenApi.indoorsApi.registerIndoorMapEnteredCallback(_executeIndoorMapEnteredCallbacks);
+        _emscriptenApi.indoorsApi.registerIndoorMapEnterFailedCallback(_executeIndoorMapEnterFailedCallbacks);
         _emscriptenApi.indoorsApi.registerIndoorMapExitedCallback(_executeIndoorMapExitedCallbacks);
         _emscriptenApi.indoorsApi.registerIndoorMapFloorChangedCallback(_executeIndoorMapFloorChangedCallbacks);
         _emscriptenApi.indoorsApi.registerIndoorMapMarkerAddedCallback(_executeIndoorMapEntranceAddedCallbacks);
@@ -200,7 +208,7 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
             _pendingEnterTransition = null;
         }
     };
-    
+
     this.exit = function() {
         if (_emscriptenApi.ready()) {
             _emscriptenApi.indoorsApi.exitIndoorMap();
@@ -230,7 +238,7 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
         if (!this.isIndoors()) {
             return false;
         }
-        
+
         var index = null;
         var floors = _activeIndoorMap.getFloors();
 
@@ -249,7 +257,7 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
                 }
             }
         }
-        
+
         if (index !== null) {
             return _emscriptenApi.indoorsApi.setSelectedFloorIndex(index);
         }
@@ -316,8 +324,8 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
     };
 
     this.getFloorHeightAboveSeaLevel = function(floorIndex) {
-        if (this.isIndoors() && 
-            floorIndex >= 0 && 
+        if (this.isIndoors() &&
+            floorIndex >= 0 &&
             floorIndex < _activeIndoorMap.getFloorCount())
         {
             return _emscriptenApi.indoorsApi.getFloorHeightAboveSeaLevel(floorIndex);
@@ -338,7 +346,7 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
         if (_activeIndoorMap === null) {
             return false;
         }
-        
+
         var t = (typeof interpolationParam === "undefined") ? this.getFloorInterpolation() : interpolationParam;
         var floorIndex = Math.round(t * _activeIndoorMap.getFloorCount());
         return this.setFloor(floorIndex);
@@ -358,14 +366,14 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
         if (!_ready) return;
         _emscriptenApi.highlightApi.setEntityHighlights(ids, color, indoorMapId);
     };
-    
+
     this.clearEntityHighlights = function(ids, indoorMapId) {
         if (!_ready) return;
         _emscriptenApi.highlightApi.clearEntityHighlights(ids, indoorMapId);
     };
 };
 
-var IndoorsPrototype = L.extend({}, MapModule, L.Mixin.Events); 
+var IndoorsPrototype = L.extend({}, MapModule, L.Mixin.Events);
 
 IndoorsModule.prototype = IndoorsPrototype;
 
