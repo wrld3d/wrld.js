@@ -1,11 +1,24 @@
-function EmscriptenIndoorsApi(emscriptenApiPointer, eegeoApiPointer, cwrap, runtime, emscriptenMemory) {
+function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, runtime, emscriptenMemory) {
 
     var _emscriptenApiPointer = emscriptenApiPointer;
-    var _eegeoApiPointer = eegeoApiPointer;
     var _emscriptenMemory = emscriptenMemory;
 
     var _indoorsApi_RegisterIndoorMapCallbacks = cwrap("indoorsApi_RegisterIndoorMapCallbacks", null, ["number", "number", "number", "number", "number"]);
+    var _indoorsApi_EnterIndoorMap = cwrap("indoorsApi_EnterIndoorMap", null, ["number", "string"]);
     var _indoorsApi_ExitIndoorMap = cwrap("indoorsApi_ExitIndoorMap", null, ["number"]);
+    var _indoorsApi_HasActiveIndoorMap = cwrap("indoorsApi_HasActiveIndoorMap", "number", ["number"]);
+    var _indoorsApi_GetActiveIndoorMapId = cwrap("indoorsApi_GetActiveIndoorMapId", "string", ["number"]);
+    var _indoorsApi_GetActiveIndoorMapName = cwrap("indoorsApi_GetActiveIndoorMapName", "string", ["number"]);
+    var _indoorsApi_GetActiveIndoorMapSourceVendor = cwrap("indoorsApi_GetActiveIndoorMapSourceVendor", "string", ["number"]);
+    var _indoorsApi_GetActiveIndoorMapFloorCount = cwrap("indoorsApi_GetActiveIndoorMapFloorCount", "number", ["number"]);
+    var _indoorsApi_GetActiveIndoorMapUserData = cwrap("indoorsApi_GetActiveIndoorMapUserData", "string", ["number"]);
+    var _indoorsApi_GetSelectedFloorIndex = cwrap("indoorsApi_GetSelectedFloorIndex", "number", ["number"]);
+    var _indoorsApi_SetSelectedFloorIndex = cwrap("indoorsApi_SetSelectedFloorIndex", "number", ["number", "number"]);
+    var _indoorsApi_GetFloorName = cwrap("indoorsApi_GetFloorName", "string", ["number", "number"]);
+    var _indoorsApi_GetFloorShortName = cwrap("indoorsApi_GetFloorShortName", "string", ["number", "number"]);
+    var _indoorsApi_GetFloorNumber = cwrap("indoorsApi_GetFloorNumber", "number", ["number", "number"]);
+    var _indoorsApi_GetFloorHeightAboveSeaLevel = cwrap("indoorsApi_GetFloorHeightAboveSeaLevel", "number", ["number", "number"]);
+
 
     var _hasActiveIndoorMap = null;
     var _getActiveIndoorMapId = null;
@@ -30,7 +43,7 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, eegeoApiPointer, cwrap, runt
     var _onIndoorMapFloorChanged = null;
     var _onIndoorMapEntryMarkerAdded = null;
     var _onIndoorMapEntryMarkerRemoved = null;
-    
+
     var _indoorMapEnteredHandler = function() {
         if (_onIndoorMapEntered != null) {
             _onIndoorMapEntered();
@@ -62,7 +75,7 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, eegeoApiPointer, cwrap, runt
         var markerLatLng = L.latLng(latLngArray);
         callback(indoorMapId, indoorMapName, markerLatLng);
     };
-    
+
     var _indoorMapEntryMarkerAddedHandler = function(indoorMapIdPtr, indoorMapNamePtr, indoorMapLatLngPtr) {
         if (_onIndoorMapEntryMarkerAdded != null) {
             _executeEntryMarkerCallback(_onIndoorMapEntryMarkerAdded, indoorMapIdPtr, indoorMapNamePtr, indoorMapLatLngPtr);
@@ -86,7 +99,7 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, eegeoApiPointer, cwrap, runt
             runtime.addFunction(_indoorMapEntryMarkerRemovedHandler)
             );
     }
-    
+
     this.setNotificationCallbacks = function (
         indoorMapEnteredCallback,
         indoorMapEnterFailedCallback,
@@ -103,73 +116,60 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, eegeoApiPointer, cwrap, runt
             _onIndoorMapEntryMarkerRemoved = indoorMapEntryMarkerRemovedCallback;
     };
 
+    this.enterIndoorMap = function(indoorMapId) {
+        return _indoorsApi_EnterIndoorMap(_emscriptenApiPointer, indoorMapId);
+    };
+
     this.exitIndoorMap = function() {
         _indoorsApi_ExitIndoorMap(_emscriptenApiPointer);
     };
 
     this.hasActiveIndoorMap = function() {
-        _hasActiveIndoorMap = _hasActiveIndoorMap || cwrap("hasActiveIndoorMap", "number", ["number"]);
-        return !!_hasActiveIndoorMap(_eegeoApiPointer);
+        return !!_indoorsApi_HasActiveIndoorMap(_emscriptenApiPointer);
     };
 
     this.getActiveIndoorMapId = function() {
-        _getActiveIndoorMapId = _getActiveIndoorMapId || cwrap("getActiveIndoorMapId", "string", ["number"]);
-        return _getActiveIndoorMapId(_eegeoApiPointer);
+        return _indoorsApi_GetActiveIndoorMapId(_emscriptenApiPointer);
     };
 
     this.getActiveIndoorMapName = function() {
-        _getActiveIndoorMapName = _getActiveIndoorMapName || cwrap("getActiveIndoorMapName", "string", ["number"]);
-        return _getActiveIndoorMapName(_eegeoApiPointer);
+        return _indoorsApi_GetActiveIndoorMapName(_emscriptenApiPointer);
     };
 
     this.getActiveIndoorMapSourceVendor = function() {
-        _getActiveIndoorMapSourceVendor = _getActiveIndoorMapSourceVendor || cwrap("getActiveIndoorMapSourceVendor", "string", ["number"]);
-        return _getActiveIndoorMapSourceVendor(_eegeoApiPointer);
+        return _indoorsApi_GetActiveIndoorMapSourceVendor(_emscriptenApiPointer);
     };
 
     this.getActiveIndoorMapFloorCount = function() {
-         _getActiveIndoorMapFloorCount = _getActiveIndoorMapFloorCount || cwrap("getActiveIndoorMapFloorCount", "number", ["number"]);
-        return _getActiveIndoorMapFloorCount(_eegeoApiPointer);
+        return _indoorsApi_GetActiveIndoorMapFloorCount(_emscriptenApiPointer);
     };
 
     this.getActiveIndoorMapUserData = function() {
-        _getActiveIndoorMapUserData = _getActiveIndoorMapUserData || cwrap("getActiveIndoorMapUserData", "string", ["number"]);
-        return _getActiveIndoorMapUserData(_eegeoApiPointer);
+        return _indoorsApi_GetActiveIndoorMapUserData(_emscriptenApiPointer);
     };
 
     this.getSelectedFloorIndex = function() {
-        _getSelectedFloorIndex = _getSelectedFloorIndex || cwrap("getSelectedFloorIndex", "number", ["number"]);
-        return _getSelectedFloorIndex(_eegeoApiPointer);
+        return _indoorsApi_GetSelectedFloorIndex(_emscriptenApiPointer);
     };
 
     this.setSelectedFloorIndex = function(floorIndex) {
-        _setSelectedFloorIndex = _setSelectedFloorIndex || cwrap("setSelectedFloorIndex", "number", ["number", "number"]);
-        return !!_setSelectedFloorIndex(_eegeoApiPointer, floorIndex);
+        return !!_indoorsApi_SetSelectedFloorIndex(_emscriptenApiPointer, floorIndex);
     };
 
     this.getFloorName = function(floorIndex) {
-        _getFloorName = _getFloorName || cwrap("getFloorName", "string", ["number", "number"]);
-        return _getFloorName(_eegeoApiPointer, floorIndex);
+        return _indoorsApi_GetFloorName(_emscriptenApiPointer, floorIndex);
     };
 
     this.getFloorShortName = function(floorIndex) {
-        _getFloorShortName = _getFloorShortName || cwrap("getFloorShortName", "string", ["number", "number"]);
-        return _getFloorShortName(_eegeoApiPointer, floorIndex);
+        return _indoorsApi_GetFloorShortName(_emscriptenApiPointer, floorIndex);
     };
 
     this.getFloorNumber = function(floorIndex) {
-        _getFloorNumber = _getFloorNumber || cwrap("getFloorNumber", "number", ["number", "number"]);
-        return _getFloorNumber(_eegeoApiPointer, floorIndex);
+        return _indoorsApi_GetFloorNumber(_emscriptenApiPointer, floorIndex);
     };
 
     this.getFloorHeightAboveSeaLevel = function(floorIndex) {
-        _getFloorHeightAboveSeaLevel = _getFloorHeightAboveSeaLevel || cwrap("getFloorHeightAboveSeaLevel", "number", ["number", "number"]);
-        return _getFloorHeightAboveSeaLevel(_eegeoApiPointer, floorIndex);
-    };
-
-    this.enterIndoorMap = function(indoorMapId) {
-        _enterIndoorMap = _enterIndoorMap || cwrap("enterIndoorMap", null, ["number", "string"]);
-        return _enterIndoorMap(_eegeoApiPointer, indoorMapId);
+        return _indoorsApi_GetFloorHeightAboveSeaLevel(_emscriptenApiPointer, floorIndex);
     };
 }
 

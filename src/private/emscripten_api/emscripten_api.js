@@ -17,7 +17,7 @@ function EmscriptenApi(emscriptenModule) {
     var _ready = false;
     var _eegeoApiPointer = null;
     var _emscriptenApiPointer = null;
-    
+
     this.geofenceApi = null;
     this.indoorsApi = null;
     this.precacheApi = null;
@@ -37,11 +37,10 @@ function EmscriptenApi(emscriptenModule) {
         var cwrap = _emscriptenModule.cwrap;
         var runtime = _emscriptenModule.Runtime;
 
-        var emscriptenMemory = new EmscriptenMemory(_emscriptenModule);        
+        var emscriptenMemory = new EmscriptenMemory(_emscriptenModule);
 
         // standard eegeo api usage via eegeo api pointer
         this.geofenceApi = new EmscriptenGeofenceApi(_eegeoApiPointer, cwrap, runtime, _emscriptenModule);
-        this.indoorsApi = new EmscriptenIndoorsApi(_emscriptenApiPointer, _eegeoApiPointer, cwrap, runtime, emscriptenMemory);
         this.precacheApi = new EmscriptenPrecacheApi(_eegeoApiPointer, cwrap, runtime);
         this.spacesApi = new EmscriptenSpacesApi(_eegeoApiPointer, cwrap, runtime, emscriptenMemory);
         this.themesApi = new EmscriptenThemesApi(_eegeoApiPointer, cwrap, runtime);
@@ -49,16 +48,17 @@ function EmscriptenApi(emscriptenModule) {
         this.expandFloorsApi = new EmscriptenExpandFloorsApi(_eegeoApiPointer, cwrap, runtime);
         this.highlightApi = new EmscriptenHighlightApi(_eegeoApiPointer, cwrap, runtime, emscriptenMemory);
         this.renderingApi = new EmscriptenRenderingApi(_eegeoApiPointer, cwrap, runtime, emscriptenMemory);
-        this.buildingsApi = new EmscriptenBuildingsApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
 
-        // emscripten-specific api usage via emscripten api pointer        
+        // emscripten-specific api usage via emscripten api pointer
         this.layerPointMappingApi = new EmscriptenLayerPointMappingApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
+        this.buildingsApi = new EmscriptenBuildingsApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
+        this.indoorsApi = new EmscriptenIndoorsApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
 
         var _setTopLevelCallbacks = _emscriptenModule.cwrap("setTopLevelCallbacks", null, ["number", "number", "number", "number"]);
         _setTopLevelCallbacks(
-            _eegeoApiPointer, 
-            runtime.addFunction(onUpdateCallback), 
-            runtime.addFunction(onDrawCallback), 
+            _eegeoApiPointer,
+            runtime.addFunction(onUpdateCallback),
+            runtime.addFunction(onDrawCallback),
             runtime.addFunction(onInitialStreamingCompletedCallback)
         );
         _ready = true;
