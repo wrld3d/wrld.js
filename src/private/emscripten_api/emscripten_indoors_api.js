@@ -20,23 +20,6 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
     var _indoorsApi_GetFloorHeightAboveSeaLevel = cwrap("indoorsApi_GetFloorHeightAboveSeaLevel", "number", ["number", "number"]);
 
 
-    var _hasActiveIndoorMap = null;
-    var _getActiveIndoorMapId = null;
-    var _getActiveIndoorMapName = null;
-    var _getActiveIndoorMapSourceVendor = null;
-    var _getActiveIndoorMapFloorCount = null;
-    var _getActiveIndoorMapUserData = null;
-
-    var _getSelectedFloorIndex = null;
-    var _setSelectedFloorIndex = null;
-
-    var _getFloorName = null;
-    var _getFloorShortName = null;
-    var _getFloorNumber = null;
-    var _getFloorHeightAboveSeaLevel = null;
-
-    var _enterIndoorMap = null;
-
     var _onIndoorMapEntered = null;
     var _onIndoorMapEnterFailed = null;
     var _onIndoorMapExited = null;
@@ -45,28 +28,28 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
     var _onIndoorMapEntryMarkerRemoved = null;
 
     var _indoorMapEnteredHandler = function() {
-        if (_onIndoorMapEntered != null) {
+        if (_onIndoorMapEntered !== null) {
             _onIndoorMapEntered();
         }
-    }
+    };
 
     var _indoorMapEntryFailedHandler = function() {
-        if (_onIndoorMapEnterFailed != null) {
+        if (_onIndoorMapEnterFailed !== null) {
             _onIndoorMapEnterFailed();
         }
-    }
+    };
 
     var _indoorMapExitedHandler = function() {
-        if (_onIndoorMapExited != null) {
+        if (_onIndoorMapExited !== null) {
             _onIndoorMapExited();
         }
-    }
+    };
 
     var _indoorMapFloorChangedHandler = function() {
-        if (_onIndoorMapFloorChanged != null) {
+        if (_onIndoorMapFloorChanged !== null) {
             _onIndoorMapFloorChanged();
         }
-    }
+    };
 
     var _executeEntryMarkerCallback = function(callback, indoorMapIdPtr, indoorMapNamePtr, indoorMapLatLngPtr) {
         var indoorMapId = _emscriptenMemory.stringifyPointer(indoorMapIdPtr);
@@ -77,16 +60,16 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
     };
 
     var _indoorMapEntryMarkerAddedHandler = function(indoorMapIdPtr, indoorMapNamePtr, indoorMapLatLngPtr) {
-        if (_onIndoorMapEntryMarkerAdded != null) {
+        if (_onIndoorMapEntryMarkerAdded !== null) {
             _executeEntryMarkerCallback(_onIndoorMapEntryMarkerAdded, indoorMapIdPtr, indoorMapNamePtr, indoorMapLatLngPtr);
         }
-    }
+    };
 
     var _indoorMapEntryMarkerRemovedHandler = function(indoorMapIdPtr, indoorMapNamePtr, indoorMapLatLngPtr) {
-        if (_onIndoorMapEntryMarkerRemoved != null) {
+        if (_onIndoorMapEntryMarkerRemoved !== null) {
             _executeEntryMarkerCallback(_onIndoorMapEntryMarkerRemoved, indoorMapIdPtr, indoorMapNamePtr, indoorMapLatLngPtr);
         }
-    }
+    };
 
     this.onInitialized = function() {
         _indoorsApi_RegisterIndoorMapCallbacks(
@@ -98,7 +81,7 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
             runtime.addFunction(_indoorMapEntryMarkerAddedHandler),
             runtime.addFunction(_indoorMapEntryMarkerRemovedHandler)
             );
-    }
+    };
 
     this.setNotificationCallbacks = function (
         indoorMapEnteredCallback,

@@ -374,40 +374,18 @@ describe("map_interop:", function() {
       _indoorsApi = new EmscriptenIndoorsApi(apiPointer, cwrap, runtime);
     });   
 
-    it("the registerIndoorMapEnteredCallback function should exist", function() {
+    it("the setNotificationCallbacks function should exist", function() {
       _verifyApiFunctionExists(function() {
-        var callback = function() {};
-        _indoorsApi.registerIndoorMapEnteredCallback(callback);
+        var callback0 = function() {};
+        var callback1 = function() {};
+        var callback2 = function() {};
+        var callback3 = function() {};
+        var callback4 = function() {};
+        var callback5 = function() {};
+        _indoorsApi.setNotificationCallbacks(callback0, callback1, callback2, callback3, callback4, callback5);
       });
     });
 
-    it("the registerIndoorMapExitedCallback function should exist", function() {
-      _verifyApiFunctionExists(function() {
-        var callback = function() {};
-        _indoorsApi.registerIndoorMapExitedCallback(callback);
-      });
-    });
-
-    it("the registerIndoorMapFloorChangedCallback function should exist", function() {
-      _verifyApiFunctionExists(function() {
-        var callback = function() {};
-        _indoorsApi.registerIndoorMapFloorChangedCallback(callback);
-      });
-    });
-
-    it("the registerIndoorMapMarkerAddedCallback function should exist", function() {
-      _verifyApiFunctionExists(function() {
-        var callback = function() {};
-        _indoorsApi.registerIndoorMapMarkerAddedCallback(callback);
-      });
-    });
-
-    it("the registerIndoorMapMarkerRemovedCallback function should exist", function() {
-      _verifyApiFunctionExists(function() {
-        var callback = function() {};
-        _indoorsApi.registerIndoorMapMarkerRemovedCallback(callback);
-      });
-    });
 
     it("the exitIndoorMap function should exist", function() {
       _verifyApiFunctionExists(function() {
