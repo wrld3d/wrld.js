@@ -3,17 +3,9 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, eegeoApiPointer, cwrap, runt
     var _emscriptenApiPointer = emscriptenApiPointer;
     var _eegeoApiPointer = eegeoApiPointer;
     var _emscriptenMemory = emscriptenMemory;
-    var _exitIndoorMap = null;
-    var _setIndoorMapEnteredCallback = null;
-    var _setIndoorMapExitedCallback = null;
-    var _setIndoorMapFloorChangedCallback = null;
 
-    var _setIndoorMapMarkerAddedCallback = null;
-    var _setIndoorMapMarkerRemovedCallback = null;
-    var _registerIndoorMapEnterFailedCallback = null;
-    var _setIndoorMapEnterFailedCallback = null;
-    var _indoorsApi_SetIndoorMapEnterFailedCallback = cwrap("indoorsApi_SetIndoorMapEnterFailedCallback", null, ["number"]);
-
+    var _indoorsApi_RegisterIndoorMapCallbacks = cwrap("indoorsApi_RegisterIndoorMapCallbacks", null, ["number", "number", "number", "number", "number"]);
+    var _indoorsApi_ExitIndoorMap = cwrap("indoorsApi_ExitIndoorMap", null, ["number"]);
 
     var _hasActiveIndoorMap = null;
     var _getActiveIndoorMapId = null;
@@ -32,50 +24,87 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, eegeoApiPointer, cwrap, runt
 
     var _enterIndoorMap = null;
 
-    var _wrapCallback = function(callback) {
-        return function(indoorMapIdPtr, indoorMapNamePtr, indoorMapLatLngPtr) {
-            var indoorMapId = _emscriptenMemory.stringifyPointer(indoorMapIdPtr);
-            var indoorMapName = _emscriptenMemory.stringifyPointer(indoorMapNamePtr);
-            var latLngArray = _emscriptenMemory.readDoubles(indoorMapLatLngPtr, 3);
-            var markerLatLng = L.latLng(latLngArray);
-            callback(indoorMapId, indoorMapName, markerLatLng);
-        };
-    };
+    var _onIndoorMapEntered = null;
+    var _onIndoorMapEnterFailed = null;
+    var _onIndoorMapExited = null;
+    var _onIndoorMapFloorChanged = null;
+    var _onIndoorMapEntryMarkerAdded = null;
+    var _onIndoorMapEntryMarkerRemoved = null;
+    
+    var _indoorMapEnteredHandler = function() {
+        if (_onIndoorMapEntered != null) {
+            _onIndoorMapEntered();
+        }
+    }
 
-    this.registerIndoorMapEnteredCallback = function (callback) {
-        _setIndoorMapEnteredCallback = _setIndoorMapEnteredCallback || cwrap("setIndoorMapEnteredCallback", null, ["number", "number"]);
-        _setIndoorMapEnteredCallback(_eegeoApiPointer, runtime.addFunction(callback));
-    };
+    var _indoorMapEntryFailedHandler = function() {
+        if (_onIndoorMapEnterFailed != null) {
+            _onIndoorMapEnterFailed();
+        }
+    }
 
-    this.registerIndoorMapEnterFailedCallback = function (callback) {
-        _indoorsApi_SetIndoorMapEnterFailedCallback(_emscriptenApiPointer, runtime.addFunction(callback));
-    };
+    var _indoorMapExitedHandler = function() {
+        if (_onIndoorMapExited != null) {
+            _onIndoorMapExited();
+        }
+    }
 
-    this.registerIndoorMapExitedCallback = function (callback) {
-        _setIndoorMapExitedCallback = _setIndoorMapExitedCallback || cwrap("setIndoorMapExitedCallback", null, ["number", "number"]);
-        _setIndoorMapExitedCallback(_eegeoApiPointer, runtime.addFunction(callback));
-    };
+    var _indoorMapFloorChangedHandler = function() {
+        if (_onIndoorMapFloorChanged != null) {
+            _onIndoorMapFloorChanged();
+        }
+    }
 
-    this.registerIndoorMapFloorChangedCallback = function(callback) {
-        _setIndoorMapFloorChangedCallback = _setIndoorMapFloorChangedCallback || cwrap("setIndoorMapFloorChangedCallback", null, ["number", "number"]);
-        _setIndoorMapFloorChangedCallback(_eegeoApiPointer, runtime.addFunction(callback));
+    var _executeEntryMarkerCallback = function(callback, indoorMapIdPtr, indoorMapNamePtr, indoorMapLatLngPtr) {
+        var indoorMapId = _emscriptenMemory.stringifyPointer(indoorMapIdPtr);
+        var indoorMapName = _emscriptenMemory.stringifyPointer(indoorMapNamePtr);
+        var latLngArray = _emscriptenMemory.readDoubles(indoorMapLatLngPtr, 3);
+        var markerLatLng = L.latLng(latLngArray);
+        callback(indoorMapId, indoorMapName, markerLatLng);
     };
+    
+    var _indoorMapEntryMarkerAddedHandler = function(indoorMapIdPtr, indoorMapNamePtr, indoorMapLatLngPtr) {
+        if (_onIndoorMapEntryMarkerAdded != null) {
+            _executeEntryMarkerCallback(_onIndoorMapEntryMarkerAdded, indoorMapIdPtr, indoorMapNamePtr, indoorMapLatLngPtr);
+        }
+    }
 
-    this.registerIndoorMapMarkerAddedCallback = function(callback) {
-        _setIndoorMapMarkerAddedCallback = _setIndoorMapMarkerAddedCallback|| cwrap("setIndoorMapMarkerAddedCallback", null, ["number", "number"]);
-        var wrappedCallback = _wrapCallback(callback);
-        _setIndoorMapMarkerAddedCallback(_eegeoApiPointer, runtime.addFunction(wrappedCallback));
-    };
+    var _indoorMapEntryMarkerRemovedHandler = function(indoorMapIdPtr, indoorMapNamePtr, indoorMapLatLngPtr) {
+        if (_onIndoorMapEntryMarkerRemoved != null) {
+            _executeEntryMarkerCallback(_onIndoorMapEntryMarkerRemoved, indoorMapIdPtr, indoorMapNamePtr, indoorMapLatLngPtr);
+        }
+    }
 
-    this.registerIndoorMapMarkerRemovedCallback = function(callback) {
-        _setIndoorMapMarkerRemovedCallback = _setIndoorMapMarkerRemovedCallback || cwrap("setIndoorMapMarkerRemovedCallback", null, ["number", "number"]);
-        var wrappedCallback = _wrapCallback(callback);
-        _setIndoorMapMarkerRemovedCallback(_eegeoApiPointer, runtime.addFunction(wrappedCallback));
+    this.onInitialized = function() {
+        _indoorsApi_RegisterIndoorMapCallbacks(
+            _emscriptenApiPointer,
+            runtime.addFunction(_indoorMapEnteredHandler),
+            runtime.addFunction(_indoorMapEntryFailedHandler),
+            runtime.addFunction(_indoorMapExitedHandler),
+            runtime.addFunction(_indoorMapFloorChangedHandler),
+            runtime.addFunction(_indoorMapEntryMarkerAddedHandler),
+            runtime.addFunction(_indoorMapEntryMarkerRemovedHandler)
+            );
+    }
+    
+    this.setNotificationCallbacks = function (
+        indoorMapEnteredCallback,
+        indoorMapEnterFailedCallback,
+        indoorMapExitedCallback,
+        indoorMapFloorChangedCallback,
+        indoorMapEntryMarkerAddedCallback,
+        indoorMapEntryMarkerRemovedCallback
+        ) {
+            _onIndoorMapEntered = indoorMapEnteredCallback;
+            _onIndoorMapEnterFailed = indoorMapEnterFailedCallback;
+            _onIndoorMapExited = indoorMapExitedCallback;
+            _onIndoorMapFloorChanged = indoorMapFloorChangedCallback;
+            _onIndoorMapEntryMarkerAdded = indoorMapEntryMarkerAddedCallback;
+            _onIndoorMapEntryMarkerRemoved = indoorMapEntryMarkerRemovedCallback;
     };
 
     this.exitIndoorMap = function() {
-        _exitIndoorMap = _exitIndoorMap || cwrap("exitIndoorMap", null, ["number"]);
-        _exitIndoorMap(_eegeoApiPointer);
+        _indoorsApi_ExitIndoorMap(_emscriptenApiPointer);
     };
 
     this.hasActiveIndoorMap = function() {

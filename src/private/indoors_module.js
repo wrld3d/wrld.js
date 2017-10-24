@@ -167,12 +167,16 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
     };
 
     this.onInitialized = function() {
-        _emscriptenApi.indoorsApi.registerIndoorMapEnteredCallback(_executeIndoorMapEnteredCallbacks);
-        _emscriptenApi.indoorsApi.registerIndoorMapEnterFailedCallback(_executeIndoorMapEnterFailedCallbacks);
-        _emscriptenApi.indoorsApi.registerIndoorMapExitedCallback(_executeIndoorMapExitedCallbacks);
-        _emscriptenApi.indoorsApi.registerIndoorMapFloorChangedCallback(_executeIndoorMapFloorChangedCallbacks);
-        _emscriptenApi.indoorsApi.registerIndoorMapMarkerAddedCallback(_executeIndoorMapEntranceAddedCallbacks);
-        _emscriptenApi.indoorsApi.registerIndoorMapMarkerRemovedCallback(_executeIndoorMapEntranceRemovedCallbacks);
+        _emscriptenApi.indoorsApi.onInitialized();
+        
+        _emscriptenApi.indoorsApi.setNotificationCallbacks(
+            _executeIndoorMapEnteredCallbacks,
+            _executeIndoorMapEnterFailedCallbacks,
+            _executeIndoorMapExitedCallbacks,
+            _executeIndoorMapFloorChangedCallbacks,
+            _executeIndoorMapEntranceAddedCallbacks,
+            _executeIndoorMapEntranceRemovedCallbacks);
+
         _emscriptenApi.highlightApi.registerEntityClickedCallback(_executeEntityClickedCallbacks);
 
         _emscriptenApi.expandFloorsApi.setCollapseStartCallback(_onCollapseStart);
