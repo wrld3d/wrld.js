@@ -93,8 +93,8 @@ var Popup = L.Popup.extend({
             left = this._containerLeft = -Math.round(this._containerWidth / 2) + offset.x;
 
         // bottom position the popup in case the height of the popup changes (images loading etc)
-        this._container.style.bottom = bottom + "px";
-        this._container.style.left = left + "px";
+        this._container.style.bottom = Math.round(bottom) + "px";
+        this._container.style.left = Math.round(left) + "px";
     },
 
     _checkOutOfBounds: function() {
