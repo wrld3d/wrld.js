@@ -4,6 +4,7 @@ function BuildingsModuleImpl(emscriptenApi) {
 
     var _emscriptenApi = emscriptenApi;
     var _nativeIdToBuildingHighlights = {};
+    var _callbackInvokedBeforeAssignement = {};
     var _pendingBuildingHighlights = [];
     var _ready = false;
     var _notifyBuildingInformationReceivedCallback = null;
@@ -19,6 +20,12 @@ function BuildingsModuleImpl(emscriptenApi) {
         var nativeId = _emscriptenApi.buildingsApi.createBuildingHighlight(buildingHighlight);
         _nativeIdToBuildingHighlights[nativeId] = buildingHighlight;
         buildingHighlight._setNativeHandle(nativeId);
+        
+        if(nativeId in _callbackInvokedBeforeAssignement){
+            delete _callbackInvokedBeforeAssignement[nativeId];
+            _notifyBuildingInformationReceived(nativeId);
+        }
+
         return nativeId;
     };
 
@@ -102,14 +109,21 @@ function BuildingsModuleImpl(emscriptenApi) {
 
     var _executeBuildingInformationReceivedCallback = function(buildingHighlightId) {
         if (buildingHighlightId in _nativeIdToBuildingHighlights) {
-            var buildingHighlight = _nativeIdToBuildingHighlights[buildingHighlightId];
-            var buildingInformation = _emscriptenApi.buildingsApi.tryGetBuildingInformation(buildingHighlightId);
-            if (buildingInformation !== null) {
-                buildingHighlight._setBuildingInformation(buildingInformation);
-            }
-            if (_notifyBuildingInformationReceivedCallback !== null) {
-                _notifyBuildingInformationReceivedCallback(buildingHighlight);
-            }
+            _notifyBuildingInformationReceived(buildingHighlightId);
+        }
+        else{
+            _callbackInvokedBeforeAssignement[buildingHighlightId] = true;
+        }
+    };
+
+    var _notifyBuildingInformationReceived = function(buildingHighlightId) {
+        var buildingHighlight = _nativeIdToBuildingHighlights[buildingHighlightId];
+        var buildingInformation = _emscriptenApi.buildingsApi.tryGetBuildingInformation(buildingHighlightId);
+        if (buildingInformation !== null) {
+            buildingHighlight._setBuildingInformation(buildingInformation);
+        }
+        if (_notifyBuildingInformationReceivedCallback !== null) {
+            _notifyBuildingInformationReceivedCallback(buildingHighlight);
         }
     };
 }
