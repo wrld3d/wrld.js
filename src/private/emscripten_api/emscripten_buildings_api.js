@@ -30,10 +30,10 @@ function EmscriptenBuildingsApi(emscriptenApiPointer, cwrap, runtime, emscripten
                 _emscriptenApiPointer,
                 latLng.lat,
                 latLng.lng,
-                color.x,
-                color.y,
-                color.z,
-                color.w,
+                color.x/255,
+                color.y/255,
+                color.z/255,
+                color.w/255,
                 shouldCreateView
             );
         }
@@ -43,10 +43,10 @@ function EmscriptenBuildingsApi(emscriptenApiPointer, cwrap, runtime, emscripten
                 _emscriptenApiPointer,
                 point.x,
                 point.y,
-                color.x,
-                color.y,
-                color.z,
-                color.w,
+                color.x/255,
+                color.y/255,
+                color.z/255,
+                color.w/255,
                 shouldCreateView
             );
         }
@@ -60,7 +60,7 @@ function EmscriptenBuildingsApi(emscriptenApiPointer, cwrap, runtime, emscripten
     };
 
     this.setHighlightColor = function(buildingHighlightId, color) {
-        _buildingsApi_SetHighlightColor(_emscriptenApiPointer, buildingHighlightId, color.x, color.y, color.z, color.w);
+        _buildingsApi_SetHighlightColor(_emscriptenApiPointer, buildingHighlightId, color.x/255, color.y/255, color.z/255, color.w/255);
     };
 
     this.tryGetBuildingInformation = function(buildingHighlightId) {

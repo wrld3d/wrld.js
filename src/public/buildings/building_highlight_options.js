@@ -12,7 +12,7 @@ var BuildingHighlightOptions = function() {
     var _selectionLocationLatLng = L.latLng([0.0, 0.0]);
     var _selectionScreenPoint = L.Point(0.0, 0.0);
     var _selectionMode = "selectAtLocation";
-    var _color = [1.0, 1.0, 0.0, 0.5];
+    var _color = [255, 255, 0, 128];
     var _informationOnly = false;
 
     this.highlightBuildingAtLocation = function(latLng) {
