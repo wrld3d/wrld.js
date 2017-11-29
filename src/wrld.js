@@ -11,7 +11,7 @@ var circle = require("./public/circle.js");
 require("./private/polyfills.js");
 
 
-var _baseUrl = "https://cdn-webgl.wrld3d.com/wrldjs/early_access/latest/";
+var _baseUrl = "https://cdn-webgl.wrld3d.com/eegeojs/public/latest/";
 var _appName = "eeGeoWebGL.jgz";
 
 
