@@ -74,14 +74,16 @@ var Popup = L.Popup.extend({
     },
 
     _updatePosition: function() {
-        if (!this._map) { return; }
+		if (!this._map) { return; }
 
         // todo: should probably just have a single api point here to get screen pos
         var latLngs = this._map.latLngsForLayer(this);            
         var pos = this._map.latLngToLayerPoint(latLngs[0]);
-
         var offset = L.point(this.options.offset);
+
         var anchor = this._getAnchor();
+		anchor.x = Math.round(anchor.x);
+		anchor.y = Math.round(anchor.y);
 
         if (this._zoomAnimated) {
             L.DomUtil.setPosition(this._container, pos.add(anchor));
@@ -89,12 +91,17 @@ var Popup = L.Popup.extend({
             offset = offset.add(pos).add(anchor);
         }
 
-        var bottom = this._containerBottom = -offset.y,
-            left = this._containerLeft = -Math.round(this._containerWidth / 2) + offset.x;
+		var bottom = this._containerBottom = -offset.y;
+        var left = this._containerLeft = -Math.round(this._containerWidth / 2) + offset.x;
 
-        // bottom position the popup in case the height of the popup changes (images loading etc)
-        this._container.style.bottom = Math.round(bottom) + "px";
-        this._container.style.left = Math.round(left) + "px";
+		var bottom_style = Math.round(bottom) + "px";
+		var left_style = Math.round(left) + "px";
+
+		if (L.DomUtil.getStyle(this._container, "left") !== left_style) { // Do not update if style is already applied to prevent vertical wiggling
+			// bottom position the popup in case the height of the popup changes (images loading etc)
+			this._container.style.bottom = bottom_style;
+			this._container.style.left = left_style;
+		}
     },
 
     _checkOutOfBounds: function() {
