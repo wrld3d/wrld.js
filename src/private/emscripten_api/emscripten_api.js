@@ -43,7 +43,8 @@ function EmscriptenApi(emscriptenModule) {
         this.geofenceApi = new EmscriptenGeofenceApi(_eegeoApiPointer, cwrap, runtime, _emscriptenModule);
         this.precacheApi = new EmscriptenPrecacheApi(_eegeoApiPointer, cwrap, runtime);
         this.spacesApi = new EmscriptenSpacesApi(_eegeoApiPointer, cwrap, runtime, emscriptenMemory);
-        this.themesApi = new EmscriptenThemesApi(_eegeoApiPointer, cwrap, runtime);        
+        this.themesApi = new EmscriptenThemesApi(_eegeoApiPointer, cwrap, runtime);
+        this.cameraApi = new EmscriptenCameraApi(_eegeoApiPointer, cwrap, runtime, emscriptenMemory);
         this.expandFloorsApi = new EmscriptenExpandFloorsApi(_eegeoApiPointer, cwrap, runtime);
         this.highlightApi = new EmscriptenHighlightApi(_eegeoApiPointer, cwrap, runtime, emscriptenMemory);
         this.renderingApi = new EmscriptenRenderingApi(_eegeoApiPointer, cwrap, runtime, emscriptenMemory);
@@ -52,7 +53,6 @@ function EmscriptenApi(emscriptenModule) {
         this.layerPointMappingApi = new EmscriptenLayerPointMappingApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
         this.buildingsApi = new EmscriptenBuildingsApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
         this.indoorsApi = new EmscriptenIndoorsApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
-        this.cameraApi = new EmscriptenCameraApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
 
         var _setTopLevelCallbacks = _emscriptenModule.cwrap("setTopLevelCallbacks", null, ["number", "number", "number", "number"]);
         _setTopLevelCallbacks(

@@ -1,19 +1,19 @@
-function EmscriptenCameraApi(emscriptenApiPointer, cwrap, runtime, emscriptenMemory) {
+function EmscriptenCameraApi(eegeoApiPointer, cwrap, runtime, emscriptenMemory) {
 
-    var _emscriptenApiPointer = emscriptenApiPointer;
+    var _eegeoApiPointer = eegeoApiPointer;
     var _emscriptenMemory = emscriptenMemory;
-    var _cameraApi_setViewUsingZenithAngle = cwrap("cameraApi_setViewUsingZenithAngle", "number", ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number" ]);
-    var _cameraApi_setViewToBounds = cwrap("cameraApi_setViewToBounds", null, ["number", "number", "number", "number", "number", "number", "number", "number", "number"]);
-    
-    var _cameraApi_getDistanceToInterest = cwrap("cameraApi_getDistanceToInterest", "number", ["number"]);
-    var _cameraApi_getInterestLatLong = cwrap("cameraApi_getInterestLatLong", null, ["number", "number"]);
-    var _cameraApi_getPitchDegrees = cwrap("cameraApi_getPitchDegrees", "number", ["number"]);
-    var _cameraApi_getHeadingDegrees = cwrap("cameraApi_getHeadingDegrees", "number", ["number"]);
-    var _cameraApi_setEventCallback = cwrap("cameraApi_setEventCallback", null, ["number", "number"]);
-    var _cameraApi_getDistanceFromZoomLevel = cwrap("cameraApi_getDistanceFromZoomLevel", "number", ["number", "number"]);
-    var _cameraApi_getZoomLevel = cwrap("cameraApi_getZoomLevel", "number", ["number"]);
+    var _setViewInterop = null; 
+    var _setViewToBoundsInterop = null;
+    var _getDistanceToInterestInterop = null;
+    var _getInterestLatLongInterop = null;
+    var _getPitchDegreesInterop = null;
+    var _getHeadingDegreesInterop = null;
+    var _setEventCallbackInterop = null;
+    var _getDistanceFromZoomLevelInterop = null;
+    var _getZoomLevelInterop = null;
 
     var _setView = function(animated, location, distance, headingDegrees, tiltDegrees, durationSeconds, jumpIfFarAway, allowInterruption) {
+        _setViewInterop = _setViewInterop || cwrap("setViewUsingZenithAngle", "number", ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number" ]);
        
        var modifyLocation = true;
        if(location === null ) {
@@ -21,11 +21,11 @@ function EmscriptenCameraApi(emscriptenApiPointer, cwrap, runtime, emscriptenMem
          modifyLocation = false;
        }
        
-        return _cameraApi_setViewUsingZenithAngle(
-            _emscriptenApiPointer, 
+        return _setViewInterop(
+        	_eegeoApiPointer, 
             animated,
-            location.lat || 0, location.lng || 0, location.alt || 0, modifyLocation,
-            distance || 0, distance !== null, 
+        	location.lat || 0, location.lng || 0, location.alt || 0, modifyLocation,
+        	distance || 0, distance !== null, 
             headingDegrees || 0, headingDegrees !== null, 
             tiltDegrees || 0, tiltDegrees !== null, 
             durationSeconds || 0, durationSeconds !== null, 
@@ -35,13 +35,13 @@ function EmscriptenCameraApi(emscriptenApiPointer, cwrap, runtime, emscriptenMem
     };
 
     var _setViewToBounds = function(northEast, southWest, animated, allowInterruption) {
+        _setViewToBoundsInterop = _setViewToBoundsInterop || cwrap("setViewToBounds", null, ["number", "number", "number", "number", "number", "number", "number", "number", "number"]);
         
-        
-        _cameraApi_setViewToBounds(
-            _emscriptenApiPointer, 
-            northEast.lat, northEast.lng, northEast.alt || 0, 
-            southWest.lat, southWest.lng, southWest.alt || 0, 
-            animated,
+        _setViewToBoundsInterop(
+        	_eegeoApiPointer, 
+        	northEast.lat, northEast.lng, northEast.alt || 0, 
+        	southWest.lat, southWest.lng, southWest.alt || 0, 
+        	animated,
             allowInterruption
         );
     };
@@ -60,27 +60,30 @@ function EmscriptenCameraApi(emscriptenApiPointer, cwrap, runtime, emscriptenMem
         return _setView(animated, location, distance, headingDegrees, tiltDegrees, durationSeconds, jumpIfFarAway, allowInterruption);
     };
 
-    this.setViewToBounds = function(config) {
-        var bounds = L.latLngBounds(config["bounds"]);
+    this.setViewToBounds = function(config) {    	
+    	var bounds = L.latLngBounds(config["bounds"]);
         var animated = "animate" in config ? config["animate"] : true;
         var allowInterruption = "allowInterruption" in config ? config["allowInterruption"] : true;
 
         return _setViewToBounds(
-            bounds._northEast, 
-            bounds._southWest, 
-            animated,
+        	bounds._northEast, 
+        	bounds._southWest, 
+        	animated,
             allowInterruption
         );
     };
 
     this.getDistanceToInterest = function() {
-        return _cameraApi_getDistanceToInterest(_emscriptenApiPointer);
+        _getDistanceToInterestInterop = _getDistanceToInterestInterop || cwrap("getDistanceToInterest", "number", ["number"]);
+        return _getDistanceToInterestInterop(_eegeoApiPointer);
     };
 
     this.getInterestLatLong = function() {
+        _getInterestLatLongInterop = _getInterestLatLongInterop || cwrap("getInterestLatLong", null, ["number", "number"]);
+
         var latLong = [0, 0];
         _emscriptenMemory.passDoubles(latLong, function(resultArray, arraySize) {
-            _cameraApi_getInterestLatLong(_emscriptenApiPointer, resultArray);
+            _getInterestLatLongInterop(_eegeoApiPointer, resultArray);
             latLong = _emscriptenMemory.readDoubles(resultArray, 2);
         });
 
@@ -88,24 +91,28 @@ function EmscriptenCameraApi(emscriptenApiPointer, cwrap, runtime, emscriptenMem
     };
 
     this.getPitchDegrees = function() {
-        
-        return _cameraApi_getPitchDegrees(_emscriptenApiPointer);
+        _getPitchDegreesInterop = _getPitchDegreesInterop || cwrap("getPitchDegrees", "number", ["number"]);
+        return _getPitchDegreesInterop(_eegeoApiPointer);
     };
 
     this.getHeadingDegrees = function() {
-        return _cameraApi_getHeadingDegrees(_emscriptenApiPointer);
+        _getHeadingDegreesInterop = _getHeadingDegreesInterop || cwrap("getHeadingDegrees", "number", ["number"]);
+        return _getHeadingDegreesInterop(_eegeoApiPointer);
     };
 
     this.setEventCallback = function(callback) {
-        _cameraApi_setEventCallback(_emscriptenApiPointer, runtime.addFunction(callback));
+        _setEventCallbackInterop = _setEventCallbackInterop || cwrap("setEventCallback", null, ["number", "number"]);
+        _setEventCallbackInterop(_eegeoApiPointer, runtime.addFunction(callback));
     };
 
     this.getDistanceFromZoomLevel = function(zoomLevel) {
-        return _cameraApi_getDistanceFromZoomLevel(_emscriptenApiPointer, zoomLevel);
+        _getDistanceFromZoomLevelInterop = _getDistanceFromZoomLevelInterop || cwrap("getDistanceFromZoomLevel", "number", ["number", "number"]);
+        return _getDistanceFromZoomLevelInterop(_eegeoApiPointer, zoomLevel);
     };
 
     this.getZoomLevel = function() {
-        return _cameraApi_getZoomLevel(_emscriptenApiPointer);
+        _getZoomLevelInterop = _getZoomLevelInterop || cwrap("getZoomLevel", "number", ["number"]);
+        return _getZoomLevelInterop(_eegeoApiPointer);
     };
 
 }
