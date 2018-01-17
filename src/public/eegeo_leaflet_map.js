@@ -463,7 +463,7 @@ var EegeoLeafletMap = L.Map.extend({
         var currentMapStateIsOutdoors = !this.indoors.isIndoors();
         var layerIsOutdoors = !indoorOptions.hasIndoorMap(layer);
 
-		if (layer.options.displayOption === 'currentMap')
+		if (layer.options.displayOption === "currentMap")
 			return true;
 
         if (currentMapStateIsOutdoors)
