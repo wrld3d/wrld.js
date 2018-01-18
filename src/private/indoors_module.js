@@ -153,10 +153,6 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
         _mapController._setIndoorTransitionCompleteEventListener(function() { _enterIndoorMap(config.indoorMapId); });
 
         _this.once("indoormapenter", function() {
-            if(config.setLocationAfterEntry)
-            {
-                _emscriptenApi.cameraApi.setView({location: config.latLng, zoom: config.zoom, allowInterruption: false, headingDegrees: config.orientation});
-            }
             _transitioningToIndoorMap = false;
             var vendorKey = _activeIndoorMap.getIndoorMapSourceVendor();
             _indoorWatermarkController.showWatermarkForVendor(vendorKey);
@@ -196,8 +192,7 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
                 latLng: _center,
                 zoom: _zoom,
                 indoorMapId: _startingIndoorId,
-                orientation: _headingDegrees,
-                setLocationAfterEntry: true
+                orientation: _headingDegrees
             };
             this.enter(_startingIndoorId, config);
 
