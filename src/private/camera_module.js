@@ -48,7 +48,7 @@ var CameraModule = function(emscriptenApi, startLatLng, initialZoom) {
         }
         else {
             //Can't convert zoom level to distance before the api is loaded.
-          return 0;
+          return 0.0;
         }
     };
 
@@ -57,16 +57,16 @@ var CameraModule = function(emscriptenApi, startLatLng, initialZoom) {
             return _emscriptenApi.cameraApi.getPitchDegrees();
         }
         else {
-            return 0;
+            return 0.0;
         }
     };
     
     var _getTiltDegrees = function() {
       if (_ready) {
-          return 90 - _emscriptenApi.cameraApi.getPitchDegrees();
+          return 90.0 - _emscriptenApi.cameraApi.getPitchDegrees();
       }
       else {
-          return 0;
+          return 0.0;
       }
     };
     
@@ -79,7 +79,7 @@ var CameraModule = function(emscriptenApi, startLatLng, initialZoom) {
             return _emscriptenApi.cameraApi.getHeadingDegrees();
         }
         else {
-            return _pendingSetViewData["headingDegrees"] || 0;
+            return _pendingSetViewData["headingDegrees"] || 0.0;
         }
     };
     
@@ -108,7 +108,7 @@ var CameraModule = function(emscriptenApi, startLatLng, initialZoom) {
             return _emscriptenApi.cameraApi.getZoomLevel();
         }
         else {
-            return  _pendingSetViewData["zoom"] || 0;
+            return  _pendingSetViewData["zoom"] || 0.0;
         }
     };
 
