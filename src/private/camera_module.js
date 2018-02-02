@@ -79,7 +79,7 @@ var CameraModule = function(emscriptenApi, startLatLng, initialZoom) {
             return _emscriptenApi.cameraApi.getHeadingDegrees();
         }
         else {
-            return _pendingSetViewData["headingDegrees"] || 0.0;
+            return parseFloat(_pendingSetViewData["headingDegrees"]) || 0.0;
         }
     };
     
@@ -108,7 +108,7 @@ var CameraModule = function(emscriptenApi, startLatLng, initialZoom) {
             return _emscriptenApi.cameraApi.getZoomLevel();
         }
         else {
-            return  _pendingSetViewData["zoom"] || 0.0;
+            return  parseFloat(_pendingSetViewData["zoom"]) || 0.0;
         }
     };
 
