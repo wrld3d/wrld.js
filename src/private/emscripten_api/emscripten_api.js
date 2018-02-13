@@ -44,8 +44,7 @@ function EmscriptenApi(emscriptenModule) {
         this.precacheApi = new EmscriptenPrecacheApi(_eegeoApiPointer, cwrap, runtime);
         this.spacesApi = new EmscriptenSpacesApi(_eegeoApiPointer, cwrap, runtime, emscriptenMemory);
         this.themesApi = new EmscriptenThemesApi(_eegeoApiPointer, cwrap, runtime);        
-        this.expandFloorsApi = new EmscriptenExpandFloorsApi(_eegeoApiPointer, cwrap, runtime);
-        this.highlightApi = new EmscriptenHighlightApi(_eegeoApiPointer, cwrap, runtime, emscriptenMemory);
+        this.expandFloorsApi = new EmscriptenExpandFloorsApi(_eegeoApiPointer, cwrap, runtime);        
         this.renderingApi = new EmscriptenRenderingApi(_eegeoApiPointer, cwrap, runtime, emscriptenMemory);
 
         // emscripten-specific api usage via emscripten api pointer
@@ -53,6 +52,7 @@ function EmscriptenApi(emscriptenModule) {
         this.buildingsApi = new EmscriptenBuildingsApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
         this.indoorsApi = new EmscriptenIndoorsApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
         this.cameraApi = new EmscriptenCameraApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
+        this.highlightApi = new EmscriptenHighlightApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
 
         var _setTopLevelCallbacks = _emscriptenModule.cwrap("setTopLevelCallbacks", null, ["number", "number", "number", "number"]);
         _setTopLevelCallbacks(

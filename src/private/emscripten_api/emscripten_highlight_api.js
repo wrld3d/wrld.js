@@ -1,66 +1,75 @@
-function EmscriptenHighlightApi(eegeoApiPointer, cwrap, runtime, emscriptenMemory) {
+function EmscriptenHighlightApi(emscriptenApiPointer, cwrap, runtime, emscriptenMemory) {
 
-    var _eegeoApiPointer = eegeoApiPointer;
+    var _emscriptenApiPointer = emscriptenApiPointer;
     var _emscriptenMemory = emscriptenMemory;
-    var _setEntityHighlightsInterop = null;
-    var _clearEntityHighlightsInterop = null;
-    var _clearAllEntityHighlightsInterop = null;
-    var _setEntityClickedCallbackInterop = null;
+    var _highlightApi_SetIndoorEntityPickedCallback = cwrap("highlightApi_SetIndoorEntityPickedCallback", null, ["number", "number"]);
+    var _highlightApi_SetHighlights = cwrap("highlightApi_SetHighlights", null, ["number", "string", "number", "number", "number"]);
+    var _highlightApi_ClearHighlights = cwrap("highlightApi_ClearHighlights", null, ["number", "string", "number", "number"]);
+    var _highlightApi_ClearAllHighlights = cwrap("highlightApi_ClearAllHighlights", null, ["number"]);
     
-    var _wrapCallback = function(callback) {
-        return function(idsPtr) {
+    var _indoorEntityPickedCallback = null;
+    
+
+    var _onIndoorEntityPicked = function(idsPtr) {
+        if (_indoorEntityPickedCallback != null) {
             var ids = _emscriptenMemory.stringifyPointer(idsPtr);
-            callback(ids);
-        };
+            _indoorEntityPickedCallback(ids);
+        }
     };
 
-    var _setEntityHighlights = function(ids, color, indoorMapId) {
-        _setEntityHighlightsInterop = _setEntityHighlightsInterop || cwrap("setHighlights", null, ["number", "string", "number", "number", "number"]);
-
-        var interiorId = indoorMapId || 0;
+    var _setHighlights = function(ids, color, indoorMapId) {
         _emscriptenMemory.passStrings(ids, function(resultStrings, stringArraySize){
             _emscriptenMemory.passDoubles(color, function(doubleArray, arraySize) {
-                _setEntityHighlightsInterop(_eegeoApiPointer, interiorId, resultStrings, stringArraySize, doubleArray);
+                _highlightApi_SetHighlights(_emscriptenApiPointer, indoorMapId, resultStrings, stringArraySize, doubleArray);
             });
         });
     };
 
-    var _clearEntityHighlights = function(ids, indoorMapId) {
-        _clearEntityHighlightsInterop = _clearEntityHighlightsInterop || cwrap("clearHighlights", null, ["number", "string", "number", "number"]);
-
-        var interiorId = indoorMapId || 0;
+    var _clearHighlights = function(ids, indoorMapId) {
         _emscriptenMemory.passStrings(ids, function(resultStrings, stringArraySize){
-            _clearEntityHighlightsInterop(_eegeoApiPointer, interiorId, resultStrings, stringArraySize);
+            _highlightApi_ClearHighlights(_emscriptenApiPointer, indoorMapId, resultStrings, stringArraySize);
         });
     };
 
-    var _clearAllEntityHighlights = function() {
-        _clearAllEntityHighlightsInterop = _clearAllEntityHighlightsInterop || cwrap("clearAllHighlights", null, ["number"]);
-        _clearAllEntityHighlightsInterop(_eegeoApiPointer);
+    var _clearAllHighlights = function() {
+        _highlightApi_ClearAllHighlights(_emscriptenApiPointer);
     };
 
-    this.registerEntityClickedCallback = function(callback) {
-        _setEntityClickedCallbackInterop = _setEntityClickedCallbackInterop || cwrap("setEntityPickedCallback", null, ["number", "number"]);
-        var wrappedCallback = _wrapCallback(callback);
-        _setEntityClickedCallbackInterop(_eegeoApiPointer, runtime.addFunction(wrappedCallback));
+    ////
+
+    this.onInitialized = function() {
+        // register emscripten callbacks
+        _highlightApi_SetIndoorEntityPickedCallback(_emscriptenApiPointer, runtime.addFunction(_onIndoorEntityPicked));
+    }
+
+    this.registerIndoorEntityPickedCallback = function(callback) {
+        _indoorEntityPickedCallback = callback;
     };
 
     this.setEntityHighlights = function(ids, color, indoorMapId) {
+        if (indoorMapId === null || indoorMapId === undefined) {
+            return;
+        }
+
         if (typeof ids === "string") {
             ids = [ids];
         }
-        _setEntityHighlights(ids, color, indoorMapId);
+        _setHighlights(ids, color, indoorMapId);
     };
     
     this.clearEntityHighlights = function(ids, indoorMapId) {
         if (ids === undefined) {
-            _clearAllEntityHighlights();
+            _clearAllHighlights();
         }
         else {
+            if (indoorMapId === null || indoorMapId === undefined) {
+                return;
+            }
+
             if (typeof ids === "string") {
                 ids = [ids];
             }
-            _clearEntityHighlights(ids, indoorMapId);
+            _clearHighlights(ids, indoorMapId);
         }
     };
 }

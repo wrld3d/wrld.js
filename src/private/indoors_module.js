@@ -173,7 +173,8 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
             _executeIndoorMapEntranceAddedCallbacks,
             _executeIndoorMapEntranceRemovedCallbacks);
 
-        _emscriptenApi.highlightApi.registerEntityClickedCallback(_executeEntityClickedCallbacks);
+        _emscriptenApi.highlightApi.onInitialized();
+        _emscriptenApi.highlightApi.registerIndoorEntityPickedCallback(_executeEntityClickedCallbacks);
 
         _emscriptenApi.expandFloorsApi.setCollapseStartCallback(_onCollapseStart);
         _emscriptenApi.expandFloorsApi.setCollapseCallback(_onCollapse);
@@ -363,13 +364,28 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
 
     this.setEntityHighlights = function(ids, color, indoorMapId) {
         if (!_ready) return;
+        
+        indoorMapId = _indoorMapIdOrDefault(indoorMapId);
         _emscriptenApi.highlightApi.setEntityHighlights(ids, color, indoorMapId);
     };
 
     this.clearEntityHighlights = function(ids, indoorMapId) {
         if (!_ready) return;
+        
+        indoorMapId = _indoorMapIdOrDefault(indoorMapId);
         _emscriptenApi.highlightApi.clearEntityHighlights(ids, indoorMapId);
     };
+    
+    var _indoorMapIdOrDefault = function(indoorMapId) {
+        if (indoorMapId === undefined || indoorMapId === null) {
+            if (_activeIndoorMap !== null) {
+                indoorMapId = _activeIndoorMap.getIndoorMapId();
+            }
+        }
+
+        return indoorMapId;
+    }
+    
 };
 
 var IndoorsPrototype = L.extend({}, MapModule, L.Mixin.Events);
