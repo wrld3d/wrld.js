@@ -573,10 +573,10 @@ describe("map_interop:", function() {
       _highlightApi = new EmscriptenHighlightApi(apiPointer, cwrap, runtime, _emscriptenMemory);
     });
     
-    it("the registerEntityClickedCallback function should exist", function() {
+    it("the registerIndoorEntityPickedCallback function should exist", function() {
       _verifyApiFunctionExists(function() {
         var callback = function() {};
-        _highlightApi.registerEntityClickedCallback(callback);
+        _highlightApi.registerIndoorEntityPickedCallback(callback);
       });
     });
     
@@ -584,13 +584,16 @@ describe("map_interop:", function() {
       _verifyApiFunctionExists(function() {
         var ids = ["1000", "1001", "2001"];
         var color = [128, 0, 0, 128];
-        _highlightApi.setEntityHighlights(ids, color);
+        var indoorMapId = "indoor_map"
+        _highlightApi.setEntityHighlights(ids, color, indoorMapId);
       });
     });
     
     it("the clearEntityHighlights function should exist", function() {
       _verifyApiFunctionExists(function() {
-        _highlightApi.clearEntityHighlights();
+          var ids = ["1000", "1001", "2001"];
+          var indoorMapId = "indoor_map"
+        _highlightApi.clearEntityHighlights(ids, indoorMapId);
       });
     });
   });
