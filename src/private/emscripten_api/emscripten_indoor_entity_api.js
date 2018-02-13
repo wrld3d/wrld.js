@@ -1,11 +1,11 @@
-function EmscriptenHighlightApi(emscriptenApiPointer, cwrap, runtime, emscriptenMemory) {
+function EmscriptenIndoorEntityApi(emscriptenApiPointer, cwrap, runtime, emscriptenMemory) {
 
     var _emscriptenApiPointer = emscriptenApiPointer;
     var _emscriptenMemory = emscriptenMemory;
-    var _highlightApi_SetIndoorEntityPickedCallback = cwrap("highlightApi_SetIndoorEntityPickedCallback", null, ["number", "number"]);
-    var _highlightApi_SetHighlights = cwrap("highlightApi_SetHighlights", null, ["number", "string", "number", "number", "number"]);
-    var _highlightApi_ClearHighlights = cwrap("highlightApi_ClearHighlights", null, ["number", "string", "number", "number"]);
-    var _highlightApi_ClearAllHighlights = cwrap("highlightApi_ClearAllHighlights", null, ["number"]);
+    var _indoorEntityApi_SetIndoorEntityPickedCallback = cwrap("indoorEntityApi_SetIndoorEntityPickedCallback", null, ["number", "number"]);
+    var _indoorEntityApi_SetHighlights = cwrap("indoorEntityApi_SetHighlights", null, ["number", "string", "number", "number", "number"]);
+    var _indoorEntityApi_ClearHighlights = cwrap("indoorEntityApi_ClearHighlights", null, ["number", "string", "number", "number"]);
+    var _indoorEntityApi_ClearAllHighlights = cwrap("indoorEntityApi_ClearAllHighlights", null, ["number"]);
     
     var _indoorEntityPickedCallback = null;
     
@@ -20,32 +20,32 @@ function EmscriptenHighlightApi(emscriptenApiPointer, cwrap, runtime, emscripten
     var _setHighlights = function(ids, color, indoorMapId) {
         _emscriptenMemory.passStrings(ids, function(resultStrings, stringArraySize){
             _emscriptenMemory.passDoubles(color, function(doubleArray, arraySize) {
-                _highlightApi_SetHighlights(_emscriptenApiPointer, indoorMapId, resultStrings, stringArraySize, doubleArray);
+                _indoorEntityApi_SetHighlights(_emscriptenApiPointer, indoorMapId, resultStrings, stringArraySize, doubleArray);
             });
         });
     };
 
     var _clearHighlights = function(ids, indoorMapId) {
         _emscriptenMemory.passStrings(ids, function(resultStrings, stringArraySize){
-            _highlightApi_ClearHighlights(_emscriptenApiPointer, indoorMapId, resultStrings, stringArraySize);
+            _indoorEntityApi_ClearHighlights(_emscriptenApiPointer, indoorMapId, resultStrings, stringArraySize);
         });
     };
 
     var _clearAllHighlights = function() {
-        _highlightApi_ClearAllHighlights(_emscriptenApiPointer);
+        _indoorEntityApi_ClearAllHighlights(_emscriptenApiPointer);
     };
 
 
     this.onInitialized = function() {
         // register emscripten callbacks
-        _highlightApi_SetIndoorEntityPickedCallback(_emscriptenApiPointer, runtime.addFunction(_onIndoorEntityPicked));
+        _indoorEntityApi_SetIndoorEntityPickedCallback(_emscriptenApiPointer, runtime.addFunction(_onIndoorEntityPicked));
     };
 
     this.registerIndoorEntityPickedCallback = function(callback) {
         _indoorEntityPickedCallback = callback;
     };
 
-    this.setEntityHighlights = function(ids, color, indoorMapId) {
+    this.setHighlights = function(ids, color, indoorMapId) {
         if (indoorMapId === null || indoorMapId === undefined) {
             return;
         }
@@ -56,7 +56,7 @@ function EmscriptenHighlightApi(emscriptenApiPointer, cwrap, runtime, emscripten
         _setHighlights(ids, color, indoorMapId);
     };
     
-    this.clearEntityHighlights = function(ids, indoorMapId) {
+    this.clearHighlights = function(ids, indoorMapId) {
         if (ids === undefined) {
             _clearAllHighlights();
         }
@@ -73,4 +73,4 @@ function EmscriptenHighlightApi(emscriptenApiPointer, cwrap, runtime, emscripten
     };
 }
 
-module.exports = EmscriptenHighlightApi;
+module.exports = EmscriptenIndoorEntityApi;

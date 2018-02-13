@@ -6,7 +6,7 @@ var EmscriptenSpacesApi = require("./emscripten_spaces_api.js");
 var EmscriptenThemesApi = require("./emscripten_themes_api.js");
 var EmscriptenCameraApi = require("./emscripten_camera_api.js");
 var EmscriptenExpandFloorsApi = require("./emscripten_expand_floors_api.js");
-var EmscriptenHighlightApi = require("./emscripten_highlight_api.js");
+var EmscriptenIndoorEntityApi = require("./emscripten_indoor_entity_api.js");
 var EmscriptenBuildingsApi = require("./emscripten_buildings_api.js");
 var EmscriptenRenderingApi = require("./emscripten_rendering_api.js");
 var EmscriptenLayerPointMappingApi = require("./emscripten_layer_point_mapping_api.js");
@@ -25,7 +25,7 @@ function EmscriptenApi(emscriptenModule) {
     this.themesApi = null;
     this.cameraApi = null;
     this.expandFloorsApi = null;
-    this.highlightApi = null;
+    this.indoorEntityApi = null;
     this.renderingApi = null;
     this.buildingsApi = null;
     this.layerPointMappingApi = null;
@@ -52,7 +52,7 @@ function EmscriptenApi(emscriptenModule) {
         this.buildingsApi = new EmscriptenBuildingsApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
         this.indoorsApi = new EmscriptenIndoorsApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
         this.cameraApi = new EmscriptenCameraApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
-        this.highlightApi = new EmscriptenHighlightApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
+        this.indoorEntityApi = new EmscriptenIndoorEntityApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
 
         var _setTopLevelCallbacks = _emscriptenModule.cwrap("setTopLevelCallbacks", null, ["number", "number", "number", "number"]);
         _setTopLevelCallbacks(

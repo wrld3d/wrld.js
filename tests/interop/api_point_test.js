@@ -558,10 +558,10 @@ describe("map_interop:", function() {
     });
   });
 
-  describe("when using the highlight api", function() {
-    var EmscriptenHighlightApi = require("../../src/private/emscripten_api/emscripten_highlight_api");
+  describe("when using the indoorEntity api", function() {
+    var EmscriptenIndoorEntityApi = require("../../src/private/emscripten_api/emscripten_indoor_entity_api");
     var EmscriptenMemory = require("../../src/private/emscripten_api/emscripten_memory");
-    var _highlightApi = null;
+    var _indoorEntityApi = null;
     var _emscriptenMemory = null;
 
     beforeEach(function() {
@@ -570,30 +570,30 @@ describe("map_interop:", function() {
       var cwrap = Module.cwrap;
       var runtime = Module.Runtime;
       _emscriptenMemory = new EmscriptenMemory(Module);
-      _highlightApi = new EmscriptenHighlightApi(apiPointer, cwrap, runtime, _emscriptenMemory);
+      _indoorEntityApi = new EmscriptenIndoorEntityApi(apiPointer, cwrap, runtime, _emscriptenMemory);
     });
     
     it("the registerIndoorEntityPickedCallback function should exist", function() {
       _verifyApiFunctionExists(function() {
         var callback = function() {};
-        _highlightApi.registerIndoorEntityPickedCallback(callback);
+        _indoorEntityApi.registerIndoorEntityPickedCallback(callback);
       });
     });
     
-    it("the setEntityHighlights function should exist", function() {
+    it("the setHighlights function should exist", function() {
       _verifyApiFunctionExists(function() {
         var ids = ["1000", "1001", "2001"];
         var color = [128, 0, 0, 128];
         var indoorMapId = "indoor_map"
-        _highlightApi.setEntityHighlights(ids, color, indoorMapId);
+        _indoorEntityApi.setHighlights(ids, color, indoorMapId);
       });
     });
     
-    it("the clearEntityHighlights function should exist", function() {
+    it("the clearHighlights function should exist", function() {
       _verifyApiFunctionExists(function() {
           var ids = ["1000", "1001", "2001"];
           var indoorMapId = "indoor_map"
-        _highlightApi.clearEntityHighlights(ids, indoorMapId);
+        _highlightApi.clearHighlights(ids, indoorMapId);
       });
     });
   });

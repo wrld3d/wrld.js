@@ -173,8 +173,8 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
             _executeIndoorMapEntranceAddedCallbacks,
             _executeIndoorMapEntranceRemovedCallbacks);
 
-        _emscriptenApi.highlightApi.onInitialized();
-        _emscriptenApi.highlightApi.registerIndoorEntityPickedCallback(_executeEntityClickedCallbacks);
+        _emscriptenApi.indoorEntityApi.onInitialized();
+        _emscriptenApi.indoorEntityApi.registerIndoorEntityPickedCallback(_executeEntityClickedCallbacks);
 
         _emscriptenApi.expandFloorsApi.setCollapseStartCallback(_onCollapseStart);
         _emscriptenApi.expandFloorsApi.setCollapseCallback(_onCollapse);
@@ -366,14 +366,14 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
         if (!_ready) return;
         
         indoorMapId = _indoorMapIdOrDefault(indoorMapId);
-        _emscriptenApi.highlightApi.setEntityHighlights(ids, color, indoorMapId);
+        _emscriptenApi.indoorEntityApi.setHighlights(ids, color, indoorMapId);
     };
 
     this.clearEntityHighlights = function(ids, indoorMapId) {
         if (!_ready) return;
         
         indoorMapId = _indoorMapIdOrDefault(indoorMapId);
-        _emscriptenApi.highlightApi.clearEntityHighlights(ids, indoorMapId);
+        _emscriptenApi.indoorEntityApi.clearHighlights(ids, indoorMapId);
     };
     
     var _indoorMapIdOrDefault = function(indoorMapId) {
