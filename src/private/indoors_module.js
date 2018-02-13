@@ -384,7 +384,7 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
         }
 
         return indoorMapId;
-    }
+    };
     
 };
 

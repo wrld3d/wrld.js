@@ -11,7 +11,7 @@ function EmscriptenHighlightApi(emscriptenApiPointer, cwrap, runtime, emscripten
     
 
     var _onIndoorEntityPicked = function(idsPtr) {
-        if (_indoorEntityPickedCallback != null) {
+        if (_indoorEntityPickedCallback !== null) {
             var ids = _emscriptenMemory.stringifyPointer(idsPtr);
             _indoorEntityPickedCallback(ids);
         }
@@ -35,12 +35,11 @@ function EmscriptenHighlightApi(emscriptenApiPointer, cwrap, runtime, emscripten
         _highlightApi_ClearAllHighlights(_emscriptenApiPointer);
     };
 
-    ////
 
     this.onInitialized = function() {
         // register emscripten callbacks
         _highlightApi_SetIndoorEntityPickedCallback(_emscriptenApiPointer, runtime.addFunction(_onIndoorEntityPicked));
-    }
+    };
 
     this.registerIndoorEntityPickedCallback = function(callback) {
         _indoorEntityPickedCallback = callback;
