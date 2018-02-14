@@ -593,7 +593,7 @@ describe("map_interop:", function() {
       _verifyApiFunctionExists(function() {
           var ids = ["1000", "1001", "2001"];
           var indoorMapId = "indoor_map"
-        _highlightApi.clearHighlights(ids, indoorMapId);
+        _indoorEntityApi.clearHighlights(ids, indoorMapId);
       });
     });
   });
