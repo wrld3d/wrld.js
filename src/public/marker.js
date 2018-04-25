@@ -9,14 +9,13 @@ var Marker = L.Marker.extend({
     initialize: function(latlng, options) {
         L.Marker.prototype.initialize.call(this, latlng, options);
 
-        var _this = this;
-        this.on("drag", function(e) {             
-            _this._map._createPointMapping(_this);
-        });
-
-        this.on("dragend", function(e) {             
-            _this._map._createPointMapping(_this);
-        });
+        this.on("dragstart", this._onDragStart);
+        this.on("drag", this._onDrag);
+        this.on("dragend", this._onDragEnd);
+        this._elevationBeforeDrag = 0;
+        this._isDragging = false;
+        this._latOffsetForDrag = 0;
+        this._lngOffsetForDrag = 0;
     },    
 
     options: {
@@ -102,7 +101,13 @@ var Marker = L.Marker.extend({
         if (this._icon) {
             // todo: should probably just have a single api point here to get screen pos
             var latLngs = this._map.latLngsForLayer(this);            
-            var screenPos = this._map.latLngToLayerPoint(latLngs[0]);
+            var screenPos;
+            if (this._isDragging) {
+                // Leaflet updates the latlng directly during a drag event to correspond to screen pos
+                screenPos = this._map.latLngToLayerPoint(this.getLatLng());
+            } else {
+                screenPos = this._map.latLngToLayerPoint(latLngs[0]);
+            }
             this._setPos(screenPos);
         }
         return this;
@@ -143,7 +148,44 @@ var Marker = L.Marker.extend({
             popup = new popups.Popup(options, this).setContent(content);
         }
         return L.Marker.prototype.bindPopup.call(this, popup, options);
+    },
+
+    _onDragStart: function() {
+        // During drag, leaflet uses screen space for positioning. This has no notion of altitude
+        // so we need to compensate at the beginning and end of the drag.
+        this._isDragging = true;
+        this._elevationBeforeDrag = this.getElevation();
+        var flatPos = L.DomUtil.getPosition(this._icon);
+        var flatLatLng = this._map.layerPointToLatLng(flatPos);
+        var realLatLng = this.getLatLng();
+        this._latOffsetForDrag = realLatLng.lat - flatLatLng.lat;
+        this._lngOffsetForDrag = realLatLng.lng - flatLatLng.lng;
+        this.setLatLng(flatLatLng);
+    },
+
+    _onDrag: function(e) {
+        this._map._createPointMapping(this);
+    },
+
+    _onDragEnd: function(e) {
+        var flatLatLng = this.getLatLng();
+        if (this.options.indoorMapId) {
+            // preserve the original elevation, offsetting the position accordingly
+            this.setLatLng(new L.LatLng(flatLatLng.lat + this._latOffsetForDrag, flatLatLng.lng + this._lngOffsetForDrag, this._elevationBeforeDrag));
+        } else {
+            // we're dragging a marker outside, the original elevation above ground may not be relevant in its new location
+            // so just place it where it was dragged
+            this.setLatLng(new L.LatLng(flatLatLng.lat, flatLatLng.lng));
+            this.options.elevation = 0;
+        }
+        this._map._createPointMapping(this);
+        this._latOffsetForDrag = 0;
+        this._lngOffsetForDrag = 0;
+        this._elevationBeforeDrag = 0;
+        this._isDragging = false;
     }
+
+
 });
 
 var marker = function(latLng, options) {
