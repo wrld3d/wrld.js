@@ -1,11 +1,7 @@
 var IdToObjectMap = function() {
     var _objects = {};
-    var _nextId = 0;
 
-
-    this.insertObject = function(object) {
-        var id = _nextId;
-        _nextId += 1;
+    this.insertObject = function(id, object) {
         _objects[id] = object;
         return id;
     };

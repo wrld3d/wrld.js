@@ -1,9 +1,10 @@
 
-function EmscriptenPrecacheApi(eegeoApiPointer, cwrap, runtime) {
+function EmscriptenPrecacheApi(emscriptenApiPointer, cwrap, runtime) {
 
-    var _eegeoApiPointer = eegeoApiPointer;
+    var _emscriptenApiPointer = emscriptenApiPointer;
     var _beginPrecacheOperation = null;
     var _cancelPrecacheOperation = null;
+    var _setPrecacheCallbacks = null;
     var _cancelCallback = null;
     var _completeCallback = null;
 
@@ -16,18 +17,21 @@ function EmscriptenPrecacheApi(eegeoApiPointer, cwrap, runtime) {
             runtime.removeFunction(_cancelCallback);
         }
         _cancelCallback = runtime.addFunction(cancelCallback);
+
+    _setPrecacheCallbacks = _setPrecacheCallbacks || cwrap("precacheApi_setPrecacheCallbacks", null, ["number", "number", "number"]);
+    _setPrecacheCallbacks(_emscriptenApiPointer, _completeCallback, _cancelCallback);
     };
 
-    this.beginPrecacheOperation = function(operationId, operation) {      
-        _beginPrecacheOperation = _beginPrecacheOperation || cwrap("beginPrecacheOperation", null, ["number", "number", "number", "number", "number", "number", "number"]);
+    this.beginPrecacheOperation = function(operation) {      
+        _beginPrecacheOperation = _beginPrecacheOperation || cwrap("precacheApi_beginPrecacheOperation", "number", ["number", "number", "number", "number"]);
       
         var latlong = operation.getCentre();
-        _beginPrecacheOperation(_eegeoApiPointer, operationId, latlong.lat, latlong.lng, operation.getRadius(), _completeCallback, _cancelCallback);
+        return _beginPrecacheOperation(_emscriptenApiPointer, latlong.lat, latlong.lng, operation.getRadius());
     };
 
     this.cancelPrecacheOperation = function(operationId) {
-        _cancelPrecacheOperation = _cancelPrecacheOperation || cwrap("cancelPrecacheOperation", null, ["number", "number"]);
-        _cancelPrecacheOperation(_eegeoApiPointer, operationId);
+        _cancelPrecacheOperation = _cancelPrecacheOperation || cwrap("precacheApi_cancelPrecacheOperation", null, ["number", "number"]);
+        _cancelPrecacheOperation(_emscriptenApiPointer, operationId);
     };
 }
 

@@ -40,26 +40,29 @@ var InternalPrecacheOperation = function(centre, radius, completionCallback) {
 var PrecacheModule = function(emscriptenApi) {
     var _emscriptenApi = emscriptenApi;
     var _operations = new IdToObjectMap();
+    var _pendingOperations = [];
     var _ready = false;
 
-    var _beginPrecacheOperation = function(operationId, operation) {
-        if (_ready) {
-            _emscriptenApi.precacheApi.beginPrecacheOperation(operationId, operation);
-        }
+    var _beginPrecacheOperation = function(operation) {
+    var operationId = _emscriptenApi.precacheApi.beginPrecacheOperation(operation);
+        _operations.insertObject(operationId, operation);
+
+        return operationId;
     };
 
     var _beginAllPrecacheOperations = function() {
-        _operations.forEachItem(function(operationId, operation) {
+        _pendingOperations.forEach(function(operation) {
             if (!operation.isCancelled()) {
-                _beginPrecacheOperation(operationId, operation);
+                _beginPrecacheOperation(operation);
             }
         });
+
+        _pendingOperations = [];
     };
 
     var _cancelOperations = function(cancelledIds) {
         cancelledIds.forEach(function(operationId) {
-            var operation = _operations.removeObjectById(operationId);
-            operation.executeCompletionCallback(false);
+        _emscriptenApi.precacheApi.cancelPrecacheOperation(operationId);
         });
     };
 
@@ -75,9 +78,14 @@ var PrecacheModule = function(emscriptenApi) {
 
     this.precache = function(centre, radius, completionCallback) {
         var internalOperation = new InternalPrecacheOperation(centre, radius, completionCallback);
-        var operationId = _operations.insertObject(internalOperation);
 
-        _beginPrecacheOperation(operationId, internalOperation);
+        if (_ready) {
+            var operationId = _beginPrecacheOperation(internalOperation);
+            _operations.insertObject(operationId, internalOperation);
+        }
+        else {
+            _pendingOperations.push(internalOperation);
+        }
 
         var precacheOperation = new PrecacheOperation(internalOperation);
         return precacheOperation;
