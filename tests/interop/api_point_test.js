@@ -212,17 +212,15 @@ describe("map_interop:", function() {
 
     it("the beginPrecacheOperation function should exist", function() {
       _verifyApiFunctionExists(function() {
-        var operationId = 0;
         var operation = { getCentre: function() { return L.latLng(0,0) }, getRadius: function() { return 1; } };
-        _precacheApi.beginPrecacheOperation(operationId, operation);
+        _precacheApi.beginPrecacheOperation(operation);
       });
     });
 
     it("the cancelPrecacheOperation function should exist", function() {
       _verifyApiFunctionExists(function() {
-        var operationId = 0;
         var operation = { getCentre: function() { return L.latLng(0,0) }, getRadius: function() { return 1; } };
-        _precacheApi.beginPrecacheOperation(operationId, operation);
+        var operationId = _precacheApi.beginPrecacheOperation(operation);
         _precacheApi.cancelPrecacheOperation(operationId);
       });
     });
