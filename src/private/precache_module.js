@@ -91,7 +91,7 @@ var PrecacheModule = function(emscriptenApi) {
         return precacheOperation;
     };
 
-    this.onInitialStreamingCompleted = function() {
+    this.onInitialized = function () {
         _ready = true;
         _emscriptenApi.precacheApi.registerCallbacks(_onPrecacheOperationCompleted, _onPrecacheOperationCancelled);
         _beginAllPrecacheOperations();
