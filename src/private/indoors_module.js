@@ -149,8 +149,8 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
             _pendingEnterTransition = config;
             return;
         }
-        _emscriptenApi.cameraApi.setView({location: config.latLng, distance: config.distance, allowInterruption: false, headingDegrees: config.orientation});
-        _mapController._setIndoorTransitionCompleteEventListener(function() { _enterIndoorMap(config.indoorMapId); });
+
+        _emscriptenApi.cameraApi.animateCamera();
 
         _this.once("indoormapenter", function() {
             _transitioningToIndoorMap = false;

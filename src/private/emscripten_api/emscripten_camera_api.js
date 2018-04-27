@@ -12,6 +12,7 @@ function EmscriptenCameraApi(emscriptenApiPointer, cwrap, runtime, emscriptenMem
     var _cameraApi_setEventCallback = cwrap("cameraApi_setEventCallback", null, ["number", "number"]);
     var _cameraApi_getDistanceFromZoomLevel = cwrap("cameraApi_getDistanceFromZoomLevel", "number", ["number", "number"]);
     var _cameraApi_getZoomLevel = cwrap("cameraApi_getZoomLevel", "number", ["number"]);
+    var _cameraApi_animateCamera = cwrap("cameraApi_animateCamera", null, ["number"]);  
 
     var _setView = function(animated, location, distance, headingDegrees, tiltDegrees, durationSeconds, jumpIfFarAway, allowInterruption) {
        
@@ -72,6 +73,10 @@ function EmscriptenCameraApi(emscriptenApiPointer, cwrap, runtime, emscriptenMem
             allowInterruption
         );
     };
+
+    this.animateCamera = function() {
+        _cameraApi_animateCamera(_emscriptenApiPointer)
+    }
 
     this.getDistanceToInterest = function() {
         return _cameraApi_getDistanceToInterest(_emscriptenApiPointer);
