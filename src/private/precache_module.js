@@ -1,5 +1,6 @@
 var MapModule = require("./map_module");
 var IdToObjectMap = require("./id_to_object_map");
+var PrecacheOperationResult = require("../public/precaching/precache_operation_result");
 
 var PrecacheOperation = function(operation) {
     var _operation = operation;
@@ -25,7 +26,7 @@ var InternalPrecacheOperation = function(centre, radius, completionCallback) {
     };
 
     this.executeCompletionCallback = function(success) {
-        _completionCallback(success);
+        _completionCallback(new PrecacheOperationResult(success));
     };
 
     this.cancel = function() {
@@ -76,8 +77,30 @@ var PrecacheModule = function(emscriptenApi) {
         operation.executeCompletionCallback(false);
     };
 
-    this.precache = function(centre, radius, completionCallback) {
-        var internalOperation = new InternalPrecacheOperation(centre, radius, completionCallback);
+    var _validatePrecacheParameters = function(center, radius) {
+        var MaxPrecacheRadius = 16000.0;
+
+        if (radius > MaxPrecacheRadius || radius <= 0.0) {
+            return new Error("radius outside of valid [0.0, " + MaxPrecacheRadius + "] range.");
+        }
+        if (center.lat < -90.0 || center.lat > 90.0) {
+            return new Error("latitide outside of valid [-90.0, 90.0] range.");
+        }
+        if (center.lng < -180.0 || center.lng > 180.0) {
+            return new Error("longitude outside of valid [-180.0, 180.0] range.");
+        }
+
+        return null;
+    };
+
+    this.precache = function(center, radius, callbackFunction) {
+        var parameterValidationError = _validatePrecacheParameters(center, radius);
+
+        if (parameterValidationError !== null) {
+            throw parameterValidationError;
+        }
+
+        var internalOperation = new InternalPrecacheOperation(center, radius, callbackFunction);
 
         if (_ready) {
             var operationId = _beginPrecacheOperation(internalOperation);
