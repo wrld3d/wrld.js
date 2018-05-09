@@ -403,9 +403,17 @@ var EegeoLeafletMap = L.Map.extend({
       this._cameraModule.setHeadingDegrees(heading);
       return this;
     },
+ 
+    getMaximumPrecacheRadius: function() {
+      return this._precacheModule.getMaximumPrecacheRadius();
+    },
 
-    precache: function(centre, radius, completionCallback) {
-        return this._precacheModule.precache(centre, radius, completionCallback);
+    precache: function(center, radius, completionCallback) {
+      return this.precacheWithDetailedResult(center, radius, function(precacheResult) { completionCallback(precacheResult.succeeded); });
+    },
+
+    precacheWithDetailedResult: function(center, radius, completionCallback) {
+      return this._precacheModule.precache(center, radius, completionCallback);
     },
 
     _getAngleFromCameraToHorizon: function() {
