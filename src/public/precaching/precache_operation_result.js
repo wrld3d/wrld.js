@@ -1,7 +1,7 @@
 var PrecacheOperationResult = function(succeeded) {
     var _succeeded = succeeded;
 
-    this.succeeded = function() {
+    this.getSucceeded = function() {
         return _succeeded;
     };
 };

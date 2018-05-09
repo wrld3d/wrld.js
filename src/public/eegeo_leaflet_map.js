@@ -403,6 +403,10 @@ var EegeoLeafletMap = L.Map.extend({
       this._cameraModule.setHeadingDegrees(heading);
       return this;
     },
+ 
+    getMaximumPrecacheRadius: function() {
+      return this._precacheModule.getMaximumPrecacheRadius();
+    },
 
     precache: function(center, radius, completionCallback) {
       return this.precacheWithDetailedResult(center, radius, function(precacheResult) { completionCallback(precacheResult.succeeded); });

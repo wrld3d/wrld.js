@@ -17,6 +17,10 @@ var InternalPrecacheOperation = function(centre, radius, completionCallback) {
     var _completionCallback = completionCallback;
     var _cancelled = false;
 
+    var _executeCompletionCallback = function(success) {
+        _completionCallback(new PrecacheOperationResult(success));
+    };
+
     this.getCentre = function() {
         return _centre;
     };
@@ -25,16 +29,20 @@ var InternalPrecacheOperation = function(centre, radius, completionCallback) {
         return _radius;
     };
 
-    this.executeCompletionCallback = function(success) {
-        _completionCallback(new PrecacheOperationResult(success));
-    };
-
     this.cancel = function() {
         _cancelled = true;
     };
 
     this.isCancelled = function() {
         return _cancelled;
+    };
+
+    this.notifyComplete = function() {
+        _executeCompletionCallback(true);
+    };
+
+    this.notifyCancelled = function() {
+        _executeCompletionCallback(false);
     };
 };
 
@@ -53,7 +61,10 @@ var PrecacheModule = function(emscriptenApi) {
 
     var _beginAllPrecacheOperations = function() {
         _pendingOperations.forEach(function(operation) {
-            if (!operation.isCancelled()) {
+            if (operation.isCancelled()) {
+                operation.notifyCancelled();
+            }
+            else {
                 _beginPrecacheOperation(operation);
             }
         });
@@ -69,28 +80,29 @@ var PrecacheModule = function(emscriptenApi) {
 
     var _onPrecacheOperationCompleted = function(operationId) {
         var operation = _operations.removeObjectById(operationId);
-        operation.executeCompletionCallback(true);
+        operation.notifyComplete();
     };
 
     var _onPrecacheOperationCancelled = function(operationId) {
         var operation = _operations.removeObjectById(operationId);
-        operation.executeCompletionCallback(false);
+        operation.notifyCancelled();
+    };
+
+    var _getMaximumPrecacheRadius = function() {
+        // :TODO: Fix DRY fail causing this to exist in both EegeoPrecacheApi::MaxPrecacheRadius and here.
+        return 16000.0;
     };
 
     var _validatePrecacheParameters = function(center, radius) {
-        var MaxPrecacheRadius = 16000.0;
-
-        if (radius > MaxPrecacheRadius || radius <= 0.0) {
-            return new Error("radius outside of valid [0.0, " + MaxPrecacheRadius + "] range.");
-        }
-        if (center.lat < -90.0 || center.lat > 90.0) {
-            return new Error("latitide outside of valid [-90.0, 90.0] range.");
-        }
-        if (center.lng < -180.0 || center.lng > 180.0) {
-            return new Error("longitude outside of valid [-180.0, 180.0] range.");
+        if (radius > _getMaximumPrecacheRadius() || radius <= 0.0) {
+            return new Error("radius outside of valid (0.0, " + _getMaximumPrecacheRadius() + "] range.");
         }
 
         return null;
+    };
+
+    this.getMaximumPrecacheRadius = function() {
+        return _getMaximumPrecacheRadius();
     };
 
     this.precache = function(center, radius, callbackFunction) {
