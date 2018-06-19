@@ -87,6 +87,7 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
     var _executeIndoorMapExitedCallbacks = function() {
         var indoorMap = _activeIndoorMap;
         _activeIndoorMap = null;
+        _indoorWatermarkController.hideWatermark();
         _this.fire("indoormapexit", {indoorMap: indoorMap});
     };
 
