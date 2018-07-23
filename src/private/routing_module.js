@@ -123,9 +123,10 @@ var RoutingModule = function(apiKey, indoorsModule) {
         };
     };
 
-    this.getRoute = function(viaPoints, onLoadHandler, onErrorHandler) { 
+    this.getRoute = function(viaPoints, onLoadHandler, onErrorHandler, transportMode) { 
+        transportMode = transportMode || "walking"        
         var url = _urlRoot + "route?loc=";
-
+        
         for (var pointIndex = 0; pointIndex < viaPoints.length; ++pointIndex)
         {
             url += viaPoints[pointIndex].join(",");
@@ -138,6 +139,7 @@ var RoutingModule = function(apiKey, indoorsModule) {
         }
         url += "&apikey=" + _apiKey;
         url += "&limit=400";
+        url += "&travelmode=" + transportMode;
         var request = new XMLHttpRequest();
         request.open("GET", url, true);
         request.onload = _routeParseHandler(onLoadHandler, onErrorHandler);
