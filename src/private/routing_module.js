@@ -124,7 +124,7 @@ var RoutingModule = function(apiKey, indoorsModule) {
     };
 
     this.getRoute = function(viaPoints, onLoadHandler, onErrorHandler, transportMode) { 
-        transportMode = transportMode || "walking"        
+        transportMode = transportMode || "walking";        
         var url = _urlRoot + "route?loc=";
         
         for (var pointIndex = 0; pointIndex < viaPoints.length; ++pointIndex)
