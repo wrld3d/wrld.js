@@ -1,0 +1,3 @@
+"title","subtitle","lat","lon","height_offset","indoor","indoor_id","floor_id","tags","user_data","custom_view","custom_view_height","image_url","phone","web","description"
+"Custom HTML View","",37.795175,-122.4064826,0,false,"",0,"general",{},"http://localhost:8000/example.html","350","","","",""
+"Your Point of Interest","A Subtitle",37.7950501,-122.4081501,0,false,"",0,"zoo","{""email"":""youremail@email.com"",""facebook"":""facebook"",""twitter"":""twitter"",""address"":""725 6th Ave, New York, NY 10022, USA""}","","","https://placekitten.com/200/300","0118 999 881 999 1119 725 3","https://yourwebsite-xyz.com","This is an interesting description of your POI (Point of Interest)."

@@ -1,0 +1,338 @@
+/**
+ * Reset some basic elements
+ */
+body, h1, h2, h3, h4, h5, h6,
+p, blockquote, pre, hr,
+dl, dd, ol, ul, figure {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font-family: "Open Sans", sans-serif;
+}
+
+/* Assets & Variables */
+.poi-view-modal {
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: block;
+  left: 0;
+  top: 0;
+  overflow: visible;
+  padding: 100px 0 100px 0;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+}
+
+.poi-view {
+  display: block;
+  left: 0;
+  top: 0;
+  overflow: visible;
+  padding: 52px 0 0 16px;
+  position: absolute;
+  z-index: 9999;
+}
+
+.poi-view-popup {
+  display: block;
+  left: 0;
+  top: 0;
+  overflow: visible;
+  z-index: 9999;
+}
+
+.poi-view-content.scrollable {
+  overflow-y: auto;
+  padding: 0;
+}
+
+.poi-view-content {
+  background-color: #fff;
+  border: 0;
+  font-weight: normal;
+  margin: 0 0 0 -4px;
+  padding: 0;
+  width: 334px;
+  position: relative;
+}
+.poi-view-content .poi-view-image-container, .poi-view-content .poi-view-html-container, .poi-view-content .poi-view-details, .poi-view-content .poi-view-tags, .poi-view-content .poi-view-description-container {
+  border-top: 1px solid #1756a9;
+}
+.poi-view-content .poi-view-details, .poi-view-content .poi-view-tags, .poi-view-content .poi-view-description-container {
+  padding: 8px 0;
+}
+.poi-view-content .poi-view-header {
+  margin-top: -2px;
+  height: 42px;
+}
+.poi-view-content .poi-view-header .tag-icon {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 36px;
+  float: left;
+  width: 36px;
+  height: 36px;
+}
+.poi-view-content .poi-view-header .title-text {
+  color: #1756a9;
+  font-size: 17pt;
+  height: 36px;
+  line-height: 36px;
+  text-align: left;
+  padding-top: 1px;
+  word-wrap: break-word;
+}
+.poi-view-content .poi-view-header .title-text span {
+  display: inline-block;
+  line-height: 22px;
+  max-height: 44px;
+  overflow: hidden;
+  width: 296px;
+}
+.poi-view-content .poi-view-header .close-button {
+  background-image: url("http://maps.wrld3d.com/static/assets/poi_card/POIView_Close.png");
+  background-size: 36px;
+  float: right;
+  width: 36px;
+  height: 36px;
+  outline: none;
+  border: 0;
+}
+
+.close-button {
+    background: transparent url("http://maps.wrld3d.com/static/assets/right-click/close.png") center / 24px no-repeat;
+}
+.poi-view-content .poi-view-header .close-button:hover, .poi-view-content .poi-view-header .close-button:active {
+  background-image: url("http://maps.wrld3d.com/static/assets/poi_card/POIView_Close_Down.png");
+}
+.poi-view-content .poi-view-image-container {
+  padding: 10px 0;
+}
+.poi-view-content .poi-view-image-container .poi-view-image {
+  background-image: transparent url("http://maps.wrld3d.com/static/assets/poi_card/POIView_Imageplaceholder.png") center/contain no-repeat;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  height: 208px;
+}
+.poi-view-content .poi-view-html-container {
+  padding: 10px 0;
+}
+.poi-view-content .poi-view-html-container .poi-view-html {
+  width: 100%;
+  height: 100%;
+}
+.poi-view-content .poi-view-details {
+  font-size: 10.5pt;
+  color: #404040;
+}
+.poi-view-content .poi-view-details .address-text, .poi-view-content .poi-view-details .phone-text, .poi-view-content .poi-view-details .web-text {
+  background: transparent none left 3px/16px no-repeat;
+  padding: 2px 0 2px 24px;
+  word-wrap: break-word;
+}
+.poi-view-content .poi-view-details .address-text {
+  background-image: url("http://maps.wrld3d.com/static/assets/poi_card/POIView_AddressIcons.png");
+}
+.poi-view-content .poi-view-details .phone-text {
+  background-image: url("http://maps.wrld3d.com/static/assets/poi_card/POIView_AddressIcons_Phone.png");
+}
+.poi-view-content .poi-view-details .web-text {
+  background-image: url("http://maps.wrld3d.com/static/assets/poi_card/POIView_WebLink.png");
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.poi-view-content .poi-view-details .link-icons {
+  padding-top: 8px;
+}
+.poi-view-content .poi-view-details .link-icons .email-icon, .poi-view-content .poi-view-details .link-icons .facebook-icon, .poi-view-content .poi-view-details .link-icons .twitter-icon {
+  background: transparent none center/48px no-repeat;
+  display: inline-block;
+  margin-right: 16px;
+  width: 49px;
+  height: 49px;
+}
+.poi-view-content .poi-view-details .link-icons .email-icon {
+  background-image: url("http://maps.wrld3d.com/static/assets/poi_card/POIView_WebLink_EMail.png");
+}
+.poi-view-content .poi-view-details .link-icons .facebook-icon {
+  background-image: url("http://maps.wrld3d.com/static/assets/poi_card/POIView_WebLink_Facebook.png");
+}
+.poi-view-content .poi-view-details .link-icons .twitter-icon {
+  background-image: url("http://maps.wrld3d.com/static/assets/poi_card/POIView_WebLink_Twitter.png");
+}
+.poi-view-content .poi-view-tags {
+  background: transparent url("http://maps.wrld3d.com/static/assets/poi_card/POIView_Tag.png") left 12px/16px 14px no-repeat;
+  font-size: 10.5pt;
+  color: #404040;
+  padding-left: 24px;
+  padding-right: 12px;
+  text-align: justify;
+  word-wrap: break-word;
+}
+.poi-view-content .poi-view-description-container {
+  padding: 8px 0 0 0;
+}
+.poi-view-content .poi-view-description-container .subtitle-text {
+  background: transparent url("http://maps.wrld3d.com/static/assets/poi_card/POIView_Description.png") left top/16px no-repeat;
+  font-size: 10.5pt;
+  color: #404040;
+  padding: 0 0 4px 24px;
+  text-align: left;
+  word-wrap: break-word;
+}
+.poi-view-content .poi-view-description-container .description-text {
+  background: transparent url("http://maps.wrld3d.com/static/assets/poi_card/POIView_Description.png") left top/16px no-repeat;
+  font-size: 10.5pt;
+  color: #404040;
+  padding-left: 24px;
+  text-align: left;
+  word-wrap: break-word;
+}
+
+/* Poi card */
+.popup-poi-card {
+  width: 312px;
+}
+.popup-poi-card .poi-icon {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 28px;
+  float: left;
+  margin: 0 0 0 -10px;
+  width: 24px;
+  height: 24px;
+}
+.popup-poi-card .poi-detail {
+  margin-left: 18px;
+  width: 312px;
+}
+.popup-poi-card .poi-detail .poi-title {
+  color: #1756a9;
+  font-size: 14pt;
+  font-weight: normal;
+  text-align: left;
+  word-wrap: break-word;
+}
+.popup-poi-card .poi-detail .poi-address {
+  font-size: 10pt;
+  color: #909090;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.popup-poi-card .poi-detail .poi-tag-icon {
+  background-image: url("http://maps.wrld3d.com/static/assets/poi_card/POICard_Tag.png");
+  background-size: 14px;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  float: left;
+}
+.popup-poi-card .poi-detail .poi-tags {
+  font-size: 10pt;
+  color: #606060;
+  margin: -2px 0 0 18px;
+}
+.popup-poi-card .poi-detail .yelp-review-icon {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
+  width: 55px;
+  height: 10px;
+  display: inline-block;
+  margin: 0;
+  line-height: 1;
+}
+.popup-poi-card .poi-detail .yelp-review {
+  font-size: 8pt;
+  display: inline-block;
+  line-height: 1;
+  vertical-align: text-top;
+  margin: 0 0 0 5px;
+}
+.popup-poi-card .poi-detail .yelp-logo {
+  background-image: url("http://maps.wrld3d.com/static/assets/yelp/yelp_logo_small.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 45px;
+  height: 14px;
+  display: inline-block;
+  line-height: 1;
+  margin-top: -6px;
+}
+.popup-poi-card .poi-detail .yelp-stars-0 {
+  background-image: url("http://maps.wrld3d.com/static/assets/yelp/small_0.png");
+}
+.popup-poi-card .poi-detail .yelp-stars-1 {
+  background-image: url("http://maps.wrld3d.com/static/assets/yelp/small_1.png");
+}
+.popup-poi-card .poi-detail .yelp-stars-1-half {
+  background-image: url("http://maps.wrld3d.com/static/assets/yelp/small_1_half.png");
+}
+.popup-poi-card .poi-detail .yelp-stars-2 {
+  background-image: url("http://maps.wrld3d.com/static/assets/yelp/small_2.png");
+}
+.popup-poi-card .poi-detail .yelp-stars-2-half {
+  background-image: url("http://maps.wrld3d.com/static/assets/yelp/small_2_half.png");
+}
+.popup-poi-card .poi-detail .yelp-stars-3 {
+  background-image: url("http://maps.wrld3d.com/static/assets/yelp/small_3.png");
+}
+.popup-poi-card .poi-detail .yelp-stars-3-half {
+  background-image: url("http://maps.wrld3d.com/static/assets/yelp/small_3_half.png");
+}
+.popup-poi-card .poi-detail .yelp-stars-4 {
+  background-image: url("http://maps.wrld3d.com/static/assets/yelp/small_4.png");
+}
+.popup-poi-card .poi-detail .yelp-stars-4-half {
+  background-image: url("http://maps.wrld3d.com/static/assets/yelp/small_4_half.png");
+}
+.popup-poi-card .poi-detail .yelp-stars-5 {
+  background-image: url("http://maps.wrld3d.com/static/assets/yelp/small_5.png");
+}
+
+/* Adjustments to leaflet style within poi card/view */
+.eegeo-poi-card-popup, .eegeo-poi-view-popup {
+  margin-bottom: -2px !important;
+  margin-left: 10px;
+}
+.eegeo-poi-card-popup .leaflet-popup-content-wrapper, .eegeo-poi-view-popup .leaflet-popup-content-wrapper {
+  border-radius: 0 !important;
+  box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.5) !important;
+  cursor: pointer;
+  width: 366px;
+}
+.eegeo-poi-card-popup .leaflet-popup-tip-container, .eegeo-poi-view-popup .leaflet-popup-tip-container {
+  left: 0%;
+  top: 50%;
+  margin-top: -10px;
+  width: 20px;
+  height: 20px;
+}
+.eegeo-poi-card-popup .leaflet-popup-tip, .eegeo-poi-view-popup .leaflet-popup-tip {
+  margin: 0 0 0 14px;
+  box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.3) !important;
+}
+
+.eegeo-poi-card-popup.has-anchor, .eegeo-poi-view-popup.has-anchor {
+  margin-bottom: 42px !important;
+}
+
+.leaflet-fade-anim .leaflet-popup {
+  transition: none !important;
+}
+
+.eegeo-poi-card-popup.animate-anchor, .eegeo-poi-view-popup.animate-anchor {
+  transition: margin-bottom 0.5s ease-in-out !important;
+}
