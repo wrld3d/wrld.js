@@ -25,7 +25,7 @@ You can edit and preview the POIs you have imported here in the Places Designer 
 
 2. Open index.html and replace 'your-api-key' with the api-key of the map you have added your POI collection to.
 
-3. (Optional) You may also want to set the start location of the map to where you have places you POIs. It is currently set on line 29 as 'center: [37.79505, -122.40815],'.
+3. (Optional) You may also want to set the start location of the map to where you have places you POIs. It is currently set on line 30 as 'center: [37.79505, -122.40815],'.
 
 4. Open up a terminal in this directory.
 
