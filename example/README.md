@@ -2,7 +2,7 @@
 
 ## Requirements
 
-* Python3
+* Python 2
 
 ## Getting Set up
 
@@ -29,7 +29,7 @@ You can edit and preview the POIs you have imported here in the Places Designer 
 
 4. Open up a terminal in this directory.
 
-5. Run the command 'python Server.py'
+5. Run the command 'python -m SimpleHTTPServer 8000'
 
 6. Open 'http://localhost:8000/' in your browser.
 
