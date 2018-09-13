@@ -10,7 +10,7 @@
 
 1. Log into your WRLD account and select 'Places Designer'.
 
-2. In the Places Designer select 'New Places Collection'. Give it a title and add it to the map you want to associate it with.
+2. In the Places Designer select 'New Places Collection'. Give it a title and add it to the app you want to associate it with.
 
 3. Select 'Upload New Collection'. Drag the poi-examples.csv provided, or your own .csv, into the upload box.
 
