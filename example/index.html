@@ -26,13 +26,14 @@
     <div id="map" style="height: 900px"></div>
     <script>
       // Change the start location of the map here.
-      var map = L.Wrld.map("map", "your-api-key", {
+      var apikey = "your-api-key";
+      var map = L.Wrld.map("map", apikey, {
         center: [37.79505, -122.40815],
         zoom: 15
       });
 
       var searchbarConfig = {
-        apiKey: "your-api-key",
+        apiKey: apikey,
         outdoorSearchMenuItems: [
           {name: "Around Me", searchTag: "", iconKey: "aroundme"}
         ],
