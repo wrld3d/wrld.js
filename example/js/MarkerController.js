@@ -36,7 +36,7 @@ class MarkerController {
 
     _openPoiView(markerId, poi) {
         // Here we create our POI view from the poi data. You may want to add your own POI view here instead.
-        const element = PoiViewContainer(poi);
+        const element = PoiViewContainer(poi, () => { this._mapController.closePopup(); });
         let location = poi.location;
         const marker = this._markerController.getMarker(markerId);
 
