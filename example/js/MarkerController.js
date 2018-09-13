@@ -10,12 +10,28 @@ class MarkerController {
         this._mapController = mapController;
 
         searchbar.on("searchresultselect", (event) => { this.goToResult(event); });
+        searchbar.on("searchresultsupdate", (event)=> { this.updateMarkers(event) });
     }
 
     goToResult(event) {
         this._markerController.selectMarker(event.result.sourceId);
         this._mapController.getMap().setView(event.result.location.latLng, 15);
         this._openPoiView(event.result.resultId, event.result);
+    }
+
+    updateMarkers(event) {
+        let markerIDs = this._markerController.getAllMarkerIds();
+        for (var i = 0; i < markerIDs.length; ++i)
+        {
+            const marker = this._markerController.getMarker(markerIDs[i]);
+            marker.on("click", () => {
+                var id = marker.id;
+                if(event.results[id])
+                {
+                    this._openPoiView(id, event.results[id]);
+                }
+            });
+        }
     }
 
     _openPoiView(markerId, poi) {
