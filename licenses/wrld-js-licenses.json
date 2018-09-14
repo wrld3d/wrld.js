@@ -1,0 +1,1848 @@
+{
+    "JSONStream@1.3.1": {
+        "licenses": "(MIT OR Apache-2.0)",
+        "repository": "https://github.com/dominictarr/JSONStream",
+        "licenseUrl": "https://github.com/dominictarr/JSONStream/raw/master/LICENSE.APACHE2",
+        "parents": "wrld.js"
+    },
+    "acorn-jsx@3.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/RReverser/acorn-jsx",
+        "licenseUrl": "https://github.com/RReverser/acorn-jsx/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "acorn@3.3.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/ternjs/acorn",
+        "licenseUrl": "https://github.com/ternjs/acorn/raw/master/LICENSE",
+        "parents": "espree:wrld.js"
+    },
+    "acorn@4.0.13": {
+        "licenses": "MIT",
+        "repository": "https://github.com/ternjs/acorn",
+        "licenseUrl": "https://github.com/ternjs/acorn/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "ajv-keywords@1.5.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/epoberezkin/ajv-keywords",
+        "licenseUrl": "https://github.com/epoberezkin/ajv-keywords/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "ajv@4.11.8": {
+        "licenses": "MIT",
+        "repository": "https://github.com/epoberezkin/ajv",
+        "licenseUrl": "https://github.com/epoberezkin/ajv/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "align-text@0.1.4": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/align-text",
+        "licenseUrl": "https://github.com/jonschlinkert/align-text/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "ansi-escapes@1.4.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/ansi-escapes",
+        "licenseUrl": "https://github.com/sindresorhus/ansi-escapes/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "ansi-regex@2.1.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/chalk/ansi-regex",
+        "licenseUrl": "https://github.com/chalk/ansi-regex/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "ansi-regex@3.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/chalk/ansi-regex",
+        "licenseUrl": "https://github.com/chalk/ansi-regex/raw/master/license",
+        "parents": "table:wrld.js"
+    },
+    "ansi-styles@2.2.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/chalk/ansi-styles",
+        "licenseUrl": "https://github.com/chalk/ansi-styles/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "anymatch@1.3.0": {
+        "licenses": "ISC",
+        "repository": "https://github.com/es128/anymatch",
+        "licenseUrl": "https://github.com/es128/anymatch/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "argparse@1.0.9": {
+        "licenses": "MIT",
+        "repository": "https://github.com/nodeca/argparse",
+        "licenseUrl": "https://github.com/nodeca/argparse/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "arr-diff@2.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/arr-diff",
+        "licenseUrl": "https://github.com/jonschlinkert/arr-diff/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "arr-flatten@1.0.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/arr-flatten",
+        "licenseUrl": "https://github.com/jonschlinkert/arr-flatten/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "array-filter@0.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/juliangruber/array-filter",
+        "licenseUrl": "https://github.com/juliangruber/array-filter",
+        "parents": "wrld.js"
+    },
+    "array-map@0.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/substack/array-map",
+        "licenseUrl": "https://github.com/substack/array-map/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "array-reduce@0.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/substack/array-reduce",
+        "licenseUrl": "https://github.com/substack/array-reduce/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "array-union@1.0.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/array-union",
+        "licenseUrl": "https://github.com/sindresorhus/array-union/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "array-uniq@1.0.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/array-uniq",
+        "licenseUrl": "https://github.com/sindresorhus/array-uniq/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "array-unique@0.2.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/array-unique",
+        "licenseUrl": "https://github.com/jonschlinkert/array-unique/blob/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "arrify@1.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/arrify",
+        "licenseUrl": "https://github.com/sindresorhus/arrify/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "asn1.js@4.9.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/indutny/asn1.js",
+        "licenseUrl": "https://github.com/indutny/asn1.js",
+        "parents": "wrld.js"
+    },
+    "assert@1.3.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/defunctzombie/commonjs-assert",
+        "licenseUrl": "https://github.com/defunctzombie/commonjs-assert/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "astw@2.2.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/substack/astw",
+        "licenseUrl": "https://github.com/substack/astw/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "async-each@1.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/paulmillr/async-each",
+        "licenseUrl": "https://github.com/paulmillr/async-each",
+        "parents": "wrld.js"
+    },
+    "async@0.2.10": {
+        "licenses": "MIT",
+        "repository": "https://github.com/caolan/async",
+        "licenseUrl": "https://github.com/caolan/async/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "balanced-match@1.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/juliangruber/balanced-match",
+        "licenseUrl": "https://github.com/juliangruber/balanced-match/raw/master/LICENSE.md",
+        "parents": "wrld.js"
+    },
+    "base64-js@1.2.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/beatgammit/base64-js",
+        "licenseUrl": "https://github.com/beatgammit/base64-js/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "binary-extensions@1.8.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/binary-extensions",
+        "licenseUrl": "https://github.com/sindresorhus/binary-extensions/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "bn.js@4.11.7": {
+        "licenses": "MIT",
+        "repository": "https://github.com/indutny/bn.js",
+        "licenseUrl": "https://github.com/indutny/bn.js",
+        "parents": "wrld.js"
+    },
+    "brace-expansion@1.1.8": {
+        "licenses": "MIT",
+        "repository": "https://github.com/juliangruber/brace-expansion",
+        "licenseUrl": "https://github.com/juliangruber/brace-expansion",
+        "parents": "wrld.js"
+    },
+    "braces@1.8.5": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/braces",
+        "licenseUrl": "https://github.com/jonschlinkert/braces/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "brorand@1.1.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/indutny/brorand",
+        "licenseUrl": "https://github.com/indutny/brorand",
+        "parents": "wrld.js"
+    },
+    "browser-pack@6.0.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/substack/browser-pack",
+        "licenseUrl": "https://github.com/substack/browser-pack/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "browser-resolve@1.11.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/shtylman/node-browser-resolve",
+        "licenseUrl": "https://github.com/shtylman/node-browser-resolve/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "browserify-aes@1.0.6": {
+        "licenses": "MIT",
+        "repository": "https://github.com/crypto-browserify/browserify-aes",
+        "licenseUrl": "https://github.com/crypto-browserify/browserify-aes/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "browserify-cipher@1.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/crypto-browserify/browserify-cipher",
+        "licenseUrl": "https://github.com/crypto-browserify/browserify-cipher",
+        "parents": "wrld.js"
+    },
+    "browserify-des@1.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/crypto-browserify/browserify-des",
+        "licenseUrl": "https://github.com/crypto-browserify/browserify-des",
+        "parents": "wrld.js"
+    },
+    "browserify-rsa@4.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/crypto-browserify/browserify-rsa",
+        "licenseUrl": "https://github.com/crypto-browserify/browserify-rsa/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "browserify-sign@4.0.4": {
+        "licenses": "ISC",
+        "repository": "https://github.com/crypto-browserify/browserify-sign",
+        "licenseUrl": "https://github.com/crypto-browserify/browserify-sign/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "browserify-zlib@0.1.4": {
+        "licenses": "MIT",
+        "repository": "https://github.com/devongovett/browserify-zlib",
+        "licenseUrl": "https://github.com/devongovett/browserify-zlib",
+        "parents": "wrld.js"
+    },
+    "browserify@13.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/substack/node-browserify",
+        "licenseUrl": "https://github.com/substack/node-browserify/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "buffer-xor@1.0.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/crypto-browserify/buffer-xor",
+        "licenseUrl": "https://github.com/crypto-browserify/buffer-xor/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "buffer@4.9.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/feross/buffer",
+        "licenseUrl": "https://github.com/feross/buffer/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "builtin-status-codes@3.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/bendrucker/builtin-status-codes",
+        "licenseUrl": "https://github.com/bendrucker/builtin-status-codes/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "cached-path-relative@1.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/ashaffer/cached-path-relative",
+        "licenseUrl": "https://github.com/ashaffer/cached-path-relative",
+        "parents": "wrld.js"
+    },
+    "caller-path@0.1.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/caller-path",
+        "licenseUrl": "https://github.com/sindresorhus/caller-path",
+        "parents": "wrld.js"
+    },
+    "callsites@0.2.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/callsites",
+        "licenseUrl": "https://github.com/sindresorhus/callsites",
+        "parents": "wrld.js"
+    },
+    "camelcase@1.2.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/camelcase",
+        "licenseUrl": "https://github.com/sindresorhus/camelcase/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "center-align@0.1.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/center-align",
+        "licenseUrl": "https://github.com/jonschlinkert/center-align/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "chalk@1.1.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/chalk/chalk",
+        "licenseUrl": "https://github.com/chalk/chalk/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "chokidar@1.7.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/paulmillr/chokidar",
+        "licenseUrl": "https://github.com/paulmillr/chokidar",
+        "parents": "wrld.js"
+    },
+    "cipher-base@1.0.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/crypto-browserify/cipher-base",
+        "licenseUrl": "https://github.com/crypto-browserify/cipher-base",
+        "parents": "wrld.js"
+    },
+    "circular-json@0.3.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/WebReflection/circular-json",
+        "licenseUrl": "https://github.com/WebReflection/circular-json/raw/master/LICENSE.txt",
+        "parents": "wrld.js"
+    },
+    "cli-cursor@1.0.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/cli-cursor",
+        "licenseUrl": "https://github.com/sindresorhus/cli-cursor/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "cli-width@2.1.0": {
+        "licenses": "ISC",
+        "repository": "https://github.com/knownasilya/cli-width",
+        "licenseUrl": "https://github.com/knownasilya/cli-width/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "cliui@2.1.0": {
+        "licenses": "ISC",
+        "repository": "https://github.com/bcoe/cliui",
+        "licenseUrl": "https://github.com/bcoe/cliui/raw/master/LICENSE.txt",
+        "parents": "wrld.js"
+    },
+    "co@4.6.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/tj/co",
+        "licenseUrl": "https://github.com/tj/co/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "code-point-at@1.1.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/code-point-at",
+        "licenseUrl": "https://github.com/sindresorhus/code-point-at/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "combine-source-map@0.7.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/thlorenz/combine-source-map",
+        "licenseUrl": "https://github.com/thlorenz/combine-source-map/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "concat-map@0.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/substack/node-concat-map",
+        "licenseUrl": "https://github.com/substack/node-concat-map/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "concat-stream@1.5.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/maxogden/concat-stream",
+        "licenseUrl": "https://github.com/maxogden/concat-stream/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "console-browserify@1.1.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/Raynos/console-browserify",
+        "licenseUrl": "http://github.com/Raynos/console-browserify/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "constants-browserify@1.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/juliangruber/constants-browserify",
+        "licenseUrl": "https://github.com/juliangruber/constants-browserify",
+        "parents": "wrld.js"
+    },
+    "convert-source-map@1.1.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/thlorenz/convert-source-map",
+        "licenseUrl": "https://github.com/thlorenz/convert-source-map/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "core-util-is@1.0.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/isaacs/core-util-is",
+        "licenseUrl": "https://github.com/isaacs/core-util-is/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "create-ecdh@4.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/crypto-browserify/createECDH",
+        "licenseUrl": "https://github.com/crypto-browserify/createECDH",
+        "parents": "wrld.js"
+    },
+    "create-hash@1.1.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/crypto-browserify/createHash",
+        "licenseUrl": "https://github.com/crypto-browserify/createHash",
+        "parents": "wrld.js"
+    },
+    "create-hmac@1.1.6": {
+        "licenses": "MIT",
+        "repository": "https://github.com/crypto-browserify/createHmac",
+        "licenseUrl": "https://github.com/crypto-browserify/createHmac",
+        "parents": "wrld.js"
+    },
+    "crypto-browserify@3.11.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/crypto-browserify/crypto-browserify",
+        "licenseUrl": "https://github.com/crypto-browserify/crypto-browserify/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "d@1.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/medikoo/d",
+        "licenseUrl": "https://github.com/medikoo/d/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "date-now@0.1.4": {
+        "licenses": "MIT",
+        "repository": "https://github.com/Colingo/date-now",
+        "licenseUrl": "http://github.com/Colingo/date-now/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "debug@2.6.8": {
+        "licenses": "MIT",
+        "repository": "https://github.com/visionmedia/debug",
+        "licenseUrl": "https://github.com/visionmedia/debug/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "decamelize@1.2.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/decamelize",
+        "licenseUrl": "https://github.com/sindresorhus/decamelize/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "deep-is@0.1.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/thlorenz/deep-is",
+        "licenseUrl": "https://github.com/thlorenz/deep-is/blob/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "defined@1.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/substack/defined",
+        "licenseUrl": "https://github.com/substack/defined/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "del@2.2.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/del",
+        "licenseUrl": "https://github.com/sindresorhus/del/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "deps-sort@2.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/substack/deps-sort",
+        "licenseUrl": "https://github.com/substack/deps-sort/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "des.js@1.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/indutny/des.js",
+        "licenseUrl": "https://github.com/indutny/des.js",
+        "parents": "wrld.js"
+    },
+    "detective@4.5.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/substack/node-detective",
+        "licenseUrl": "https://github.com/substack/node-detective/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "diffie-hellman@5.0.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/crypto-browserify/diffie-hellman",
+        "licenseUrl": "https://github.com/crypto-browserify/diffie-hellman",
+        "parents": "wrld.js"
+    },
+    "doctrine@1.5.0": {
+        "licenses": "BSD",
+        "repository": "https://github.com/eslint/doctrine",
+        "licenseUrl": "http://github.com/eslint/doctrine/raw/master/LICENSE.BSD",
+        "parents": "wrld.js"
+    },
+    "domain-browser@1.1.7": {
+        "licenses": "MIT",
+        "repository": "https://github.com/bevry/domain-browser",
+        "licenseUrl": "https://github.com/bevry/domain-browser/raw/master/LICENSE.md",
+        "parents": "wrld.js"
+    },
+    "duplexer2@0.1.4": {
+        "licenses": "BSD-3-Clause",
+        "repository": "https://github.com/deoxxa/duplexer2",
+        "licenseUrl": "https://github.com/deoxxa/duplexer2/raw/master/LICENSE.md",
+        "parents": "wrld.js"
+    },
+    "elliptic@6.4.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/indutny/elliptic",
+        "licenseUrl": "https://github.com/indutny/elliptic",
+        "parents": "wrld.js"
+    },
+    "es5-ext@0.10.23": {
+        "licenses": "MIT",
+        "repository": "https://github.com/medikoo/es5-ext",
+        "licenseUrl": "https://github.com/medikoo/es5-ext/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "es6-iterator@2.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/medikoo/es6-iterator",
+        "licenseUrl": "https://github.com/medikoo/es6-iterator/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "es6-map@0.1.5": {
+        "licenses": "MIT",
+        "repository": "https://github.com/medikoo/es6-map",
+        "licenseUrl": "https://github.com/medikoo/es6-map/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "es6-set@0.1.5": {
+        "licenses": "MIT",
+        "repository": "https://github.com/medikoo/es6-set",
+        "licenseUrl": "https://github.com/medikoo/es6-set/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "es6-symbol@3.1.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/medikoo/es6-symbol",
+        "licenseUrl": "https://github.com/medikoo/es6-symbol/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "es6-weak-map@2.0.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/medikoo/es6-weak-map",
+        "licenseUrl": "https://github.com/medikoo/es6-weak-map/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "escape-string-regexp@1.0.5": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/escape-string-regexp",
+        "licenseUrl": "https://github.com/sindresorhus/escape-string-regexp/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "escope@3.6.0": {
+        "licenses": "BSD-2-Clause",
+        "repository": "https://github.com/estools/escope",
+        "licenseUrl": "https://github.com/estools/escope/raw/master/LICENSE.BSD",
+        "parents": "wrld.js"
+    },
+    "eslint-config-standard@5.3.5": {
+        "licenses": "MIT",
+        "repository": "https://github.com/feross/eslint-config-standard",
+        "licenseUrl": "https://github.com/feross/eslint-config-standard/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "eslint-plugin-promise@1.3.2": {
+        "licenses": "ISC",
+        "repository": "https://github.com/xjamundx/eslint-plugin-promise",
+        "licenseUrl": "https://github.com/xjamundx/eslint-plugin-promise",
+        "parents": "wrld.js"
+    },
+    "eslint-plugin-standard@1.3.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/xjamundx/eslint-plugin-standard",
+        "licenseUrl": "https://github.com/xjamundx/eslint-plugin-standard/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "eslint@2.11.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/eslint/eslint",
+        "licenseUrl": "https://github.com/eslint/eslint/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "espree@3.1.4": {
+        "licenses": "BSD-2-Clause",
+        "repository": "https://github.com/eslint/espree",
+        "licenseUrl": "https://github.com/eslint/espree/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "esprima@3.1.3": {
+        "licenses": "BSD-2-Clause",
+        "repository": "https://github.com/jquery/esprima",
+        "licenseUrl": "https://github.com/jquery/esprima/raw/master/LICENSE.BSD",
+        "parents": "wrld.js"
+    },
+    "esrecurse@4.2.0": {
+        "licenses": "BSD-2-Clause",
+        "repository": "https://github.com/estools/esrecurse",
+        "licenseUrl": "https://github.com/estools/esrecurse",
+        "parents": "wrld.js"
+    },
+    "estraverse@4.2.0": {
+        "licenses": "BSD-2-Clause",
+        "repository": "https://github.com/estools/estraverse",
+        "licenseUrl": "https://github.com/estools/estraverse/raw/master/LICENSE.BSD",
+        "parents": "wrld.js"
+    },
+    "esutils@2.0.2": {
+        "licenses": "BSD",
+        "repository": "https://github.com/estools/esutils",
+        "licenseUrl": "http://github.com/estools/esutils/raw/master/LICENSE.BSD",
+        "parents": "wrld.js"
+    },
+    "event-emitter@0.3.5": {
+        "licenses": "MIT",
+        "repository": "https://github.com/medikoo/event-emitter",
+        "licenseUrl": "https://github.com/medikoo/event-emitter/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "events@1.1.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/Gozala/events",
+        "licenseUrl": "https://github.com/Gozala/events/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "evp_bytestokey@1.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/crypto-browserify/EVP_BytesToKey",
+        "licenseUrl": "https://github.com/crypto-browserify/EVP_BytesToKey",
+        "parents": "wrld.js"
+    },
+    "exit-hook@1.1.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/exit-hook",
+        "licenseUrl": "https://github.com/sindresorhus/exit-hook",
+        "parents": "wrld.js"
+    },
+    "exit@0.1.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/cowboy/node-exit",
+        "licenseUrl": "https://github.com/cowboy/node-exit/blob/master/LICENSE-MIT",
+        "parents": "wrld.js"
+    },
+    "expand-brackets@0.1.5": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/expand-brackets",
+        "licenseUrl": "https://github.com/jonschlinkert/expand-brackets/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "expand-range@1.8.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/expand-range",
+        "licenseUrl": "https://github.com/jonschlinkert/expand-range/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "extglob@0.3.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/extglob",
+        "licenseUrl": "https://github.com/jonschlinkert/extglob/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "fast-levenshtein@2.0.6": {
+        "licenses": "MIT",
+        "repository": "https://github.com/hiddentao/fast-levenshtein",
+        "licenseUrl": "https://github.com/hiddentao/fast-levenshtein/raw/master/LICENSE.md",
+        "parents": "wrld.js"
+    },
+    "figures@1.7.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/figures",
+        "licenseUrl": "https://github.com/sindresorhus/figures/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "file-entry-cache@1.3.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/royriojas/file-entry-cache",
+        "licenseUrl": "https://github.com/royriojas/file-entry-cache/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "filename-regex@2.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/regexhq/filename-regex",
+        "licenseUrl": "https://github.com/regexhq/filename-regex/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "fill-range@2.2.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/fill-range",
+        "licenseUrl": "https://github.com/jonschlinkert/fill-range/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "flat-cache@1.2.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/royriojas/flat-cache",
+        "licenseUrl": "https://github.com/royriojas/flat-cache/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "for-in@1.0.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/for-in",
+        "licenseUrl": "https://github.com/jonschlinkert/for-in/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "for-own@0.1.5": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/for-own",
+        "licenseUrl": "https://github.com/jonschlinkert/for-own/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "formatio@1.1.1": {
+        "licenses": "UNKNOWN",
+        "repository": "https://github.com/busterjs/formatio",
+        "licenseUrl": "https://github.com/busterjs/formatio/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "fs.realpath@1.0.0": {
+        "licenses": "ISC",
+        "repository": "https://github.com/isaacs/fs.realpath",
+        "licenseUrl": "https://github.com/isaacs/fs.realpath/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "function-bind@1.1.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/Raynos/function-bind",
+        "licenseUrl": "http://github.com/Raynos/function-bind/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "generate-function@2.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/mafintosh/generate-function",
+        "licenseUrl": "https://github.com/mafintosh/generate-function",
+        "parents": "wrld.js"
+    },
+    "generate-object-property@1.2.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/mafintosh/generate-object-property",
+        "licenseUrl": "https://github.com/mafintosh/generate-object-property/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "glob-base@0.3.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/glob-base",
+        "licenseUrl": "https://github.com/jonschlinkert/glob-base/blob/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "glob-parent@2.0.0": {
+        "licenses": "ISC",
+        "repository": "https://github.com/es128/glob-parent",
+        "licenseUrl": "https://github.com/es128/glob-parent/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "glob@5.0.15": {
+        "licenses": "ISC",
+        "repository": "https://github.com/isaacs/node-glob",
+        "licenseUrl": "https://github.com/isaacs/node-glob/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "glob@7.1.2": {
+        "licenses": "ISC",
+        "repository": "https://github.com/isaacs/node-glob",
+        "licenseUrl": "https://github.com/isaacs/node-glob/raw/master/LICENSE",
+        "parents": "globby:wrld.js"
+    },
+    "globals@9.18.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/globals",
+        "licenseUrl": "https://github.com/sindresorhus/globals/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "globby@5.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/globby",
+        "licenseUrl": "https://github.com/sindresorhus/globby/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "graceful-fs@4.1.11": {
+        "licenses": "ISC",
+        "repository": "https://github.com/isaacs/node-graceful-fs",
+        "licenseUrl": "https://github.com/isaacs/node-graceful-fs/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "has-ansi@2.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/has-ansi",
+        "licenseUrl": "https://github.com/sindresorhus/has-ansi/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "has@1.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/tarruda/has",
+        "licenseUrl": "https://github.com/tarruda/has/blob/master/LICENSE-MIT",
+        "parents": "wrld.js"
+    },
+    "hash-base@2.0.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/crypto-browserify/hash-base",
+        "licenseUrl": "https://github.com/crypto-browserify/hash-base",
+        "parents": "wrld.js"
+    },
+    "hash.js@1.1.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/indutny/hash.js",
+        "licenseUrl": "https://github.com/indutny/hash.js",
+        "parents": "wrld.js"
+    },
+    "hmac-drbg@1.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/indutny/hmac-drbg",
+        "licenseUrl": "https://github.com/indutny/hmac-drbg",
+        "parents": "wrld.js"
+    },
+    "htmlescape@1.1.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/zertosh/htmlescape",
+        "licenseUrl": "https://github.com/zertosh/htmlescape/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "https-browserify@0.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/substack/https-browserify",
+        "licenseUrl": "https://github.com/substack/https-browserify/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "ieee754@1.1.8": {
+        "licenses": "BSD-3-Clause",
+        "repository": "https://github.com/feross/ieee754",
+        "licenseUrl": "https://github.com/feross/ieee754/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "ignore@3.3.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/kaelzhang/node-ignore",
+        "licenseUrl": "https://github.com/kaelzhang/node-ignore/raw/master/LICENSE-MIT",
+        "parents": "wrld.js"
+    },
+    "imurmurhash@0.1.4": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jensyt/imurmurhash-js",
+        "licenseUrl": "https://github.com/jensyt/imurmurhash-js",
+        "parents": "wrld.js"
+    },
+    "indexof@0.0.1": {
+        "licenses": "MIT*",
+        "parents": "wrld.js"
+    },
+    "inflight@1.0.6": {
+        "licenses": "ISC",
+        "repository": "https://github.com/npm/inflight",
+        "licenseUrl": "https://github.com/npm/inflight/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "inherits@2.0.1": {
+        "licenses": "ISC",
+        "repository": "https://github.com/isaacs/inherits",
+        "licenseUrl": "https://github.com/isaacs/inherits/raw/master/LICENSE",
+        "parents": "util:wrld.js"
+    },
+    "inherits@2.0.3": {
+        "licenses": "ISC",
+        "repository": "https://github.com/isaacs/inherits",
+        "licenseUrl": "https://github.com/isaacs/inherits/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "inline-source-map@0.6.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/thlorenz/inline-source-map",
+        "licenseUrl": "https://github.com/thlorenz/inline-source-map/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "inquirer@0.12.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/SBoudrias/Inquirer.js",
+        "licenseUrl": "https://github.com/SBoudrias/Inquirer.js",
+        "parents": "wrld.js"
+    },
+    "insert-module-globals@7.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/substack/insert-module-globals",
+        "licenseUrl": "https://github.com/substack/insert-module-globals/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "is-binary-path@1.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/is-binary-path",
+        "licenseUrl": "https://github.com/sindresorhus/is-binary-path/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "is-buffer@1.1.5": {
+        "licenses": "MIT",
+        "repository": "https://github.com/feross/is-buffer",
+        "licenseUrl": "https://github.com/feross/is-buffer/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "is-dotfile@1.0.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/is-dotfile",
+        "licenseUrl": "https://github.com/jonschlinkert/is-dotfile/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "is-equal-shallow@0.1.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/is-equal-shallow",
+        "licenseUrl": "https://github.com/jonschlinkert/is-equal-shallow/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "is-extendable@0.1.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/is-extendable",
+        "licenseUrl": "https://github.com/jonschlinkert/is-extendable/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "is-extglob@1.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/is-extglob",
+        "licenseUrl": "https://github.com/jonschlinkert/is-extglob/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "is-fullwidth-code-point@1.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/is-fullwidth-code-point",
+        "licenseUrl": "https://github.com/sindresorhus/is-fullwidth-code-point/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "is-fullwidth-code-point@2.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/is-fullwidth-code-point",
+        "licenseUrl": "https://github.com/sindresorhus/is-fullwidth-code-point/raw/master/license",
+        "parents": "table:wrld.js"
+    },
+    "is-glob@2.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/is-glob",
+        "licenseUrl": "https://github.com/jonschlinkert/is-glob/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "is-my-json-valid@2.16.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/mafintosh/is-my-json-valid",
+        "licenseUrl": "https://github.com/mafintosh/is-my-json-valid/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "is-number@2.1.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/is-number",
+        "licenseUrl": "https://github.com/jonschlinkert/is-number/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "is-number@3.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/is-number",
+        "licenseUrl": "https://github.com/jonschlinkert/is-number/raw/master/LICENSE",
+        "parents": "randomatic:wrld.js"
+    },
+    "is-path-cwd@1.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/is-path-cwd",
+        "licenseUrl": "https://github.com/sindresorhus/is-path-cwd",
+        "parents": "wrld.js"
+    },
+    "is-path-in-cwd@1.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/is-path-in-cwd",
+        "licenseUrl": "https://github.com/sindresorhus/is-path-in-cwd",
+        "parents": "wrld.js"
+    },
+    "is-path-inside@1.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/is-path-inside",
+        "licenseUrl": "https://github.com/sindresorhus/is-path-inside",
+        "parents": "wrld.js"
+    },
+    "is-posix-bracket@0.1.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/is-posix-bracket",
+        "licenseUrl": "https://github.com/jonschlinkert/is-posix-bracket/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "is-primitive@2.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/is-primitive",
+        "licenseUrl": "https://github.com/jonschlinkert/is-primitive/blob/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "is-property@1.0.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/mikolalysenko/is-property",
+        "licenseUrl": "https://github.com/mikolalysenko/is-property/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "is-resolvable@1.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/shinnn/is-resolvable",
+        "licenseUrl": "https://github.com/shinnn/is-resolvable/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "isarray@0.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/juliangruber/isarray",
+        "licenseUrl": "https://github.com/juliangruber/isarray",
+        "parents": "labeled-stream-splicer:wrld.js"
+    },
+    "isarray@1.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/juliangruber/isarray",
+        "licenseUrl": "https://github.com/juliangruber/isarray",
+        "parents": "wrld.js"
+    },
+    "isobject@2.1.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/isobject",
+        "licenseUrl": "https://github.com/jonschlinkert/isobject/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "jasmine-core@2.5.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jasmine/jasmine",
+        "licenseUrl": "https://github.com/jasmine/jasmine/raw/master/MIT.LICENSE",
+        "parents": "wrld.js"
+    },
+    "jasmine@2.5.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jasmine/jasmine-npm",
+        "licenseUrl": "https://github.com/jasmine/jasmine-npm/raw/master/MIT.LICENSE",
+        "parents": "wrld.js"
+    },
+    "js-yaml@3.8.4": {
+        "licenses": "MIT",
+        "repository": "https://github.com/nodeca/js-yaml",
+        "licenseUrl": "https://github.com/nodeca/js-yaml/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "json-stable-stringify@0.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/substack/json-stable-stringify",
+        "licenseUrl": "https://github.com/substack/json-stable-stringify/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "json-stable-stringify@1.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/substack/json-stable-stringify",
+        "licenseUrl": "https://github.com/substack/json-stable-stringify/raw/master/LICENSE",
+        "parents": "eslint:wrld.js"
+    },
+    "jsonify@0.0.0": {
+        "licenses": "Public Domain",
+        "repository": "https://github.com/substack/jsonify",
+        "licenseUrl": "https://github.com/substack/jsonify",
+        "parents": "wrld.js"
+    },
+    "jsonparse@1.3.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/creationix/jsonparse",
+        "licenseUrl": "https://github.com/creationix/jsonparse/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "jsonpointer@4.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/janl/node-jsonpointer",
+        "licenseUrl": "https://github.com/janl/node-jsonpointer/raw/master/LICENSE.md",
+        "parents": "wrld.js"
+    },
+    "kind-of@3.2.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/kind-of",
+        "licenseUrl": "https://github.com/jonschlinkert/kind-of/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "kind-of@4.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/kind-of",
+        "licenseUrl": "https://github.com/jonschlinkert/kind-of/raw/master/LICENSE",
+        "parents": "randomatic:wrld.js"
+    },
+    "labeled-stream-splicer@2.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/substack/labeled-stream-splicer",
+        "licenseUrl": "https://github.com/substack/labeled-stream-splicer/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "lazy-cache@1.0.4": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/lazy-cache",
+        "licenseUrl": "https://github.com/jonschlinkert/lazy-cache/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "leaflet@1.0.1": {
+        "licenses": "BSD-2-Clause",
+        "repository": "https://github.com/Leaflet/Leaflet",
+        "licenseUrl": "https://github.com/Leaflet/Leaflet/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "levn@0.3.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/gkz/levn",
+        "licenseUrl": "https://github.com/gkz/levn/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "lexical-scope@1.2.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/substack/lexical-scope",
+        "licenseUrl": "https://github.com/substack/lexical-scope/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "lodash.memoize@3.0.4": {
+        "licenses": "MIT",
+        "repository": "https://github.com/lodash/lodash",
+        "licenseUrl": "https://github.com/lodash/lodash/raw/master/LICENSE.txt",
+        "parents": "wrld.js"
+    },
+    "lodash@4.17.4": {
+        "licenses": "MIT",
+        "repository": "https://github.com/lodash/lodash",
+        "licenseUrl": "https://github.com/lodash/lodash/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "lolex@1.3.2": {
+        "licenses": "BSD-3-Clause",
+        "repository": "https://github.com/sinonjs/lolex",
+        "licenseUrl": "https://github.com/sinonjs/lolex/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "longest@1.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/longest",
+        "licenseUrl": "https://github.com/jonschlinkert/longest/blob/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "micromatch@2.3.11": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/micromatch",
+        "licenseUrl": "https://github.com/jonschlinkert/micromatch/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "miller-rabin@4.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/indutny/miller-rabin",
+        "licenseUrl": "https://github.com/indutny/miller-rabin",
+        "parents": "wrld.js"
+    },
+    "minimalistic-assert@1.0.0": {
+        "licenses": "ISC",
+        "repository": "https://github.com/calvinmetcalf/minimalistic-assert",
+        "licenseUrl": "https://github.com/calvinmetcalf/minimalistic-assert",
+        "parents": "wrld.js"
+    },
+    "minimalistic-crypto-utils@1.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/indutny/minimalistic-crypto-utils",
+        "licenseUrl": "https://github.com/indutny/minimalistic-crypto-utils",
+        "parents": "wrld.js"
+    },
+    "minimatch@3.0.4": {
+        "licenses": "ISC",
+        "repository": "https://github.com/isaacs/minimatch",
+        "licenseUrl": "https://github.com/isaacs/minimatch/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "minimist@0.0.8": {
+        "licenses": "MIT",
+        "repository": "https://github.com/substack/minimist",
+        "licenseUrl": "https://github.com/substack/minimist/raw/master/LICENSE",
+        "parents": "mkdirp:wrld.js"
+    },
+    "minimist@1.2.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/substack/minimist",
+        "licenseUrl": "https://github.com/substack/minimist/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "mkdirp@0.5.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/substack/node-mkdirp",
+        "licenseUrl": "https://github.com/substack/node-mkdirp/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "module-deps@4.1.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/substack/module-deps",
+        "licenseUrl": "https://github.com/substack/module-deps/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "ms@2.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/zeit/ms",
+        "licenseUrl": "https://github.com/zeit/ms/raw/master/license.md",
+        "parents": "wrld.js"
+    },
+    "mute-stream@0.0.5": {
+        "licenses": "ISC",
+        "repository": "https://github.com/isaacs/mute-stream",
+        "licenseUrl": "https://github.com/isaacs/mute-stream/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "nan@2.6.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/nodejs/nan",
+        "licenseUrl": "https://github.com/nodejs/nan/raw/master/LICENSE.md",
+        "parents": "wrld.js"
+    },
+    "normalize-path@2.1.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/normalize-path",
+        "licenseUrl": "https://github.com/jonschlinkert/normalize-path/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "number-is-nan@1.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/number-is-nan",
+        "licenseUrl": "https://github.com/sindresorhus/number-is-nan/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "object-assign@4.1.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/object-assign",
+        "licenseUrl": "https://github.com/sindresorhus/object-assign/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "object.omit@2.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/object.omit",
+        "licenseUrl": "https://github.com/jonschlinkert/object.omit/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "once@1.4.0": {
+        "licenses": "ISC",
+        "repository": "https://github.com/isaacs/once",
+        "licenseUrl": "https://github.com/isaacs/once/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "onetime@1.1.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/onetime",
+        "licenseUrl": "https://github.com/sindresorhus/onetime/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "optionator@0.8.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/gkz/optionator",
+        "licenseUrl": "https://github.com/gkz/optionator/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "os-browserify@0.1.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/drewyoung1/os-browserify",
+        "licenseUrl": "https://github.com/drewyoung1/os-browserify/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "os-homedir@1.0.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/os-homedir",
+        "licenseUrl": "https://github.com/sindresorhus/os-homedir/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "outpipe@1.1.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/substack/outpipe",
+        "licenseUrl": "https://github.com/substack/outpipe/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "pako@0.2.9": {
+        "licenses": "MIT",
+        "repository": "https://github.com/nodeca/pako",
+        "licenseUrl": "https://github.com/nodeca/pako/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "parents@1.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/substack/node-parents",
+        "licenseUrl": "https://github.com/substack/node-parents/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "parse-asn1@5.1.0": {
+        "licenses": "ISC",
+        "repository": "https://github.com/crypto-browserify/parse-asn1",
+        "licenseUrl": "https://github.com/crypto-browserify/parse-asn1",
+        "parents": "wrld.js"
+    },
+    "parse-glob@3.0.4": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/parse-glob",
+        "licenseUrl": "https://github.com/jonschlinkert/parse-glob/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "path-browserify@0.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/substack/path-browserify",
+        "licenseUrl": "https://github.com/substack/path-browserify/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "path-is-absolute@1.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/path-is-absolute",
+        "licenseUrl": "https://github.com/sindresorhus/path-is-absolute/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "path-is-inside@1.0.2": {
+        "licenses": "(WTFPL OR MIT)",
+        "repository": "https://github.com/domenic/path-is-inside",
+        "licenseUrl": "https://github.com/domenic/path-is-inside/raw/master/LICENSE.txt",
+        "parents": "wrld.js"
+    },
+    "path-parse@1.0.5": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jbgutierrez/path-parse",
+        "licenseUrl": "https://github.com/jbgutierrez/path-parse",
+        "parents": "wrld.js"
+    },
+    "path-platform@0.11.15": {
+        "licenses": "MIT",
+        "repository": "https://github.com/tjfontaine/node-path-platform",
+        "licenseUrl": "https://github.com/tjfontaine/node-path-platform/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "pbkdf2@3.0.12": {
+        "licenses": "MIT",
+        "repository": "https://github.com/crypto-browserify/pbkdf2",
+        "licenseUrl": "https://github.com/crypto-browserify/pbkdf2/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "pify@2.3.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/pify",
+        "licenseUrl": "https://github.com/sindresorhus/pify/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "pinkie-promise@2.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/floatdrop/pinkie-promise",
+        "licenseUrl": "https://github.com/floatdrop/pinkie-promise/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "pinkie@2.0.4": {
+        "licenses": "MIT",
+        "repository": "https://github.com/floatdrop/pinkie",
+        "licenseUrl": "https://github.com/floatdrop/pinkie/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "pluralize@1.2.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/blakeembrey/pluralize",
+        "licenseUrl": "https://github.com/blakeembrey/pluralize/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "prelude-ls@1.1.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/gkz/prelude-ls",
+        "licenseUrl": "https://raw.github.com/gkz/prelude-ls/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "preserve@0.2.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/preserve",
+        "licenseUrl": "https://github.com/jonschlinkert/preserve/blob/master/LICENSE-MIT",
+        "parents": "wrld.js"
+    },
+    "process-nextick-args@1.0.7": {
+        "licenses": "MIT",
+        "repository": "https://github.com/calvinmetcalf/process-nextick-args",
+        "licenseUrl": "https://github.com/calvinmetcalf/process-nextick-args/raw/master/license.md",
+        "parents": "wrld.js"
+    },
+    "process@0.11.10": {
+        "licenses": "MIT",
+        "repository": "https://github.com/shtylman/node-process",
+        "licenseUrl": "https://github.com/shtylman/node-process/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "progress@1.1.8": {
+        "licenses": "MIT*",
+        "repository": "https://github.com/visionmedia/node-progress",
+        "licenseUrl": "https://github.com/visionmedia/node-progress/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "public-encrypt@4.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/crypto-browserify/publicEncrypt",
+        "licenseUrl": "https://github.com/crypto-browserify/publicEncrypt",
+        "parents": "wrld.js"
+    },
+    "punycode@1.3.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/bestiejs/punycode.js",
+        "licenseUrl": "https://github.com/bestiejs/punycode.js/raw/master/LICENSE-MIT.txt",
+        "parents": "url:wrld.js"
+    },
+    "punycode@1.4.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/bestiejs/punycode.js",
+        "licenseUrl": "https://github.com/bestiejs/punycode.js/raw/master/LICENSE-MIT.txt",
+        "parents": "wrld.js"
+    },
+    "querystring-es3@0.2.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/mike-spainhower/querystring",
+        "licenseUrl": "https://github.com/Gozala/enchain/License.md",
+        "parents": "wrld.js"
+    },
+    "querystring@0.2.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/Gozala/querystring",
+        "licenseUrl": "https://github.com/Gozala/enchain/License.md",
+        "parents": "wrld.js"
+    },
+    "randomatic@1.1.7": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/randomatic",
+        "licenseUrl": "https://github.com/jonschlinkert/randomatic/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "randombytes@2.0.5": {
+        "licenses": "MIT",
+        "repository": "https://github.com/crypto-browserify/randombytes",
+        "licenseUrl": "https://github.com/crypto-browserify/randombytes/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "read-only-stream@2.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/substack/read-only-stream",
+        "licenseUrl": "https://github.com/substack/read-only-stream/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "readable-stream@2.0.6": {
+        "licenses": "MIT",
+        "repository": "https://github.com/nodejs/readable-stream",
+        "licenseUrl": "https://github.com/nodejs/readable-stream/raw/master/LICENSE",
+        "parents": "concat-stream:wrld.js"
+    },
+    "readable-stream@2.3.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/nodejs/readable-stream",
+        "licenseUrl": "https://github.com/nodejs/readable-stream/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "readdirp@2.1.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/thlorenz/readdirp",
+        "licenseUrl": "https://github.com/thlorenz/readdirp/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "readline2@1.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/SBoudrias/readline2",
+        "licenseUrl": "https://github.com/SBoudrias/readline2",
+        "parents": "wrld.js"
+    },
+    "regex-cache@0.4.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/regex-cache",
+        "licenseUrl": "https://github.com/jonschlinkert/regex-cache/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "remove-trailing-separator@1.0.2": {
+        "licenses": "ISC",
+        "repository": "https://github.com/darsain/remove-trailing-separator",
+        "licenseUrl": "https://github.com/darsain/remove-trailing-separator/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "repeat-element@1.1.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/repeat-element",
+        "licenseUrl": "https://github.com/jonschlinkert/repeat-element/blob/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "repeat-string@1.6.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/repeat-string",
+        "licenseUrl": "https://github.com/jonschlinkert/repeat-string/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "require-uncached@1.0.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/require-uncached",
+        "licenseUrl": "https://github.com/sindresorhus/require-uncached/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "resolve-from@1.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/resolve-from",
+        "licenseUrl": "https://github.com/sindresorhus/resolve-from/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "resolve@1.1.7": {
+        "licenses": "MIT",
+        "repository": "https://github.com/substack/node-resolve",
+        "licenseUrl": "https://github.com/substack/node-resolve/raw/master/LICENSE",
+        "parents": "browser-resolve:wrld.js"
+    },
+    "resolve@1.3.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/substack/node-resolve",
+        "licenseUrl": "https://github.com/substack/node-resolve/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "restore-cursor@1.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/restore-cursor",
+        "licenseUrl": "https://github.com/sindresorhus/restore-cursor/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "right-align@0.1.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/right-align",
+        "licenseUrl": "https://github.com/jonschlinkert/right-align/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "rimraf@2.6.1": {
+        "licenses": "ISC",
+        "repository": "https://github.com/isaacs/rimraf",
+        "licenseUrl": "https://github.com/isaacs/rimraf/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "ripemd160@2.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/crypto-browserify/ripemd160",
+        "licenseUrl": "https://github.com/crypto-browserify/ripemd160/raw/master/LICENSE.md",
+        "parents": "wrld.js"
+    },
+    "run-async@0.1.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/SBoudrias/run-async",
+        "licenseUrl": "https://github.com/SBoudrias/run-async/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "rx-lite@3.1.2": {
+        "licenses": "Apache License, Version 2.0",
+        "repository": "https://github.com/Reactive-Extensions/RxJS",
+        "licenseUrl": "http://www.apache.org/licenses/LICENSE-2.0.html",
+        "parents": "wrld.js"
+    },
+    "safe-buffer@5.1.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/feross/safe-buffer",
+        "licenseUrl": "https://github.com/feross/safe-buffer/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "samsam@1.1.2": {
+        "licenses": "UNKNOWN",
+        "repository": "https://github.com/busterjs/samsam",
+        "licenseUrl": "https://github.com/busterjs/samsam/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "set-immediate-shim@1.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/set-immediate-shim",
+        "licenseUrl": "https://github.com/sindresorhus/set-immediate-shim",
+        "parents": "wrld.js"
+    },
+    "sha.js@2.4.8": {
+        "licenses": "MIT",
+        "repository": "https://github.com/crypto-browserify/sha.js",
+        "licenseUrl": "https://github.com/crypto-browserify/sha.js/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "shasum@1.0.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/dominictarr/shasum",
+        "licenseUrl": "https://github.com/dominictarr/shasum/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "shell-quote@1.6.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/substack/node-shell-quote",
+        "licenseUrl": "https://github.com/substack/node-shell-quote/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "shelljs@0.6.1": {
+        "licenses": "BSD-3-Clause",
+        "repository": "https://github.com/shelljs/shelljs",
+        "licenseUrl": "https://github.com/shelljs/shelljs/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "sinon@1.17.7": {
+        "licenses": "BSD-3-Clause",
+        "repository": "https://github.com/cjohansen/Sinon.JS",
+        "licenseUrl": "https://github.com/cjohansen/Sinon.JS/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "slice-ansi@0.0.4": {
+        "licenses": "MIT",
+        "repository": "https://github.com/chalk/slice-ansi",
+        "licenseUrl": "https://github.com/chalk/slice-ansi/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "source-map@0.5.6": {
+        "licenses": "BSD-3-Clause",
+        "repository": "https://github.com/mozilla/source-map",
+        "licenseUrl": "https://github.com/mozilla/source-map/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "sprintf-js@1.0.3": {
+        "licenses": "BSD-3-Clause",
+        "repository": "https://github.com/alexei/sprintf.js",
+        "licenseUrl": "https://github.com/alexei/sprintf.js/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "stream-browserify@2.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/substack/stream-browserify",
+        "licenseUrl": "https://github.com/substack/stream-browserify/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "stream-combiner2@1.1.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/substack/stream-combiner2",
+        "licenseUrl": "https://github.com/substack/stream-combiner2/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "stream-http@2.7.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jhiesey/stream-http",
+        "licenseUrl": "https://github.com/jhiesey/stream-http/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "stream-splicer@2.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/substack/stream-splicer",
+        "licenseUrl": "https://github.com/substack/stream-splicer/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "string-width@1.0.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/string-width",
+        "licenseUrl": "https://github.com/sindresorhus/string-width/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "string-width@2.1.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/string-width",
+        "licenseUrl": "https://github.com/sindresorhus/string-width/raw/master/license",
+        "parents": "table:wrld.js"
+    },
+    "string_decoder@0.10.31": {
+        "licenses": "MIT",
+        "repository": "https://github.com/rvagg/string_decoder",
+        "licenseUrl": "https://github.com/rvagg/string_decoder/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "string_decoder@1.0.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/rvagg/string_decoder",
+        "licenseUrl": "https://github.com/rvagg/string_decoder/raw/master/LICENSE",
+        "parents": "readable-stream:wrld.js"
+    },
+    "strip-ansi@3.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/chalk/strip-ansi",
+        "licenseUrl": "https://github.com/chalk/strip-ansi/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "strip-ansi@4.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/chalk/strip-ansi",
+        "licenseUrl": "https://github.com/chalk/strip-ansi/raw/master/license",
+        "parents": "table:wrld.js"
+    },
+    "strip-json-comments@1.0.4": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/strip-json-comments",
+        "licenseUrl": "https://github.com/sindresorhus/strip-json-comments/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "subarg@1.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/substack/subarg",
+        "licenseUrl": "https://github.com/substack/subarg/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "supports-color@2.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/chalk/supports-color",
+        "licenseUrl": "https://github.com/chalk/supports-color/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "syntax-error@1.3.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/substack/node-syntax-error",
+        "licenseUrl": "https://github.com/substack/node-syntax-error/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "table@3.8.3": {
+        "licenses": "BSD-3-Clause",
+        "repository": "https://github.com/gajus/table",
+        "licenseUrl": "https://github.com/gajus/table/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "text-table@0.2.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/substack/text-table",
+        "licenseUrl": "https://github.com/substack/text-table/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "through2@2.0.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/rvagg/through2",
+        "licenseUrl": "https://github.com/rvagg/through2/raw/master/LICENSE.html",
+        "parents": "wrld.js"
+    },
+    "through@2.3.8": {
+        "licenses": "MIT",
+        "repository": "https://github.com/dominictarr/through",
+        "licenseUrl": "https://github.com/dominictarr/through/raw/master/LICENSE.APACHE2",
+        "parents": "wrld.js"
+    },
+    "timers-browserify@1.4.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jryans/timers-browserify",
+        "licenseUrl": "https://github.com/jryans/timers-browserify/blob/master/LICENSE.md",
+        "parents": "wrld.js"
+    },
+    "to-arraybuffer@1.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jhiesey/to-arraybuffer",
+        "licenseUrl": "https://github.com/jhiesey/to-arraybuffer/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "tryit@1.0.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/HenrikJoreteg/tryit",
+        "licenseUrl": "https://github.com/HenrikJoreteg/tryit",
+        "parents": "wrld.js"
+    },
+    "tty-browserify@0.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/substack/tty-browserify",
+        "licenseUrl": "https://github.com/substack/tty-browserify/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "type-check@0.3.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/gkz/type-check",
+        "licenseUrl": "https://github.com/gkz/type-check/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "typedarray@0.0.6": {
+        "licenses": "MIT",
+        "repository": "https://github.com/substack/typedarray",
+        "licenseUrl": "https://github.com/substack/typedarray/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "uglify-js@2.6.4": {
+        "licenses": "BSD-2-Clause",
+        "repository": "https://github.com/mishoo/UglifyJS2",
+        "licenseUrl": "https://github.com/mishoo/UglifyJS2/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "uglify-to-browserify@1.0.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/ForbesLindesay/uglify-to-browserify",
+        "licenseUrl": "https://github.com/ForbesLindesay/uglify-to-browserify/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "umd@3.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/ForbesLindesay/umd",
+        "licenseUrl": "https://github.com/ForbesLindesay/umd",
+        "parents": "wrld.js"
+    },
+    "url@0.11.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/defunctzombie/node-url",
+        "licenseUrl": "https://github.com/defunctzombie/node-url/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "user-home@2.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/user-home",
+        "licenseUrl": "https://github.com/sindresorhus/user-home/raw/master/license",
+        "parents": "wrld.js"
+    },
+    "util-deprecate@1.0.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/TooTallNate/util-deprecate",
+        "licenseUrl": "https://github.com/TooTallNate/util-deprecate/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "util@0.10.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/defunctzombie/node-util",
+        "licenseUrl": "https://github.com/defunctzombie/node-util/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "vm-browserify@0.0.4": {
+        "licenses": "MIT",
+        "repository": "https://github.com/substack/vm-browserify",
+        "licenseUrl": "https://github.com/substack/vm-browserify/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "watchify@3.7.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/substack/watchify",
+        "licenseUrl": "https://github.com/substack/watchify/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "window-size@0.1.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/window-size",
+        "licenseUrl": "https://github.com/jonschlinkert/window-size/blob/master/LICENSE-MIT",
+        "parents": "wrld.js"
+    },
+    "wordwrap@0.0.2": {
+        "licenses": "MIT/X11",
+        "repository": "https://github.com/substack/node-wordwrap",
+        "licenseUrl": "https://github.com/substack/node-wordwrap",
+        "parents": "cliui:wrld.js"
+    },
+    "wordwrap@1.0.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/substack/node-wordwrap",
+        "licenseUrl": "https://github.com/substack/node-wordwrap/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "wrappy@1.0.2": {
+        "licenses": "ISC",
+        "repository": "https://github.com/npm/wrappy",
+        "licenseUrl": "https://github.com/npm/wrappy/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "write@0.2.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jonschlinkert/write",
+        "licenseUrl": "https://github.com/jonschlinkert/write/raw/master/LICENSE",
+        "parents": "wrld.js"
+    },
+    "wrld.js@0.0.1": {
+        "licenses": "See license in LICENSE.md",
+        "repository": "https://github.com/wrld3d/wrld.js",
+        "licenseUrl": "https://github.com/wrld3d/wrld.js/raw/master/LICENSE.md",
+        "parents": "UNDEFINED"
+    },
+    "xtend@4.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/Raynos/xtend",
+        "licenseUrl": "https://github.com/Raynos/xtend/raw/master/LICENCE",
+        "parents": "wrld.js"
+    },
+    "yargs@3.10.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/bcoe/yargs",
+        "licenseUrl": "https://github.com/bcoe/yargs/raw/master/LICENSE",
+        "parents": "wrld.js"
+    }
+}
