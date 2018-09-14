@@ -6,6 +6,14 @@
 
 ## Getting Set up
 
+### Obtaining an API Key
+
+1. Sign in to your WRLD account [here](https://www.wrld3d.com/).
+
+2. Navigate to your [account page](https://accounts.wrld3d.com/users/sign_in?service=https%3A%2F%2Faccounts.wrld3d.com%2F%23apikeys).
+
+3. Here you can copy the API key of your app, and create a new app if you don't already have one.
+
 ### Importing POIs from a CSV
 
 1. Log into your WRLD account and select 'Places Designer'.
