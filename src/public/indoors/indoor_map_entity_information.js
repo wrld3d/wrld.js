@@ -1,13 +1,30 @@
+var IndoorMapEntityInformationLoadStateType = {
+    NONE: "NONE",
+    PARTIAL: "PARTIAL",
+    COMPLETE: "COMPLETE"
+};
+
+
 var IndoorMapEntityInformation = function(indoorMapId) {
     
     var _id = null;
     var _map = null;
     var _indoorMapId = indoorMapId;
+    var _indoorMapEntities = [];
+    var _loadState = IndoorMapEntityInformationLoadStateType.NONE;
 
     this.getIndoorMapId = function() {
         return _indoorMapId;
     };
     
+    this.getIndoorMapEntities = function() {
+        return _indoorMapEntities;
+    };
+
+    this.getLoadState = function() {
+        return _loadState;
+    };
+
     this.getId = function() {
         return _id;
     };
@@ -21,8 +38,21 @@ var IndoorMapEntityInformation = function(indoorMapId) {
         return this;
     };
 
+    this.remove = function() {
+        if (_map !== null) {
+            _map.indoorMapEntityInformation._getImpl().removeIndoorMapEntityInformation(this);
+            _map = null;
+        }
+        return this;
+    };
+
     this._setNativeHandle = function(nativeId) {
         _id = nativeId;
+    };
+
+    this._setData = function(indoorMapEntities, loadState) {
+        _indoorMapEntities = indoorMapEntities;
+        _loadState = loadState;
     };
 };
 

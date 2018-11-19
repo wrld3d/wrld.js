@@ -32,12 +32,30 @@ function IndoorMapEntityInformationModuleImpl(emscriptenApi) {
         }
     };
     
+    this.removeIndoorMapEntityInformation = function(indoorMapEntityInformation) {
+
+        if (!_ready) {
+            var index = _pendingIndoorEntityInformation.indexOf(indoorMapEntityInformation);
+            if (index > -1) {
+                _pendingIndoorEntityInformation.splice(index, 1);
+            }
+            return;
+        }
+
+        var nativeId = indoorMapEntityInformation.getId();
+        if (nativeId === undefined) {
+            return;
+        }
+
+        _emscriptenApi.indoorMapEntityInformationApi.destroyIndoorMapEntityInformation(nativeId);
+        delete _nativeIdToIndoorMapEntityInformation[nativeId];
+        indoorMapEntityInformation._setNativeHandle(null);
+    };
 
     this.onInitialized = function() {
         _ready = true;
         _createPendingIndoorMapEntityInformations();
     };
-
 }
 
 function IndoorMapEntityInformationModule(emscriptenApi) {
