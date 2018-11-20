@@ -12,10 +12,8 @@ var circle = require("./public/circle.js");
 require("./private/polyfills.js");
 
 
-var _baseUrl = "http://localhost:8000/";
-var _appName = "eeGeoWebGL.js";
-//var _baseUrl = "https://cdn-webgl.wrld3d.com/eegeojs/test_builds/vjohnmess_18_09_04_001/";
-//var _appName = "eeGeoWebGL.jgz";
+var _baseUrl = "https://cdn-webgl.wrld3d.com/eegeojs/public/latest/";
+var _appName = "eeGeoWebGL.jgz";
 
 
 var _mapObjects = [];
