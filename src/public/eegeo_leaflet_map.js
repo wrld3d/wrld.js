@@ -50,7 +50,8 @@ var EegeoLeafletMap = L.Map.extend({
             layerPointMappingModule,
             routingModule,
             renderingModule,
-            buildingsModule
+            buildingsModule,
+            propModule
             ) {
         this._browserWindow = browserWindow;
         this._cameraModule = cameraModule;
@@ -62,6 +63,7 @@ var EegeoLeafletMap = L.Map.extend({
         this.routes = routingModule;
         this.rendering = renderingModule;
         this.buildings = buildingsModule;
+        this._propModule = propModule;
         this._layersOnMap = {};
         this._spacesApi = null;
         this._ready = false;
@@ -75,7 +77,6 @@ var EegeoLeafletMap = L.Map.extend({
         this.scrollWheelZoom.disable();
         this.boxZoom.disable();
         this.keyboard.disable();
-
 
         this.attributionControl.setPrefix("<a href='http://leafletjs.com' title='A JS library for interactive maps' target='_blank'>Leaflet</a>");
         this.attributionControl.addAttribution("3D Maps &copy; <a href='https://www.wrld3d.com' target='_blank'>WRLD</a> and <a href='https://www.wrld3d.com/legal/' target='_blank'>partners</a>");

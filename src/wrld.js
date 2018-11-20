@@ -4,6 +4,7 @@ var EmscriptenApi = require("./private/emscripten_api/emscripten_api");
 var marker = require("./public/marker.js");
 var popup = require("./public/popup.js");
 var polygon = require("./public/polygon.js");
+var prop = require("./public/prop.js");
 var polygonShim = require("./private/polygon_shim.js");
 var polylineShim = require("./private/polyline_shim.js");
 var rectangleShim = require("./private/rectangle_shim.js");
@@ -11,8 +12,10 @@ var circle = require("./public/circle.js");
 require("./private/polyfills.js");
 
 
-var _baseUrl = "https://cdn-webgl.wrld3d.com/eegeojs/public/latest/";
-var _appName = "eeGeoWebGL.jgz";
+var _baseUrl = "http://localhost:8000/";
+var _appName = "eeGeoWebGL.js";
+//var _baseUrl = "https://cdn-webgl.wrld3d.com/eegeojs/test_builds/vjohnmess_18_09_04_001/";
+//var _appName = "eeGeoWebGL.jgz";
 
 
 var _mapObjects = [];
@@ -105,7 +108,8 @@ var Wrld = {
 	popup: popup.popup,
 	Polygon: polygon.Polygon,
 	polygon: polygon.polygon,
-
+	Prop: prop.Prop,
+	prop: prop.prop,
 
 	indoors: require("./public/indoors/indoors"),
 	space: require("./public/space"),
