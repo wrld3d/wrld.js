@@ -50,9 +50,9 @@ var IndoorMapEntityInformation = function(indoorMapId) {
         _id = nativeId;
     };
 
-    this._setData = function(indoorMapEntities, loadState) {
-        _indoorMapEntities = indoorMapEntities;
-        _loadState = loadState;
+    this._setData = function(data) {
+        _indoorMapEntities = data.IndoorMapEntities;
+        _loadState = data.LoadState;
     };
 };
 

@@ -4,13 +4,16 @@ function IndoorMapEntityInformationModuleImpl(emscriptenApi) {
 
     var _emscriptenApi = emscriptenApi;
     var _nativeIdToIndoorMapEntityInformation = {};
+    var _callbackInvokedBeforeAssignement = {};
     var _pendingIndoorEntityInformation = [];
     var _ready = false;
+    var _notifyIndoorMapEntityInformationReceivedCallback = null;
 
     var _createPendingIndoorMapEntityInformations = function() {
         _pendingIndoorEntityInformation.forEach(function(indoorMapEntityInformation) {
             _createAndAdd(indoorMapEntityInformation);
         });
+
         _pendingIndoorEntityInformation = [];
     };
 
@@ -19,9 +22,13 @@ function IndoorMapEntityInformationModuleImpl(emscriptenApi) {
         _nativeIdToIndoorMapEntityInformation[nativeId] = indoorMapEntityInformation;
         indoorMapEntityInformation._setNativeHandle(nativeId);
 
+        if(nativeId in _callbackInvokedBeforeAssignement){
+            delete _callbackInvokedBeforeAssignement[nativeId];
+            _notifyIndoorMapEntityInformationReceived(nativeId);
+        }
+        
         return nativeId;
     };
-
 
     this.addIndoorMapEntityInformation = function(indoorMapEntityInformation) {
         if (_ready) {
@@ -54,14 +61,45 @@ function IndoorMapEntityInformationModuleImpl(emscriptenApi) {
 
     this.onInitialized = function() {
         _ready = true;
+        _emscriptenApi.indoorMapEntityInformationApi.registerIndoorMapEntityInformationReceivedCallback(_executeIndoorMapEntityInformationReceivedCallback);
         _createPendingIndoorMapEntityInformations();
+    };
+
+    this.setIndoorMapEntityInformationReceivedCallback = function(callback) {
+        _notifyIndoorMapEntityInformationReceivedCallback = callback;
+    };
+
+    var _executeIndoorMapEntityInformationReceivedCallback = function(indoorMapEntityInformationId) {
+        if (indoorMapEntityInformationId in _nativeIdToIndoorMapEntityInformation) {
+            _notifyIndoorMapEntityInformationReceived(indoorMapEntityInformationId);
+        }
+        else{
+            _callbackInvokedBeforeAssignement[indoorMapEntityInformationId] = true;
+        }
+    };
+
+    var _notifyIndoorMapEntityInformationReceived = function(indoorMapEntityInformationId) {
+        var indoorMapEntityInformation = _nativeIdToIndoorMapEntityInformation[indoorMapEntityInformationId];
+        var data = _emscriptenApi.indoorMapEntityInformationApi.tryGetIndoorMapEntityInformation(indoorMapEntityInformationId);
+        if (data !== null) {
+            indoorMapEntityInformation._setData(data);
+        }
+        if (_notifyIndoorMapEntityInformationReceivedCallback !== null) {
+            _notifyIndoorMapEntityInformationReceivedCallback(indoorMapEntityInformation);
+        }
     };
 }
 
 function IndoorMapEntityInformationModule(emscriptenApi) {
     var _indoorMapEntityInformationModuleImpl = new IndoorMapEntityInformationModuleImpl(emscriptenApi);
+    var _this = this;
+
+    var _IndoorMapEntityInformationReceivedHandler = function(indoorMapEntityInformation) {
+        _this.fire("indoormapentityinformationreceived", {indoorMapEntityInformation: indoorMapEntityInformation});
+    };
 
     this.onInitialized = function() {
+        _indoorMapEntityInformationModuleImpl.setIndoorMapEntityInformationReceivedCallback(_IndoorMapEntityInformationReceivedHandler);
         _indoorMapEntityInformationModuleImpl.onInitialized();
     };
 
