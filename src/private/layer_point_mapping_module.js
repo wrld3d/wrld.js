@@ -36,22 +36,6 @@ var LayerPointMappingModule = function(emscriptenApi) {
         return true;
     };
 
-    this._getLayerElevationMode = function(layer) {
-        var elevationModes = {
-            heightAboveSeaLevel: 0,
-            heightAboveGround: 1
-        };
-
-        var elevationModeInt = elevationModes.heightAboveGround;
-
-        if (layer.options.elevationMode && 
-            layer.options.elevationMode.toLowerCase() === elevationMode.ElevationModeType.HEIGHT_ABOVE_SEA_LEVEL.toLowerCase()) {
-            elevationModeInt = elevationModes.heightAboveSeaLevel;
-        }
-
-        return elevationModeInt;
-    };
-
     this._createAndAdd = function(layer) {
         if (!this._useWrldSdkPointMappingForLayer(layer)) {
             return;
@@ -68,7 +52,7 @@ var LayerPointMappingModule = function(emscriptenApi) {
 
         var elevation = layer.options.elevation || 0.0;
         
-        var elevationModeInt = this._getLayerElevationMode(layer);
+        var elevationModeInt = elevationMode.getElevationModeInt(layer.options.elevationMode);
 
         var api = _emscriptenApi.layerPointMappingApi;
         
