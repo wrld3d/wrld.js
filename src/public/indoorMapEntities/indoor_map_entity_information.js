@@ -1,9 +1,8 @@
 var IndoorMapEntityInformationLoadStateType = {
-    NONE: "NONE",
-    PARTIAL: "PARTIAL",
-    COMPLETE: "COMPLETE"
+    NONE: "None",
+    PARTIAL: "Partial",
+    COMPLETE: "Complete"
 };
-
 
 var IndoorMapEntityInformation = function(indoorMapId) {
     
@@ -34,13 +33,13 @@ var IndoorMapEntityInformation = function(indoorMapId) {
             this.remove();
         }
         _map = map;
-        _map.indoorMapEntityInformation._getImpl().addIndoorMapEntityInformation(this);
+        _map.indoorMapEntities._getImpl().addIndoorMapEntityInformation(this);
         return this;
     };
 
     this.remove = function() {
         if (_map !== null) {
-            _map.indoorMapEntityInformation._getImpl().removeIndoorMapEntityInformation(this);
+            _map.indoorMapEntities._getImpl().removeIndoorMapEntityInformation(this);
             _map = null;
         }
         return this;
@@ -52,7 +51,19 @@ var IndoorMapEntityInformation = function(indoorMapId) {
 
     this._setData = function(data) {
         _indoorMapEntities = data.IndoorMapEntities;
-        _loadState = data.LoadState;
+
+        switch(data.LoadState)
+        {
+            case 0:
+                _loadState = IndoorMapEntityInformationLoadStateType.NONE;
+                break;
+            case 1:
+                _loadState = IndoorMapEntityInformationLoadStateType.PARTIAL;
+                break;
+            case 2:
+                _loadState = IndoorMapEntityInformationLoadStateType.COMPLETE;
+                break;
+        }
     };
 };
 
