@@ -10,7 +10,9 @@ var EmscriptenIndoorEntityApi = require("./emscripten_indoor_entity_api.js");
 var EmscriptenBuildingsApi = require("./emscripten_buildings_api.js");
 var EmscriptenRenderingApi = require("./emscripten_rendering_api.js");
 var EmscriptenLayerPointMappingApi = require("./emscripten_layer_point_mapping_api.js");
+var EmscriptenPropsApi = require("./emscripten_props_api.js");
 var EmscriptenIndoorMapEntityInformationApi = require("./emscripten_indoor_map_entity_information_api.js");
+
 
 function EmscriptenApi(emscriptenModule) {
 
@@ -30,6 +32,7 @@ function EmscriptenApi(emscriptenModule) {
     this.renderingApi = null;
     this.buildingsApi = null;
     this.layerPointMappingApi = null;
+    this.propsApi = null;
     this.indoorMapEntityInformationApi = null;
 
     this.onInitialized = function(eegeoApiPointer, emscriptenApiPointer, onUpdateCallback, onDrawCallback, onInitialStreamingCompletedCallback) {
@@ -47,6 +50,7 @@ function EmscriptenApi(emscriptenModule) {
         this.themesApi = new EmscriptenThemesApi(_eegeoApiPointer, cwrap, runtime);        
         this.expandFloorsApi = new EmscriptenExpandFloorsApi(_eegeoApiPointer, cwrap, runtime);        
         this.renderingApi = new EmscriptenRenderingApi(_eegeoApiPointer, cwrap, runtime, emscriptenMemory);
+        this.propsApi = new EmscriptenPropsApi(_eegeoApiPointer, cwrap, runtime);
 
         // emscripten-specific api usage via emscripten api pointer
         this.layerPointMappingApi = new EmscriptenLayerPointMappingApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
@@ -56,6 +60,7 @@ function EmscriptenApi(emscriptenModule) {
         this.indoorEntityApi = new EmscriptenIndoorEntityApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
         this.precacheApi = new EmscriptenPrecacheApi(_emscriptenApiPointer, cwrap, runtime);
         this.indoorMapEntityInformationApi = new EmscriptenIndoorMapEntityInformationApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
+
 
         var _setTopLevelCallbacks = _emscriptenModule.cwrap("setTopLevelCallbacks", null, ["number", "number", "number", "number"]);
         _setTopLevelCallbacks(

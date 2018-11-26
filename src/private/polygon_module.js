@@ -44,6 +44,7 @@ function PolygonsModule(emscriptenApi) {
                 return _polygonIdToPolygons[key] === polygon;
             }
         );
+        
         if (polygonId === undefined) {
             return;
         }
