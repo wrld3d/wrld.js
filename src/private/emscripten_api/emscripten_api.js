@@ -11,6 +11,8 @@ var EmscriptenBuildingsApi = require("./emscripten_buildings_api.js");
 var EmscriptenRenderingApi = require("./emscripten_rendering_api.js");
 var EmscriptenLayerPointMappingApi = require("./emscripten_layer_point_mapping_api.js");
 var EmscriptenPropsApi = require("./emscripten_props_api.js");
+var EmscriptenIndoorMapEntityInformationApi = require("./emscripten_indoor_map_entity_information_api.js");
+
 
 function EmscriptenApi(emscriptenModule) {
 
@@ -31,6 +33,7 @@ function EmscriptenApi(emscriptenModule) {
     this.buildingsApi = null;
     this.layerPointMappingApi = null;
     this.propsApi = null;
+    this.indoorMapEntityInformationApi = null;
 
     this.onInitialized = function(eegeoApiPointer, emscriptenApiPointer, onUpdateCallback, onDrawCallback, onInitialStreamingCompletedCallback) {
         _eegeoApiPointer = eegeoApiPointer;
@@ -55,7 +58,9 @@ function EmscriptenApi(emscriptenModule) {
         this.indoorsApi = new EmscriptenIndoorsApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
         this.cameraApi = new EmscriptenCameraApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
         this.indoorEntityApi = new EmscriptenIndoorEntityApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
-        this.precacheApi = new EmscriptenPrecacheApi(_emscriptenApiPointer, cwrap, runtime);        
+        this.precacheApi = new EmscriptenPrecacheApi(_emscriptenApiPointer, cwrap, runtime);
+        this.indoorMapEntityInformationApi = new EmscriptenIndoorMapEntityInformationApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
+
 
         var _setTopLevelCallbacks = _emscriptenModule.cwrap("setTopLevelCallbacks", null, ["number", "number", "number", "number"]);
         _setTopLevelCallbacks(

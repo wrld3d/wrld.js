@@ -1,9 +1,8 @@
-var IndoorMap = require("./indoor_map");
-var IndoorMapEntrance = require("./indoor_map_entrance");
-var IndoorMapFloor = require("./indoor_map_floor");
-
+var _indoorMap = require("./indoor_map");
+var _indoorMapEntrance = require("./indoor_map_entrance");
+var _indoorMapFloor = require("./indoor_map_floor");
 module.exports = {
-    IndoorMap: IndoorMap,
-    IndoorMapEntrance: IndoorMapEntrance,
-    IndoorMapFloor: IndoorMapFloor
+    IndoorMap: _indoorMap,
+    IndoorMapEntrance: _indoorMapEntrance,
+    IndoorMapFloor: _indoorMapFloor
 };
