@@ -6,7 +6,7 @@ var IndoorMapEntityInformationLoadStateType = {
 
 var IndoorMapEntityInformation = function(indoorMapId) {
     
-    var _id = null;
+    var _nativeId = null;
     var _map = null;
     var _indoorMapId = indoorMapId;
     var _indoorMapEntities = [];
@@ -24,8 +24,8 @@ var IndoorMapEntityInformation = function(indoorMapId) {
         return _loadState;
     };
 
-    this.getId = function() {
-        return _id;
+    this.getNativeId = function() {
+        return _nativeId;
     };
 
     this.addTo = function(map) {
@@ -46,7 +46,7 @@ var IndoorMapEntityInformation = function(indoorMapId) {
     };
 
     this._setNativeHandle = function(nativeId) {
-        _id = nativeId;
+        _nativeId = nativeId;
     };
 
     this._setData = function(data) {

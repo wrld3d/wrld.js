@@ -7,7 +7,7 @@ function IndoorMapEntityInformationModuleImpl(emscriptenApi) {
     var _callbackInvokedBeforeAssignement = {};
     var _pendingIndoorEntityInformation = [];
     var _ready = false;
-    var _notifyIndoorMapEntityInformationReceivedCallback = null;
+    var _notifyIndoorMapEntityInformationChangedCallback = null;
 
     var _createPendingIndoorMapEntityInformations = function() {
         _pendingIndoorEntityInformation.forEach(function(indoorMapEntityInformation) {
@@ -24,7 +24,7 @@ function IndoorMapEntityInformationModuleImpl(emscriptenApi) {
 
         if(nativeId in _callbackInvokedBeforeAssignement){
             delete _callbackInvokedBeforeAssignement[nativeId];
-            _notifyIndoorMapEntityInformationReceived(nativeId);
+            _notifyIndoorMapEntityInformationChanged(nativeId);
         }
         
         return nativeId;
@@ -61,31 +61,31 @@ function IndoorMapEntityInformationModuleImpl(emscriptenApi) {
 
     this.onInitialized = function() {
         _ready = true;
-        _emscriptenApi.indoorMapEntityInformationApi.registerIndoorMapEntityInformationReceivedCallback(_executeIndoorMapEntityInformationReceivedCallback);
+        _emscriptenApi.indoorMapEntityInformationApi.registerIndoorMapEntityInformationChangedCallback(_executeIndoorMapEntityInformationChangedCallback);
         _createPendingIndoorMapEntityInformations();
     };
 
-    this.setIndoorMapEntityInformationReceivedCallback = function(callback) {
-        _notifyIndoorMapEntityInformationReceivedCallback = callback;
+    this.setIndoorMapEntityInformationChangedCallback = function(callback) {
+        _notifyIndoorMapEntityInformationChangedCallback = callback;
     };
 
-    var _executeIndoorMapEntityInformationReceivedCallback = function(indoorMapEntityInformationId) {
+    var _executeIndoorMapEntityInformationChangedCallback = function(indoorMapEntityInformationId) {
         if (indoorMapEntityInformationId in _nativeIdToIndoorMapEntityInformation) {
-            _notifyIndoorMapEntityInformationReceived(indoorMapEntityInformationId);
+            _notifyIndoorMapEntityInformationChanged(indoorMapEntityInformationId);
         }
         else{
             _callbackInvokedBeforeAssignement[indoorMapEntityInformationId] = true;
         }
     };
 
-    var _notifyIndoorMapEntityInformationReceived = function(indoorMapEntityInformationId) {
+    var _notifyIndoorMapEntityInformationChanged = function(indoorMapEntityInformationId) {
         var indoorMapEntityInformation = _nativeIdToIndoorMapEntityInformation[indoorMapEntityInformationId];
         var data = _emscriptenApi.indoorMapEntityInformationApi.tryGetIndoorMapEntityInformation(indoorMapEntityInformationId);
         if (data !== null) {
             indoorMapEntityInformation._setData(data);
         }
-        if (_notifyIndoorMapEntityInformationReceivedCallback !== null) {
-            _notifyIndoorMapEntityInformationReceivedCallback(indoorMapEntityInformation);
+        if (_notifyIndoorMapEntityInformationChangedCallback !== null) {
+            _notifyIndoorMapEntityInformationChangedCallback(indoorMapEntityInformation);
         }
     };
 }
@@ -94,12 +94,12 @@ function IndoorMapEntityInformationModule(emscriptenApi) {
     var _indoorMapEntityInformationModuleImpl = new IndoorMapEntityInformationModuleImpl(emscriptenApi);
     var _this = this;
 
-    var _IndoorMapEntityInformationReceivedHandler = function(indoorMapEntityInformation) {
-        _this.fire("indoormapentityinformationreceived", {indoorMapEntityInformation: indoorMapEntityInformation});
+    var _IndoorMapEntityInformationChangedHandler = function(indoorMapEntityInformation) {
+        _this.fire("indoormapentityinformationchanged", {indoorMapEntityInformation: indoorMapEntityInformation});
     };
 
     this.onInitialized = function() {
-        _indoorMapEntityInformationModuleImpl.setIndoorMapEntityInformationReceivedCallback(_IndoorMapEntityInformationReceivedHandler);
+        _indoorMapEntityInformationModuleImpl.setIndoorMapEntityInformationChangedCallback(_IndoorMapEntityInformationChangedHandler);
         _indoorMapEntityInformationModuleImpl.onInitialized();
     };
 

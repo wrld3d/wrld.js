@@ -112,7 +112,8 @@ var Wrld = {
 	indoors: require("./public/indoors/indoors"),
 	space: require("./public/space"),
 	themes: require("./public/themes"),
-    buildings: require("./public/buildings/buildings"),
+	buildings: require("./public/buildings/buildings"),
+	indoorMapEntities: require("./public/indoorMapEntities/indoorMapEntities"),
 
 	getMapById: function(mapId) {
 		return _mapObjects[mapId];
