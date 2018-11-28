@@ -1,20 +1,21 @@
-var L = require("leaflet");
+var elevationMode = require("../private/elevation_mode.js");
 
-var Prop = function (config) {
-    var _config = config;
+var Prop = function (name, geometryId, location, config) {
     var _map = null;
-    var _location = config["location"] || L.latLng([0.0, 0.0]);
-    var _locationNeedsChanged = false;
-    var _name = config["name"] || "";
+    var _name = name;
+    var _geometryId = geometryId;
+    var _geometryIdNeedsChanged = false;
+    var _location = location;
+    var _locationNeedsChanged = false;    
     var _indoorMapId = config["indoorMapId"] || "";
     var _indoorMapFloorId = config["indoorMapFloorId"] || 0;
     var _headingDegrees = config["headingDegrees"] || 0.0;
     var _headingDegreesNeedsChanged = false;
-    var _heightOffset = config["heightOffset"] || 0.0;
-    var _heightOffsetNeedsChanged = false;
-    var _geometryId = config["geometryId"] || "";
-    var _geometryIdNeedsChanged = false;
-
+    var _elevation = config["elevation"] || 0.0;
+    var _elevationNeedsChanged = false;
+    var _elevationMode = config["elevationMode"] || elevationMode.ElevationModeType.HEIGHT_ABOVE_GROUND;
+    var _elevationModeNeedsChanged = false;
+    
     this.getLocation = function() {
         return _location;
     };
@@ -41,13 +42,24 @@ var Prop = function (config) {
         _headingDegreesNeedsChanged = true;
     };
 
-    this.getHeightOffset = function () {
-        return _heightOffset;
+    this.getElevation = function () {
+        return _elevation;
     };
 
-    this.setHeightOffset = function (heightOffset) {
-        _heightOffset = heightOffset;
-        _heightOffsetNeedsChanged = true;
+    this.setElevation = function (elevation) {
+        _elevation = elevation;
+        _elevationNeedsChanged = true;
+    };
+
+    this.getElevationMode = function () {
+        return _elevationMode;
+    };
+
+    this.setElevationMode = function (elevationModeString) {
+        if (elevationMode.isValidElevationMode(elevationModeString)) {
+            _elevationMode = elevationModeString;
+            _elevationModeNeedsChanged = true;
+        }
     };
 
     this.getGeometryId = function () {
@@ -71,12 +83,20 @@ var Prop = function (config) {
         _geometryIdNeedsChanged = false;
     };
 
-    this._heightOffsetNeedsChanged = function () {
-        return _heightOffsetNeedsChanged;
+    this._elevationNeedsChanged = function () {
+        return _elevationNeedsChanged;
     };
 
-    this._onHeightOffsetChanged = function () {
-        _heightOffsetNeedsChanged = false;
+    this._onElevationChanged = function () {
+        _elevationNeedsChanged = false;
+    };
+
+    this._elevationModeNeedsChanged = function () {
+        return _elevationModeNeedsChanged;
+    };
+
+    this._onElevationModeChanged = function () {
+        _elevationModeNeedsChanged = false;
     };
 
     this._headingDegreesNeedsChanged = function () {
@@ -111,14 +131,10 @@ var Prop = function (config) {
         }
         return this;
     };
-
-  this._getConfig = function() {
-    return _config;
-  };
 };
 
-var prop = function(config) {
-    return new Prop(config || {});
+var prop = function(name, geometryId, location, config) {
+    return new Prop(name, geometryId, location, config || {});
 };
 
 module.exports = {
