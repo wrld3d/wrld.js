@@ -1,11 +1,14 @@
 var elevationMode = require("../elevation_mode.js");
 
-function EmscriptenPropsApi(eegeoApiPointer, cwrap, runtime) {
+function EmscriptenPropsApi(eegeoApiPointer, cwrap, runtime, emscriptenMemory) {
 
     var _eegeoApiPointer = eegeoApiPointer;
+    var _emscriptenMemory = emscriptenMemory;
 
     var _createProp = null;
+    var _createProps = null;
     var _destroyProp = null;
+    var _destroyProps = null;
     var _propExists = null;
     var _setLocation = null;
     var _setElevation = null;
@@ -22,9 +25,75 @@ function EmscriptenPropsApi(eegeoApiPointer, cwrap, runtime) {
         return propId;
     };
 
+    this.createProps = function(indoorMapIdArray, floorIdArray, nameArray, latitudeArray, longitudeArray, elevationArray, elevationModeArray, headingDegreesArray, geometryIdArray) {
+        var propCount = indoorMapIdArray.length;
+
+        if (floorIdArray.length !== propCount ||
+            nameArray.length !== propCount ||
+            latitudeArray.length !== propCount ||
+            longitudeArray.length !== propCount ||
+            elevationArray.length !== propCount ||
+            elevationModeArray.length !== propCount ||
+            headingDegreesArray.length !== propCount ||
+            geometryIdArray.length !== propCount)
+        {
+            throw new Error("Unequal array element counts in call to createProps.");
+        }
+
+        _createProps = _createProps || cwrap("createProps", null, ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number"]);
+        var out_propIdsBuffer = _emscriptenMemory.createInt32Buffer(propCount);
+
+        var elevationModeIntArray = [];
+        elevationModeArray.forEach(function(elevationModeString){ elevationModeIntArray.push(elevationMode.getElevationModeInt(elevationModeString)); });
+
+        var floorIdBuffer = _emscriptenMemory.createBufferFromArray(floorIdArray, _emscriptenMemory.createInt32Buffer);
+        var latitudeBuffer = _emscriptenMemory.createBufferFromArray(latitudeArray, _emscriptenMemory.createDoubleBuffer);
+        var longitudeBuffer = _emscriptenMemory.createBufferFromArray(longitudeArray, _emscriptenMemory.createDoubleBuffer);
+        var elevationBuffer = _emscriptenMemory.createBufferFromArray(elevationArray, _emscriptenMemory.createDoubleBuffer);
+        var elevationModeBuffer = _emscriptenMemory.createBufferFromArray(elevationModeIntArray, _emscriptenMemory.createInt32Buffer);
+        var headingDegreesBuffer = _emscriptenMemory.createBufferFromArray(elevationArray, _emscriptenMemory.createDoubleBuffer);
+
+        _emscriptenMemory.passStrings(indoorMapIdArray, function(indoorMapIdArrayPtr, indoorMapIdArraySize) {
+            _emscriptenMemory.passStrings(nameArray, function(nameArrayPtr, nameArraySize) {
+                _emscriptenMemory.passStrings(geometryIdArray, function(geometryIdArrayPtr, geometryIdArraySize) {
+                    _createProps(
+                        _eegeoApiPointer,
+                        propCount,
+                        indoorMapIdArrayPtr,
+                        floorIdBuffer.ptr,
+                        nameArrayPtr,
+                        latitudeBuffer.ptr,
+                        longitudeBuffer.ptr,
+                        elevationBuffer.ptr,
+                        elevationModeBuffer.ptr,
+                        headingDegreesBuffer.ptr,
+                        geometryIdArrayPtr,
+                        out_propIdsBuffer.ptr);
+                        });
+                    });
+                });
+
+        _emscriptenMemory.freeBuffer(headingDegreesBuffer);
+        _emscriptenMemory.freeBuffer(elevationModeBuffer);
+        _emscriptenMemory.freeBuffer(elevationBuffer);
+        _emscriptenMemory.freeBuffer(latitudeBuffer);
+        _emscriptenMemory.freeBuffer(longitudeBuffer);
+        _emscriptenMemory.freeBuffer(floorIdBuffer);
+
+        return _emscriptenMemory.consumeBufferToArray(out_propIdsBuffer);
+    };
+
     this.destroyProp = function(propId) {
         _destroyProp = _destroyProp || cwrap("destroyProp", null, ["number", "number"]);
         _destroyProp(_eegeoApiPointer, propId);
+    };
+
+    this.destroyProps = function(propIdArray) {
+        _destroyProps = _destroyProps || cwrap("destroyProps", null, ["number", "number", "number"]);
+
+        _emscriptenMemory.passInt32s(propIdArray, function(propIdArrayPtr, propIdArraySize){
+            _destroyProps(_eegeoApiPointer, propIdArrayPtr, propIdArraySize);
+        });
     };
 
     this.propExists = function(propId) {

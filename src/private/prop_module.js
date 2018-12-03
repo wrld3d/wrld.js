@@ -23,10 +23,40 @@ var PropModule = function(emscriptenApi) {
         _props.insertObject(propId, prop);
     };
 
+    var _createAndAddArray = function(propArray) {
+        var indoorMapIds = [];
+        var indoorMapFloorIds = [];
+        var names = [];
+        var latitudes = [];
+        var longitudes = [];
+        var elevations = [];
+        var elevationModes = [];
+        var headings = [];
+        var geometryIds = [];
+
+        for (var propIndex = 0; propIndex < propArray.length; ++propIndex) {
+            var prop = propArray[propIndex];
+            indoorMapIds.push(prop.getIndoorMapId());
+            indoorMapFloorIds.push(prop.getIndoorMapFloorId());
+            names.push(prop.getName());
+            latitudes.push(prop.getLocation().lat);
+            longitudes.push(prop.getLocation().lng);
+            elevations.push(prop.getElevation());
+            elevationModes.push(prop.getElevationMode());
+            headings.push(prop.getHeadingDegrees());
+            geometryIds.push(prop.getGeometryId());
+        }
+
+        var propIds = _emscriptenApi.propsApi.createProps(indoorMapIds, indoorMapFloorIds, names, latitudes, longitudes, elevations, elevationModes, headings, geometryIds);
+
+        for (propIndex = 0; propIndex < propIds.length; ++propIndex) {
+            var propId  = propIds[propIndex];
+            _props.insertObject(propId, propArray[propIndex]);
+        }
+    };
+
     var _createPendingProps = function() {
-        _pendingProps.forEach(function(prop) {
-            _createAndAdd(prop);
-        });
+        _createAndAddArray(_pendingProps);
         _pendingProps = [];
     };
 
@@ -39,8 +69,17 @@ var PropModule = function(emscriptenApi) {
         }
     };
 
-    this.removeProp = function(prop) {
+    this.addProps = function(propArray) {
         if (_ready) {
+            _createAndAddArray(propArray);
+        }
+        else {
+            _pendingProps = _pendingProps.concat(propArray);
+        }
+    };
+
+    this.removeProp = function(prop) {
+        if (_ready && _pendingProps.length === 0) {
             var propId = _props.idForObject(prop);
 
             if (propId !== null)
@@ -54,6 +93,31 @@ var PropModule = function(emscriptenApi) {
 
             if (index > -1) {
                 _pendingProps.splice(index, 1);
+            }
+        }
+    };
+
+    this.removeProps = function(propArray) {
+        var propIndex = 0;
+
+        if (_ready && _pendingProps.length === 0) {
+            var propIds = [];
+
+            for (; propIndex < propArray.length; ++propIndex) {
+                var propId = _props.idForObject(propArray[propIndex]);
+                _props.removeObjectById(propId);
+                propIds.push(parseInt(propId));
+            }
+
+            _emscriptenApi.propsApi.destroyProps(propIds);
+        }
+        else {
+            for (; propIndex < propArray.length; ++propIndex) {
+                var index = _pendingProps.indexOf(propArray[propIndex]);
+
+                if (index > -1) {
+                    _pendingProps.splice(index, 1);
+                }
             }
         }
     };

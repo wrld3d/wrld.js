@@ -50,7 +50,7 @@ function EmscriptenApi(emscriptenModule) {
         this.themesApi = new EmscriptenThemesApi(_eegeoApiPointer, cwrap, runtime);        
         this.expandFloorsApi = new EmscriptenExpandFloorsApi(_eegeoApiPointer, cwrap, runtime);        
         this.renderingApi = new EmscriptenRenderingApi(_eegeoApiPointer, cwrap, runtime, emscriptenMemory);
-        this.propsApi = new EmscriptenPropsApi(_eegeoApiPointer, cwrap, runtime);
+        this.propsApi = new EmscriptenPropsApi(_eegeoApiPointer, cwrap, runtime, emscriptenMemory);
 
         // emscripten-specific api usage via emscripten api pointer
         this.layerPointMappingApi = new EmscriptenLayerPointMappingApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);

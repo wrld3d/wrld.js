@@ -120,13 +120,13 @@ var Prop = function (name, geometryId, location, config) {
             this.remove();
         }
         _map = map;
-        map._propModule.addProp(this);
+        map.props.addProp(this);
         return this;
     };
 	
     this.remove = function() {
         if (_map !== null) {
-            _map._propModule.removeProp(this);
+            _map.props.removeProp(this);
             _map = null;
         }
         return this;

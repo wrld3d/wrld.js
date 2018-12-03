@@ -46,6 +46,15 @@ function EmscriptenMemory(emscriptenModule) {
         _emscriptenModule._free(pointer);
     };
 
+    this.passInt32s = function(int32_array, func) {
+        var pointer = _emscriptenModule._malloc(int32_array.length * 4);
+        for (var i=0; i<int32_array.length; ++i) {
+            _emscriptenModule.setValue(pointer + i*4, int32_array[i], "i32");
+        }
+        func(pointer, int32_array.length);
+        _emscriptenModule._free(pointer);  
+    };
+
     this.stringifyPointer = function(ptr) {
       return _emscriptenModule.Pointer_stringify(ptr);
     };
