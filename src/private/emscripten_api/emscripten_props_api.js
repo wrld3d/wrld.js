@@ -51,7 +51,7 @@ function EmscriptenPropsApi(eegeoApiPointer, cwrap, runtime, emscriptenMemory) {
         var longitudeBuffer = _emscriptenMemory.createBufferFromArray(longitudeArray, _emscriptenMemory.createDoubleBuffer);
         var elevationBuffer = _emscriptenMemory.createBufferFromArray(elevationArray, _emscriptenMemory.createDoubleBuffer);
         var elevationModeBuffer = _emscriptenMemory.createBufferFromArray(elevationModeIntArray, _emscriptenMemory.createInt32Buffer);
-        var headingDegreesBuffer = _emscriptenMemory.createBufferFromArray(elevationArray, _emscriptenMemory.createDoubleBuffer);
+        var headingDegreesBuffer = _emscriptenMemory.createBufferFromArray(headingDegreesArray, _emscriptenMemory.createDoubleBuffer);
 
         _emscriptenMemory.passStrings(indoorMapIdArray, function(indoorMapIdArrayPtr, indoorMapIdArraySize) {
             _emscriptenMemory.passStrings(nameArray, function(nameArrayPtr, nameArraySize) {
