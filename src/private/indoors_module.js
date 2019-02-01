@@ -2,7 +2,7 @@ var MapModule = require("./map_module");
 var indoors = require("../public/indoors/indoors");
 var IndoorWatermarkController = require("./indoor_watermark_controller");
 
-var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floorIndex, center, headingDegrees, zoom) {
+var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floorIndex, center, headingDegrees, zoom, showWrldWatermark) {
 
     var _emscriptenApi = emscriptenApi;
     var _mapController = mapController;
@@ -14,7 +14,7 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
     var _pendingEnterTransition = null;
     var _transitioningToIndoorMap = false;
 
-    var _indoorWatermarkController = new IndoorWatermarkController(mapId);
+    var _indoorWatermarkController = new IndoorWatermarkController(mapId, showWrldWatermark);
 
     var _startingIndoorId = indoorId;
     var _startingFloorIndex = floorIndex;

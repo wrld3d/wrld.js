@@ -46,7 +46,9 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
         zoomAnimation: false,
         minZoom: 0,
         maxZoom: 20,
-        zoomSnap: 0
+        zoomSnap: 0,
+
+        showIndoorWrldWatermark: true
     };
 
     options = L.extend(_defaultOptions, options);
@@ -59,7 +61,7 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
     var _themesModule = new ThemesModule(emscriptenApi);
     var _precacheModule = new PrecacheModule(emscriptenApi);
     var _cameraModule = new CameraModule(emscriptenApi, options.center, options.zoom);
-    var _indoorsModule = new IndoorsModule(emscriptenApi, this, _mapId, options.indoorId, options.floorIndex, options.center, options.headingDegrees, options.zoom);
+    var _indoorsModule = new IndoorsModule(emscriptenApi, this, _mapId, options.indoorId, options.floorIndex, options.center, options.headingDegrees, options.zoom, options.showIndoorWrldWatermark);
     var _polygonModule = new PolygonModule(emscriptenApi);
     var _layerPointMappingModule = new LayerPointMappingModule(emscriptenApi);
     var _routingModule = new RoutingModule(apiKey, _indoorsModule);
