@@ -4,6 +4,7 @@ var EmscriptenApi = require("./private/emscripten_api/emscripten_api");
 var marker = require("./public/marker.js");
 var popup = require("./public/popup.js");
 var polygon = require("./public/polygon.js");
+var polyline = require("./public/polyline.js");
 var prop = require("./public/prop.js");
 var polygonShim = require("./private/polygon_shim.js");
 var polylineShim = require("./private/polyline_shim.js");
@@ -106,6 +107,8 @@ var Wrld = {
 	popup: popup.popup,
 	Polygon: polygon.Polygon,
 	polygon: polygon.polygon,
+    Polyline: polyline.Polyline,
+    polyline: polyline.polyline,
 	Prop: prop.Prop,
 	prop: prop.prop,
 
