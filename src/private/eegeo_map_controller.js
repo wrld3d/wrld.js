@@ -47,8 +47,9 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
         minZoom: 0,
         maxZoom: 20,
         zoomSnap: 0,
-
-        showIndoorWrldWatermark: true
+        showIndoorWrldWatermark: true,
+        trafficEnabled: true,
+        trafficDisableWhenEnteringIndoorMaps: true
     };
 
     options = L.extend(_defaultOptions, options);
@@ -90,6 +91,8 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
     var coverageTreeManifest = removeFileExtension(options.coverageTreeManifest, ".gz");
     var environmentThemesManifest = removeFileExtension(options.environmentThemesManifest, ".gz");
     var doubleClickZoom = (options.doubleClickZoom) ? "1" : "0";
+    var trafficEnabled = (options.trafficEnabled) ? "1" : "0";
+    var trafficDisableWhenEnteringIndoorMaps = (options.trafficDisableWhenEnteringIndoorMaps) ? "1" : "0";
 
     _Module["arguments"] = [
         _canvasId,
@@ -105,7 +108,9 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
         coverageTreeManifest,
         environmentThemesManifest,
         doubleClickZoom,
-        _containerId
+        _containerId,
+        trafficEnabled,
+        trafficDisableWhenEnteringIndoorMaps
     ];
 
     this.leafletMap = new EegeoLeafletMap(
