@@ -16,7 +16,8 @@ function PolylineModule(emscriptenApi) {
     };
 
     var _createAndAdd = function(polyline) {
-        var polylineId = _emscriptenApi.geofenceApi.createGeofence(polyline.getPoints(), [], {});
+        // temp stub - create polygon
+        var polylineId = _emscriptenApi.polylineApi.createGeofence(polyline.getPoints(), [], {});
         _polylineIdToPolyline[polylineId] = polyline;
         return polylineId;
     };
@@ -49,7 +50,7 @@ function PolylineModule(emscriptenApi) {
             return;
         }
 
-        _emscriptenApi.geofenceApi.removeGeofence(polylineId);
+        _emscriptenApi.polylineApi.removeGeofence(polylineId);
         delete _polylineIdToPolyline[polylineId];
     };
 
@@ -59,7 +60,7 @@ function PolylineModule(emscriptenApi) {
             Object.keys(_polylineIdToPolyline).forEach(function(polylineId) {
                 var polyline = _polylineIdToPolyline[polylineId];
                 if (polyline._colorNeedsChanged()) {
-                    _emscriptenApi.geofenceApi.setGeofenceColor(polylineId, polyline.getColor());
+                    _emscriptenApi.polylineApi.setGeofenceColor(polylineId, polyline.getColor());
                     polyline._onColorChanged();
                 }
             });
