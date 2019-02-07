@@ -51,14 +51,23 @@ function EmscriptenPolylineApi(emscriptenApiPointer, cwrap, runtime, emscriptenM
     }
 
     this.createPolyline = function(polyline) {
-        var polylinePoints = polyline.getPoints();
         var coords = [];
-        polylinePoints.forEach(function(point) {
-            coords.push(point.lat);
-            coords.push(point.lng);
+        var perPointElevations = [];
+        var anyAltitudes = false;
+        polyline.getLatLngs().forEach(function(latLng) {
+            coords.push(latLng.lat);
+            coords.push(latLng.lng);
+            var altOrDefault = 0.0;
+            if (latLng.alt !== undefined) {
+                anyAltitudes = true;
+                altOrDefault = latLng.alt;
+            }
+            perPointElevations.push(altOrDefault);
         });
 
-        var perPointElevations = polyline.getPerPointElevations();
+        if (!anyAltitudes) {
+            perPointElevations = [];
+        }
 
         var coordsBuf = _emscriptenMemory.createBufferFromArray(coords, _emscriptenMemory.createDoubleBuffer);
         var perPointElevationsBuf = _emscriptenMemory.createBufferFromArray(perPointElevations, _emscriptenMemory.createDoubleBuffer);
@@ -99,6 +108,11 @@ function EmscriptenPolylineApi(emscriptenApiPointer, cwrap, runtime, emscriptenM
     };
 
     this.updateNativeState = function(polylineId, polyline) {
+        if (!polyline._needsNativeUpdate) {
+            return;
+        }
+        polyline._needsNativeUpdate = false;
+
         var indoorMapId = polyline.getIndoorMapId();
         var elevationModeInt = elevationMode.getElevationModeInt(polyline.getElevationMode());
         var colorRGBA32 = colorToRgba32(polyline.getColor());

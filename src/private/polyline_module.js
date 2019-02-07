@@ -55,12 +55,9 @@ function PolylineModule(emscriptenApi) {
 
     this.onUpdate = function() {
         if (_ready) {
-
             Object.keys(_polylineIdToPolyline).forEach(function(polylineId) {
                 var polyline = _polylineIdToPolyline[polylineId];
-                if (polyline._needsNativeUpdate) {
-                    _emscriptenApi.polylineApi.updateNativeState(polylineId, polyline);
-                }
+                _emscriptenApi.polylineApi.updateNativeState(polylineId, polyline);
             });
         }
     };

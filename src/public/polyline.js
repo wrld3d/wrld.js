@@ -20,11 +20,6 @@ var Polyline = L.Polyline.extend({
         return this.getLatLngs();
     },
 
-    // todo!
-    getPerPointElevations: function() {
-        return [];
-    },
-
     getIndoorMapId: function() {
         return this.options.indoorMapId;
     },
