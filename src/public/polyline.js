@@ -1,79 +1,110 @@
 var L = require("leaflet");
-var space = require("./space");
+var elevationMode = require("../private/elevation_mode.js");
 
-var Polyline = function(latLngs, polylineOptions) {
-    var _map = null;
-    var _points = [];
-    var _polylineOptions = polylineOptions || {};
+var Polyline = L.Polyline.extend({
 
-    function _loadLatLngs(coords){
-        var points = [];
-        coords.forEach(function(coord) {
-            points.push(L.latLng(coord));
-        });
-        return points;
-    }
+    initialize: function(latlngs, options) {
+        L.Polyline.prototype.initialize.call(this, latlngs, options);
+    },
 
-    var arrayDepth = 0;
-    var testElement = latLngs;
-    do {
-        testElement = testElement[0];
-        arrayDepth++;
-    } while (Array.isArray(testElement));
+    options: {
+        elevation: 0.0,
+        elevationMode: elevationMode.ElevationModeType.HEIGHT_ABOVE_GROUND,
+        indoorMapId: "",
+        indoorMapFloorId: 0,
+        weight: 3.0,
+        miterLimit: 10.0
+    },
 
-    if (arrayDepth === 2) {
-        _points = _loadLatLngs(latLngs);
-    }
-    else {
-        throw new Error("Incorrect array input format.");
-    }
+    getPoints: function() {
+        return this.getLatLngs();
+    },
 
-    var _color = new space.Vector4(polylineOptions["color"] || [0, 0, 255, 128]);
-    var _colorNeedsChanged = true;
+    // todo!
+    getPerPointElevations: function() {
+        return [];
+    },
 
-    this.getColor = function() {
-        return new space.Vector4(_color);
-    };
+    getIndoorMapId: function() {
+        return this.options.indoorMapId;
+    },
 
-    this.setColor = function(color) {
-        _color = new space.Vector4(color);
-        _colorNeedsChanged = true;
+    getIndoorMapFloorId: function() {
+        return this.options.indoorMapFloorId;
+    },
+
+    getElevation: function() {
+        return this.options.elevation;
+    },
+
+    getElevationMode: function() {
+        return this.options.elevationMode;
+    },
+
+    getWidth: function() {
+        return this.options.weight || this.options.width;
+    },
+
+    getColor: function() {
+        return this.options.color;
+    },
+
+    getMiterLimit: function() {
+        return this.options.miterLimit;
+    },
+
+    setIndoorMapWithFloorId: function(indoorMapId, indoorMapFloorId) {
+        this.options.indoorMapId = indoorMapId;
+        this.options.indoorMapFloorId = indoorMapFloorId;
+        this._needsNativeUpdate = true;
         return this;
-    };
+    },
 
-    this.getPoints = function() {
-        return _points;
-    };
+    setElevation: function(elevation) {
+        this.options.elevation = elevation;
+        this._needsNativeUpdate = true;
+        return this;
+    },
 
-    this._colorNeedsChanged = function() {
-        return _colorNeedsChanged;
-    };
-
-    this._onColorChanged = function() {
-        _colorNeedsChanged = false;
-    };
-
-    this.addTo = function(map) {
-        if (_map !== null) {
-            this.remove();
+    setElevationMode: function(mode) {
+        if (elevationMode.isValidElevationMode(mode)) {
+            this.options.elevationMode = mode;
         }
-        _map = map;
-        map._polylineModule.addPolyline(this);
+        this._needsNativeUpdate = true;
         return this;
-    };
+    },
 
-    this.remove = function() {
-        if (_map !== null) {
-            _map._polylineModule.removePolyline(this);
-            _map = null;
-        }
+    setOptions: function (options) {
+        return this.setStyle(options);
+    },
+
+    setStyle: function (style) {
+        L.Polyline.prototype.setStyle.call(this, style);
+        this._needsNativeUpdate = true;
         return this;
-    };
+    },
 
-    this._getOptions = function() {
-        return _polylineOptions;
-    };
-};
+    // dirty flag, for polyline_module use
+    _needsNativeUpdate: false,
+
+    _update: function () {
+    },
+
+    beforeAdd: function (map) {
+        // don't call base, avoid assigning this._renderer
+    },
+
+    onAdd: function () {
+        this._map._polylineModule.addPolyline(this);
+    },
+
+    onRemove: function () {
+        this._map._polylineModule.removePolyline(this);
+    },
+
+    redraw: function () {
+    }
+});
 
 var polyline = function(latlngs, polylineOptions) {
     return new Polyline(latlngs, polylineOptions || {});

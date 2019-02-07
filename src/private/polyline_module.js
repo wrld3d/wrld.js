@@ -16,7 +16,7 @@ function PolylineModule(emscriptenApi) {
     };
 
     var _createAndAdd = function(polyline) {
-        var polylineId = _emscriptenApi.polylineApi.createPolyline(polyline.getPoints(), {});
+        var polylineId = _emscriptenApi.polylineApi.createPolyline(polyline);
         _polylineIdToPolyline[polylineId] = polyline;
         return polylineId;
     };
@@ -24,7 +24,7 @@ function PolylineModule(emscriptenApi) {
     this.addPolyline = function(polyline) {
         if (_ready) {
             _createAndAdd(polyline);
-    	}
+        }
         else {
             _pendingPolylines.push(polyline);
         }
@@ -37,14 +37,14 @@ function PolylineModule(emscriptenApi) {
             if (index > -1) {
                 _pendingPolylines.splice(index, 1);
             }
-            return; 
+            return;
         }
 
-        var polylineId = Object.keys(_polylineIdToPolyline).find(function(key) { 
+        var polylineId = Object.keys(_polylineIdToPolyline).find(function(key) {
                 return _polylineIdToPolyline[key] === polyline;
             }
         );
-        
+
         if (polylineId === undefined) {
             return;
         }
@@ -58,12 +58,11 @@ function PolylineModule(emscriptenApi) {
 
             Object.keys(_polylineIdToPolyline).forEach(function(polylineId) {
                 var polyline = _polylineIdToPolyline[polylineId];
-                if (polyline._colorNeedsChanged()) {
-                    _emscriptenApi.polylineApi.setColor(polylineId, polyline.getColor());
-                    polyline._onColorChanged();
+                if (polyline._needsNativeUpdate) {
+                    _emscriptenApi.polylineApi.updateNativeState(polylineId, polyline);
                 }
             });
-		}
+        }
     };
 
     this.onInitialized = function() {
