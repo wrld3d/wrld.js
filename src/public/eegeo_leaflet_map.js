@@ -47,6 +47,7 @@ var EegeoLeafletMap = L.Map.extend({
             themesModule,
             indoorsModule,
             polygonModule,
+            polylineModule,
             layerPointMappingModule,
             routingModule,
             renderingModule,
@@ -58,6 +59,7 @@ var EegeoLeafletMap = L.Map.extend({
         this._cameraModule = cameraModule;
         this._precacheModule = precacheModule;
         this._polygonModule = polygonModule;
+        this._polylineModule = polylineModule;
         this._layerPointMappingModule = layerPointMappingModule;
         this.themes = themesModule;
         this.indoors = indoorsModule;

@@ -4,6 +4,7 @@ var IndoorsModule = require("./indoors_module");
 var PrecacheModule = require("./precache_module");
 var CameraModule = require("./camera_module");
 var PolygonModule = require("./polygon_module");
+var PolylineModule = require("./polyline_module");
 var RoutingModule = require("./routing_module");
 var RenderingModule = require("./rendering_module");
 var BuildingsModule = require("./buildings_module");
@@ -65,6 +66,7 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
     var _cameraModule = new CameraModule(emscriptenApi, options.center, options.zoom);
     var _indoorsModule = new IndoorsModule(emscriptenApi, this, _mapId, options.indoorId, options.floorIndex, options.center, options.headingDegrees, options.zoom, options.showIndoorWrldWatermark);
     var _polygonModule = new PolygonModule(emscriptenApi);
+    var _polylineModule = new PolylineModule(emscriptenApi);
     var _layerPointMappingModule = new LayerPointMappingModule(emscriptenApi);
     var _routingModule = new RoutingModule(apiKey, _indoorsModule);
     var _renderingModule = new RenderingModule(emscriptenApi);
@@ -125,6 +127,7 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
         _themesModule,
         _indoorsModule,
         _polygonModule,
+        _polylineModule,
         _layerPointMappingModule,
         _routingModule,
         _renderingModule,
@@ -144,6 +147,7 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
         _precacheModule,
         _cameraModule,
         _polygonModule,
+        _polylineModule,
         _renderingModule,
         _buildingsModule,
         _propModule,
