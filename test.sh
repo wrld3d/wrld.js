@@ -21,7 +21,7 @@ sdk_version=$1
 
 if [ -z "$sdk_version" ]; then
 	echo "No SDK version number supplied, using latest."
-	sdk_version="early_access/latest"
+	sdk_version="public/latest"
 fi
 
 sdk_url="https://cdn-webgl.eegeo.com/eegeojs/${sdk_version}/eeGeoWebGL.jgz"
