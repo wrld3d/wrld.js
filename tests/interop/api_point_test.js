@@ -643,4 +643,61 @@ describe("map_interop:", function() {
       });
     });
   });
+  
+  describe("when using the polyline api", function() {
+    var EmscriptenPolylineApi = require("../../src/private/emscripten_api/emscripten_polyline_api");
+    var EmscriptenMemory = require("../../src/private/emscripten_api/emscripten_memory");
+    var _polylineApi = null;
+    var _emscriptenMemory = null;
+
+    beforeEach(function() {
+      refreshSdk();
+      var apiPointer = 0;
+      var cwrap = Module.cwrap;
+      var runtime = Module.Runtime;
+      _emscriptenMemory = new EmscriptenMemory(Module);
+      _polylineApi = new EmscriptenPolylineApi(apiPointer, cwrap, runtime, _emscriptenMemory);
+    });   
+
+    it("the createPolyline function should exist", function() {
+      _verifyApiFunctionExists(function() {
+        var polylineMock = {
+            getLatLngs: function() { return [L.latLng(0,0)] },
+            getIndoorMapId: function() { return "" },
+            getIndoorMapFloorId: function() { return 0 },
+            getElevation: function() { return 0 },
+            getElevationMode: function() { return "heightAboveSeaLevel" },
+            getWidth: function() { return 1 },
+            getColor: function() { return "#ffffffff" },
+            getMiterLimit: function() { return 1 }
+        };
+        _polylineApi.createPolyline(polylineMock);
+      });
+    });
+
+    it("the destroyPolyline function should exist", function() {
+      _verifyApiFunctionExists(function() {
+        var polylineId = 1;
+        _polylineApi.destroyPolyline(polylineId);
+      });
+    });
+
+    it("the updateNativeState function should exist", function() {
+      _verifyApiFunctionExists(function() {
+        var polylineId = 1;
+        var polylineMock = {
+            getIndoorMapId: function() { return "" },
+            getIndoorMapFloorId: function() { return 0 },
+            getElevation: function() { return 0 },
+            getElevationMode: function() { return "heightAboveSeaLevel" },
+            getWidth: function() { return 1 },
+            getColor: function() { return "#ffffffff" },
+            getMiterLimit: function() { return 1 }
+        };
+        _polylineApi.updateNativeState(polylineId, polylineMock);
+      });
+    });
+
+
+  });
 });
