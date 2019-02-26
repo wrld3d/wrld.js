@@ -254,6 +254,15 @@ var EegeoLeafletMap = L.Map.extend({
             }
         }
 
+        if (!("allowInterruption" in options)) {
+            if (options.pan && "allowInterruption" in options.pan) {
+                options["allowInterruption"] = options.pan.allowInterruption;
+            }
+            else if (options.zoom && "allowInterruption" in options.zoom) {
+                options["allowInterruption"] = options.zoom.allowInterruption;
+            }
+        }
+
         options.location = center;
         options.zoom = zoom;
         this._cameraModule.setView(options);
