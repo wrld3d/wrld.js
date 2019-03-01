@@ -141,7 +141,7 @@ function EmscriptenPropsApi(eegeoApiPointer, cwrap, runtime, emscriptenMemory) {
     this.setIndoorMapPopulationServiceUrl = function(serviceUrl) {
         _setIndoorMapPopulationServiceUrl = _setIndoorMapPopulationServiceUrl || cwrap("setIndoorMapPopulationServiceUrl", null, ["number", "string"]);
         _setIndoorMapPopulationServiceUrl(_eegeoApiPointer, serviceUrl);
-    }
+    };
 }
 
 module.exports = EmscriptenPropsApi;

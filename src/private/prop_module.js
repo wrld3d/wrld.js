@@ -196,7 +196,7 @@ var PropModule = function(emscriptenApi) {
             _pendingServiceUrl = serviceUrl;
             _hasPendingServiceUrl = true;
         }
-    }
+    };
 };
 
 PropModule.prototype = MapModule;
