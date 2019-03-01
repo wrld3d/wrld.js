@@ -53,7 +53,8 @@ var EegeoLeafletMap = L.Map.extend({
             renderingModule,
             buildingsModule,
             propModule,
-            indoorMapEntityInformationModule
+            indoorMapEntityInformationModule,
+            blueSphereModule
             ) {
         this._browserWindow = browserWindow;
         this._cameraModule = cameraModule;
@@ -68,6 +69,7 @@ var EegeoLeafletMap = L.Map.extend({
         this.buildings = buildingsModule;
         this.props = propModule;
         this.indoorMapEntities = indoorMapEntityInformationModule;
+        this.blueSphere = blueSphereModule;
         this._layersOnMap = {};
         this._spacesApi = null;
         this._ready = false;
@@ -408,7 +410,7 @@ var EegeoLeafletMap = L.Map.extend({
       this._cameraModule.setHeadingDegrees(heading);
       return this;
     },
- 
+
     getMaximumPrecacheRadius: function() {
       return this._precacheModule.getMaximumPrecacheRadius();
     },

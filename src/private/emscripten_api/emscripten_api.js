@@ -13,6 +13,7 @@ var EmscriptenLayerPointMappingApi = require("./emscripten_layer_point_mapping_a
 var EmscriptenPropsApi = require("./emscripten_props_api.js");
 var EmscriptenIndoorMapEntityInformationApi = require("./emscripten_indoor_map_entity_information_api.js");
 var EmscriptenPolylineApi = require("./emscripten_polyline_api.js");
+var EmscriptenBlueSphereApi = require("./emscripten_blue_sphere_api.js");
 
 function EmscriptenApi(emscriptenModule) {
 
@@ -35,6 +36,7 @@ function EmscriptenApi(emscriptenModule) {
     this.propsApi = null;
     this.indoorMapEntityInformationApi = null;
     this.polylineApi = null;
+    this.blueSphereApi = null;
 
     this.onInitialized = function(eegeoApiPointer, emscriptenApiPointer, onUpdateCallback, onDrawCallback, onInitialStreamingCompletedCallback) {
         _eegeoApiPointer = eegeoApiPointer;
@@ -46,10 +48,10 @@ function EmscriptenApi(emscriptenModule) {
         var emscriptenMemory = new EmscriptenMemory(_emscriptenModule);
 
         // legacy - eegeo api usage via eegeo api pointer
-        this.geofenceApi = new EmscriptenGeofenceApi(_eegeoApiPointer, cwrap, runtime, _emscriptenModule);        
+        this.geofenceApi = new EmscriptenGeofenceApi(_eegeoApiPointer, cwrap, runtime, _emscriptenModule);
         this.spacesApi = new EmscriptenSpacesApi(_eegeoApiPointer, cwrap, runtime, emscriptenMemory);
-        this.themesApi = new EmscriptenThemesApi(_eegeoApiPointer, cwrap, runtime);        
-        this.expandFloorsApi = new EmscriptenExpandFloorsApi(_eegeoApiPointer, cwrap, runtime);        
+        this.themesApi = new EmscriptenThemesApi(_eegeoApiPointer, cwrap, runtime);
+        this.expandFloorsApi = new EmscriptenExpandFloorsApi(_eegeoApiPointer, cwrap, runtime);
         this.renderingApi = new EmscriptenRenderingApi(_eegeoApiPointer, cwrap, runtime, emscriptenMemory);
         this.propsApi = new EmscriptenPropsApi(_eegeoApiPointer, cwrap, runtime, emscriptenMemory);
 
@@ -63,6 +65,7 @@ function EmscriptenApi(emscriptenModule) {
         this.precacheApi = new EmscriptenPrecacheApi(_emscriptenApiPointer, cwrap, runtime);
         this.indoorMapEntityInformationApi = new EmscriptenIndoorMapEntityInformationApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
         this.polylineApi = new EmscriptenPolylineApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
+        this.blueSphereApi = new EmscriptenBlueSphereApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
 
 
         var _setTopLevelCallbacks = _emscriptenModule.cwrap("setTopLevelCallbacks", null, ["number", "number", "number", "number"]);
