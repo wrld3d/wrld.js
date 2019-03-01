@@ -17,6 +17,7 @@ function EmscriptenPropsApi(eegeoApiPointer, cwrap, runtime, emscriptenMemory) {
     var _setHeadingDegrees = null;
     var _setAutomaticIndoorMapPopulationEnabled = null;
     var _isAutomaticIndoorMapPopulationEnabled = null;
+    var _setIndoorMapPopulationServiceUrl = null;
 
     this.createProp = function(indoorMapId, floorId, name, latitude, longitude, elevation, elevationModeString, headingDegrees, geometryId) {
         _createProp = _createProp || cwrap("createProp", "number", ["number", "string", "number", "string", "number", "number", "number", "number", "number", "string"]);
@@ -136,6 +137,11 @@ function EmscriptenPropsApi(eegeoApiPointer, cwrap, runtime, emscriptenMemory) {
         _isAutomaticIndoorMapPopulationEnabled = _isAutomaticIndoorMapPopulationEnabled || cwrap("isAutomaticIndoorMapPopulationEnabled", "number", ["number"]);
         return _isAutomaticIndoorMapPopulationEnabled(_eegeoApiPointer);
     };
+
+    this.setIndoorMapPopulationServiceUrl = function(serviceUrl) {
+        _setIndoorMapPopulationServiceUrl = _setIndoorMapPopulationServiceUrl || cwrap("setIndoorMapPopulationServiceUrl", null, ["number", "string"]);
+        _setIndoorMapPopulationServiceUrl(_eegeoApiPointer, serviceUrl);
+    }
 }
 
 module.exports = EmscriptenPropsApi;
