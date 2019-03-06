@@ -139,6 +139,7 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
     };
 
     var _enterIndoorMap = function(indoorMapId) {
+        _this.fire("indoormapenterrequested");
         _emscriptenApi.indoorsApi.enterIndoorMap(indoorMapId);
     };
 

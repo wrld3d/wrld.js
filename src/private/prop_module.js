@@ -7,6 +7,8 @@ var PropModule = function(emscriptenApi) {
     var _props = new IdToObjectMap();
     var _hasPendingEnableDisable = false;
     var _pendingEnableDisable = false;
+    var _pendingServiceUrl = "";
+    var _hasPendingServiceUrl = false;
     var _ready = false;
 
     var _createAndAdd = function(prop) {
@@ -129,6 +131,9 @@ var PropModule = function(emscriptenApi) {
         if (_hasPendingEnableDisable) {
             this.setAutomaticIndoorMapPopulationEnabled(_pendingEnableDisable);
         }
+        if (_hasPendingServiceUrl) {
+            this.setIndoorMapPopulationServiceUrl(_pendingServiceUrl);
+        }
     };
 
     this.onUpdate = function(dt) {
@@ -180,6 +185,16 @@ var PropModule = function(emscriptenApi) {
         }
         else {
             return _pendingEnableDisable;
+        }
+    };
+
+    this.setIndoorMapPopulationServiceUrl = function(serviceUrl) {
+        if (_ready) {
+            return _emscriptenApi.propsApi.setIndoorMapPopulationServiceUrl(serviceUrl);
+        }   
+        else {
+            _pendingServiceUrl = serviceUrl;
+            _hasPendingServiceUrl = true;
         }
     };
 };
