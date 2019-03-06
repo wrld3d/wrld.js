@@ -37,6 +37,11 @@ function BlueSphereModule(emscriptenApi) {
         return _indoorMapFloorId;
     };
 
+    this.setIndoorMap = function (indoorMapId, indoorMapFloorId) {
+        _indoorMapId = indoorMapId;
+        _indoorMapFloorId = indoorMapFloorId;
+    };
+
     this.getHeadingDegrees = function () {
         return _headingDegrees;
     };
