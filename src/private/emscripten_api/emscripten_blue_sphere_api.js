@@ -17,6 +17,7 @@ function EmscriptenBlueSphereApi(emscriptenApiPointer, cwrap, runtime, emscripte
                 _emscriptenApiPointer,
                 false
             );
+            return;
         }
 
         _blueSphereApi_setEnabled(
