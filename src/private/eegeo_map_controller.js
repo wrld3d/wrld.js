@@ -10,6 +10,7 @@ var RenderingModule = require("./rendering_module");
 var BuildingsModule = require("./buildings_module");
 var PropModule = require("./prop_module");
 var IndoorMapEntityInformationModule = require("./indoor_map_entity_information_module");
+var BlueSphereModule = require("./blue_sphere_module");
 
 var LayerPointMappingModule = require("./layer_point_mapping_module");
 
@@ -60,7 +61,7 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
     var _emscriptenApi = emscriptenApi;
     var _browserWindow = browserWindow;
     var _browserDocument = browserDocument;
-    
+
     var _themesModule = new ThemesModule(emscriptenApi);
     var _precacheModule = new PrecacheModule(emscriptenApi);
     var _cameraModule = new CameraModule(emscriptenApi, options.center, options.zoom);
@@ -73,6 +74,7 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
     var _buildingsModule = new BuildingsModule(emscriptenApi);
     var _propModule = new PropModule(emscriptenApi);
     var _indoorMapEntityInformationModule = new IndoorMapEntityInformationModule(emscriptenApi);
+    var _blueSphereModule = new BlueSphereModule(emscriptenApi);
 
     var _canvasId = _mapId ? options["canvasId"] + _mapId : options["canvasId"];
     var _canvasWidth = options["width"] || domElement.clientWidth;
@@ -83,7 +85,7 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
 
     var _canvas = _mapContainer.canvas;
 
-    var _Module = module; 
+    var _Module = module;
     _Module["canvas"] = _canvas;
 
     var center = L.latLng(options.center);
@@ -122,7 +124,7 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
         _browserWindow,
         _mapContainer.overlay,
         options,
-        _cameraModule,        
+        _cameraModule,
         _precacheModule,
         _themesModule,
         _indoorsModule,
@@ -133,14 +135,15 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
         _renderingModule,
         _buildingsModule,
         _propModule,
-        _indoorMapEntityInformationModule
+        _indoorMapEntityInformationModule,
+        _blueSphereModule
     );
 
     this.leafletMap._initEvents(false, _canvas);
 
     var _mapMoveEvents = new MapMoveEvents(this.leafletMap);
 
-    var _modules = [        
+    var _modules = [
         _layerPointMappingModule,
         _themesModule,
         _indoorsModule,
@@ -151,7 +154,8 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
         _renderingModule,
         _buildingsModule,
         _propModule,
-        _indoorMapEntityInformationModule
+        _indoorMapEntityInformationModule,
+        _blueSphereModule
     ];
 
     this._indoorEntranceMarkerUpdater = null;
@@ -161,11 +165,11 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
     }
 
     var _resizeCanvas = null;
-    
+
     var _updateCanvasSize = function() {
         var newWidth = _mapContainer.width();
         var newHeight = _mapContainer.height();
-        
+
         if (newWidth !== _canvasWidth || newHeight !== _canvasHeight) {
             _resizeCanvas(newWidth, newHeight);
             _canvasWidth = newWidth;
