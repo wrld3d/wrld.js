@@ -11,7 +11,7 @@ var BuildingsModule = require("./buildings_module");
 var PropModule = require("./prop_module");
 var IndoorMapEntityInformationModule = require("./indoor_map_entity_information_module");
 var BlueSphereModule = require("./blue_sphere_module");
-
+var MapRuntimeModule = require("./map_runtime_module");
 var LayerPointMappingModule = require("./layer_point_mapping_module");
 
 var IndoorEntranceMarkerUpdater = require("./indoor_entrance_marker_updater");
@@ -52,7 +52,10 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
         showIndoorWrldWatermark: true,
         trafficEnabled: true,
         trafficDisableWhenEnteringIndoorMaps: true,
-        indoorLabelsAlwaysHidden: false
+        indoorLabelsAlwaysHidden: false,
+        framerateThrottlingEnables: false,
+        timeInMillisecondsBeforeReducingFramerate:30000,
+        reducedFramerateIntervalSeconds:1.0
     };
 
     options = L.extend(_defaultOptions, options);
@@ -75,6 +78,7 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
     var _propModule = new PropModule(emscriptenApi);
     var _indoorMapEntityInformationModule = new IndoorMapEntityInformationModule(emscriptenApi);
     var _blueSphereModule = new BlueSphereModule(emscriptenApi);
+    var _mapRuntimeModule = new MapRuntimeModule(emscriptenApi);
 
     var _canvasId = _mapId ? options["canvasId"] + _mapId : options["canvasId"];
     var _canvasWidth = options["width"] || domElement.clientWidth;
@@ -99,6 +103,10 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
     var trafficEnabled = (options.trafficEnabled) ? "1" : "0";
     var trafficDisableWhenEnteringIndoorMaps = (options.trafficDisableWhenEnteringIndoorMaps) ? "1" : "0";
     var indoorLabelsAlwaysHidden = (options.indoorLabelsAlwaysHidden) ? "1" : "0";
+    var framerateThrottlingEnables = (options.framerateThrottlingEnables) ? "1" : "0";
+
+    var timeInMillisecondsBeforeReducingFramerate = options.timeInMillisecondsBeforeReducingFramerate;
+    var reducedFramerateIntervalSeconds = options.reducedFramerateIntervalSeconds;
 
     _Module["arguments"] = [
         _canvasId,
@@ -117,7 +125,10 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
         _containerId,
         trafficEnabled,
         trafficDisableWhenEnteringIndoorMaps,
-        indoorLabelsAlwaysHidden
+        indoorLabelsAlwaysHidden,
+        framerateThrottlingEnables,
+        timeInMillisecondsBeforeReducingFramerate.toString(),
+        reducedFramerateIntervalSeconds.toString()
     ];
 
     this.leafletMap = new EegeoLeafletMap(
@@ -136,7 +147,8 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
         _buildingsModule,
         _propModule,
         _indoorMapEntityInformationModule,
-        _blueSphereModule
+        _blueSphereModule,
+        _mapRuntimeModule
     );
 
     this.leafletMap._initEvents(false, _canvas);
@@ -155,7 +167,8 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
         _buildingsModule,
         _propModule,
         _indoorMapEntityInformationModule,
-        _blueSphereModule
+        _blueSphereModule,
+        _mapRuntimeModule
     ];
 
     this._indoorEntranceMarkerUpdater = null;

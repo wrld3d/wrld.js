@@ -14,6 +14,7 @@ var EmscriptenPropsApi = require("./emscripten_props_api.js");
 var EmscriptenIndoorMapEntityInformationApi = require("./emscripten_indoor_map_entity_information_api.js");
 var EmscriptenPolylineApi = require("./emscripten_polyline_api.js");
 var EmscriptenBlueSphereApi = require("./emscripten_blue_sphere_api.js");
+var EmscriptenMapRuntimeApi = require("./emscripten_map_runtime_api.js");
 
 function EmscriptenApi(emscriptenModule) {
 
@@ -37,6 +38,7 @@ function EmscriptenApi(emscriptenModule) {
     this.indoorMapEntityInformationApi = null;
     this.polylineApi = null;
     this.blueSphereApi = null;
+    this.mapRuntimeApi = null;
 
     this.onInitialized = function(eegeoApiPointer, emscriptenApiPointer, onUpdateCallback, onDrawCallback, onInitialStreamingCompletedCallback) {
         _eegeoApiPointer = eegeoApiPointer;
@@ -66,7 +68,7 @@ function EmscriptenApi(emscriptenModule) {
         this.indoorMapEntityInformationApi = new EmscriptenIndoorMapEntityInformationApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
         this.polylineApi = new EmscriptenPolylineApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
         this.blueSphereApi = new EmscriptenBlueSphereApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
-
+        this.mapRuntimeApi = new EmscriptenMapRuntimeApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
 
         var _setTopLevelCallbacks = _emscriptenModule.cwrap("setTopLevelCallbacks", null, ["number", "number", "number", "number"]);
         _setTopLevelCallbacks(

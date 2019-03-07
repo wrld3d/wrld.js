@@ -54,7 +54,8 @@ var EegeoLeafletMap = L.Map.extend({
             buildingsModule,
             propModule,
             indoorMapEntityInformationModule,
-            blueSphereModule
+            blueSphereModule,
+            mapRuntimeModule
             ) {
         this._browserWindow = browserWindow;
         this._cameraModule = cameraModule;
@@ -70,6 +71,7 @@ var EegeoLeafletMap = L.Map.extend({
         this.props = propModule;
         this.indoorMapEntities = indoorMapEntityInformationModule;
         this.blueSphere = blueSphereModule;
+        this._mapRuntimeModule = mapRuntimeModule;
         this._layersOnMap = {};
         this._spacesApi = null;
         this._ready = false;
@@ -321,6 +323,14 @@ var EegeoLeafletMap = L.Map.extend({
 
     getCenter: function() {
         return this._cameraModule.getCenter();
+    },
+
+    pause: function(){
+        return this._mapRuntimeModule.Pause();
+    },
+
+    resume: function(){
+        return this._mapRuntimeModule.Resume();
     },
 
     getZoom: function() {
