@@ -1,5 +1,5 @@
 // Populate environment globals.
-window = { 
+window = {
   createWrldModule: require("../../tmp/sdk/eeGeoWebGL.js"),
   location: { pathname: "" },
   encodeURIComponent: function(s) {}
@@ -12,7 +12,7 @@ describe("map_interop:", function() {
   // Stub of browser dependencies.
   var sinon = require('sinon');
   XMLHttpRequest = sinon.useFakeXMLHttpRequest();
-  
+
   // Pull in globals definitions from dependencies (SDK and Leaflet).
   require("../../node_modules/leaflet/src/core/Util");
   require("../../node_modules/leaflet/src/core/Class");
@@ -22,7 +22,7 @@ describe("map_interop:", function() {
   var space = require("../../src/public/space");
 
   var _verifyApiFunctionExists = function(caller) {
-    // Bit weird, originally had this expectation set to 
+    // Bit weird, originally had this expectation set to
     // expect().not.toThrowError(/Cannot call unknown function/)
     // as more specific, but was then missing case where invalid
     // inputs to the JS API call caused failures prior to calling
@@ -30,9 +30,9 @@ describe("map_interop:", function() {
     //
     // Instead, we know the generic Emscripten error when we have
     // called a validly linked but uncallable SDK function starts
-    // with (e.g.) "abort(9) at Error", so expect that. This catches 
-    // JS errors and bad/missing interop method names. 
-    
+    // with (e.g.) "abort(9) at Error", so expect that. This catches
+    // JS errors and bad/missing interop method names.
+
     try {
       caller();
     } catch(e) {
@@ -52,7 +52,7 @@ describe("map_interop:", function() {
   describe("when instantiating the native api", function() {
     var EmscriptenApi = require("../../src/private/emscripten_api/emscripten_api");
     refreshSdk();
-    
+
     it("there should be no errors", function() {
       expect(function() {
         var mapApiObject = new EmscriptenApi(Module);
@@ -183,8 +183,8 @@ describe("map_interop:", function() {
     var EmscriptenGeofenceApi = require("../../src/private/emscripten_api/emscripten_geofence_api");
     var _geofenceApi = null;
 
-    /* 
-        The GeoFence API does cwrap in constructor rather than lazily, because the API 
+    /*
+        The GeoFence API does cwrap in constructor rather than lazily, because the API
         hits GL directly and so cannot easily be mocked.
     */
     it("all functions should exist", function() {
@@ -239,7 +239,7 @@ describe("map_interop:", function() {
       var runtime = Module.Runtime;
       _emscriptenMemory = new EmscriptenMemory(Module);
       _spacesApi = new EmscriptenSpacesApi(apiPointer, cwrap, runtime, _emscriptenMemory);
-    });   
+    });
 
     it("the worldToScreen function should exist", function() {
       _verifyApiFunctionExists(function() {
@@ -308,9 +308,9 @@ describe("map_interop:", function() {
   });
 
   describe("when using the layer point mapping api", function() {
-    var EmscriptenLayerPointMappingApi = require("../../src/private/emscripten_api/emscripten_layer_point_mapping_api");    
+    var EmscriptenLayerPointMappingApi = require("../../src/private/emscripten_api/emscripten_layer_point_mapping_api");
     var EmscriptenMemory = require("../../src/private/emscripten_api/emscripten_memory");
-    var _layerPointMappingApi = null;    
+    var _layerPointMappingApi = null;
     var _emscriptenMemory = null;
 
     beforeEach(function() {
@@ -319,8 +319,8 @@ describe("map_interop:", function() {
       var cwrap = Module.cwrap;
       var runtime = Module.Runtime;
       _emscriptenMemory = new EmscriptenMemory(Module);
-      _layerPointMappingApi = new EmscriptenLayerPointMappingApi(apiPointer, cwrap, runtime, _emscriptenMemory);      
-    });   
+      _layerPointMappingApi = new EmscriptenLayerPointMappingApi(apiPointer, cwrap, runtime, _emscriptenMemory);
+    });
 
     it("the createPointMapping function should exist", function() {
       _verifyApiFunctionExists(function() {
@@ -346,18 +346,18 @@ describe("map_interop:", function() {
 
     it("the removePointMapping function should exist", function() {
       _verifyApiFunctionExists(function() {
-        var mappingId = 0;        
+        var mappingId = 0;
         _layerPointMappingApi.removePointMapping(mappingId);
       });
     });
 
     it("the getLatLngsForLayer function should exist", function() {
       _verifyApiFunctionExists(function() {
-        var mappingId = 0;        
+        var mappingId = 0;
         var latLngCount = 0;
         _layerPointMappingApi.getLatLngsForLayer(mappingId, latLngCount);
       });
-    });    
+    });
   });
 
   describe("when using the indoors api", function() {
@@ -370,7 +370,7 @@ describe("map_interop:", function() {
       var cwrap = Module.cwrap;
       var runtime = Module.Runtime;
       _indoorsApi = new EmscriptenIndoorsApi(apiPointer, cwrap, runtime);
-    });   
+    });
 
     it("the setNotificationCallbacks function should exist", function() {
       _verifyApiFunctionExists(function() {
@@ -420,7 +420,7 @@ describe("map_interop:", function() {
         _indoorsApi.getActiveIndoorMapFloorCount();
       });
     });
-    
+
     it("the getActiveIndoorMapUserData function should exist", function() {
       _verifyApiFunctionExists(function() {
         _indoorsApi.getActiveIndoorMapUserData();
@@ -486,7 +486,7 @@ describe("map_interop:", function() {
       var cwrap = Module.cwrap;
       var runtime = Module.Runtime;
       _expandFloorsApi = new EmscriptenExpandFloorsApi(apiPointer, cwrap, runtime);
-    });  
+    });
 
     it("the expandIndoorMap function should exist", function() {
       _verifyApiFunctionExists(function() {
@@ -518,7 +518,7 @@ describe("map_interop:", function() {
         var callback = function() {};
         _expandFloorsApi.setCollapseStartCallback(callback);
       });
-    }); 
+    });
 
     it("the setCollapseCallback function should exist", function() {
       _verifyApiFunctionExists(function() {
@@ -570,14 +570,14 @@ describe("map_interop:", function() {
       _emscriptenMemory = new EmscriptenMemory(Module);
       _indoorEntityApi = new EmscriptenIndoorEntityApi(apiPointer, cwrap, runtime, _emscriptenMemory);
     });
-    
+
     it("the registerIndoorEntityPickedCallback function should exist", function() {
       _verifyApiFunctionExists(function() {
         var callback = function() {};
         _indoorEntityApi.registerIndoorEntityPickedCallback(callback);
       });
     });
-    
+
     it("the setHighlights function should exist", function() {
       _verifyApiFunctionExists(function() {
         var ids = ["1000", "1001", "2001"];
@@ -586,7 +586,7 @@ describe("map_interop:", function() {
         _indoorEntityApi.setHighlights(ids, color, indoorMapId);
       });
     });
-    
+
     it("the clearHighlights function should exist", function() {
       _verifyApiFunctionExists(function() {
           var ids = ["1000", "1001", "2001"];
@@ -609,7 +609,7 @@ describe("map_interop:", function() {
       var runtime = Module.Runtime;
       _emscriptenMemory = new EmscriptenMemory(Module);
       _renderingApi = new EmscriptenRenderingApi(apiPointer, cwrap, runtime, _emscriptenMemory);
-    });   
+    });
 
     it("the getCameraRelativePosition function should exist", function() {
       _verifyApiFunctionExists(function() {
@@ -643,7 +643,7 @@ describe("map_interop:", function() {
       });
     });
   });
-  
+
   describe("when using the polyline api", function() {
     var EmscriptenPolylineApi = require("../../src/private/emscripten_api/emscripten_polyline_api");
     var EmscriptenMemory = require("../../src/private/emscripten_api/emscripten_memory");
@@ -657,7 +657,7 @@ describe("map_interop:", function() {
       var runtime = Module.Runtime;
       _emscriptenMemory = new EmscriptenMemory(Module);
       _polylineApi = new EmscriptenPolylineApi(apiPointer, cwrap, runtime, _emscriptenMemory);
-    });   
+    });
 
     it("the createPolyline function should exist", function() {
       _verifyApiFunctionExists(function() {
@@ -697,7 +697,36 @@ describe("map_interop:", function() {
         _polylineApi.updateNativeState(polylineId, polylineMock);
       });
     });
-
-
   });
+
+  describe("when using the blue sphere api", function() {
+    var EmscriptenBlueSphereApi = require("../../src/private/emscripten_api/emscripten_blue_sphere_api");
+    var EmscriptenMemory = require("../../src/private/emscripten_api/emscripten_memory");
+    var _blueSphereApi = null;
+    var _emscriptenMemory = null;
+
+    beforeEach(function() {
+      refreshSdk();
+      var apiPointer = 0;
+      var cwrap = Module.cwrap;
+      var runtime = Module.Runtime;
+      _emscriptenMemory = new EmscriptenMemory(Module);
+      _blueSphereApi = new EmscriptenBlueSphereApi(apiPointer, cwrap, runtime, _emscriptenMemory);
+    });
+
+    it("the updateNativeState function should exist", function() {
+      _verifyApiFunctionExists(function() {
+        var blueSphereModuleMock = {
+          isEnabled: function() { return true; },
+          getLocation: function() { return L.latLng(10.0, 20.0) },
+          getElevation: function() { return 0.0 },
+          getIndoorMapId: function() { return "" },
+          getIndoorMapFloorId: function() { return 0 },
+          getHeadingDegrees: function() { return 0.0 }
+        };
+        _blueSphereApi.updateNativeState(blueSphereModuleMock);
+      });
+    });
+  });
+
 });
