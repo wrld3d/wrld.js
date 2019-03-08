@@ -480,6 +480,13 @@ describe("map_interop:", function() {
       });
     });
 
+    it("the tryGetReadableName function should exist", function() {
+      _verifyApiFunctionExists(function() {
+        var indoorMapId = "";
+        _indoorsApi.tryGetReadableName(indoorMapId);
+      });
+    });
+
     it("the tryGetFloorReadableName function should exist", function() {
       _verifyApiFunctionExists(function() {
         var indoorMapId = "";
