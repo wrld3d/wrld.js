@@ -362,14 +362,17 @@ describe("map_interop:", function() {
 
   describe("when using the indoors api", function() {
     var EmscriptenIndoorsApi = require("../../src/private/emscripten_api/emscripten_indoors_api");
+    var EmscriptenMemory = require("../../src/private/emscripten_api/emscripten_memory");
     var _indoorsApi = null;
+    var _emscriptenMemory = null;
 
     beforeEach(function() {
       refreshSdk();
       var apiPointer = 0;
       var cwrap = Module.cwrap;
       var runtime = Module.Runtime;
-      _indoorsApi = new EmscriptenIndoorsApi(apiPointer, cwrap, runtime);
+      _emscriptenMemory = new EmscriptenMemory(Module);
+      _indoorsApi = new EmscriptenIndoorsApi(apiPointer, cwrap, runtime, _emscriptenMemory);
     });
 
     it("the setNotificationCallbacks function should exist", function() {
@@ -380,7 +383,9 @@ describe("map_interop:", function() {
         var callback3 = function() {};
         var callback4 = function() {};
         var callback5 = function() {};
-        _indoorsApi.setNotificationCallbacks(callback0, callback1, callback2, callback3, callback4, callback5);
+        var callback6 = function() {};
+        var callback7 = function() {};
+        _indoorsApi.setNotificationCallbacks(callback0, callback1, callback2, callback3, callback4, callback5, callback6, callback7);
       });
     });
 
@@ -474,6 +479,23 @@ describe("map_interop:", function() {
         _indoorsApi.enterIndoorMap(indoorMapId);
       });
     });
+
+    it("the tryGetFloorReadableName function should exist", function() {
+      _verifyApiFunctionExists(function() {
+        var indoorMapId = "";
+        var indoorMapFloorId = 0;
+        _indoorsApi.tryGetFloorReadableName(indoorMapId, indoorMapFloorId);
+      });
+    });
+
+    it("the tryGetFloorShortName function should exist", function() {
+      _verifyApiFunctionExists(function() {
+        var indoorMapId = "";
+        var indoorMapFloorId = 0;
+        _indoorsApi.tryGetFloorShortName(indoorMapId, indoorMapFloorId);
+      });
+    });
+
   });
 
   describe("when using the expand floors api", function() {
