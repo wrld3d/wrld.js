@@ -109,6 +109,14 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
         _this.fire("indoorentranceremove", {entrance: entrance});
     };
 
+    var _executeIndoorMapLoadedCallbacks = function(indoorMapId) {
+        _this.fire("indoormapload", {indoorMapId: indoorMapId});
+    };
+
+    var _executeIndoorMapUnloadedCallbacks = function(indoorMapId) {
+        _this.fire("indoormapunload", {indoorMapId: indoorMapId});
+    };
+
     var _executeEntityClickedCallbacks = function(ids) {
         var idArray = ids.split("|");
         _this.fire("indoorentityclick", {ids: idArray});
@@ -166,14 +174,17 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
 
     this.onInitialized = function() {
         _emscriptenApi.indoorsApi.onInitialized();
-        
+
         _emscriptenApi.indoorsApi.setNotificationCallbacks(
             _executeIndoorMapEnteredCallbacks,
             _executeIndoorMapEnterFailedCallbacks,
             _executeIndoorMapExitedCallbacks,
             _executeIndoorMapFloorChangedCallbacks,
             _executeIndoorMapEntranceAddedCallbacks,
-            _executeIndoorMapEntranceRemovedCallbacks);
+            _executeIndoorMapEntranceRemovedCallbacks,
+            _executeIndoorMapLoadedCallbacks,
+            _executeIndoorMapUnloadedCallbacks
+            );
 
         _emscriptenApi.indoorEntityApi.onInitialized();
         _emscriptenApi.indoorEntityApi.registerIndoorEntityPickedCallback(_executeEntityClickedCallbacks);
@@ -336,6 +347,20 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
         return null;
     };
 
+    this.tryGetFloorReadableName = function(indoorMapId, indoorMapFloorId) {
+        if (_emscriptenApi.ready()) {
+            return _emscriptenApi.indoorsApi.tryGetFloorReadableName(indoorMapId, indoorMapFloorId);
+        }
+        return null;
+    };
+
+    this.tryGetFloorShortName = function(indoorMapId, indoorMapFloorId) {
+        if (_emscriptenApi.ready()) {
+            return _emscriptenApi.indoorsApi.tryGetFloorShortName(indoorMapId, indoorMapFloorId);
+        }
+        return null;
+    };
+
     this.setFloorInterpolation = function(value) {
         if (_activeIndoorMap !== null) {
             var floorParam = value * _activeIndoorMap.getFloorCount();
@@ -366,18 +391,18 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
 
     this.setEntityHighlights = function(ids, color, indoorMapId) {
         if (!_ready) return;
-        
+
         indoorMapId = _indoorMapIdOrDefault(indoorMapId);
         _emscriptenApi.indoorEntityApi.setHighlights(ids, color, indoorMapId);
     };
 
     this.clearEntityHighlights = function(ids, indoorMapId) {
         if (!_ready) return;
-        
+
         indoorMapId = _indoorMapIdOrDefault(indoorMapId);
         _emscriptenApi.indoorEntityApi.clearHighlights(ids, indoorMapId);
     };
-    
+
     var _indoorMapIdOrDefault = function(indoorMapId) {
         if (indoorMapId === undefined || indoorMapId === null) {
             if (_activeIndoorMap !== null) {
@@ -387,7 +412,7 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
 
         return indoorMapId;
     };
-    
+
 };
 
 var IndoorsPrototype = L.extend({}, MapModule, L.Mixin.Events);

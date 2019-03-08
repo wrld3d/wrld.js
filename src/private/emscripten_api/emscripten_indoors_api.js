@@ -3,7 +3,7 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
     var _emscriptenApiPointer = emscriptenApiPointer;
     var _emscriptenMemory = emscriptenMemory;
 
-    var _indoorsApi_RegisterIndoorMapCallbacks = cwrap("indoorsApi_RegisterIndoorMapCallbacks", null, ["number", "number", "number", "number", "number"]);
+    var _indoorsApi_RegisterIndoorMapCallbacks = cwrap("indoorsApi_RegisterIndoorMapCallbacks", null, ["number", "number", "number", "number", "number", "number", "number", "number", "number"]);
     var _indoorsApi_EnterIndoorMap = cwrap("indoorsApi_EnterIndoorMap", null, ["number", "string"]);
     var _indoorsApi_ExitIndoorMap = cwrap("indoorsApi_ExitIndoorMap", null, ["number"]);
     var _indoorsApi_HasActiveIndoorMap = cwrap("indoorsApi_HasActiveIndoorMap", "number", ["number"]);
@@ -19,6 +19,11 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
     var _indoorsApi_GetFloorNumber = cwrap("indoorsApi_GetFloorNumber", "number", ["number", "number"]);
     var _indoorsApi_GetFloorHeightAboveSeaLevel = cwrap("indoorsApi_GetFloorHeightAboveSeaLevel", "number", ["number", "number"]);
 
+    var _indoorsApi_TryGetFloorReadableNameBufferSize = cwrap("indoorsApi_TryGetFloorReadableNameBufferSize", "number", ["number", "string", "number", "number", "number"]);
+    var _indoorsApi_TryGetFloorReadableName = cwrap("indoorsApi_TryGetFloorReadableName", "number", ["number", "string", "number", "number", "number", "number"]);
+    var _indoorsApi_TryGetFloorShortNameBufferSize = cwrap("indoorsApi_TryGetFloorShortNameBufferSize", "number", ["number", "string", "number", "number", "number"]);
+    var _indoorsApi_TryGetFloorShortName = cwrap("indoorsApi_TryGetFloorShortName", "number", ["number", "string", "number", "number", "number", "number"]);
+
 
     var _onIndoorMapEntered = null;
     var _onIndoorMapEnterFailed = null;
@@ -26,6 +31,8 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
     var _onIndoorMapFloorChanged = null;
     var _onIndoorMapEntryMarkerAdded = null;
     var _onIndoorMapEntryMarkerRemoved = null;
+    var _onIndoorMapLoaded = null;
+    var _onIndoorMapUnloaded = null;
 
     var _indoorMapEnteredHandler = function() {
         if (_onIndoorMapEntered !== null) {
@@ -71,6 +78,20 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
         }
     };
 
+    var _indoorMapLoadedHandler = function(indoorMapIdPtr) {
+        if (_onIndoorMapLoaded !== null) {
+            var indoorMapId = _emscriptenMemory.stringifyPointer(indoorMapIdPtr);
+            _onIndoorMapLoaded(indoorMapId);
+        }
+    };
+
+    var _indoorMapUnloadedHandler = function(indoorMapIdPtr) {
+        if (_onIndoorMapUnloaded !== null) {
+            var indoorMapId = _emscriptenMemory.stringifyPointer(indoorMapIdPtr);
+            _onIndoorMapUnloaded(indoorMapId);
+        }
+    };
+
     this.onInitialized = function() {
         _indoorsApi_RegisterIndoorMapCallbacks(
             _emscriptenApiPointer,
@@ -79,7 +100,9 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
             runtime.addFunction(_indoorMapExitedHandler),
             runtime.addFunction(_indoorMapFloorChangedHandler),
             runtime.addFunction(_indoorMapEntryMarkerAddedHandler),
-            runtime.addFunction(_indoorMapEntryMarkerRemovedHandler)
+            runtime.addFunction(_indoorMapEntryMarkerRemovedHandler),
+            runtime.addFunction(_indoorMapLoadedHandler),
+            runtime.addFunction(_indoorMapUnloadedHandler)
             );
     };
 
@@ -89,7 +112,9 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
         indoorMapExitedCallback,
         indoorMapFloorChangedCallback,
         indoorMapEntryMarkerAddedCallback,
-        indoorMapEntryMarkerRemovedCallback
+        indoorMapEntryMarkerRemovedCallback,
+        indoorMapLoadedCallback,
+        indoorMapUnloadedCallback
         ) {
             _onIndoorMapEntered = indoorMapEnteredCallback;
             _onIndoorMapEnterFailed = indoorMapEnterFailedCallback;
@@ -97,6 +122,8 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
             _onIndoorMapFloorChanged = indoorMapFloorChangedCallback;
             _onIndoorMapEntryMarkerAdded = indoorMapEntryMarkerAddedCallback;
             _onIndoorMapEntryMarkerRemoved = indoorMapEntryMarkerRemovedCallback;
+            _onIndoorMapLoaded = indoorMapLoadedCallback;
+            _onIndoorMapUnloaded = indoorMapUnloadedCallback;
     };
 
     this.enterIndoorMap = function(indoorMapId) {
@@ -153,6 +180,60 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
 
     this.getFloorHeightAboveSeaLevel = function(floorIndex) {
         return _indoorsApi_GetFloorHeightAboveSeaLevel(_emscriptenApiPointer, floorIndex);
+    };
+
+
+    var _tryGetNativeIndoorMapFloorString = function(indoorMapId, indoorMapFloorId, nativeGetBufferSizeFunc, nativeGetStringFunc) {
+        var bufferSizeBuf = _emscriptenMemory.createInt32Buffer(1);
+
+        var success = nativeGetBufferSizeFunc(
+            _emscriptenApiPointer,
+            indoorMapId,
+            indoorMapId.length,
+            indoorMapFloorId,
+            bufferSizeBuf.ptr
+            );
+
+        if (!success) {
+            return null;
+        }
+
+        var bufferSize = _emscriptenMemory.consumeBufferToArray(bufferSizeBuf)[0];
+        var stringBuffer = _emscriptenMemory.createInt8Buffer(bufferSize);
+
+        success = nativeGetStringFunc(
+            _emscriptenApiPointer,
+            indoorMapId,
+            indoorMapId.length,
+            indoorMapFloorId,
+            stringBuffer.ptr,
+            bufferSize
+            );
+
+        if (!success){
+            return null;
+        }
+
+        var stringValue = _emscriptenMemory.consumeUtf8BufferToString(stringBuffer);
+        return stringValue;
+    };
+
+    this.tryGetFloorReadableName = function(indoorMapId, indoorMapFloorId) {
+        return _tryGetNativeIndoorMapFloorString(
+            indoorMapId,
+            indoorMapFloorId,
+            _indoorsApi_TryGetFloorReadableNameBufferSize,
+            _indoorsApi_TryGetFloorReadableName
+            );
+    };
+
+    this.tryGetFloorShortName = function(indoorMapId, indoorMapFloorId) {
+        return _tryGetNativeIndoorMapFloorString(
+            indoorMapId,
+            indoorMapFloorId,
+            _indoorsApi_TryGetFloorShortNameBufferSize,
+            _indoorsApi_TryGetFloorShortName
+            );
     };
 }
 
