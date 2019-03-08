@@ -19,6 +19,8 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
     var _indoorsApi_GetFloorNumber = cwrap("indoorsApi_GetFloorNumber", "number", ["number", "number"]);
     var _indoorsApi_GetFloorHeightAboveSeaLevel = cwrap("indoorsApi_GetFloorHeightAboveSeaLevel", "number", ["number", "number"]);
 
+    var _indoorsApi_TryGetReadableNameBufferSize = cwrap("indoorsApi_TryGetReadableNameBufferSize", "number", ["number", "string", "number", "number"]);
+    var _indoorsApi_TryGetReadableName = cwrap("indoorsApi_TryGetReadableName", "number", ["number", "string", "number", "number", "number"]);
     var _indoorsApi_TryGetFloorReadableNameBufferSize = cwrap("indoorsApi_TryGetFloorReadableNameBufferSize", "number", ["number", "string", "number", "number", "number"]);
     var _indoorsApi_TryGetFloorReadableName = cwrap("indoorsApi_TryGetFloorReadableName", "number", ["number", "string", "number", "number", "number", "number"]);
     var _indoorsApi_TryGetFloorShortNameBufferSize = cwrap("indoorsApi_TryGetFloorShortNameBufferSize", "number", ["number", "string", "number", "number", "number"]);
@@ -182,6 +184,38 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
         return _indoorsApi_GetFloorHeightAboveSeaLevel(_emscriptenApiPointer, floorIndex);
     };
 
+    this.tryGetReadableName = function(indoorMapId) {
+        var bufferSizeBuf = _emscriptenMemory.createInt32Buffer(1);
+
+        var success = _indoorsApi_TryGetReadableNameBufferSize(
+            _emscriptenApiPointer,
+            indoorMapId,
+            indoorMapId.length,
+            bufferSizeBuf.ptr
+            );
+
+        if (!success) {
+            return null;
+        }
+
+        var bufferSize = _emscriptenMemory.consumeBufferToArray(bufferSizeBuf)[0];
+        var stringBuffer = _emscriptenMemory.createInt8Buffer(bufferSize);
+
+        success = _indoorsApi_TryGetReadableName(
+            _emscriptenApiPointer,
+            indoorMapId,
+            indoorMapId.length,
+            stringBuffer.ptr,
+            bufferSize
+            );
+
+        if (!success){
+            return null;
+        }
+
+        var indoorMapReadableName = _emscriptenMemory.consumeUtf8BufferToString(stringBuffer);
+        return indoorMapReadableName;
+    };
 
     var _tryGetNativeIndoorMapFloorString = function(indoorMapId, indoorMapFloorId, nativeGetBufferSizeFunc, nativeGetStringFunc) {
         var bufferSizeBuf = _emscriptenMemory.createInt32Buffer(1);

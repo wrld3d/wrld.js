@@ -347,6 +347,13 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
         return null;
     };
 
+    this.tryGetReadableName = function(indoorMapId) {
+        if (_emscriptenApi.ready()) {
+            return _emscriptenApi.indoorsApi.tryGetReadableName(indoorMapId);
+        }
+        return null;
+    };
+
     this.tryGetFloorReadableName = function(indoorMapId, indoorMapFloorId) {
         if (_emscriptenApi.ready()) {
             return _emscriptenApi.indoorsApi.tryGetFloorReadableName(indoorMapId, indoorMapFloorId);
