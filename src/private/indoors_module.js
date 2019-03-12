@@ -307,11 +307,19 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
         }
 
         var entrance = _entrances[indoorMapId] || null;
-        if (entrance === null) {
+
+        var latLng = null;
+        if (entrance !== null) {
+            latLng = entrance.getLatLng();
+        }
+        else if(config !== null && config.latLng) {
+            latLng = config.latLng;
+        }
+
+        if (latLng === null) {
             return false;
         }
 
-        var latLng = entrance.getLatLng();
         var distance = 400;
 
         if(!config) {
