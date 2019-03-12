@@ -228,6 +228,7 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
             _indoorWatermarkController.hideWatermark();
         }
         _pendingEnterTransition = null;
+        _transitioningToIndoorMap = false;
         return this;
     };
 
