@@ -83,6 +83,7 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
     var _canvasId = _mapId ? options["canvasId"] + _mapId : options["canvasId"];
     var _canvasWidth = options["width"] || domElement.clientWidth;
     var _canvasHeight = options["height"] || domElement.clientHeight;
+    var _windowPixelRatio = (window.devicePixelRatio || 1.0);
     var _containerId = "wrld-map-container" + _mapId;
 
     var _mapContainer = new HTMLMapContainer(_browserDocument, _browserWindow, domElement, _canvasId, _canvasWidth, _canvasHeight, _containerId, _mapId);
@@ -182,11 +183,19 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
     var _updateCanvasSize = function() {
         var newWidth = _mapContainer.width();
         var newHeight = _mapContainer.height();
+        var newPixelRatio = _mapContainer.pixelRatio();
 
-        if (newWidth !== _canvasWidth || newHeight !== _canvasHeight) {
+        if (newWidth !== _canvasWidth ||
+            newHeight !== _canvasHeight ||
+            newPixelRatio !== _windowPixelRatio) {
+            // console.log("window.devicePixelRatio");
+            // console.log(window.devicePixelRatio);
             _resizeCanvas(newWidth, newHeight);
             _canvasWidth = newWidth;
             _canvasHeight = newHeight;
+            _windowPixelRatio = newPixelRatio;
+
+            _mapContainer.setCssSize(newWidth, newHeight);
         }
     };
 

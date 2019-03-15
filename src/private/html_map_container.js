@@ -2,7 +2,7 @@ var HTMLMapContainer = function(browserDocument, browserWindow, parentElement, c
 
     var _browserWindow = browserWindow;
     var _browserDocument = browserDocument;
-    
+
     var _createDOMElement = function(parentElement, tagName, attributes, style) {
         var element = _browserDocument.createElement(tagName);
         for (var attributeName in attributes) {
@@ -156,6 +156,21 @@ var HTMLMapContainer = function(browserDocument, browserWindow, parentElement, c
     this.height = function() {
         return this.mapContainer.clientHeight;
     };
+
+    this.pixelRatio = function() {
+        return (window.devicePixelRatio || 1.0);
+    };
+
+    this.setCssSize = function(width, height) {
+        // emscripten_set_element_css_size
+        // not available in our current version of Emscripten (1.35.0)
+        // see https://github.com/emscripten-core/emscripten/blob/b6e09461d62ac781ef10a4b8c798b0328b59217b/src/library_html5.js#L2789
+        this.canvas.style.width = width + "px";
+        this.canvas.style.height = height + "px";
+        // this.canvas.attributes.width = width.toString();
+        // this.canvas.attributes.height = height.toString();
+    };
+
 };
 
 var LoadingSpinner = function(browserWindow, domElement) {
