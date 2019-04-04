@@ -312,7 +312,7 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
         if (entrance !== null) {
             latLng = entrance.getLatLng();
         }
-        else if(config !== null && config.latLng) {
+        else if(config && config.latLng) {
             latLng = config.latLng;
         }
 
