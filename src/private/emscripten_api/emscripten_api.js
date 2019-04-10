@@ -71,7 +71,7 @@ function EmscriptenApi(emscriptenModule) {
         this.polylineApi = new EmscriptenPolylineApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
         this.blueSphereApi = new EmscriptenBlueSphereApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
         this.mapRuntimeApi = new EmscriptenMapRuntimeApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
-        this.versionApi = new EmscriptenVersionApi(_emscriptenApiPointer, cwrap);
+        this.versionApi = new EmscriptenVersionApi(_emscriptenApiPointer, cwrap, emscriptenMemory);
 
         var _setTopLevelCallbacks = _emscriptenModule.cwrap("setTopLevelCallbacks", null, ["number", "number", "number", "number"]);
         _setTopLevelCallbacks(
