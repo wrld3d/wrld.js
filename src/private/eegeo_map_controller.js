@@ -13,6 +13,7 @@ var IndoorMapEntityInformationModule = require("./indoor_map_entity_information_
 var BlueSphereModule = require("./blue_sphere_module");
 var MapRuntimeModule = require("./map_runtime_module");
 var LayerPointMappingModule = require("./layer_point_mapping_module");
+var VersionModule = require("./version_module");
 
 var IndoorEntranceMarkerUpdater = require("./indoor_entrance_marker_updater");
 
@@ -79,6 +80,7 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
     var _indoorMapEntityInformationModule = new IndoorMapEntityInformationModule(emscriptenApi);
     var _blueSphereModule = new BlueSphereModule(emscriptenApi);
     var _mapRuntimeModule = new MapRuntimeModule(emscriptenApi);
+    var _versionModule = new VersionModule(emscriptenApi);
 
     var _canvasId = _mapId ? options["canvasId"] + _mapId : options["canvasId"];
     var _canvasWidth = options["width"] || domElement.clientWidth;
@@ -148,7 +150,8 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
         _propModule,
         _indoorMapEntityInformationModule,
         _blueSphereModule,
-        _mapRuntimeModule
+        _mapRuntimeModule,
+        _versionModule
     );
 
     this.leafletMap._initEvents(false, _canvas);
@@ -168,7 +171,8 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
         _propModule,
         _indoorMapEntityInformationModule,
         _blueSphereModule,
-        _mapRuntimeModule
+        _mapRuntimeModule,
+        _versionModule
     ];
 
     this._indoorEntranceMarkerUpdater = null;
