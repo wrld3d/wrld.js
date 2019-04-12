@@ -1,5 +1,12 @@
 var elevationMode = require("../private/elevation_mode.js");
 
+var HeatmapOcclusionMapFeatures = {
+    ground: "GROUND",
+    buildings: "BUILDINGS",
+    trees: "TREES",
+    transport: "TRANSPORT"
+};
+
 var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
 
     options: {
@@ -9,27 +16,45 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
         elevationMode: elevationMode.ElevationModeType.HEIGHT_ABOVE_GROUND,
         indoorMapId: "",
         indoorMapFloorId: 0,
+        polygonPoints: [],
 
         weightMin: 0.0,
         weightMax: 1.0,
-        // todo_heatmaps remove
-        weight: 3.0,
-        miterLimit: 10.0
+        resolutionPixels: 512.0,
+        textureBorderPercent: 0.05,
+        useApproximation: true,
+        radiusStops: [
+            [0.0, 5.0],
+            [1.0, 15.0]
+        ],
+        radiusBlend: 0.0,
+        colorGradient: [
+            [0.0, "#ffffff00"],
+            [0.2, "#f0f9e8ff"],
+            [0.4, "#bae4bcff"],
+            [0.6, "#7bccc4ff"],
+            [0.8, "#43a2caff"],
+            [1.0, "#0868acff"]
+        ],
+        opacity: 1.0,
+        intensityBias: 0.0,
+        intensityScale: 1.0,
+        occlusionMapFeatures: [HeatmapOcclusionMapFeatures.buildings, HeatmapOcclusionMapFeatures.trees],
+        occludedAlpha: 0.85,
+        occludedSaturation: 0.7,
+        occludedBrightness: 0.7
     },
 
-    initialize: function(pointData, options) {
+    initialize: function (pointData, options) {
         L.setOptions(this, options);
         this._pointData = this._loadPointData(pointData);
     },
 
-
-    // var _options = Object.assign(this.buildDefaultOptions(), options);
-
-	_loadPointData: function(pointData) {
+    _loadPointData: function (pointData) {
         var weightedCoords = [];
         var dataCoordProperty = this.options.dataCoordProperty;
         var dataWeightProperty = this.options.dataWeightProperty;
-        pointData.forEach(function(pointDatum) {
+        pointData.forEach(function (pointDatum) {
             var weight = 1.0;
             var coord = [];
             if (dataCoordProperty in pointData) {
@@ -51,48 +76,106 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
         return weightedCoords;
     },
 
-    getPointData: function() {
-        return this._pointData;
+    getPolygonPoints: function () {
+        return this.options.polygonPoints;
     },
 
-    getWeightMin: function() {
-        return this.options.weightMin;
-    },
-
-    getWeightMax: function() {
-        return this.options.weightMax;
-    },
-
-    getIndoorMapId: function() {
+    getIndoorMapId: function () {
         return this.options.indoorMapId;
     },
 
-    getIndoorMapFloorId: function() {
+    getIndoorMapFloorId: function () {
         return this.options.indoorMapFloorId;
     },
 
-    getElevation: function() {
+    getElevation: function () {
         return this.options.elevation;
     },
 
-    getElevationMode: function() {
+    getElevationMode: function () {
         return this.options.elevationMode;
     },
 
-    setIndoorMapWithFloorId: function(indoorMapId, indoorMapFloorId) {
+    getPointData: function () {
+        return this._pointData;
+    },
+
+    getWeightMin: function () {
+        return this.options.weightMin;
+    },
+
+    getWeightMax: function () {
+        return this.options.weightMax;
+    },
+
+    getResolutionPixels: function () {
+        return this.options.resolutionPixels;
+    },
+
+    getTextureBorderPercent: function () {
+        return this.options.textureBorderPercent;
+    },
+
+    getUseApproximation: function () {
+        return this.options.useApproximation;
+    },
+
+    getRadiusStops: function () {
+        return this.options.radiusStops;
+    },
+
+    getRadiusBlend: function () {
+        return this.options.radiusBlend;
+    },
+
+    getColorGradient: function () {
+        return this.options.colorGradient;
+    },
+
+    getOpacity: function () {
+        return this.options.opacity;
+    },
+
+    getIntensityBias: function () {
+        return this.options.intensityBias;
+    },
+
+    getIntensityScale: function () {
+        return this.options.intensityScale;
+    },
+
+    getOcclusionMapFeatures: function () {
+        return this.options.occlusionMapFeatures;
+    },
+
+    getOccludedAlpha: function () {
+        return this.options.occludedAlpha;
+    },
+
+    getOccludedSaturation: function () {
+        return this.options.occludedSaturation;
+    },
+
+    getOccludedBrightness: function () {
+        return this.options.occludedBrightness;
+    },
+
+    ////
+
+    setIndoorMapWithFloorId: function (indoorMapId, indoorMapFloorId) {
         this.options.indoorMapId = indoorMapId;
         this.options.indoorMapFloorId = indoorMapFloorId;
         this._needsNativeUpdate = true;
         return this;
     },
 
-    setElevation: function(elevation) {
+    setElevation: function (elevation) {
         this.options.elevation = elevation;
         this._needsNativeUpdate = true;
         return this;
     },
 
-    setElevationMode: function(mode) {
+    setElevationMode: function (mode) {
         if (elevationMode.isValidElevationMode(mode)) {
             this.options.elevationMode = mode;
         }
@@ -133,11 +216,12 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
     }
 });
 
-var heatmap = function(pointData, heatmapOptions) {
+var heatmap = function (pointData, heatmapOptions) {
     return new Heatmap(pointData, heatmapOptions || {});
 };
 
 module.exports = {
     Heatmap: Heatmap,
-    heatmap: heatmap
+    heatmap: heatmap,
+    HeatmapOcclusionMapFeatures: HeatmapOcclusionMapFeatures
 };
