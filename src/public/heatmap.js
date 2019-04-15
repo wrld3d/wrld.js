@@ -39,7 +39,7 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
         opacity: 1.0,
         intensityBias: 0.0,
         intensityScale: 1.0,
-        occlusionMapFeatures: [HeatmapOcclusionMapFeatures.buildings, HeatmapOcclusionMapFeatures.trees],
+        occludedMapFeatures: [HeatmapOcclusionMapFeatures.buildings, HeatmapOcclusionMapFeatures.trees],
         occludedAlpha: 0.85,
         occludedSaturation: 0.7,
         occludedBrightness: 0.7
@@ -144,8 +144,8 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
         return this.options.intensityScale;
     },
 
-    getOcclusionMapFeatures: function () {
-        return this.options.occlusionMapFeatures;
+    getOccludedMapFeatures: function () {
+        return this.options.occludedMapFeatures;
     },
 
     getOccludedAlpha: function () {
@@ -165,13 +165,13 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
     setIndoorMapWithFloorId: function (indoorMapId, indoorMapFloorId) {
         this.options.indoorMapId = indoorMapId;
         this.options.indoorMapFloorId = indoorMapFloorId;
-        this._needsNativeUpdate = true;
+        this._changedFlags.indoorMap = true;
         return this;
     },
 
     setElevation: function (elevation) {
         this.options.elevation = elevation;
-        this._needsNativeUpdate = true;
+        this._changedFlags.elevation = true;
         return this;
     },
 
@@ -179,23 +179,85 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
         if (elevationMode.isValidElevationMode(mode)) {
             this.options.elevationMode = mode;
         }
-        this._needsNativeUpdate = true;
+        this._changedFlags.elevation = true;
+        return this;
+    },
+
+    setRadiusBlend: function (radiusBlend) {
+        this.options.radiusBlend = radiusBlend;
+        this._changedFlags.radiusBlend = true;
+        return this;
+    },
+
+    setIntensityBias: function (intensityBias) {
+        this.options.intensityBias = intensityBias;
+        this._changedFlags.intensityBiasScale = true;
+        return this;
+    },
+
+    setIntensityScale: function (intensityScale) {
+        this.options.intensityScale = intensityScale;
+        this._changedFlags.intensityBiasScale = true;
+        return this;
+    },
+
+    setOpacity: function (opacity) {
+        this.options.opacity = opacity;
+        this._changedFlags.opacity = true;
+        return this;
+    },
+
+    setColorGradient: function (colorGradient) {
+        this.options.colorGradient = colorGradient;
+        this._changedFlags.colorGradient = true;
+        return this;
+    },
+
+    setResolution: function (resolutionPixels) {
+        this.options.resolutionPixels = resolutionPixels;
+        this._changedFlags.resolution = true;
+        return this;
+    },
+
+    setRadiusStops: function (radiusStops) {
+        this.options.radiusStops = radiusStops;
+        this._changedFlags.radiusStops = true;
+        return this;
+    },
+
+    setUseApproximation: function (useApproximation) {
+        this.options.useApproximation = useApproximation;
+        this._changedFlags.useApproximation = true;
+        return this;
+    },
+
+    setData: function (pointData) {
+        this._pointData = this._loadPointData(pointData);
+        this._changedFlags.data = true;
+        return this;
+    },
+
+    setWeightMin: function (weightMin) {
+        this.options.weightMin = weightMin;
+        this._changedFlags.data = true;
+        return this;
+    },
+
+    setWeightMax: function (weightMax) {
+        this.options.weightMax = weightMax;
+        this._changedFlags.data = true;
         return this;
     },
 
     setOptions: function (options) {
+        // todo_heatmap - only flag if changed
         L.setOptions(this, options);
+        Object.keys(this._changedFlags).forEach(function (key) {
+            this._changedFlags[key] = true;
+        }, this);
+
         return this;
     },
-
-    setStyle: function (style) {
-        L.Heatmap.prototype.setStyle.call(this, style);
-        this._needsNativeUpdate = true;
-        return this;
-    },
-
-    // dirty flag, for heatmap_module use
-    _needsNativeUpdate: false,
 
     _update: function () {
     },
@@ -213,6 +275,34 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
     },
 
     redraw: function () {
+    },
+
+    _changedFlags: {
+        indoorMap: false,
+        elevation: false,
+        radiusBlend: false,
+        intensityBiasScale: false,
+        opacity: false,
+        colorGradient: false,
+        occludedStyle: false,
+        resolution: false,
+        radiusStops: false,
+        useApproximation: false,
+        data: false
+    },
+
+    _anyChanged: function () {
+        return Object.values(this._changedFlags).some(Boolean);
+    },
+
+    _getChangedFlags: function () {
+        return this._changedFlags;
+    },
+
+    _clearChangedFlags: function () {
+        Object.keys(this._changedFlags).forEach(function (key) {
+            this._changedFlags[key] = false;
+        }, this);
     }
 });
 

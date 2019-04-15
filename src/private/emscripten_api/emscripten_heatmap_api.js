@@ -15,30 +15,37 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
     ]);
     var _heatmapApi_destroyHeatmap = cwrap("heatmapApi_destroyHeatmap", null, ["number", "number"]);
     var _heatmapApi_setIndoorMap = cwrap("heatmapApi_setIndoorMap", null, ["number", "number", "string", "number", "number"]);
-    var _heatmapApi_setElevation = cwrap("heatmapApi_setElevation", null, ["number", "number", "number"]);
-    var _heatmapApi_setStyleAttributes = cwrap("heatmapApi_setStyleAttributes", null, ["number", "number", "number", "number", "number"]);
+    var _heatmapApi_setElevation = cwrap("heatmapApi_setElevation", null, ["number", "number", "number", "number"]);
+    var _heatmapApi_setRadiusBlend = cwrap("heatmapApi_setRadiusBlend", null, ["number", "number", "number"]);
+    var _heatmapApi_setIntensityBiasScale = cwrap("heatmapApi_setIntensityBiasScale", null, ["number", "number", "number", "number"]);
+    var _heatmapApi_setOpacity = cwrap("heatmapApi_setOpacity", null, ["number", "number", "number"]);
+    var _heatmapApi_setColorGradient = cwrap("heatmapApi_setColorGradient", null, ["number", "number", "number", "number", "number", "number"]);
+    var _heatmapApi_setResolution = cwrap("heatmapApi_setResolution", null, ["number", "number", "number"]);
+    var _heatmapApi_setHeatmapRadii = cwrap("heatmapApi_setHeatmapRadii", null, ["number", "number", "number", "number", "number", "number"]);
+    var _heatmapApi_useApproximation = cwrap("heatmapApi_useApproximation", null, ["number", "number", "number"]);
+    var _heatmapApi_setData = cwrap("heatmapApi_setData", null, ["number", "number", "number", "number", "number", "number"]);
 
 
 
-    function occlusionMapFeaturesToInt(occlusionMapFeatures) {
-        var occlusionMapFeaturesInt = 0;
+    function occludedMapFeaturesToInt(occludedMapFeatures) {
+        var occludedMapFeaturesInt = 0;
 
-        occlusionMapFeatures.forEach(function(occlusionFeature) {
+        occludedMapFeatures.forEach(function(occlusionFeature) {
             if (occlusionFeature === heatmap.HeatmapOcclusionMapFeatures.ground) {
-                occlusionMapFeaturesInt = occlusionMapFeaturesInt | 0x1;
+                occludedMapFeaturesInt = occludedMapFeaturesInt | 0x1;
             }
             else if (occlusionFeature === heatmap.HeatmapOcclusionMapFeatures.buildings) {
-                occlusionMapFeaturesInt = occlusionMapFeaturesInt | 0x2;
+                occludedMapFeaturesInt = occludedMapFeaturesInt | 0x2;
             }
             else if (occlusionFeature === heatmap.HeatmapOcclusionMapFeatures.trees) {
-                occlusionMapFeaturesInt = occlusionMapFeaturesInt | 0x4;
+                occludedMapFeaturesInt = occludedMapFeaturesInt | 0x4;
             }
             else if (occlusionFeature === heatmap.HeatmapOcclusionMapFeatures.transport) {
-                occlusionMapFeaturesInt = occlusionMapFeaturesInt | 0x8;
+                occludedMapFeaturesInt = occludedMapFeaturesInt | 0x8;
             }
         });
 
-        return occlusionMapFeaturesInt;
+        return occludedMapFeaturesInt;
     }
 
     function _loadLatLngAlts (coords) {
@@ -72,6 +79,22 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
         return polygonRings;
     }
 
+    function _buildFlatData(pointData) {
+        var dataFlat = [];
+        pointData.forEach(function(pointDatum) {
+            dataFlat.push(pointDatum.coord.lat);
+            dataFlat.push(pointDatum.coord.lng);
+            var altOrDefault = 0.0;
+            if (pointDatum.coord.alt !== undefined) {
+                altOrDefault = pointDatum.coord.alt;
+            }
+            dataFlat.push(altOrDefault);
+            dataFlat.push(pointDatum.weight);
+        });
+
+        return dataFlat;
+    }
+
     this.createHeatmap = function(heatmap) {
         // polygon
         var polygonPoints = heatmap.getPolygonPoints();
@@ -89,19 +112,6 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
           });
         });
 
-        // data
-        var dataFlat = [];
-        heatmap.getPointData().forEach(function(pointDatum) {
-            dataFlat.push(pointDatum.coord.lat);
-            dataFlat.push(pointDatum.coord.lng);
-            var altOrDefault = 0.0;
-            if (pointDatum.coord.alt !== undefined) {
-                altOrDefault = pointDatum.coord.alt;
-            }
-            dataFlat.push(altOrDefault);
-            dataFlat.push(pointDatum.weight);
-        });
-
         var polygonVertexCoordsBuffer = _emscriptenMemory.createBufferFromArray(polygonCoords, _emscriptenMemory.createDoubleBuffer);
         var polygonRingVertexCountsBuffer = _emscriptenMemory.createBufferFromArray(polygonRingVertexCounts, _emscriptenMemory.createInt32Buffer);
 
@@ -109,7 +119,11 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
         var indoorMapFloorId = heatmap.getIndoorMapFloorId();
         var elevation = heatmap.getElevation();
         var elevationModeInt = elevationMode.getElevationModeInt(heatmap.getElevationMode());
+
+        // data
+        var dataFlat = _buildFlatData(heatmap.getPointData());
         var pointDataBuf = _emscriptenMemory.createBufferFromArray(dataFlat, _emscriptenMemory.createDoubleBuffer);
+
 
         var heatmapRadiiStops = [];
         var heatmapRadii = [];
@@ -130,7 +144,7 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
         var heatmapRadiiBuffer = _emscriptenMemory.createBufferFromArray(heatmapRadii, _emscriptenMemory.createDoubleBuffer);
         var gradientStopsBuffer = _emscriptenMemory.createBufferFromArray(gradientStops, _emscriptenMemory.createDoubleBuffer);
         var gradientColorsBuffer = _emscriptenMemory.createBufferFromArray(gradientColors, _emscriptenMemory.createInt32Buffer);
-        var occlusionMapFeaturesInt = occlusionMapFeaturesToInt(heatmap.getOcclusionMapFeatures());
+        var occludedMapFeaturesInt = occludedMapFeaturesToInt(heatmap.getOccludedMapFeatures());
 
         var heatmapId = _heatmapApi_createHeatmap(
             _emscriptenApiPointer,
@@ -162,7 +176,7 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
             heatmap.getOpacity(),
             heatmap.getIntensityBias(),
             heatmap.getIntensityScale(),
-            occlusionMapFeaturesInt,
+            occludedMapFeaturesInt,
             heatmap.getOccludedAlpha(),
             heatmap.getOccludedSaturation(),
             heatmap.getOccludedBrightness()
@@ -184,37 +198,133 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
     };
 
     this.updateNativeState = function(heatmapId, heatmap) {
-        if (!heatmap._needsNativeUpdate) {
+        if (!heatmap._anyChanged()) {
             return;
         }
-        heatmap._needsNativeUpdate = false;
+        var changedFlags = heatmap._getChangedFlags();
 
-        var indoorMapId = heatmap.getIndoorMapId();
-        var elevationModeInt = elevationMode.getElevationModeInt(heatmap.getElevationMode());
-        var colorRGBA32 = interopUtils.colorToRgba32(heatmap.getColor());
+        if (changedFlags.indoorMap) {
+            var indoorMapId = heatmap.getIndoorMapId();
+            _heatmapApi_setIndoorMap(
+                _emscriptenApiPointer,
+                heatmapId,
+                indoorMapId,
+                indoorMapId.length,
+                heatmap.getIndoorMapFloorId()
+                );
+        }
 
-        _heatmapApi_setIndoorMap(
-            _emscriptenApiPointer,
-            heatmapId,
-            indoorMapId,
-            indoorMapId.length,
-            heatmap.getIndoorMapFloorId()
+        if (changedFlags.elevation) {
+            var elevationModeInt = elevationMode.getElevationModeInt(heatmap.getElevationMode());
+            _heatmapApi_setElevation(
+                _emscriptenApiPointer,
+                heatmapId,
+                heatmap.getElevation(),
+                elevationModeInt
+                );
+        }
+
+        if (changedFlags.radiusBlend) {
+            _heatmapApi_setRadiusBlend(
+                _emscriptenApiPointer,
+                heatmapId,
+                heatmap.getRadiusBlend()
             );
+        }
 
-        _heatmapApi_setElevation(
-            _emscriptenApiPointer,
-            heatmapId,
-            heatmap.getElevation(),
-            elevationModeInt
+        if (changedFlags.intensityBiasScale) {
+            _heatmapApi_setIntensityBiasScale(
+                _emscriptenApiPointer,
+                heatmapId,
+                heatmap.getIntensityBias(),
+                heatmap.getIntensityScale()
             );
+        }
 
-        _heatmapApi_setStyleAttributes(
-            _emscriptenApiPointer,
-            heatmapId,
-            heatmap.getWidth(),
-            colorRGBA32,
-            heatmap.getMiterLimit()
+        if (changedFlags.opacity) {
+            _heatmapApi_setOpacity(
+                _emscriptenApiPointer,
+                heatmapId,
+                heatmap.getOpacity()
             );
+        }
+
+        if (changedFlags.colorGradient) {
+            var gradientStops = [];
+            var gradientColors = [];
+            heatmap.getColorGradient().forEach(function(pair) {
+                gradientStops.push(pair[0]);
+                gradientColors.push(interopUtils.colorToRgba32(pair[1]));
+            });
+
+            var gradientStopsBuffer = _emscriptenMemory.createBufferFromArray(gradientStops, _emscriptenMemory.createDoubleBuffer);
+            var gradientColorsBuffer = _emscriptenMemory.createBufferFromArray(gradientColors, _emscriptenMemory.createInt32Buffer);
+
+            _heatmapApi_setColorGradient(
+                _emscriptenApiPointer,
+                heatmapId,
+                gradientStopsBuffer.ptr,
+                gradientStopsBuffer.element_count,
+                gradientColorsBuffer.ptr,
+                gradientColorsBuffer.element_count
+            );
+        }
+
+        if (changedFlags.resolution) {
+            _heatmapApi_setResolution(
+                _emscriptenApiPointer,
+                heatmapId,
+                heatmap.getResolutionPixels()
+            );
+        }
+
+        if (changedFlags.radiusStops) {
+
+            var heatmapRadiiStops = [];
+            var heatmapRadii = [];
+            heatmap.getRadiusStops().forEach(function(pair) {
+                heatmapRadiiStops.push(pair[0]);
+                heatmapRadii.push(pair[1]);
+            });
+
+            var heatmapRadiiStopsBuffer = _emscriptenMemory.createBufferFromArray(heatmapRadiiStops, _emscriptenMemory.createDoubleBuffer);
+            var heatmapRadiiBuffer = _emscriptenMemory.createBufferFromArray(heatmapRadii, _emscriptenMemory.createDoubleBuffer);
+
+            _heatmapApi_setHeatmapRadii(
+                _emscriptenApiPointer,
+                heatmapId,
+                heatmapRadiiStopsBuffer.ptr,
+                heatmapRadiiStopsBuffer.element_count,
+                heatmapRadiiBuffer.ptr,
+                heatmapRadiiBuffer.element_count
+            );
+        }
+
+        if (changedFlags.useApproximation) {
+            _heatmapApi_useApproximation(
+                _emscriptenApiPointer,
+                heatmapId,
+                heatmap.getUseApproximation() ? 1 : 0
+            );
+        }
+
+        if (changedFlags.data) {
+
+            var dataFlat = _buildFlatData(heatmap.getPointData());
+            var pointDataBuf = _emscriptenMemory.createBufferFromArray(dataFlat, _emscriptenMemory.createDoubleBuffer);
+
+            _heatmapApi_setData(
+                _emscriptenApiPointer,
+                heatmapId,
+                pointDataBuf.ptr,
+                pointDataBuf.element_count,
+                heatmap.getWeightMin(),
+                heatmap.getWeightMax()
+                );
+        }
+
+
+        heatmap._clearChangedFlags();
     };
 }
 
