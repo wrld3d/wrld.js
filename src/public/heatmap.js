@@ -191,13 +191,13 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
 
     setIntensityBias: function (intensityBias) {
         this.options.intensityBias = intensityBias;
-        this._changedFlags.intensityBiasScale = true;
+        this._changedFlags.intensityBias = true;
         return this;
     },
 
     setIntensityScale: function (intensityScale) {
         this.options.intensityScale = intensityScale;
-        this._changedFlags.intensityBiasScale = true;
+        this._changedFlags.intensityScale = true;
         return this;
     },
 
@@ -281,7 +281,8 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
         indoorMap: false,
         elevation: false,
         radiusBlend: false,
-        intensityBiasScale: false,
+        intensityBias: false,
+        intensityScale: false,
         opacity: false,
         colorGradient: false,
         occludedStyle: false,

@@ -17,7 +17,8 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
     var _heatmapApi_setIndoorMap = cwrap("heatmapApi_setIndoorMap", null, ["number", "number", "string", "number", "number"]);
     var _heatmapApi_setElevation = cwrap("heatmapApi_setElevation", null, ["number", "number", "number", "number"]);
     var _heatmapApi_setRadiusBlend = cwrap("heatmapApi_setRadiusBlend", null, ["number", "number", "number"]);
-    var _heatmapApi_setIntensityBiasScale = cwrap("heatmapApi_setIntensityBiasScale", null, ["number", "number", "number", "number"]);
+    var _heatmapApi_setIntensityBias = cwrap("heatmapApi_setIntensityBias", null, ["number", "number", "number"]);
+    var _heatmapApi_setIntensityScale = cwrap("heatmapApi_setIntensityScale", null, ["number", "number", "number"]);
     var _heatmapApi_setOpacity = cwrap("heatmapApi_setOpacity", null, ["number", "number", "number"]);
     var _heatmapApi_setColorGradient = cwrap("heatmapApi_setColorGradient", null, ["number", "number", "number", "number", "number", "number"]);
     var _heatmapApi_setResolution = cwrap("heatmapApi_setResolution", null, ["number", "number", "number"]);
@@ -232,11 +233,18 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
             );
         }
 
-        if (changedFlags.intensityBiasScale) {
-            _heatmapApi_setIntensityBiasScale(
+        if (changedFlags.intensityBias) {
+            _heatmapApi_setIntensityBias(
                 _emscriptenApiPointer,
                 heatmapId,
-                heatmap.getIntensityBias(),
+                heatmap.getIntensityBias()
+            );
+        }
+
+        if (changedFlags.intensityScale) {
+            _heatmapApi_setIntensityScale(
+                _emscriptenApiPointer,
+                heatmapId,
                 heatmap.getIntensityScale()
             );
         }
