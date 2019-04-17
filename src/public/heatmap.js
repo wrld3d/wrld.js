@@ -23,7 +23,7 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
         resolutionPixels: 512.0,
         textureBorderPercent: 0.05,
         useApproximation: true,
-        // stop, radius, gain
+
         densityStops: [
             {stop: 0.0, radius: 5.0, gain: 1.0},
             {stop: 1.0, radius: 15.0, gain: 1.0},
@@ -44,11 +44,6 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
         occludedAlpha: 0.85,
         occludedSaturation: 0.7,
         occludedBrightness: 0.7
-    },
-
-    initialize: function (pointData, options) {
-        L.setOptions(this, options);
-        this._pointData = this._loadPointData(pointData);
     },
 
     _loadPointData: function (pointData) {
@@ -75,6 +70,146 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
             });
         });
         return weightedCoords;
+    },
+
+    _getArrayDepth: function (array) {
+        var arrayDepth = 0;
+        var testElement = array;
+        do {
+            testElement = testElement[0];
+            arrayDepth++;
+        } while (Array.isArray(testElement));
+        return arrayDepth;
+    },
+
+    _loadLatLngAlts: function (coords) {
+        var points = [];
+        coords.forEach(function (coord) {
+            points.push(L.latLng(coord));
+        });
+        return points;
+    },
+
+    _loadPolygonRings: function (coordsArray) {
+        var polygonRings = [];
+        var arrayDepth = this._getArrayDepth(coordsArray);
+
+        if (arrayDepth === 2) {
+            polygonRings.push(this._loadLatLngAlts(coordsArray));
+        }
+        else if (arrayDepth === 3) {
+            coordsArray.forEach(function (holeCoords) {
+                polygonRings.push(this._loadLatLngAlts(holeCoords));
+            }, this);
+        }
+        else if (coordsArray.length === 0){
+            polygonRings = [];
+        }
+        else {
+            throw new Error("Incorrect array depth for heatmap options.polygonPoints.");
+        }
+        return polygonRings;
+    },
+
+    _loadDensityParams: function(densityParams) {
+        var isArray = Array.isArray(densityParams);
+        var stop = 0.0;
+        var radius = 0.0;
+        var gain = 0.0;
+
+        if (isArray) {
+
+            if (densityParams.length < 2) {
+                throw new Error("Expected array [<stop>, <radius>, <(optional) gain>] when parsing options.densityStops");
+            }
+            stop = densityParams[0];
+            radius = densityParams[1];
+            gain = (densityParams.length > 2) ? densityParams[2] : 1.0;
+        }
+        else {
+            if (densityParams.stop === undefined || densityParams.radius === undefined) {
+                throw new Error("Expected object {stop:<stop>, radius:<radius>, (optional) gain:<gain>} when parsing options.densityStops");
+            }
+
+            stop = densityParams.stop;
+            radius = densityParams.radius;
+            gain = densityParams.gain || 1.0;
+        }
+
+        return {
+            stop: stop,
+            radius: radius,
+            gain: gain
+        };
+    },
+
+    _loadDensityStops: function(densityStopsArray) {
+        var densityStops = [];
+        var arrayDepth = this._getArrayDepth(densityStopsArray);
+
+        if (arrayDepth === 1 && typeof densityStopsArray[0] === "number") {
+            densityStops.push(this._loadDensityParams(densityStopsArray));
+        }
+        else if (arrayDepth <= 2) {
+            densityStopsArray.forEach(function (densityStopsSet) {
+                densityStops.push(this._loadDensityParams(densityStopsSet));
+            }, this);
+        }
+        else {
+            throw new Error("Incorrect array depth for heatmap options.densityStops.");
+        }
+        return densityStops;
+    },
+
+    _loadColorStop: function(colorStopParams) {
+        var isArray = Array.isArray(colorStopParams);
+        var stop = 0.0;
+        var color = "#ffffffff";
+
+        if (isArray) {
+            if (colorStopParams.length < 2) {
+                throw new Error("Expected array [<stop>, <color>] when parsing options.colorGradient");
+            }
+            stop = colorStopParams[0];
+            color = colorStopParams[1];
+        }
+        else {
+            if (colorStopParams.stop === undefined || colorStopParams.color === undefined) {
+                throw new Error("Expected object {stop:<stop>, color:<color>} when parsing options.colorGradient");
+            }
+
+            stop = colorStopParams.stop;
+            color = colorStopParams.color;
+        }
+
+
+        return {
+            stop: stop,
+            color: color
+        };
+    },
+
+    _loadColorGradient: function(gradientStopsArray) {
+        var colorGradient = [];
+        var arrayDepth = this._getArrayDepth(gradientStopsArray);
+
+        if (arrayDepth === 1 && typeof gradientStopsArray[0] === "number") {
+            colorGradient.push(this._loadColorStop(gradientStopsArray));
+        }
+        else if (arrayDepth <= 2) {
+            gradientStopsArray.forEach(function (gradientStop) {
+                colorGradient.push(this._loadColorStop(gradientStop));
+            }, this);
+        }
+        else {
+            throw new Error("Incorrect array depth for heatmap options.colorGradient.");
+        }
+        return colorGradient;
+    },
+
+    initialize: function (pointData, options) {
+        this.setOptions(options);
+        this._pointData = this._loadPointData(pointData);
     },
 
     getPolygonPoints: function () {
@@ -209,7 +344,7 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
     },
 
     setColorGradient: function (colorGradient) {
-        this.options.colorGradient = colorGradient;
+        this.options.colorGradient = this._loadColorGradient(colorGradient);
         this._changedFlags.colorGradient = true;
         return this;
     },
@@ -221,7 +356,7 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
     },
 
     setDensityStops: function (densityStops) {
-        this.options.densityStops = densityStops;
+        this.options.densityStops = this._loadDensityStops(densityStops);
         this._changedFlags.densityStops = true;
         return this;
     },
@@ -253,6 +388,10 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
     setOptions: function (options) {
         // todo_heatmap - only flag if changed
         L.setOptions(this, options);
+        this.options.polygonPoints = this._loadPolygonRings(this.options.polygonPoints);
+        this.options.densityStops = this._loadDensityStops(this.options.densityStops);
+        this.options.colorGradient = this._loadColorGradient(this.options.colorGradient);
+
         Object.keys(this._changedFlags).forEach(function (key) {
             this._changedFlags[key] = true;
         }, this);
