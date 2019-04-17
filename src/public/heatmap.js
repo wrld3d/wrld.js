@@ -25,17 +25,17 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
         useApproximation: true,
         // stop, radius, gain
         densityStops: [
-            [0.0, 5.0, 1.0],
-            [1.0, 15.0, 1.0]
+            {stop: 0.0, radius: 5.0, gain: 1.0},
+            {stop: 1.0, radius: 15.0, gain: 1.0},
         ],
         densityBlend: 0.0,
         colorGradient: [
-            [0.0, "#ffffff00"],
-            [0.2, "#f0f9e8ff"],
-            [0.4, "#bae4bcff"],
-            [0.6, "#7bccc4ff"],
-            [0.8, "#43a2caff"],
-            [1.0, "#0868acff"]
+            {stop: 0.0, color: "#ffffff00"},
+            {stop: 0.2, color: "#f0f9e8ff"},
+            {stop: 0.4, color: "#bae4bcff"},
+            {stop: 0.6, color: "#7bccc4ff"},
+            {stop: 0.8, color: "#43a2caff"},
+            {stop: 1.0, color: "#0868acff"}
         ],
         opacity: 1.0,
         intensityBias: 0.0,

@@ -49,6 +49,16 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
         return occludedMapFeaturesInt;
     }
 
+    function _getArrayDepth (array) {
+        var arrayDepth = 0;
+        var testElement = array;
+        do {
+            testElement = testElement[0];
+            arrayDepth++;
+        } while (Array.isArray(testElement));
+        return arrayDepth;
+    }
+
     function _loadLatLngAlts (coords) {
         var points = [];
         coords.forEach(function (coord) {
@@ -59,12 +69,7 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
 
     function _loadPolygonRings (coordsArray) {
         var polygonRings = [];
-        var arrayDepth = 0;
-        var testElement = coordsArray;
-        do {
-            testElement = testElement[0];
-            arrayDepth++;
-        } while (Array.isArray(testElement));
+        var arrayDepth = _getArrayDepth(coordsArray);
 
         if (arrayDepth === 2) {
             polygonRings.push(_loadLatLngAlts(coordsArray));
@@ -78,6 +83,103 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
             throw new Error("Incorrect array depth for heatmap options.polygonPoints.");
         }
         return polygonRings;
+    }
+
+    function _loadDensityParams(densityParams) {
+        var isArray = Array.isArray(densityParams);
+        var stop = 0.0;
+        var radius = 0.0;
+        var gain = 0.0;
+
+        if (isArray) {
+
+            if (densityParams.length < 2) {
+                throw new Error("Expected array [<stop>, <radius>, <(optional) gain>] when parsing options.densityStops");
+            }
+            stop = densityParams[0];
+            radius = densityParams[1];
+            gain = (densityParams.length > 2) ? densityParams[2] : 1.0;
+        }
+        else {
+            if (densityParams.stop === undefined || densityParams.radius === undefined) {
+                throw new Error("Expected object {stop:<stop>, radius:<radius>, (optional) gain:<gain>} when parsing options.densityStops");
+            }
+
+            stop = densityParams.stop;
+            radius = densityParams.radius;
+            gain = densityParams.gain || 1.0;
+        }
+
+
+        return {
+            stop: stop,
+            radius: radius,
+            gain: gain
+        };
+    }
+
+    function _loadDensityParamSets(densityStopsArray) {
+        var densityStops = [];
+        var arrayDepth = _getArrayDepth(densityStopsArray);
+
+        if (arrayDepth === 1 && typeof densityStopsArray[0] === "number") {
+            densityStops.push(_loadDensityParams(densityStopsArray));
+        }
+        else if (arrayDepth <= 2) {
+            densityStopsArray.forEach(function (densityStopsSet) {
+                densityStops.push(_loadDensityParams(densityStopsSet));
+            });
+        }
+        else {
+            throw new Error("Incorrect array depth for heatmap options.densityStops.");
+        }
+        return densityStops;
+    }
+
+    function _loadColorStop(colorStopParams) {
+        var isArray = Array.isArray(colorStopParams);
+        var stop = 0.0;
+        var color = "#ffffffff";
+
+        if (isArray) {
+            if (colorStopParams.length < 2) {
+                throw new Error("Expected array [<stop>, <color>] when parsing options.colorGradient");
+            }
+            stop = colorStopParams[0];
+            color = colorStopParams[1];
+        }
+        else {
+            if (colorStopParams.stop === undefined || colorStopParams.color === undefined) {
+                throw new Error("Expected object {stop:<stop>, color:<color>} when parsing options.colorGradient");
+            }
+
+            stop = colorStopParams.stop;
+            color = colorStopParams.color;
+        }
+
+
+        return {
+            stop: stop,
+            color: color
+        };
+    }
+
+    function _loadGradient(gradientStopsArray) {
+        var colorGradient = [];
+        var arrayDepth = _getArrayDepth(gradientStopsArray);
+
+        if (arrayDepth === 1 && typeof gradientStopsArray[0] === "number") {
+            colorGradient.push(_loadColorStop(gradientStopsArray));
+        }
+        else if (arrayDepth <= 2) {
+            gradientStopsArray.forEach(function (gradientStop) {
+                colorGradient.push(_loadColorStop(gradientStop));
+            });
+        }
+        else {
+            throw new Error("Incorrect array depth for heatmap options.colorGradient.");
+        }
+        return colorGradient;
     }
 
     function _buildFlatData(pointData) {
@@ -126,20 +228,22 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
         var pointDataBuf = _emscriptenMemory.createBufferFromArray(dataFlat, _emscriptenMemory.createDoubleBuffer);
 
 
+        var densityParamSets = _loadDensityParamSets(heatmap.getDensityStops());
         var heatmapDensityStops = [];
         var heatmapRadii = [];
         var heatmapGains = [];
-        heatmap.getDensityStops().forEach(function(tuple) {
-            heatmapDensityStops.push(tuple[0]);
-            heatmapRadii.push(tuple[1]);
-            heatmapGains.push(tuple[2]);
+        densityParamSets.forEach(function(densityParams) {
+            heatmapDensityStops.push(densityParams.stop);
+            heatmapRadii.push(densityParams.radius);
+            heatmapGains.push(densityParams.gain);
         });
 
+        var colorGradient = _loadGradient(heatmap.getColorGradient());
         var gradientStops = [];
         var gradientColors = [];
-        heatmap.getColorGradient().forEach(function(pair) {
-            gradientStops.push(pair[0]);
-            gradientColors.push(interopUtils.colorToRgba32(pair[1]));
+        colorGradient.forEach(function(colorStop) {
+            gradientStops.push(colorStop.stop);
+            gradientColors.push(interopUtils.colorToRgba32(colorStop.color));
         });
 
         // heatmap_todo investigate supporting ES6 for Float32Array / typed arrays
@@ -264,11 +368,12 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
         }
 
         if (changedFlags.colorGradient) {
+            var colorGradient = _loadGradient(heatmap.getColorGradient());
             var gradientStops = [];
             var gradientColors = [];
-            heatmap.getColorGradient().forEach(function(pair) {
-                gradientStops.push(pair[0]);
-                gradientColors.push(interopUtils.colorToRgba32(pair[1]));
+            colorGradient.forEach(function(colorStop) {
+                gradientStops.push(colorStop.stop);
+                gradientColors.push(interopUtils.colorToRgba32(colorStop.color));
             });
 
             var gradientStopsBuffer = _emscriptenMemory.createBufferFromArray(gradientStops, _emscriptenMemory.createDoubleBuffer);
@@ -297,13 +402,14 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
 
         if (changedFlags.densityStops) {
 
+            var densityParamSets = _loadDensityParamSets(heatmap.getDensityStops());
             var heatmapDensityStops = [];
             var heatmapRadii = [];
             var heatmapGains = [];
-            heatmap.getDensityStops().forEach(function(tuple) {
-                heatmapDensityStops.push(tuple[0]);
-                heatmapRadii.push(tuple[1]);
-                heatmapGains.push(tuple[2]);
+            densityParamSets.forEach(function(densityParams) {
+                heatmapDensityStops.push(densityParams.stop);
+                heatmapRadii.push(densityParams.radius);
+                heatmapGains.push(densityParams.gain);
             });
 
             var heatmapDensityStopsBuffer = _emscriptenMemory.createBufferFromArray(heatmapDensityStops, _emscriptenMemory.createDoubleBuffer);
