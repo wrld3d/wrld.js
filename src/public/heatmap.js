@@ -23,11 +23,12 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
         resolutionPixels: 512.0,
         textureBorderPercent: 0.05,
         useApproximation: true,
-        radiusStops: [
-            [0.0, 5.0],
-            [1.0, 15.0]
+        // stop, radius, gain
+        densityStops: [
+            [0.0, 5.0, 1.0],
+            [1.0, 15.0, 1.0]
         ],
-        radiusBlend: 0.0,
+        densityBlend: 0.0,
         colorGradient: [
             [0.0, "#ffffff00"],
             [0.2, "#f0f9e8ff"],
@@ -120,12 +121,12 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
         return this.options.useApproximation;
     },
 
-    getRadiusStops: function () {
-        return this.options.radiusStops;
+    getDensityStops: function () {
+        return this.options.densityStops;
     },
 
-    getRadiusBlend: function () {
-        return this.options.radiusBlend;
+    getDensityBlend: function () {
+        return this.options.densityBlend;
     },
 
     getColorGradient: function () {
@@ -183,9 +184,9 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
         return this;
     },
 
-    setRadiusBlend: function (radiusBlend) {
-        this.options.radiusBlend = radiusBlend;
-        this._changedFlags.radiusBlend = true;
+    setDensityBlend: function (densityBlend) {
+        this.options.densityBlend = densityBlend;
+        this._changedFlags.densityBlend = true;
         return this;
     },
 
@@ -219,9 +220,9 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
         return this;
     },
 
-    setRadiusStops: function (radiusStops) {
-        this.options.radiusStops = radiusStops;
-        this._changedFlags.radiusStops = true;
+    setDensityStops: function (densityStops) {
+        this.options.densityStops = densityStops;
+        this._changedFlags.densityStops = true;
         return this;
     },
 
@@ -280,14 +281,14 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
     _changedFlags: {
         indoorMap: false,
         elevation: false,
-        radiusBlend: false,
+        densityBlend: false,
         intensityBias: false,
         intensityScale: false,
         opacity: false,
         colorGradient: false,
         occludedStyle: false,
         resolution: false,
-        radiusStops: false,
+        densityStops: false,
         useApproximation: false,
         data: false
     },

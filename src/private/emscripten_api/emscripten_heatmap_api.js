@@ -11,18 +11,18 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
         "number", "string", "number", "number", "number", "number", "number", "number", "number", "number",
         "number", "number", "number", "number", "number", "number", "number", "number", "number", "number",
         "number", "number", "number", "number", "number", "number", "number", "number", "number", "number",
-        "number", "number", "number"
+        "number", "number", "number", "number", "number"
     ]);
     var _heatmapApi_destroyHeatmap = cwrap("heatmapApi_destroyHeatmap", null, ["number", "number"]);
     var _heatmapApi_setIndoorMap = cwrap("heatmapApi_setIndoorMap", null, ["number", "number", "string", "number", "number"]);
     var _heatmapApi_setElevation = cwrap("heatmapApi_setElevation", null, ["number", "number", "number", "number"]);
-    var _heatmapApi_setRadiusBlend = cwrap("heatmapApi_setRadiusBlend", null, ["number", "number", "number"]);
+    var _heatmapApi_setDensityBlend = cwrap("heatmapApi_setDensityBlend", null, ["number", "number", "number"]);
     var _heatmapApi_setIntensityBias = cwrap("heatmapApi_setIntensityBias", null, ["number", "number", "number"]);
     var _heatmapApi_setIntensityScale = cwrap("heatmapApi_setIntensityScale", null, ["number", "number", "number"]);
     var _heatmapApi_setOpacity = cwrap("heatmapApi_setOpacity", null, ["number", "number", "number"]);
     var _heatmapApi_setColorGradient = cwrap("heatmapApi_setColorGradient", null, ["number", "number", "number", "number", "number", "number"]);
     var _heatmapApi_setResolution = cwrap("heatmapApi_setResolution", null, ["number", "number", "number"]);
-    var _heatmapApi_setHeatmapRadii = cwrap("heatmapApi_setHeatmapRadii", null, ["number", "number", "number", "number", "number", "number"]);
+    var _heatmapApi_setHeatmapDensities = cwrap("heatmapApi_setHeatmapDensities", null, ["number", "number", "number", "number", "number", "number", "number", "number"]);
     var _heatmapApi_useApproximation = cwrap("heatmapApi_useApproximation", null, ["number", "number", "number"]);
     var _heatmapApi_setData = cwrap("heatmapApi_setData", null, ["number", "number", "number", "number", "number", "number"]);
 
@@ -126,11 +126,13 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
         var pointDataBuf = _emscriptenMemory.createBufferFromArray(dataFlat, _emscriptenMemory.createDoubleBuffer);
 
 
-        var heatmapRadiiStops = [];
+        var heatmapDensityStops = [];
         var heatmapRadii = [];
-        heatmap.getRadiusStops().forEach(function(pair) {
-            heatmapRadiiStops.push(pair[0]);
-            heatmapRadii.push(pair[1]);
+        var heatmapGains = [];
+        heatmap.getDensityStops().forEach(function(tuple) {
+            heatmapDensityStops.push(tuple[0]);
+            heatmapRadii.push(tuple[1]);
+            heatmapGains.push(tuple[2]);
         });
 
         var gradientStops = [];
@@ -141,8 +143,9 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
         });
 
         // heatmap_todo investigate supporting ES6 for Float32Array / typed arrays
-        var heatmapRadiiStopsBuffer = _emscriptenMemory.createBufferFromArray(heatmapRadiiStops, _emscriptenMemory.createDoubleBuffer);
+        var heatmapDensityStopsBuffer = _emscriptenMemory.createBufferFromArray(heatmapDensityStops, _emscriptenMemory.createDoubleBuffer);
         var heatmapRadiiBuffer = _emscriptenMemory.createBufferFromArray(heatmapRadii, _emscriptenMemory.createDoubleBuffer);
+        var heatmapGainsBuffer = _emscriptenMemory.createBufferFromArray(heatmapGains, _emscriptenMemory.createDoubleBuffer);
         var gradientStopsBuffer = _emscriptenMemory.createBufferFromArray(gradientStops, _emscriptenMemory.createDoubleBuffer);
         var gradientColorsBuffer = _emscriptenMemory.createBufferFromArray(gradientColors, _emscriptenMemory.createInt32Buffer);
         var occludedMapFeaturesInt = occludedMapFeaturesToInt(heatmap.getOccludedMapFeatures());
@@ -165,15 +168,17 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
             heatmap.getResolutionPixels(),
             heatmap.getTextureBorderPercent(),
             heatmap.getUseApproximation() ? 1 : 0,
-            heatmapRadiiStopsBuffer.ptr,
-            heatmapRadiiStopsBuffer.element_count,
+            heatmapDensityStopsBuffer.ptr,
+            heatmapDensityStopsBuffer.element_count,
             heatmapRadiiBuffer.ptr,
             heatmapRadiiBuffer.element_count,
+            heatmapGainsBuffer.ptr,
+            heatmapGainsBuffer.element_count,
             gradientStopsBuffer.ptr,
             gradientStopsBuffer.element_count,
             gradientColorsBuffer.ptr,
             gradientColorsBuffer.element_count,
-            heatmap.getRadiusBlend(),
+            heatmap.getDensityBlend(),
             heatmap.getOpacity(),
             heatmap.getIntensityBias(),
             heatmap.getIntensityScale(),
@@ -186,8 +191,9 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
         _emscriptenMemory.freeBuffer(polygonVertexCoordsBuffer);
         _emscriptenMemory.freeBuffer(polygonRingVertexCountsBuffer);
         _emscriptenMemory.freeBuffer(pointDataBuf);
+        _emscriptenMemory.freeBuffer(heatmapDensityStopsBuffer);
         _emscriptenMemory.freeBuffer(heatmapRadiiBuffer);
-        _emscriptenMemory.freeBuffer(heatmapRadiiStopsBuffer);
+        _emscriptenMemory.freeBuffer(heatmapGainsBuffer);
         _emscriptenMemory.freeBuffer(gradientStopsBuffer);
         _emscriptenMemory.freeBuffer(gradientColorsBuffer);
 
@@ -225,11 +231,11 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
                 );
         }
 
-        if (changedFlags.radiusBlend) {
-            _heatmapApi_setRadiusBlend(
+        if (changedFlags.densityBlend) {
+            _heatmapApi_setDensityBlend(
                 _emscriptenApiPointer,
                 heatmapId,
-                heatmap.getRadiusBlend()
+                heatmap.getDensityBlend()
             );
         }
 
@@ -276,6 +282,9 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
                 gradientColorsBuffer.ptr,
                 gradientColorsBuffer.element_count
             );
+
+            _emscriptenMemory.freeBuffer(gradientStopsBuffer);
+            _emscriptenMemory.freeBuffer(gradientColorsBuffer);
         }
 
         if (changedFlags.resolution) {
@@ -286,26 +295,35 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
             );
         }
 
-        if (changedFlags.radiusStops) {
+        if (changedFlags.densityStops) {
 
-            var heatmapRadiiStops = [];
+            var heatmapDensityStops = [];
             var heatmapRadii = [];
-            heatmap.getRadiusStops().forEach(function(pair) {
-                heatmapRadiiStops.push(pair[0]);
-                heatmapRadii.push(pair[1]);
+            var heatmapGains = [];
+            heatmap.getDensityStops().forEach(function(tuple) {
+                heatmapDensityStops.push(tuple[0]);
+                heatmapRadii.push(tuple[1]);
+                heatmapGains.push(tuple[2]);
             });
 
-            var heatmapRadiiStopsBuffer = _emscriptenMemory.createBufferFromArray(heatmapRadiiStops, _emscriptenMemory.createDoubleBuffer);
+            var heatmapDensityStopsBuffer = _emscriptenMemory.createBufferFromArray(heatmapDensityStops, _emscriptenMemory.createDoubleBuffer);
             var heatmapRadiiBuffer = _emscriptenMemory.createBufferFromArray(heatmapRadii, _emscriptenMemory.createDoubleBuffer);
+            var heatmapGainsBuffer = _emscriptenMemory.createBufferFromArray(heatmapGains, _emscriptenMemory.createDoubleBuffer);
 
-            _heatmapApi_setHeatmapRadii(
+            _heatmapApi_setHeatmapDensities(
                 _emscriptenApiPointer,
                 heatmapId,
-                heatmapRadiiStopsBuffer.ptr,
-                heatmapRadiiStopsBuffer.element_count,
+                heatmapDensityStopsBuffer.ptr,
+                heatmapDensityStopsBuffer.element_count,
                 heatmapRadiiBuffer.ptr,
-                heatmapRadiiBuffer.element_count
+                heatmapRadiiBuffer.element_count,
+                heatmapGainsBuffer.ptr,
+                heatmapGainsBuffer.element_count
             );
+
+            _emscriptenMemory.freeBuffer(heatmapDensityStopsBuffer);
+            _emscriptenMemory.freeBuffer(heatmapRadiiBuffer);
+            _emscriptenMemory.freeBuffer(heatmapGainsBuffer);
         }
 
         if (changedFlags.useApproximation) {
@@ -329,6 +347,8 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
                 heatmap.getWeightMin(),
                 heatmap.getWeightMax()
                 );
+
+            _emscriptenMemory.freeBuffer(pointDataBuf);
         }
 
 
