@@ -7,6 +7,7 @@ function EmscriptenBlueSphereApi(emscriptenApiPointer, cwrap, runtime, emscripte
     var _blueSphereApi_setElevation = cwrap("blueSphereApi_setElevation", null, ["number", "number"]);
     var _blueSphereApi_setIndoorMap = cwrap("blueSphereApi_setIndoorMap", null, ["number", "string", "number", "number"]);
     var _blueSphereApi_setHeadingDegrees = cwrap("blueSphereApi_setHeadingDegrees", null, ["number", "number"]);
+    var _blueSphereApi_showOrientation = cwrap("blueSphereApi_showOrientation", null, ["number", "number"]);
 
     this.updateNativeState = function (blueSphereModule) {
         var location = blueSphereModule.getLocation();
@@ -46,6 +47,11 @@ function EmscriptenBlueSphereApi(emscriptenApiPointer, cwrap, runtime, emscripte
         _blueSphereApi_setHeadingDegrees(
             _emscriptenApiPointer,
             blueSphereModule.getHeadingDegrees()
+        );
+
+        _blueSphereApi_showOrientation(
+            _emscriptenApiPointer,
+            blueSphereModule.isOrientationVisible()
         );
 
     };

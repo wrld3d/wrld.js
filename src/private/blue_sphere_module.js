@@ -11,6 +11,7 @@ function BlueSphereModule(emscriptenApi) {
     var _headingDegrees = 0.0;
     var _elevation = 0.0;
     var _stateChanged = false;
+    var _showOrientation = true;
 
     this.isEnabled = function() {
         return _isEnabled;
@@ -42,6 +43,10 @@ function BlueSphereModule(emscriptenApi) {
         _indoorMapFloorId = indoorMapFloorId;
     };
 
+    this.isOrientationVisible = function () {
+        return _showOrientation;
+    };
+
     this.getHeadingDegrees = function () {
         return _headingDegrees;
     };
@@ -57,6 +62,11 @@ function BlueSphereModule(emscriptenApi) {
 
     this.setElevation = function (elevation) {
         _elevation = elevation;
+        _stateChanged = true;
+    };
+
+    this.showOrientation = function (isVisible) {
+        _showOrientation = isVisible;
         _stateChanged = true;
     };
 
