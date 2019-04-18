@@ -33,13 +33,15 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
         zoomMin: 15.0,
         zoomMax: 18.0,
 
+        // Default gradient suitable for sequential data, with transparency near zero, similar to
+        // http://colorbrewer2.org/#type=sequential&scheme=YlOrRd&n=5
         colorGradient: [
             {stop: 0.0, color: "#ffffff00"},
-            {stop: 0.2, color: "#f0f9e8ff"},
-            {stop: 0.4, color: "#bae4bcff"},
-            {stop: 0.6, color: "#7bccc4ff"},
-            {stop: 0.8, color: "#43a2caff"},
-            {stop: 1.0, color: "#0868acff"}
+            {stop: 0.2, color: "#ffffb2ff"},
+            {stop: 0.4, color: "#fecc5cff"},
+            {stop: 0.6, color: "#fd8d3cff"},
+            {stop: 0.8, color: "#f03b20ff"},
+            {stop: 1.0, color: "#bd0026ff"}
         ],
         opacity: 1.0,
         intensityBias: 0.0,
@@ -65,7 +67,10 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
                 }
             }
             else {
-                coord = L.latLng(pointDatum);
+                coord = L.latLng(pointDatum[0], pointDatum[1]);
+                if (pointDatum.length > 2) {
+                    weight = pointDatum[2];
+                }
             }
 
             weightedCoords.push({
