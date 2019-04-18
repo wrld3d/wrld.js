@@ -11,12 +11,13 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
         "number", "string", "number", "number", "number", "number", "number", "number", "number", "number",
         "number", "number", "number", "number", "number", "number", "number", "number", "number", "number",
         "number", "number", "number", "number", "number", "number", "number", "number", "number", "number",
-        "number", "number", "number", "number", "number"
+        "number", "number", "number", "number", "number", "number", "number", "number"
     ]);
     var _heatmapApi_destroyHeatmap = cwrap("heatmapApi_destroyHeatmap", null, ["number", "number"]);
     var _heatmapApi_setIndoorMap = cwrap("heatmapApi_setIndoorMap", null, ["number", "number", "string", "number", "number"]);
     var _heatmapApi_setElevation = cwrap("heatmapApi_setElevation", null, ["number", "number", "number", "number"]);
     var _heatmapApi_setDensityBlend = cwrap("heatmapApi_setDensityBlend", null, ["number", "number", "number"]);
+    var _heatmapApi_setInterpolateDensityByZoom = cwrap("heatmapApi_setInterpolateDensityByZoom", null, ["number", "number", "number", "number", "number"]);
     var _heatmapApi_setIntensityBias = cwrap("heatmapApi_setIntensityBias", null, ["number", "number", "number"]);
     var _heatmapApi_setIntensityScale = cwrap("heatmapApi_setIntensityScale", null, ["number", "number", "number"]);
     var _heatmapApi_setOpacity = cwrap("heatmapApi_setOpacity", null, ["number", "number", "number"]);
@@ -148,6 +149,9 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
             gradientColorsBuffer.ptr,
             gradientColorsBuffer.element_count,
             heatmap.getDensityBlend(),
+            heatmap.getInterpolateDensityByZoom(),
+            heatmap.getZoomMin(),
+            heatmap.getZoomMax(),
             heatmap.getOpacity(),
             heatmap.getIntensityBias(),
             heatmap.getIntensityScale(),
@@ -205,6 +209,16 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
                 _emscriptenApiPointer,
                 heatmapId,
                 heatmap.getDensityBlend()
+            );
+        }
+
+        if (changedFlags.densityBlend) {
+            _heatmapApi_setInterpolateDensityByZoom(
+                _emscriptenApiPointer,
+                heatmapId,
+                heatmap.getInterpolateDensityByZoom(),
+                heatmap.getZoomMin(),
+                heatmap.getZoomMax()
             );
         }
 

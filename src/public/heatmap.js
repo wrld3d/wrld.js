@@ -29,6 +29,10 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
             {stop: 1.0, radius: 15.0, gain: 1.0},
         ],
         densityBlend: 0.0,
+        interpolateDensityByZoom: false,
+        zoomMin: 15.0,
+        zoomMax: 18.0,
+
         colorGradient: [
             {stop: 0.0, color: "#ffffff00"},
             {stop: 0.2, color: "#f0f9e8ff"},
@@ -264,6 +268,18 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
         return this.options.densityBlend;
     },
 
+    getInterpolateDensityByZoom: function () {
+        return this.options.interpolateDensityByZoom;
+    },
+
+    getZoomMin: function () {
+        return this.options.zoomMin;
+    },
+
+    getZoomMax: function () {
+        return this.options.zoomMax;
+    },
+
     getColorGradient: function () {
         return this.options.colorGradient;
     },
@@ -322,6 +338,24 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
     setDensityBlend: function (densityBlend) {
         this.options.densityBlend = densityBlend;
         this._changedFlags.densityBlend = true;
+        return this;
+    },
+
+    setInterpolateDensityByZoom: function(interpolateDensityByZoom) {
+        this.options.interpolateDensityByZoom = interpolateDensityByZoom;
+        this._changedFlags.interpolateDensityByZoom = true;
+        return this;
+    },
+
+    setZoomMin: function(zoomMin) {
+        this.options.zoomMin = zoomMin;
+        this._changedFlags.interpolateDensityByZoom = true;
+        return this;
+    },
+
+    setZoomMax: function(zoomMax) {
+        this.options.zoomMin = zoomMax;
+        this._changedFlags.interpolateDensityByZoom = true;
         return this;
     },
 
@@ -421,6 +455,7 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
         indoorMap: false,
         elevation: false,
         densityBlend: false,
+        interpolateDensityByZoom: false,
         intensityBias: false,
         intensityScale: false,
         opacity: false,
