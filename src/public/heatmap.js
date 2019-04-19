@@ -9,6 +9,11 @@ var HeatmapOcclusionMapFeatures = {
 
 var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
 
+    constants: {
+        RESOLUTION_PIXELS_MIN: 64.0,
+        RESOLUTION_PIXELS_MAX: 2048
+    },
+
     options: {
         dataCoordProperty: "latLng",
         dataWeightProperty: "weight",
@@ -25,8 +30,8 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
         useApproximation: true,
 
         densityStops: [
-            {stop: 0.0, radius: 5.0, gain: 1.0},
-            {stop: 1.0, radius: 15.0, gain: 1.0},
+            { stop: 0.0, radius: 5.0, gain: 1.0 },
+            { stop: 1.0, radius: 15.0, gain: 1.0 },
         ],
         densityBlend: 0.0,
         interpolateDensityByZoom: false,
@@ -36,12 +41,12 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
         // Default gradient suitable for sequential data, with transparency near zero, similar to
         // http://colorbrewer2.org/#type=sequential&scheme=YlOrRd&n=5
         colorGradient: [
-            {stop: 0.0, color: "#ffffff00"},
-            {stop: 0.2, color: "#ffffb2ff"},
-            {stop: 0.4, color: "#fecc5cff"},
-            {stop: 0.6, color: "#fd8d3cff"},
-            {stop: 0.8, color: "#f03b20ff"},
-            {stop: 1.0, color: "#bd0026ff"}
+            { stop: 0.0, color: "#ffffff00" },
+            { stop: 0.2, color: "#ffffb2ff" },
+            { stop: 0.4, color: "#fecc5cff" },
+            { stop: 0.6, color: "#fd8d3cff" },
+            { stop: 0.8, color: "#f03b20ff" },
+            { stop: 1.0, color: "#bd0026ff" }
         ],
         opacity: 1.0,
         intensityBias: 0.0,
@@ -111,7 +116,7 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
                 polygonRings.push(this._loadLatLngAlts(holeCoords));
             }, this);
         }
-        else if (coordsArray.length === 0){
+        else if (coordsArray.length === 0) {
             polygonRings = [];
         }
         else {
@@ -120,7 +125,7 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
         return polygonRings;
     },
 
-    _loadDensityParams: function(densityParams) {
+    _loadDensityParams: function (densityParams) {
         var isArray = Array.isArray(densityParams);
         var stop = 0.0;
         var radius = 0.0;
@@ -152,7 +157,7 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
         };
     },
 
-    _loadDensityStops: function(densityStopsArray) {
+    _loadDensityStops: function (densityStopsArray) {
         var densityStops = [];
         var arrayDepth = this._getArrayDepth(densityStopsArray);
 
@@ -170,7 +175,7 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
         return densityStops;
     },
 
-    _loadColorStop: function(colorStopParams) {
+    _loadColorStop: function (colorStopParams) {
         var isArray = Array.isArray(colorStopParams);
         var stop = 0.0;
         var color = "#ffffffff";
@@ -198,7 +203,7 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
         };
     },
 
-    _loadColorGradient: function(gradientStopsArray) {
+    _loadColorGradient: function (gradientStopsArray) {
         var colorGradient = [];
         var arrayDepth = this._getArrayDepth(gradientStopsArray);
 
@@ -320,64 +325,89 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
     ////
 
     setIndoorMapWithFloorId: function (indoorMapId, indoorMapFloorId) {
-        this.options.indoorMapId = indoorMapId;
+        if (isNaN(indoorMapFloorId)) {
+            throw new Error("Heatmap indoorMapFloorId cannot be NaN");
+        }
+        this.options.indoorMapId = indoorMapId || Heatmap.prototype.options.indoorMapId;
         this.options.indoorMapFloorId = indoorMapFloorId;
         this._changedFlags.indoorMap = true;
         return this;
     },
 
     setElevation: function (elevation) {
+        if (isNaN(elevation)) {
+            throw new Error("Heatmap elevation cannot be NaN");
+        }
         this.options.elevation = elevation;
         this._changedFlags.elevation = true;
         return this;
     },
 
     setElevationMode: function (mode) {
-        if (elevationMode.isValidElevationMode(mode)) {
-            this.options.elevationMode = mode;
+        if (!elevationMode.isValidElevationMode(mode)) {
+            throw new Error("Heatmap elevationMode must be valid");
         }
+        this.options.elevationMode = mode;
         this._changedFlags.elevation = true;
         return this;
     },
 
     setDensityBlend: function (densityBlend) {
-        this.options.densityBlend = densityBlend;
+        if (isNaN(densityBlend)) {
+            throw new Error("Heatmap densityBlend cannot be NaN");
+        }
+        this.options.densityBlend = Math.min(Math.max(densityBlend, 0.0), 1.0);
         this._changedFlags.densityBlend = true;
         return this;
     },
 
-    setInterpolateDensityByZoom: function(interpolateDensityByZoom) {
-        this.options.interpolateDensityByZoom = interpolateDensityByZoom;
+    setInterpolateDensityByZoom: function (interpolateDensityByZoom) {
+        this.options.interpolateDensityByZoom = interpolateDensityByZoom ? true : false;
         this._changedFlags.interpolateDensityByZoom = true;
         return this;
     },
 
-    setZoomMin: function(zoomMin) {
-        this.options.zoomMin = zoomMin;
+    setZoomMin: function (zoomMin) {
+        if (isNaN(zoomMin)) {
+            throw new Error("Heatmap zoomMin cannot be NaN");
+        }
+        this.options.zoomMin = Math.max(zoomMin, 0.0);
         this._changedFlags.interpolateDensityByZoom = true;
         return this;
     },
 
-    setZoomMax: function(zoomMax) {
-        this.options.zoomMin = zoomMax;
+    setZoomMax: function (zoomMax) {
+        if (isNaN(zoomMax)) {
+            throw new Error("Heatmap zoomMax cannot be NaN");
+        }
+        this.options.zoomMax = Math.max(zoomMax, 0.0);
         this._changedFlags.interpolateDensityByZoom = true;
         return this;
     },
 
     setIntensityBias: function (intensityBias) {
-        this.options.intensityBias = intensityBias;
+        if (isNaN(intensityBias)) {
+            throw new Error("Heatmap intensityBias cannot be NaN");
+        }
+        this.options.intensityBias = Math.min(Math.max(intensityBias, 0.0), 1.0);
         this._changedFlags.intensityBias = true;
         return this;
     },
 
     setIntensityScale: function (intensityScale) {
-        this.options.intensityScale = intensityScale;
+        if (isNaN(intensityScale)) {
+            throw new Error("Heatmap intensityScale cannot be NaN");
+        }
+        this.options.intensityScale = Math.max(intensityScale, 0.0);
         this._changedFlags.intensityScale = true;
         return this;
     },
 
     setOpacity: function (opacity) {
-        this.options.opacity = opacity;
+        if (isNaN(opacity)) {
+            throw new Error("Heatmap opacity cannot be NaN");
+        }
+        this.options.opacity = Math.min(Math.max(opacity, 0.0), 1.0);
         this._changedFlags.opacity = true;
         return this;
     },
@@ -389,7 +419,13 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
     },
 
     setResolution: function (resolutionPixels) {
-        this.options.resolutionPixels = resolutionPixels;
+        if (isNaN(resolutionPixels)) {
+            throw new Error("Heatmap resolutionPixels cannot be NaN");
+        }
+        this.options.resolutionPixels = Math.max(
+            Math.min(resolutionPixels, this.constants.RESOLUTION_PIXELS_MAX),
+            this.constants.RESOLUTION_PIXELS_MIN);
+
         this._changedFlags.resolution = true;
         return this;
     },
@@ -401,7 +437,7 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
     },
 
     setUseApproximation: function (useApproximation) {
-        this.options.useApproximation = useApproximation;
+        this.options.useApproximation = useApproximation ? true : false;
         this._changedFlags.useApproximation = true;
         return this;
     },
@@ -413,27 +449,85 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
     },
 
     setWeightMin: function (weightMin) {
+        if (isNaN(weightMin)) {
+            throw new Error("Heatmap weightMin cannot be NaN");
+        }
         this.options.weightMin = weightMin;
         this._changedFlags.data = true;
         return this;
     },
 
     setWeightMax: function (weightMax) {
+        if (isNaN(weightMax)) {
+            throw new Error("Heatmap weightMax cannot be NaN");
+        }
         this.options.weightMax = weightMax;
         this._changedFlags.data = true;
         return this;
     },
 
-    setOptions: function (options) {
-        // todo_heatmap - only flag if changed
-        L.setOptions(this, options);
-        this.options.polygonPoints = this._loadPolygonRings(this.options.polygonPoints);
-        this.options.densityStops = this._loadDensityStops(this.options.densityStops);
-        this.options.colorGradient = this._loadColorGradient(this.options.colorGradient);
+    setPolygonPoints: function (polygonPoints) {
+        this.options.polygonPoints = this._loadPolygonRings(polygonPoints);
+        this._changedFlags.polygon = true;
+        return this;
+    },
 
-        Object.keys(this._changedFlags).forEach(function (key) {
-            this._changedFlags[key] = true;
-        }, this);
+    setOptions: function (options) {
+        // merge options into this.options
+        L.setOptions(this, options);
+
+        // only call mutation method (which validates and sets dirty flag) if property exists in param
+        if (options.hasOwnProperty("indoorMapId") || options.hasOwnProperty("indooindoorMapFloorIdMapId")) {
+            this.setIndoorMapWithFloorId(this.options.indoorMapId, this.options.indoorMapFloorId);
+        }
+        if (options.hasOwnProperty("elevation")) {
+            this.setElevation(this.options.elevation);
+        }
+        if (options.hasOwnProperty("elevationMode")) {
+            this.setElevationMode(this.options.elevationMode);
+        }
+        if (options.hasOwnProperty("densityBlend")) {
+            this.setDensityBlend(this.options.densityBlend);
+        }
+        if (options.hasOwnProperty("interpolateDensityByZoom")) {
+            this.setInterpolateDensityByZoom(this.options.interpolateDensityByZoom);
+        }
+        if (options.hasOwnProperty("zoomMin")) {
+            this.setZoomMin(this.options.zoomMin);
+        }
+        if (options.hasOwnProperty("zoomMax")) {
+            this.setZoomMax(this.options.zoomMax);
+        }
+        if (options.hasOwnProperty("intensityBias")) {
+            this.setIntensityBias(this.options.intensityBias);
+        }
+        if (options.hasOwnProperty("intensityScale")) {
+            this.setIntensityScale(this.options.intensityScale);
+        }
+        if (options.hasOwnProperty("opacity")) {
+            this.setOpacity(this.options.opacity);
+        }
+        if (options.hasOwnProperty("colorGradient")) {
+            this.setColorGradient(this.options.colorGradient);
+        }
+        if (options.hasOwnProperty("resolutionPixels")) {
+            this.setResolution(this.options.resolutionPixels);
+        }
+        if (options.hasOwnProperty("densityStops")) {
+            this.setDensityStops(this.options.densityStops);
+        }
+        if (options.hasOwnProperty("useApproximation")) {
+            this.setUseApproximation(this.options.useApproximation);
+        }
+        if (options.hasOwnProperty("weightMin")) {
+            this.setWeightMin(this.options.weightMin);
+        }
+        if (options.hasOwnProperty("weightMax")) {
+            this.setWeightMax(this.options.weightMax);
+        }
+        if (options.hasOwnProperty("polygonPoints")) {
+            this.setPolygonPoints(this.options.polygonPoints);
+        }
 
         return this;
     },
@@ -469,7 +563,8 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
         resolution: false,
         densityStops: false,
         useApproximation: false,
-        data: false
+        data: false,
+        polygon: false
     },
 
     _anyChanged: function () {
