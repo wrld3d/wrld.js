@@ -28,14 +28,85 @@ function hexToRgba32(hex) {
     return (rgb << 8) + a;
 }
 
+function colorArrayToVector4(color) {
+    var r = 0.0;
+    var g = 0.0;
+    var b = 0.0;
+    var a = 255.0;
+    if (Array.isArray(color) && color.length >= 3) {
+        r = color[0];
+        g = color[1];
+        b = color[2];
+        if (color.length > 3) {
+            a = color[3];
+        }
+    }
+    else {
+        throw new Error("Unable to parse color from array: " + String(color));
+    }
+
+    if (isNaN(r) || isNaN(g) || isNaN(b) || isNaN(a)) {
+        throw new Error("Unable to parse color - value out of range: " + String(color));
+    }
+    return new space.Vector4(r, g, b, a);
+}
+
+function colorObjectToVector4(color) {
+    var r = undefined;
+    var g = undefined;
+    var b = undefined;
+    var a = 255.0;
+    if (typeof color === "object") {
+        if (color.hasOwnProperty("r")) {
+            r = color.r;
+        }
+        else if (color.hasOwnProperty("x")) {
+            r = color.x;
+        }
+
+        if (color.hasOwnProperty("g")) {
+            g = color.g;
+        }
+        else if (color.hasOwnProperty("y")) {
+            g = color.y;
+        }
+
+        if (color.hasOwnProperty("b")) {
+            b = color.b;
+        }
+        else if (color.hasOwnProperty("z")) {
+            b = color.z;
+        }
+
+        if (color.hasOwnProperty("a")) {
+            a = color.a;
+        }
+        else if (color.hasOwnProperty("w")) {
+            a = color.w;
+        }
+    }
+    else {
+        throw new Error("Unable to parse color: " + String(color));
+    }
+
+    if (isNaN(r) || isNaN(g) || isNaN(b) || isNaN(a)) {
+        throw new Error("Unable to parse color - value out of range: " + String(color));
+    }
+    return new space.Vector4(r, g, b, a);
+}
+
 function colorToRgba32(color) {
     if (typeof(color) === "string") {
         return hexToRgba32(color);
     }
-    else {
-        var v = new space.Vector4(color);
-        return vec4ToRgba32(v);
+    else if (Array.isArray(color)) {
+        return vec4ToRgba32(colorArrayToVector4(color));
     }
+    else if (typeof color === "object") {
+        return vec4ToRgba32(colorObjectToVector4(color));
+    }
+
+    throw new Error("Unable to parse color: " + String(color));
 }
 
 module.exports = {

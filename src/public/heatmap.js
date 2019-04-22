@@ -150,6 +150,16 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
             gain = densityParams.gain || 1.0;
         }
 
+        if (isNaN(stop)) {
+            throw new Error("Expected Number for heatmap density stop parameter: " + String(stop));
+        }
+        if (isNaN(radius)) {
+            throw new Error("Expected Number for heatmap radius parameter: " + String(radius));
+        }
+        if (isNaN(gain)) {
+            throw new Error("Expected Number for heatmap gain parameter: " + String(gain));
+        }
+
         return {
             stop: stop,
             radius: radius,
@@ -196,6 +206,9 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
             color = colorStopParams.color;
         }
 
+        if (isNaN(stop)) {
+            throw new Error("Expected Number for color stop parameter: " + String(stop));
+        }
 
         return {
             stop: stop,
