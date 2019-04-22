@@ -1,6 +1,6 @@
 var elevationMode = require("../private/elevation_mode.js");
 
-var HeatmapOcclusionMapFeatures = {
+var HeatmapOcclusionMapFeature = {
     ground: "GROUND",
     buildings: "BUILDINGS",
     trees: "TREES",
@@ -51,7 +51,7 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
         opacity: 1.0,
         intensityBias: 0.0,
         intensityScale: 1.0,
-        occludedMapFeatures: [HeatmapOcclusionMapFeatures.buildings, HeatmapOcclusionMapFeatures.trees],
+        occludedMapFeatures: [HeatmapOcclusionMapFeature.buildings, HeatmapOcclusionMapFeature.trees],
         occludedAlpha: 0.85,
         occludedSaturation: 0.7,
         occludedBrightness: 0.7
@@ -589,5 +589,5 @@ var heatmap = function (pointData, heatmapOptions) {
 module.exports = {
     Heatmap: Heatmap,
     heatmap: heatmap,
-    HeatmapOcclusionMapFeatures: HeatmapOcclusionMapFeatures
+    HeatmapOcclusionMapFeature: HeatmapOcclusionMapFeature
 };

@@ -33,16 +33,16 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
         var occludedMapFeaturesInt = 0;
 
         occludedMapFeatures.forEach(function(occlusionFeature) {
-            if (occlusionFeature === heatmap.HeatmapOcclusionMapFeatures.ground) {
+            if (occlusionFeature === heatmap.HeatmapOcclusionMapFeature.ground) {
                 occludedMapFeaturesInt = occludedMapFeaturesInt | 0x1;
             }
-            else if (occlusionFeature === heatmap.HeatmapOcclusionMapFeatures.buildings) {
+            else if (occlusionFeature === heatmap.HeatmapOcclusionMapFeature.buildings) {
                 occludedMapFeaturesInt = occludedMapFeaturesInt | 0x2;
             }
-            else if (occlusionFeature === heatmap.HeatmapOcclusionMapFeatures.trees) {
+            else if (occlusionFeature === heatmap.HeatmapOcclusionMapFeature.trees) {
                 occludedMapFeaturesInt = occludedMapFeaturesInt | 0x4;
             }
-            else if (occlusionFeature === heatmap.HeatmapOcclusionMapFeatures.transport) {
+            else if (occlusionFeature === heatmap.HeatmapOcclusionMapFeature.transport) {
                 occludedMapFeaturesInt = occludedMapFeaturesInt | 0x8;
             }
         });
