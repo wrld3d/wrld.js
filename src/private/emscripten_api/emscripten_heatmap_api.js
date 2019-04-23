@@ -93,7 +93,7 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
         var elevationModeInt = elevationMode.getElevationModeInt(heatmap.getElevationMode());
 
         // data
-        var dataFlat = _buildFlatData(heatmap.getPointData());
+        var dataFlat = _buildFlatData(heatmap.getData());
         var pointDataBuf = _emscriptenMemory.createBufferFromArray(dataFlat, _emscriptenMemory.createDoubleBuffer);
 
         var heatmapDensityStops = [];
@@ -318,7 +318,7 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
 
         if (changedFlags.data) {
 
-            var dataFlat = _buildFlatData(heatmap.getPointData());
+            var dataFlat = _buildFlatData(heatmap.getData());
             var pointDataBuf = _emscriptenMemory.createBufferFromArray(dataFlat, _emscriptenMemory.createDoubleBuffer);
 
             _heatmapApi_setData(
