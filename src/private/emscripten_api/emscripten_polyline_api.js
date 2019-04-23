@@ -1,5 +1,5 @@
 var elevationMode = require("../elevation_mode.js");
-var space = require("../../public/space");
+var interopUtils = require("./emscripten_interop_utils.js");
 
 function EmscriptenPolylineApi(emscriptenApiPointer, cwrap, runtime, emscriptenMemory) {
     var _emscriptenApiPointer = emscriptenApiPointer;
@@ -10,45 +10,6 @@ function EmscriptenPolylineApi(emscriptenApiPointer, cwrap, runtime, emscriptenM
     var _polylineApi_setIndoorMap = cwrap("polylineApi_setIndoorMap", null, ["number", "number", "string", "number", "number"]);
     var _polylineApi_setElevation = cwrap("polylineApi_setElevation", null, ["number", "number", "number"]);
     var _polylineApi_setStyleAttributes = cwrap("polylineApi_setStyleAttributes", null, ["number", "number", "number", "number", "number"]);
-
-
-    function vec4ToRgba32(v) {
-        var rgba = ((v.x & 0xFF) << 24) + ((v.y & 0xFF) << 16) + ((v.z & 0xFF) << 8) + (v.w & 0xFF);
-        return rgba;
-    }
-
-    function hexToRgba32(hex) {
-        // https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
-
-        hex = hex.replace(/^#/, "");
-        var a = 0xff;
-        if (hex.length === 8) {
-            a = parseInt(hex.slice(6, 8), 16) & 0xff;
-        }
-        else if (hex.length === 4) {
-            a = parseInt(hex.slice(3, 4).repeat(2), 16) & 0xff;
-        }
-
-        var rgb = 0xffffff;
-        if (hex.length === 6 || hex.length === 8) {
-            rgb = parseInt(hex.substring(0, 6), 16) & 0xffffff;
-        }
-        else if (hex.length === 3 || hex.length === 4) {
-            rgb = parseInt((hex[0].repeat(2) + hex[1].repeat(2) + hex[2].repeat(2)), 16) & 0xffffff;
-        }
-
-        return (rgb << 8) + a;
-    }
-
-    function colorToRgba32(color) {
-        if (typeof(color) === "string") {
-            return hexToRgba32(color);
-        }
-        else {
-            var v = new space.Vector4(color);
-            return vec4ToRgba32(v);
-        }
-    }
 
     this.createPolyline = function(polyline) {
         var coords = [];
@@ -77,7 +38,7 @@ function EmscriptenPolylineApi(emscriptenApiPointer, cwrap, runtime, emscriptenM
         var elevation = polyline.getElevation();
         var elevationModeInt = elevationMode.getElevationModeInt(polyline.getElevationMode());
         var width = polyline.getWidth();
-        var colorRGBA32 = colorToRgba32(polyline.getColor());
+        var colorRGBA32 = interopUtils.colorToRgba32(polyline.getColor());
         var miterLimit = polyline.getMiterLimit();
 
         var polylineId = _polylineApi_createPolyline(
@@ -115,7 +76,7 @@ function EmscriptenPolylineApi(emscriptenApiPointer, cwrap, runtime, emscriptenM
 
         var indoorMapId = polyline.getIndoorMapId();
         var elevationModeInt = elevationMode.getElevationModeInt(polyline.getElevationMode());
-        var colorRGBA32 = colorToRgba32(polyline.getColor());
+        var colorRGBA32 = interopUtils.colorToRgba32(polyline.getColor());
 
         _polylineApi_setIndoorMap(
             _emscriptenApiPointer,

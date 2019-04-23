@@ -56,7 +56,8 @@ var EegeoLeafletMap = L.Map.extend({
             indoorMapEntityInformationModule,
             blueSphereModule,
             mapRuntimeModule,
-            versionModule
+            versionModule,
+            heatmapModule
             ) {
         this._browserWindow = browserWindow;
         this._cameraModule = cameraModule;
@@ -73,6 +74,7 @@ var EegeoLeafletMap = L.Map.extend({
         this.indoorMapEntities = indoorMapEntityInformationModule;
         this.blueSphere = blueSphereModule;
         this.versionModule = versionModule;
+        this.heatmaps = heatmapModule;
         this._mapRuntimeModule = mapRuntimeModule;
         this._layersOnMap = {};
         this._spacesApi = null;

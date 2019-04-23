@@ -10,8 +10,9 @@ var polygonShim = require("./private/polygon_shim.js");
 var polylineShim = require("./private/polyline_shim.js");
 var rectangleShim = require("./private/rectangle_shim.js");
 var circle = require("./public/circle.js");
-require("./private/polyfills.js");
+var heatmap = require("./public/heatmap.js");
 
+require("./private/polyfills.js");
 
 var _baseUrl = "https://cdn-webgl.wrld3d.com/eegeojs/public/latest/";
 var _appName = "eeGeoWebGL.jgz";
@@ -100,7 +101,7 @@ var Wrld = {
 
 		return map.leafletMap;
 	},
-	
+
 	Marker: marker.Marker,
 	marker: marker.marker,
 	Popup: popup.Popup,
@@ -111,6 +112,8 @@ var Wrld = {
     polyline: polyline.polyline,
 	Prop: prop.Prop,
 	prop: prop.prop,
+    Heatmap: heatmap.Heatmap,
+    heatmap: heatmap.heatmap,
 
 	indoors: require("./public/indoors/indoors"),
 	space: require("./public/space"),
