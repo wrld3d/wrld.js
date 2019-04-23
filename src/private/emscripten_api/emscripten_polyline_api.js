@@ -1,5 +1,4 @@
 var elevationMode = require("../elevation_mode.js");
-var space = require("../../public/space");
 var interopUtils = require("./emscripten_interop_utils.js");
 
 function EmscriptenPolylineApi(emscriptenApiPointer, cwrap, runtime, emscriptenMemory) {
