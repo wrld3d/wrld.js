@@ -728,6 +728,73 @@ describe("map_interop:", function() {
     });
   });
 
+  describe("when using the heatmap api", function() {
+    var EmscriptenHeatmapApi = require("../../src/private/emscripten_api/emscripten_heatmap_api");
+    var EmscriptenMemory = require("../../src/private/emscripten_api/emscripten_memory");
+    var _heatmapApi = null;
+    var _emscriptenMemory = null;
+    var _heatmapMock = null;
+
+    beforeEach(function() {
+      refreshSdk();
+      var apiPointer = 0;
+      var cwrap = Module.cwrap;
+      var runtime = Module.Runtime;
+      _emscriptenMemory = new EmscriptenMemory(Module);
+      _heatmapApi = new EmscriptenHeatmapApi(apiPointer, cwrap, runtime, _emscriptenMemory);
+      _heatmapMock = {
+        getPolygonPoints: function() { return [] },
+        getIndoorMapId: function() { return "" },
+        getIndoorMapFloorId: function() { return 0 },
+        getElevation: function() { return 0 },
+        getElevationMode: function() { return "heightAboveSeaLevel" },
+        getData: function() { return [{latLng: L.latLng(37.78, -122.40), weight: 2.0}] },
+        getDensityStops: function() { return [{stop: 0.0, radius: 10.0, gain: 1.0}] },
+        getColorGradient: function() { return [{stop: 0.0, color: "#ffffffff"}] },
+        getOccludedMapFeatures: function() { return [] },
+        getWeightMin: function() { return 0.0 },
+        getWeightMax: function() { return 1.0 },
+        getResolutionPixels: function() { return 512 },
+        getTextureBorderPercent: function() { return 0.5 },
+        getUseApproximation: function() { return true },
+        getDensityBlend: function() { return 0.0 },
+        getInterpolateDensityByZoom: function() { return false },
+        getZoomMin: function() { return 15.0 },
+        getZoomMax: function() { return 18.0 },
+        getOpacity: function() { return 1.0 },
+        getIntensityBias: function() { return 0.0 },
+        getIntensityScale: function() { return 1.0 },
+        getOccludedAlpha: function() { return 1.0 },
+        getOccludedSaturation: function() { return 1.0 },
+        getOccludedBrightness: function() { return 1.0 },
+        _anyChanged: function() { return true; },
+        _getChangedFlags: function() { return {}; },
+        _clearChangedFlags: function() {}
+      };
+    });
+
+    it("the createHeatmap function must exist", function() {
+      _verifyApiFunctionExists(function() {
+        _heatmapApi.createHeatmap(_heatmapMock);
+      });
+    });
+
+    it("the destroyHeatmap function must exist", function() {
+      _verifyApiFunctionExists(function() {
+        var heatmapId = 1;
+        _heatmapApi.destroyHeatmap(heatmapId);
+      });
+    });
+
+    it("the updateNativeState function must exist", function() {
+      _verifyApiFunctionExists(function() {
+        var heatmapId = 1;
+        _heatmapApi.updateNativeState(heatmapId, _heatmapMock);
+      });
+    });
+
+  });
+
   describe("when using the blue sphere api", function() {
     var EmscriptenBlueSphereApi = require("../../src/private/emscripten_api/emscripten_blue_sphere_api");
     var EmscriptenMemory = require("../../src/private/emscripten_api/emscripten_memory");
