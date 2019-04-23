@@ -33,16 +33,16 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
         var occludedMapFeaturesInt = 0;
 
         occludedMapFeatures.forEach(function(occlusionFeature) {
-            if (occlusionFeature === heatmap.HeatmapOcclusionMapFeature.ground) {
+            if (occlusionFeature === heatmap.HeatmapOcclusionMapFeature.GROUND) {
                 occludedMapFeaturesInt = occludedMapFeaturesInt | 0x1;
             }
-            else if (occlusionFeature === heatmap.HeatmapOcclusionMapFeature.buildings) {
+            else if (occlusionFeature === heatmap.HeatmapOcclusionMapFeature.BUILDINGS) {
                 occludedMapFeaturesInt = occludedMapFeaturesInt | 0x2;
             }
-            else if (occlusionFeature === heatmap.HeatmapOcclusionMapFeature.trees) {
+            else if (occlusionFeature === heatmap.HeatmapOcclusionMapFeature.TREES) {
                 occludedMapFeaturesInt = occludedMapFeaturesInt | 0x4;
             }
-            else if (occlusionFeature === heatmap.HeatmapOcclusionMapFeature.transport) {
+            else if (occlusionFeature === heatmap.HeatmapOcclusionMapFeature.TRANSPORT) {
                 occludedMapFeaturesInt = occludedMapFeaturesInt | 0x8;
             }
         });
@@ -53,11 +53,11 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
     function _buildFlatData(pointData) {
         var dataFlat = [];
         pointData.forEach(function(pointDatum) {
-            dataFlat.push(pointDatum.coord.lat);
-            dataFlat.push(pointDatum.coord.lng);
+            dataFlat.push(pointDatum.latLng.lat);
+            dataFlat.push(pointDatum.latLng.lng);
             var altOrDefault = 0.0;
-            if (pointDatum.coord.alt !== undefined) {
-                altOrDefault = pointDatum.coord.alt;
+            if (pointDatum.latLng.alt !== undefined) {
+                altOrDefault = pointDatum.latLng.alt;
             }
             dataFlat.push(altOrDefault);
             dataFlat.push(pointDatum.weight);

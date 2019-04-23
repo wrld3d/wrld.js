@@ -1,10 +1,10 @@
 var elevationMode = require("../private/elevation_mode.js");
 
 var HeatmapOcclusionMapFeature = {
-    ground: "GROUND",
-    buildings: "BUILDINGS",
-    trees: "TREES",
-    transport: "TRANSPORT"
+    GROUND: "ground",
+    BUILDINGS: "buildings",
+    TREES: "trees",
+    TRANSPORT: "transport"
 };
 
 var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
@@ -51,7 +51,7 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
         opacity: 1.0,
         intensityBias: 0.0,
         intensityScale: 1.0,
-        occludedMapFeatures: [HeatmapOcclusionMapFeature.buildings, HeatmapOcclusionMapFeature.trees],
+        occludedMapFeatures: [HeatmapOcclusionMapFeature.BUILDINGS, HeatmapOcclusionMapFeature.TREES],
         occludedAlpha: 0.85,
         occludedSaturation: 0.7,
         occludedBrightness: 0.7
@@ -63,23 +63,23 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
         var dataWeightProperty = this.options.dataWeightProperty;
         pointData.forEach(function (pointDatum) {
             var weight = 1.0;
-            var coord = [];
+            var latLng = [];
             if (dataCoordProperty in pointData) {
-                coord = L.latLng(pointDatum[dataCoordProperty]);
+                latLng = L.latLng(pointDatum[dataCoordProperty]);
 
                 if (dataWeightProperty in pointDatum) {
                     weight = pointDatum[dataWeightProperty];
                 }
             }
             else {
-                coord = L.latLng(pointDatum[0], pointDatum[1]);
+                latLng = L.latLng(pointDatum[0], pointDatum[1]);
                 if (pointDatum.length > 2) {
                     weight = pointDatum[2];
                 }
             }
 
             weightedCoords.push({
-                coord: coord,
+                latLng: latLng,
                 weight: weight
             });
         });
@@ -239,6 +239,17 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
         this._pointData = this._loadPointData(pointData);
     },
 
+    getData: function () {
+        return this._pointData;
+    },
+
+    setData: function (pointData) {
+        this._pointData = this._loadPointData(pointData);
+        this._changedFlags.data = true;
+        return this;
+    },
+
+
     getPolygonPoints: function () {
         return this.options.polygonPoints;
     },
@@ -257,10 +268,6 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
 
     getElevationMode: function () {
         return this.options.elevationMode;
-    },
-
-    getPointData: function () {
-        return this._pointData;
     },
 
     getWeightMin: function () {
@@ -452,12 +459,6 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
     setUseApproximation: function (useApproximation) {
         this.options.useApproximation = useApproximation ? true : false;
         this._changedFlags.useApproximation = true;
-        return this;
-    },
-
-    setData: function (pointData) {
-        this._pointData = this._loadPointData(pointData);
-        this._changedFlags.data = true;
         return this;
     },
 
