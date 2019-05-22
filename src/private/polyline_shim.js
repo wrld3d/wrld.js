@@ -26,6 +26,16 @@ var PolylineShim = L.Polyline.extend({
 		return redraw;
 	},
 
+    addLatLng: function (latlng, latlngs) {
+        var redraw = L.Polyline.prototype.addLatLng.call(this, latlngs);
+
+        if(this._map) {
+            this._map._createPointMapping(this);
+        }
+
+        return redraw;
+    },
+
 	getElevation: function() {
         return this.options.elevation;
     },

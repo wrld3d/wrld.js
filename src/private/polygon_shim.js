@@ -26,6 +26,16 @@ var PolygonShim = L.Polygon.extend({
 		return redraw;
 	},
 
+    _convertLatLngs: function (latlngs) {
+        var result = L.Polygon.prototype._convertLatLngs.call(this, latlngs);
+
+        if(this._map) {
+            this._map._createPointMapping(this);
+        }
+
+        return result;
+    },
+
 	getElevation: function() {
         return this.options.elevation;
     },
