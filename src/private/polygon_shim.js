@@ -17,13 +17,14 @@ var PolygonShim = L.Polygon.extend({
 	// @method setLatLngs(latlngs: LatLng[]): this
 	// Replaces all the points in the polygon with the given array of geographical points.
 	setLatLngs: function (latlngs) {
-		var redraw = L.Polygon.prototype.setLatLngs.call(this, latlngs);
 
-		if(this._map) {
-			this._map._createPointMapping(this);
-		}
+        this._setLatLngs(latlngs);
+        
+        if(this._map) {
+            this._map._createPointMapping(this);
+        }
 
-		return redraw;
+        return this.redraw();
 	},
 
     _convertLatLngs: function (latlngs) {
