@@ -9,7 +9,7 @@ var getCenterOfLayer = function(layer) {
         return layer.getLatLng();
     }
     if ("getBounds" in layer) {
-        return layer.getBounds().getCenter();
+        return layer.getBounds().isValid() ? layer.getBounds().getCenter() : null;
     }
     return null;
 };
