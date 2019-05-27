@@ -479,7 +479,8 @@ var EegeoLeafletMap = L.Map.extend({
             var latlng = getCenterOfLayer(layer);
 
             // certain layers (such as L.layerGroup) don't have positions and are purely organisational tools, so we can ignore them
-            if (latlng === null) {
+            // Additionally check if it's FeatureGroup, which is explicitly used by Leaflet.Draw.
+            if (latlng === null || layer instanceof L.FeatureGroup) {
                 return;
             }
 
