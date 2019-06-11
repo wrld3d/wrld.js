@@ -20,7 +20,6 @@ var IndoorEntranceMarkerUpdater = require("./indoor_entrance_marker_updater");
 
 var EegeoLeafletMap = require("../public/eegeo_leaflet_map");
 var MapMoveEvents = require("./events/map_move_events");
-var interopUtils = require("./emscripten_api/emscripten_interop_utils.js");
 
 var removeFileExtension = function(fileName, extensionToRemove) {
     var extensionPosition = fileName.lastIndexOf(".");
@@ -60,8 +59,8 @@ var EegeoMapController = function (mapId, emscriptenApi, domElement, apiKey, bro
         framerateThrottlingEnables: false,
         timeInMillisecondsBeforeReducingFramerate: 30000,
         reducedFramerateIntervalSeconds: 1.0,
-        clearColor: "#ffff00aa",
-        indoorBackgroundColor: "#00ffffaa"
+        clearColor: "#000000ff",
+        indoorBackgroundColor: "#000000c0"
     };
 
     options = L.extend(_defaultOptions, options);
@@ -79,7 +78,7 @@ var EegeoMapController = function (mapId, emscriptenApi, domElement, apiKey, bro
     var _polylineModule = new PolylineModule(emscriptenApi);
     var _layerPointMappingModule = new LayerPointMappingModule(emscriptenApi);
     var _routingModule = new RoutingModule(apiKey, _indoorsModule);
-    var _renderingModule = new RenderingModule(emscriptenApi);
+    var _renderingModule = new RenderingModule(emscriptenApi, options.clearColor);
     var _buildingsModule = new BuildingsModule(emscriptenApi);
     var _propModule = new PropModule(emscriptenApi);
     var _indoorMapEntityInformationModule = new IndoorMapEntityInformationModule(emscriptenApi);
@@ -93,7 +92,7 @@ var EegeoMapController = function (mapId, emscriptenApi, domElement, apiKey, bro
     var _canvasHeight = options["height"] || domElement.clientHeight;
     var _containerId = "wrld-map-container" + _mapId;
 
-    var _mapContainer = new HTMLMapContainer(_browserDocument, _browserWindow, domElement, _canvasId, _canvasWidth, _canvasHeight, _containerId, _mapId);
+    var _mapContainer = new HTMLMapContainer(_browserDocument, _browserWindow, domElement, _canvasId, _canvasWidth, _canvasHeight, options.clearColor, _containerId, _mapId);
 
     var _canvas = _mapContainer.canvas;
 
@@ -116,9 +115,6 @@ var EegeoMapController = function (mapId, emscriptenApi, domElement, apiKey, bro
     var timeInMillisecondsBeforeReducingFramerate = options.timeInMillisecondsBeforeReducingFramerate;
     var reducedFramerateIntervalSeconds = options.reducedFramerateIntervalSeconds;
 
-    var clearColor = options.clearColor;
-
-    var clearColorRGBA32 = interopUtils.hexToRgba32(clearColor);
     _Module["arguments"] = [
         _canvasId,
         _mapId.toString(),
@@ -139,8 +135,7 @@ var EegeoMapController = function (mapId, emscriptenApi, domElement, apiKey, bro
         indoorLabelsAlwaysHidden,
         framerateThrottlingEnables,
         timeInMillisecondsBeforeReducingFramerate.toString(),
-        reducedFramerateIntervalSeconds.toString(),
-        clearColorRGBA32.toString()
+        reducedFramerateIntervalSeconds.toString()
     ];
 
     this.leafletMap = new EegeoLeafletMap(

@@ -1,12 +1,14 @@
 var MapModule = require("./map_module");
 
 
-function RenderingModule(emscriptenApi) {
+function RenderingModule(emscriptenApi, clearColor) {
 
     var _emscriptenApi = emscriptenApi;
+    var _clearColor = clearColor;
     var _ready = false;
 
     this.onInitialized = function() {
+        _emscriptenApi.renderingApi.setClearColor(_clearColor);
         _ready = true;
     };
 
