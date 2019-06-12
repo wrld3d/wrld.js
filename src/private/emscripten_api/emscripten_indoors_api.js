@@ -275,7 +275,7 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
     this.setBackgroundColor = function(color) {
         var colorRGBA32 = interopUtils.colorToRgba32(color);
         _indoorsApi_SetBackgroundColor(_emscriptenApiPointer, colorRGBA32);
-    }
+    };
 }
 
 module.exports = EmscriptenIndoorsApi;
