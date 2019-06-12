@@ -30,7 +30,8 @@ var removeFileExtension = function(fileName, extensionToRemove) {
     return fileName;
 };
 
-var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, browserWindow, browserDocument, module, options) {
+
+var EegeoMapController = function (mapId, emscriptenApi, domElement, apiKey, browserWindow, browserDocument, module, options) {
 
     var _defaultOptions = {
         canvasId: "canvas",
@@ -56,8 +57,10 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
         trafficDisableWhenEnteringIndoorMaps: true,
         indoorLabelsAlwaysHidden: false,
         framerateThrottlingEnables: false,
-        timeInMillisecondsBeforeReducingFramerate:30000,
-        reducedFramerateIntervalSeconds:1.0
+        timeInMillisecondsBeforeReducingFramerate: 30000,
+        reducedFramerateIntervalSeconds: 1.0,
+        drawClearColor: "#000000ff",
+        indoorMapBackgroundColor: "#000000c0"
     };
 
     options = L.extend(_defaultOptions, options);
@@ -70,12 +73,12 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
     var _themesModule = new ThemesModule(emscriptenApi);
     var _precacheModule = new PrecacheModule(emscriptenApi);
     var _cameraModule = new CameraModule(emscriptenApi, options.center, options.zoom);
-    var _indoorsModule = new IndoorsModule(emscriptenApi, this, _mapId, options.indoorId, options.floorIndex, options.center, options.headingDegrees, options.zoom, options.showIndoorWrldWatermark);
+    var _indoorsModule = new IndoorsModule(emscriptenApi, this, _mapId, options.indoorId, options.floorIndex, options.center, options.headingDegrees, options.zoom, options.showIndoorWrldWatermark, options.indoorMapBackgroundColor);
     var _polygonModule = new PolygonModule(emscriptenApi);
     var _polylineModule = new PolylineModule(emscriptenApi);
     var _layerPointMappingModule = new LayerPointMappingModule(emscriptenApi);
     var _routingModule = new RoutingModule(apiKey, _indoorsModule);
-    var _renderingModule = new RenderingModule(emscriptenApi);
+    var _renderingModule = new RenderingModule(emscriptenApi, options.drawClearColor);
     var _buildingsModule = new BuildingsModule(emscriptenApi);
     var _propModule = new PropModule(emscriptenApi);
     var _indoorMapEntityInformationModule = new IndoorMapEntityInformationModule(emscriptenApi);
@@ -89,7 +92,7 @@ var EegeoMapController = function(mapId, emscriptenApi, domElement, apiKey, brow
     var _canvasHeight = options["height"] || domElement.clientHeight;
     var _containerId = "wrld-map-container" + _mapId;
 
-    var _mapContainer = new HTMLMapContainer(_browserDocument, _browserWindow, domElement, _canvasId, _canvasWidth, _canvasHeight, _containerId, _mapId);
+    var _mapContainer = new HTMLMapContainer(_browserDocument, _browserWindow, domElement, _canvasId, _canvasWidth, _canvasHeight, options.drawClearColor, _containerId, _mapId);
 
     var _canvas = _mapContainer.canvas;
 

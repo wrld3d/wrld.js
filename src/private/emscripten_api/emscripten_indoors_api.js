@@ -1,3 +1,5 @@
+var interopUtils = require("./emscripten_interop_utils.js");
+
 function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, runtime, emscriptenMemory) {
 
     var _emscriptenApiPointer = emscriptenApiPointer;
@@ -25,7 +27,7 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
     var _indoorsApi_TryGetFloorReadableName = cwrap("indoorsApi_TryGetFloorReadableName", "number", ["number", "string", "number", "number", "number", "number"]);
     var _indoorsApi_TryGetFloorShortNameBufferSize = cwrap("indoorsApi_TryGetFloorShortNameBufferSize", "number", ["number", "string", "number", "number", "number"]);
     var _indoorsApi_TryGetFloorShortName = cwrap("indoorsApi_TryGetFloorShortName", "number", ["number", "string", "number", "number", "number", "number"]);
-
+    var _indoorsApi_SetBackgroundColor = cwrap("indoorsApi_SetBackgroundColor", null, ["number", "number"]);
 
     var _onIndoorMapEntered = null;
     var _onIndoorMapEnterFailed = null;
@@ -105,10 +107,10 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
             runtime.addFunction(_indoorMapEntryMarkerRemovedHandler),
             runtime.addFunction(_indoorMapLoadedHandler),
             runtime.addFunction(_indoorMapUnloadedHandler)
-            );
+        );
     };
 
-    this.setNotificationCallbacks = function (
+    this.setNotificationCallbacks = function(
         indoorMapEnteredCallback,
         indoorMapEnterFailedCallback,
         indoorMapExitedCallback,
@@ -117,15 +119,15 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
         indoorMapEntryMarkerRemovedCallback,
         indoorMapLoadedCallback,
         indoorMapUnloadedCallback
-        ) {
-            _onIndoorMapEntered = indoorMapEnteredCallback;
-            _onIndoorMapEnterFailed = indoorMapEnterFailedCallback;
-            _onIndoorMapExited = indoorMapExitedCallback;
-            _onIndoorMapFloorChanged = indoorMapFloorChangedCallback;
-            _onIndoorMapEntryMarkerAdded = indoorMapEntryMarkerAddedCallback;
-            _onIndoorMapEntryMarkerRemoved = indoorMapEntryMarkerRemovedCallback;
-            _onIndoorMapLoaded = indoorMapLoadedCallback;
-            _onIndoorMapUnloaded = indoorMapUnloadedCallback;
+    ) {
+        _onIndoorMapEntered = indoorMapEnteredCallback;
+        _onIndoorMapEnterFailed = indoorMapEnterFailedCallback;
+        _onIndoorMapExited = indoorMapExitedCallback;
+        _onIndoorMapFloorChanged = indoorMapFloorChangedCallback;
+        _onIndoorMapEntryMarkerAdded = indoorMapEntryMarkerAddedCallback;
+        _onIndoorMapEntryMarkerRemoved = indoorMapEntryMarkerRemovedCallback;
+        _onIndoorMapLoaded = indoorMapLoadedCallback;
+        _onIndoorMapUnloaded = indoorMapUnloadedCallback;
     };
 
     this.enterIndoorMap = function(indoorMapId) {
@@ -192,7 +194,7 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
             indoorMapId,
             indoorMapId.length,
             bufferSizeBuf.ptr
-            );
+        );
 
         if (!success) {
             return null;
@@ -207,9 +209,9 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
             indoorMapId.length,
             stringBuffer.ptr,
             bufferSize
-            );
+        );
 
-        if (!success){
+        if (!success) {
             return null;
         }
 
@@ -226,7 +228,7 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
             indoorMapId.length,
             indoorMapFloorId,
             bufferSizeBuf.ptr
-            );
+        );
 
         if (!success) {
             return null;
@@ -242,9 +244,9 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
             indoorMapFloorId,
             stringBuffer.ptr,
             bufferSize
-            );
+        );
 
-        if (!success){
+        if (!success) {
             return null;
         }
 
@@ -258,7 +260,7 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
             indoorMapFloorId,
             _indoorsApi_TryGetFloorReadableNameBufferSize,
             _indoorsApi_TryGetFloorReadableName
-            );
+        );
     };
 
     this.tryGetFloorShortName = function(indoorMapId, indoorMapFloorId) {
@@ -267,8 +269,13 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
             indoorMapFloorId,
             _indoorsApi_TryGetFloorShortNameBufferSize,
             _indoorsApi_TryGetFloorShortName
-            );
+        );
     };
+
+    this.setBackgroundColor = function(color) {
+        var colorRGBA32 = interopUtils.colorToRgba32(color);
+        _indoorsApi_SetBackgroundColor(_emscriptenApiPointer, colorRGBA32);
+    }
 }
 
 module.exports = EmscriptenIndoorsApi;

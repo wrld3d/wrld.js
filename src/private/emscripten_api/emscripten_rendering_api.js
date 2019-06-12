@@ -1,61 +1,69 @@
 var space = require("../../public/space");
+var interopUtils = require("./emscripten_interop_utils.js");
 
-function EmscriptenRenderingApi(eegeoApiPointer, cwrap, runtime, emscriptenMemory) {
+function EmscriptenRenderingApi(emscriptenApiPointer, cwrap, runtime, emscriptenMemory) {
 
-    var _eegeoApiPointer = eegeoApiPointer;
+    var _emscriptenApiPointer = emscriptenApiPointer;
     var _emscriptenMemory = emscriptenMemory;
-    var _getNorthFacingOrientationMatrix = null;
-    var _getCameraRelativePosition = null;
-    var _getCameraProjectionMatrix = null;
-    var _getCameraOrientationMatrix = null;
-    var _getLightingData = null;
 
+    var _renderingApi_SetMapCollapsed = cwrap("renderingApi_SetMapCollapsed", null, ["number", "number"]);
+    var _renderingApi_SetClearColor = cwrap("renderingApi_SetClearColor", null, ["number", "number"]);
+    var _renderingApi_GetCameraRelativePosition = cwrap("renderingApi_GetCameraRelativePosition", null, ["number", "number", "number", "number", "number", "number"]);
+    var _renderingApi_GetCameraProjectionMatrix = cwrap("renderingApi_GetCameraProjectionMatrix", null, ["number", "number", "number"]);
+    var _renderingApi_GetCameraOrientationMatrix = cwrap("renderingApi_GetCameraOrientationMatrix", null, ["number", "number", "number"]);
+    var _renderingApi_GetLightingData = cwrap("renderingApi_GetLightingData", null, ["number", "number", "number"]);
+    var _renderingApi_GetNorthFacingOrientationMatrix = cwrap("renderingApi_GetNorthFacingOrientationMatrix", null, ["number", "number", "number", "number", "number"]);
+
+
+    this.setMapCollapsed = function(isMapCollapsed) {
+        _renderingApi_SetMapCollapsed(_emscriptenApiPointer, isMapCollapsed ? 1 : 0);
+    };
+
+    this.setClearColor = function(clearColor) {
+        var clearColorRGBA32 = interopUtils.hexToRgba32(clearColor);
+        _renderingApi_SetClearColor(_emscriptenApiPointer, clearColorRGBA32);
+    };
 
     this.getCameraRelativePosition = function(latLng) {
-        _getCameraRelativePosition = _getCameraRelativePosition || cwrap("getCameraRelativePosition", null, ["number", "number", "number", "number", "number", "number"]);
         var renderPosition = new Array(3);
         _emscriptenMemory.passDoubles(renderPosition, function(resultArray, arraySize) {
-            _getCameraRelativePosition(_eegeoApiPointer, latLng.lat, latLng.lng, latLng.alt || 0.0, arraySize, resultArray);
+            _renderingApi_GetCameraRelativePosition(_emscriptenApiPointer, latLng.lat, latLng.lng, latLng.alt || 0.0, arraySize, resultArray);
             renderPosition = _emscriptenMemory.readDoubles(resultArray, arraySize);
         });
         return new space.Vector3(renderPosition);
     };
 
     this.getNorthFacingOrientationMatrix = function(latLng) {
-        _getNorthFacingOrientationMatrix = _getNorthFacingOrientationMatrix || cwrap("getNorthFacingOrientationMatrix", null, ["number", "number", "number", "number", "number"]);
         var orientation = new Array(16);
         _emscriptenMemory.passDoubles(orientation, function(resultArray, arraySize) {
-            _getNorthFacingOrientationMatrix(_eegeoApiPointer, latLng.lat, latLng.lng, arraySize, resultArray);
+            _renderingApi_GetNorthFacingOrientationMatrix(_emscriptenApiPointer, latLng.lat, latLng.lng, arraySize, resultArray);
             orientation = _emscriptenMemory.readDoubles(resultArray, arraySize);
         });
         return orientation;
     };
 
     this.getCameraProjectionMatrix = function() {
-        _getCameraProjectionMatrix = _getCameraProjectionMatrix || cwrap("getCameraProjectionMatrix", null, ["number", "number", "number"]);
         var projection = new Array(16);
         _emscriptenMemory.passDoubles(projection, function(resultArray, arraySize) {
-            _getCameraProjectionMatrix(_eegeoApiPointer, arraySize, resultArray);
+            _renderingApi_GetCameraProjectionMatrix(_emscriptenApiPointer, arraySize, resultArray);
             projection = _emscriptenMemory.readDoubles(resultArray, arraySize);
         });
         return projection;
     };
 
     this.getCameraOrientationMatrix = function() {
-        _getCameraOrientationMatrix = _getCameraOrientationMatrix || cwrap("getCameraOrientationMatrix", null, ["number", "number", "number"]);
         var orientation = new Array(16);
         _emscriptenMemory.passDoubles(orientation, function(resultArray, arraySize) {
-            _getCameraOrientationMatrix(_eegeoApiPointer, arraySize, resultArray);
+            _renderingApi_GetCameraOrientationMatrix(_emscriptenApiPointer, arraySize, resultArray);
             orientation = _emscriptenMemory.readDoubles(resultArray, arraySize);
         });
         return orientation;
     };
 
     this.getLightingData = function() {
-        _getLightingData = _getLightingData || cwrap("getLightingData", null, ["number", "number", "number"]);
         var lightingData = new Array(21);
         _emscriptenMemory.passDoubles(lightingData, function (resultArray, arraySize) {
-            _getLightingData(_eegeoApiPointer, arraySize, resultArray);
+            _renderingApi_GetLightingData(_emscriptenApiPointer, arraySize, resultArray);
             lightingData = _emscriptenMemory.readDoubles(resultArray, arraySize);
         });
 

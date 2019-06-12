@@ -110,5 +110,6 @@ function colorToRgba32(color) {
 }
 
 module.exports = {
-    colorToRgba32: colorToRgba32
+    colorToRgba32: colorToRgba32,
+    hexToRgba32: hexToRgba32
 };

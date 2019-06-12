@@ -65,10 +65,10 @@ var EegeoLeafletMap = L.Map.extend({
         this._polygonModule = polygonModule;
         this._polylineModule = polylineModule;
         this._layerPointMappingModule = layerPointMappingModule;
+        this._renderingModule = renderingModule;
         this.themes = themesModule;
         this.indoors = indoorsModule;
         this.routes = routingModule;
-        this.rendering = renderingModule;
         this.buildings = buildingsModule;
         this.props = propModule;
         this.indoorMapEntities = indoorMapEntityInformationModule;
@@ -444,6 +444,18 @@ var EegeoLeafletMap = L.Map.extend({
 
     precacheWithDetailedResult: function(center, radius, completionCallback) {
       return this._precacheModule.precache(center, radius, completionCallback);
+    },
+
+    setMapCollapsed: function(isMapCollapsed) {
+        this._renderingModule.setMapCollapsed(isMapCollapsed);
+    },
+
+    isMapCollapsed: function() {
+        return this._renderingModule.isMapCollapsed();
+    },
+
+    setDrawClearColor: function(clearColor) {
+        this._renderingModule.setClearColor(clearColor);
     },
 
     _getAngleFromCameraToHorizon: function() {

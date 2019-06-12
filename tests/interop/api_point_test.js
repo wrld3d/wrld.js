@@ -640,6 +640,18 @@ describe("map_interop:", function() {
       _renderingApi = new EmscriptenRenderingApi(apiPointer, cwrap, runtime, _emscriptenMemory);
     });
 
+    it("the setMapCollapsed function should exist", function() {
+      _verifyApiFunctionExists(function() {
+        _renderingApi.setMapCollapsed(false);
+      });
+    });
+
+    it("the setClearColor function should exist", function() {
+      _verifyApiFunctionExists(function() {
+        _renderingApi.setClearColor("#f00");
+      });
+    });
+
     it("the getCameraRelativePosition function should exist", function() {
       _verifyApiFunctionExists(function() {
         var latLng = L.latLng(0, 0);

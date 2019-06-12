@@ -2,7 +2,7 @@ var MapModule = require("./map_module");
 var indoors = require("../public/indoors/indoors");
 var IndoorWatermarkController = require("./indoor_watermark_controller");
 
-var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floorIndex, center, headingDegrees, zoom, showWrldWatermark) {
+var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floorIndex, center, headingDegrees, zoom, showWrldWatermark, backgroundColor) {
 
     var _emscriptenApi = emscriptenApi;
     var _mapController = mapController;
@@ -21,6 +21,7 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
     var _center = center;
     var _headingDegrees = headingDegrees;
     var _zoom = zoom;
+    var _backgroundColor = backgroundColor;
 
     var _this = this;
 
@@ -38,7 +39,7 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
 
     var _createFloorsArray = function(floorCount) {
         var floors = [];
-        for (var i=0; i<floorCount; ++i) {
+        for (var i = 0; i < floorCount; ++i) {
             var floorIndex = i;
             var floorName = _emscriptenApi.indoorsApi.getFloorName(i);
             var floorShortName = _emscriptenApi.indoorsApi.getFloorShortName(i);
@@ -77,7 +78,7 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
 
     var _executeIndoorMapEnteredCallbacks = function() {
         _activeIndoorMap = _createIndoorMapObject();
-        _this.fire("indoormapenter", {indoorMap: _activeIndoorMap});
+        _this.fire("indoormapenter", { indoorMap: _activeIndoorMap });
     };
 
     var _executeIndoorMapEnterFailedCallbacks = function() {
@@ -88,11 +89,11 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
         var indoorMap = _activeIndoorMap;
         _activeIndoorMap = null;
         _indoorWatermarkController.hideWatermark();
-        _this.fire("indoormapexit", {indoorMap: indoorMap});
+        _this.fire("indoormapexit", { indoorMap: indoorMap });
     };
 
     var _executeIndoorMapFloorChangedCallbacks = function() {
-        _this.fire("indoormapfloorchange", {floor: _this.getFloor()});
+        _this.fire("indoormapfloorchange", { floor: _this.getFloor() });
     };
 
     var _executeIndoorMapEntranceAddedCallbacks = function(indoorMapId, indoorMapName, indoorMapLatLng) {
@@ -100,26 +101,26 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
         // alternative is to use the altitude, but use "elevationMode: heightAboveSeaLevel" when creating the indoor entrance marker
         var entrance = new indoors.IndoorMapEntrance(indoorMapId, indoorMapName, L.latLng([indoorMapLatLng.lat, indoorMapLatLng.lng]));
         _entrances[entrance.getIndoorMapId()] = entrance;
-        _this.fire("indoorentranceadd", {entrance: entrance});
+        _this.fire("indoorentranceadd", { entrance: entrance });
     };
 
     var _executeIndoorMapEntranceRemovedCallbacks = function(indoorMapId, indoorMapName, indoorMapLatLng) {
         var entrance = new indoors.IndoorMapEntrance(indoorMapId, indoorMapName, indoorMapLatLng);
         delete _entrances[entrance.getIndoorMapId()];
-        _this.fire("indoorentranceremove", {entrance: entrance});
+        _this.fire("indoorentranceremove", { entrance: entrance });
     };
 
     var _executeIndoorMapLoadedCallbacks = function(indoorMapId) {
-        _this.fire("indoormapload", {indoorMapId: indoorMapId});
+        _this.fire("indoormapload", { indoorMapId: indoorMapId });
     };
 
     var _executeIndoorMapUnloadedCallbacks = function(indoorMapId) {
-        _this.fire("indoormapunload", {indoorMapId: indoorMapId});
+        _this.fire("indoormapunload", { indoorMapId: indoorMapId });
     };
 
     var _executeEntityClickedCallbacks = function(ids) {
         var idArray = ids.split("|");
-        _this.fire("indoorentityclick", {ids: idArray});
+        _this.fire("indoorentityclick", { ids: idArray });
     };
 
     var _onCollapseStart = function() {
@@ -159,7 +160,7 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
             _pendingEnterTransition = config;
             return;
         }
-        _emscriptenApi.cameraApi.setView({location: config.latLng, distance: config.distance, allowInterruption: false, headingDegrees: config.orientation});
+        _emscriptenApi.cameraApi.setView({ location: config.latLng, distance: config.distance, allowInterruption: false, headingDegrees: config.orientation });
         _mapController._setIndoorTransitionCompleteEventListener(function() { _enterIndoorMap(config.indoorMapId); });
 
         _this.once("indoormapenter", function() {
@@ -184,7 +185,7 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
             _executeIndoorMapEntranceRemovedCallbacks,
             _executeIndoorMapLoadedCallbacks,
             _executeIndoorMapUnloadedCallbacks
-            );
+        );
 
         _emscriptenApi.indoorEntityApi.onInitialized();
         _emscriptenApi.indoorEntityApi.registerIndoorEntityPickedCallback(_executeEntityClickedCallbacks);
@@ -195,13 +196,15 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
         _emscriptenApi.expandFloorsApi.setExpandStartCallback(_onExpandStart);
         _emscriptenApi.expandFloorsApi.setExpandCallback(_onExpand);
         _emscriptenApi.expandFloorsApi.setExpandEndCallback(_onExpandEnd);
+
+
+        _emscriptenApi.indoorsApi.setBackgroundColor(_backgroundColor);
     };
 
     this.onInitialStreamingCompleted = function() {
         _ready = true;
 
-        if(_startingIndoorId)
-        {
+        if (_startingIndoorId) {
             var config = {
                 latLng: _center,
                 zoom: _zoom,
@@ -210,8 +213,7 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
             };
             this.enter(_startingIndoorId, config);
 
-            if(_startingFloorIndex)
-            {
+            if (_startingFloorIndex) {
                 this.once("indoormapenter", function() { this.setFloor(Number(_startingFloorIndex)); });
             }
         }
@@ -264,7 +266,7 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
             index = (floorIndex >= 0) ? floorIndex : null;
         }
         else if (typeof floor === "string") {
-            for (var i=0; i<floors.length; ++i) {
+            for (var i = 0; i < floors.length; ++i) {
                 if (floors[i].getFloorShortName() === floor) {
                     index = i;
                     break;
@@ -312,7 +314,7 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
         if (entrance !== null) {
             latLng = entrance.getLatLng();
         }
-        else if(config && config.latLng) {
+        else if (config && config.latLng) {
             latLng = config.latLng;
         }
 
@@ -322,7 +324,7 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
 
         var distance = 400;
 
-        if(!config) {
+        if (!config) {
             config = {
                 latLng: latLng,
                 distance: distance,
@@ -348,8 +350,7 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
     this.getFloorHeightAboveSeaLevel = function(floorIndex) {
         if (this.isIndoors() &&
             floorIndex >= 0 &&
-            floorIndex < _activeIndoorMap.getFloorCount())
-        {
+            floorIndex < _activeIndoorMap.getFloorCount()) {
             return _emscriptenApi.indoorsApi.getFloorHeightAboveSeaLevel(floorIndex);
         }
 
@@ -427,6 +428,13 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
         }
 
         return indoorMapId;
+    };
+
+    this.setBackgroundColor = function(color) {
+        _backgroundColor = color;
+        if (!_ready) return;
+
+        _emscriptenApi.indoorsApi.setBackgroundColor(color);
     };
 
 };
