@@ -138,6 +138,12 @@ describe("map_interop:", function() {
       });
     });
 
+    it("the setVerticallyLocked function should exist", function() {
+      _verifyApiFunctionExists(function() {
+        _cameraApi.setVerticallyLocked(false);
+      });
+    });
+
   });
 
   describe("when using the themes api", function() {

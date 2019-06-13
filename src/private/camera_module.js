@@ -1,12 +1,17 @@
 var MapModule = require("./map_module");
 
-var CameraModule = function(emscriptenApi, startLatLng, initialZoom) {
+var CameraModule = function(
+    emscriptenApi,
+    startLatLng,
+    initialZoom,
+    viewVerticallyLocked
+    ) {
     var _emscriptenApi = emscriptenApi;
     var _ready = false;
     var _pendingSetViewData = null;
     var _pendingSetViewToBoundsData = null;
     var _center = startLatLng;
-    var _isVerticallyLocked = false;
+    var _isVerticallyLocked = viewVerticallyLocked;
 
 
     var _setView = function(config) {

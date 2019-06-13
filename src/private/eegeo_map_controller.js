@@ -52,6 +52,8 @@ var EegeoMapController = function (mapId, emscriptenApi, domElement, apiKey, bro
         minZoom: 0,
         maxZoom: 20,
         zoomSnap: 0,
+
+        viewVerticallyLocked: false,
         showIndoorWrldWatermark: true,
         trafficEnabled: true,
         trafficDisableWhenEnteringIndoorMaps: true,
@@ -72,7 +74,12 @@ var EegeoMapController = function (mapId, emscriptenApi, domElement, apiKey, bro
 
     var _themesModule = new ThemesModule(emscriptenApi);
     var _precacheModule = new PrecacheModule(emscriptenApi);
-    var _cameraModule = new CameraModule(emscriptenApi, options.center, options.zoom);
+    var _cameraModule = new CameraModule(
+        emscriptenApi,
+        options.center,
+        options.zoom,
+        options.viewVerticallyLocked
+    );
     var _indoorsModule = new IndoorsModule(emscriptenApi, this, _mapId, options.indoorId, options.floorIndex, options.center, options.headingDegrees, options.zoom, options.showIndoorWrldWatermark, options.indoorMapBackgroundColor);
     var _polygonModule = new PolygonModule(emscriptenApi);
     var _polylineModule = new PolylineModule(emscriptenApi);
