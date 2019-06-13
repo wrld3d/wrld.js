@@ -6,6 +6,7 @@ var CameraModule = function(emscriptenApi, startLatLng, initialZoom) {
     var _pendingSetViewData = null;
     var _pendingSetViewToBoundsData = null;
     var _center = startLatLng;
+    var _isVerticallyLocked = false;
 
 
     var _setView = function(config) {
@@ -60,7 +61,7 @@ var CameraModule = function(emscriptenApi, startLatLng, initialZoom) {
             return 0.0;
         }
     };
-    
+
     var _getTiltDegrees = function() {
       if (_ready) {
           return 90.0 - _emscriptenApi.cameraApi.getPitchDegrees();
@@ -69,7 +70,7 @@ var CameraModule = function(emscriptenApi, startLatLng, initialZoom) {
           return 0.0;
       }
     };
-    
+
     var _setTiltDegrees = function(pitch) {
         _setView({"tiltDegrees":pitch, animate: true});
     };
@@ -82,9 +83,17 @@ var CameraModule = function(emscriptenApi, startLatLng, initialZoom) {
             return parseFloat(_pendingSetViewData["headingDegrees"]) || 0.0;
         }
     };
-    
+
     var _setHeadingDegrees = function(heading) {
         return _setView({"headingDegrees":heading, "animate":true});
+    };
+
+    var _setVerticallyLocked = function(isVerticallyLocked) {
+        _isVerticallyLocked = isVerticallyLocked;
+        if (!_ready) {
+            return;
+        }
+        _emscriptenApi.cameraApi.setVerticallyLocked(_isVerticallyLocked);
     };
 
     var _flushPendingViewOperations = function() {
@@ -123,6 +132,7 @@ var CameraModule = function(emscriptenApi, startLatLng, initialZoom) {
 
     this.onInitialStreamingCompleted = function() {
         _ready = true;
+        _setVerticallyLocked(_isVerticallyLocked);
         _flushPendingViewOperations();
     };
 
@@ -141,11 +151,11 @@ var CameraModule = function(emscriptenApi, startLatLng, initialZoom) {
     this.getPitchDegrees = function() {
         return _getPitchDegrees();
     };
-    
+
     this.getTiltDegrees = function() {
       return _getTiltDegrees();
     };
-    
+
     this.setTiltDegrees = function(pitch) {
       return _setTiltDegrees(pitch);
     };
@@ -153,9 +163,13 @@ var CameraModule = function(emscriptenApi, startLatLng, initialZoom) {
     this.getHeadingDegrees = function() {
         return _getHeadingDegrees();
     };
-    
+
     this.setHeadingDegrees = function(heading) {
       return _setHeadingDegrees(heading);
+    };
+
+    this.setVerticallyLocked = function(isVerticallyLocked) {
+         _setVerticallyLocked(isVerticallyLocked);
     };
 };
 

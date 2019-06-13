@@ -301,6 +301,10 @@ var EegeoLeafletMap = L.Map.extend({
         return this;
     },
 
+    setViewVerticallyLocked: function(isVerticallyLocked) {
+        this._cameraModule.setVerticallyLocked(isVerticallyLocked);
+    },
+
     fitBounds: function(bounds, options) {
         var config = { bounds: bounds };
         this._cameraModule.setViewToBounds(config);
