@@ -135,7 +135,7 @@ var CameraModule = function(
         _setViewToBounds(config);
     };
 
-    this.onInitialStreamingCompleted = function() {
+    this.onInitialized = function() {
         _ready = true;
         _setVerticallyLocked(_isVerticallyLocked);
         _flushPendingViewOperations();
