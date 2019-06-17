@@ -65,10 +65,13 @@ var EegeoLeafletMap = L.Map.extend({
         this._polygonModule = polygonModule;
         this._polylineModule = polylineModule;
         this._layerPointMappingModule = layerPointMappingModule;
-        this._renderingModule = renderingModule;
         this.themes = themesModule;
         this.indoors = indoorsModule;
         this.routes = routingModule;
+        //TODO: The public methods exposed by the RenderingModule require documentation, test coverage and examples.
+        //Reverting the change to private as it is being used by the Search Bar and might be used in other places
+        //which we may not know about.
+        this.rendering = renderingModule;
         this.buildings = buildingsModule;
         this.props = propModule;
         this.indoorMapEntities = indoorMapEntityInformationModule;
@@ -451,15 +454,15 @@ var EegeoLeafletMap = L.Map.extend({
     },
 
     setMapCollapsed: function(isMapCollapsed) {
-        this._renderingModule.setMapCollapsed(isMapCollapsed);
+        this.rendering.setMapCollapsed(isMapCollapsed);
     },
 
     isMapCollapsed: function() {
-        return this._renderingModule.isMapCollapsed();
+        return this.rendering.isMapCollapsed();
     },
 
     setDrawClearColor: function(clearColor) {
-        this._renderingModule.setClearColor(clearColor);
+        this.rendering.setClearColor(clearColor);
     },
 
     _getAngleFromCameraToHorizon: function() {
