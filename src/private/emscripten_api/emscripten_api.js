@@ -17,6 +17,7 @@ var EmscriptenBlueSphereApi = require("./emscripten_blue_sphere_api.js");
 var EmscriptenMapRuntimeApi = require("./emscripten_map_runtime_api.js");
 var EmscriptenVersionApi = require("./emscripten_version_api.js");
 var EmscriptenHeatmapApi = require("./emscripten_heatmap_api.js");
+var EmscriptenFrameRateApi = require("./emscripten_frame_rate_api.js");
 
 function EmscriptenApi(emscriptenModule) {
 
@@ -43,6 +44,7 @@ function EmscriptenApi(emscriptenModule) {
     this.mapRuntimeApi = null;
     this.versionApi = null;
     this.heatmapApi = null;
+    this.frameRateApi = null;
 
     this.onInitialized = function(eegeoApiPointer, emscriptenApiPointer, onUpdateCallback, onDrawCallback, onInitialStreamingCompletedCallback) {
         _eegeoApiPointer = eegeoApiPointer;
@@ -75,6 +77,7 @@ function EmscriptenApi(emscriptenModule) {
         this.versionApi = new EmscriptenVersionApi(_emscriptenApiPointer, cwrap, emscriptenMemory);
         this.heatmapApi = new EmscriptenHeatmapApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
         this.renderingApi = new EmscriptenRenderingApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
+        this.frameRateApi = new EmscriptenFrameRateApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
 
         var _setTopLevelCallbacks = _emscriptenModule.cwrap("setTopLevelCallbacks", null, ["number", "number", "number", "number"]);
         _setTopLevelCallbacks(
