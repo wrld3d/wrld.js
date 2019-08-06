@@ -54,6 +54,7 @@ var EegeoLeafletMap = L.Map.extend({
             buildingsModule,
             propModule,
             indoorMapEntityInformationModule,
+            indoorMapFloorOutlineInformationModule,
             blueSphereModule,
             mapRuntimeModule,
             versionModule,
@@ -75,6 +76,7 @@ var EegeoLeafletMap = L.Map.extend({
         this.buildings = buildingsModule;
         this.props = propModule;
         this.indoorMapEntities = indoorMapEntityInformationModule;
+        this.indoorMapFloorOutlines = indoorMapFloorOutlineInformationModule;
         this.blueSphere = blueSphereModule;
         this.versionModule = versionModule;
         this.heatmaps = heatmapModule;

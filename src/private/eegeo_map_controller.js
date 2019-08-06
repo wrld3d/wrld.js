@@ -10,6 +10,7 @@ var RenderingModule = require("./rendering_module");
 var BuildingsModule = require("./buildings_module");
 var PropModule = require("./prop_module");
 var IndoorMapEntityInformationModule = require("./indoor_map_entity_information_module");
+var IndoorMapFloorOutlineInformationModule = require("./indoor_map_floor_outline_information_module");
 var BlueSphereModule = require("./blue_sphere_module");
 var MapRuntimeModule = require("./map_runtime_module");
 var LayerPointMappingModule = require("./layer_point_mapping_module");
@@ -89,6 +90,7 @@ var EegeoMapController = function (mapId, emscriptenApi, domElement, apiKey, bro
     var _buildingsModule = new BuildingsModule(emscriptenApi);
     var _propModule = new PropModule(emscriptenApi);
     var _indoorMapEntityInformationModule = new IndoorMapEntityInformationModule(emscriptenApi);
+    var _indoorMapFloorOutlineInformationModule = new IndoorMapFloorOutlineInformationModule(emscriptenApi);
     var _blueSphereModule = new BlueSphereModule(emscriptenApi);
     var _mapRuntimeModule = new MapRuntimeModule(emscriptenApi);
     var _versionModule = new VersionModule(emscriptenApi);
@@ -161,6 +163,7 @@ var EegeoMapController = function (mapId, emscriptenApi, domElement, apiKey, bro
         _buildingsModule,
         _propModule,
         _indoorMapEntityInformationModule,
+        _indoorMapFloorOutlineInformationModule,
         _blueSphereModule,
         _mapRuntimeModule,
         _versionModule,
@@ -183,6 +186,7 @@ var EegeoMapController = function (mapId, emscriptenApi, domElement, apiKey, bro
         _buildingsModule,
         _propModule,
         _indoorMapEntityInformationModule,
+        _indoorMapFloorOutlineInformationModule,
         _blueSphereModule,
         _mapRuntimeModule,
         _versionModule,
