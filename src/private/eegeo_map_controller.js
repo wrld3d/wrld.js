@@ -59,9 +59,12 @@ var EegeoMapController = function (mapId, emscriptenApi, domElement, apiKey, bro
         trafficEnabled: true,
         trafficDisableWhenEnteringIndoorMaps: true,
         indoorLabelsAlwaysHidden: false,
-        framerateThrottlingEnables: false,
-        timeInMillisecondsBeforeReducingFramerate: 30000,
-        reducedFramerateIntervalSeconds: 1.0,
+
+        targetVSyncInterval: 1,
+        frameRateThrottleWhenIdleEnabled: false,
+        throttledTargetFrameIntervalMilliseconds: 1000,
+        idleSecondsBeforeFrameRateThrottle: 30.0,
+
         drawClearColor: "#000000ff",
         indoorMapBackgroundColor: "#000000c0"
     };
@@ -95,17 +98,12 @@ var EegeoMapController = function (mapId, emscriptenApi, domElement, apiKey, bro
     var _versionModule = new VersionModule(emscriptenApi);
     var _heatmapModule = new HeatmapModule(emscriptenApi);
 
-    var targetVSyncInterval = 1;
-    var throttledTargetFrameIntervalMilliseconds = options.reducedFramerateIntervalSeconds*1000;
-    var idleSecondsBeforeFrameRateThrottle = options.timeInMillisecondsBeforeReducingFramerate/1000;
-    var frameRateThrottleWhenIdleEnabled = options.framerateThrottlingEnables;
-
     var _frameRateModule = new FrameRateModule(
         emscriptenApi,
-        targetVSyncInterval,
-        throttledTargetFrameIntervalMilliseconds,
-        idleSecondsBeforeFrameRateThrottle,
-        frameRateThrottleWhenIdleEnabled
+        options.targetVSyncInterval,
+        options.throttledTargetFrameIntervalMilliseconds,
+        options.idleSecondsBeforeFrameRateThrottle,
+        options.frameRateThrottleWhenIdleEnabled
     );
 
     var _canvasId = _mapId ? options["canvasId"] + _mapId : options["canvasId"];
@@ -131,10 +129,6 @@ var EegeoMapController = function (mapId, emscriptenApi, domElement, apiKey, bro
     var trafficEnabled = (options.trafficEnabled) ? "1" : "0";
     var trafficDisableWhenEnteringIndoorMaps = (options.trafficDisableWhenEnteringIndoorMaps) ? "1" : "0";
     var indoorLabelsAlwaysHidden = (options.indoorLabelsAlwaysHidden) ? "1" : "0";
-    var framerateThrottlingEnabled = (options.framerateThrottlingEnables) ? "1" : "0";
-
-    var timeInMillisecondsBeforeReducingFramerate = options.timeInMillisecondsBeforeReducingFramerate;
-    var reducedFramerateIntervalSeconds = options.reducedFramerateIntervalSeconds;
 
     _Module["arguments"] = [
         _canvasId,
@@ -153,10 +147,7 @@ var EegeoMapController = function (mapId, emscriptenApi, domElement, apiKey, bro
         _containerId,
         trafficEnabled,
         trafficDisableWhenEnteringIndoorMaps,
-        indoorLabelsAlwaysHidden,
-        framerateThrottlingEnabled,
-        timeInMillisecondsBeforeReducingFramerate.toString(),
-        reducedFramerateIntervalSeconds.toString()
+        indoorLabelsAlwaysHidden
     ];
 
     this.leafletMap = new EegeoLeafletMap(

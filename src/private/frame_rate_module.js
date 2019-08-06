@@ -59,6 +59,14 @@ function FrameRateModule(
         }
         _emscriptenApi.frameRateApi.setThrottleWhenIdleEnabled(_throttleWhenIdleEnabled);
     };
+
+    this.cancelThrottle = function() {
+        // don't attempt to defer command if called during startup
+        if (!_ready) {
+            return;
+        }
+        _emscriptenApi.frameRateApi.cancelThrottle();
+    };
 }
 FrameRateModule.prototype = MapModule;
 
