@@ -1,10 +1,6 @@
-var space = require("../../public/space");
-var interopUtils = require("./emscripten_interop_utils.js");
-
 function EmscriptenFrameRateApi(emscriptenApiPointer, cwrap, runtime, emscriptenMemory) {
 
     var _emscriptenApiPointer = emscriptenApiPointer;
-    var _emscriptenMemory = emscriptenMemory;
 
     var _frameRateApi_SetTargetVSyncInterval = cwrap("frameRateApi_SetTargetVSyncInterval", null, ["number", "number"]);
     var _frameRateApi_SetThrottledTargetFrameInterval = cwrap("frameRateApi_SetThrottledTargetFrameInterval", null, ["number", "number"]);
