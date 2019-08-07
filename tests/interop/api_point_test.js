@@ -631,6 +631,57 @@ describe("map_interop:", function() {
     });
   });
 
+  describe("when using the IndoorMapFloorOutlineInformation api", function() {
+    var EmscriptenIndoorMapFloorOutlineInformationApi = require("../../src/private/emscripten_api/emscripten_indoor_map_floor_outline_information_api");
+    var EmscriptenMemory = require("../../src/private/emscripten_api/emscripten_memory");
+    var _emscriptenIndoorMapFloorOutlineInformationApi = null;
+    var _emscriptenMemory = null;
+
+    beforeEach(function() {
+      refreshSdk();
+      var apiPointer = 0;
+      var cwrap = Module.cwrap;
+      var runtime = Module.Runtime;
+      _emscriptenMemory = new EmscriptenMemory(Module);
+      _emscriptenIndoorMapFloorOutlineInformationApi = new EmscriptenIndoorMapFloorOutlineInformationApi(apiPointer, cwrap, runtime, _emscriptenMemory);
+    });
+
+    it("the registerIndoorMapFloorOutlineInformationLoadedCallback fucntion should exist", function() {
+      _verifyApiFunctionExists(function() {
+        var callback = function(id) {};
+        _emscriptenIndoorMapFloorOutlineInformationApi.registerIndoorMapFloorOutlineInformationLoadedCallback(callback);
+      });
+    });
+
+    it("the createIndoorMapFloorOutlineInformation fucntion should exist", function() {
+      _verifyApiFunctionExists(function() {
+        var outlineInformationMock = {
+            getIndoorMapId: function() { return "" },
+            getIndoorMapFloorId: function() { return 0 }
+        };
+        _emscriptenIndoorMapFloorOutlineInformationApi.createIndoorMapFloorOutlineInformation(outlineInformationMock);
+      });
+    });
+
+    it("the destroyIndoorMapFloorOutlineInformation fucntion should exist", function() {
+      _verifyApiFunctionExists(function() {
+        _emscriptenIndoorMapFloorOutlineInformationApi.destroyIndoorMapFloorOutlineInformation(0);
+      });
+    });
+
+    it("the getIndoorMapFloorOutlineInformationLoaded fucntion should exist", function() {
+      _verifyApiFunctionExists(function() {
+        _emscriptenIndoorMapFloorOutlineInformationApi.getIndoorMapFloorOutlineInformationLoaded(0);
+      });
+    });
+
+    it("the tryGetIndoorMapFloorOutlineInformation fucntion should exist", function() {
+      _verifyApiFunctionExists(function() {
+        _emscriptenIndoorMapFloorOutlineInformationApi.tryGetIndoorMapFloorOutlineInformation(0);
+      });
+    });
+  });
+
   describe("when using the rendering api", function() {
     var EmscriptenRenderingApi = require("../../src/private/emscripten_api/emscripten_rendering_api");
     var EmscriptenMemory = require("../../src/private/emscripten_api/emscripten_memory");

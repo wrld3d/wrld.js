@@ -5,16 +5,16 @@ function IndoorMapFloorOutlineInformationModuleImpl(emscriptenApi) {
     var _emscriptenApi = emscriptenApi;
     var _nativeIdToIndoorMapFloorOutlineInformation = {};
     var _callbackInvokedBeforeAssignement = {};
-    var _pendingIndoorFloorOutlineInformation = [];
+    var _pendingIndoorMapFloorOutlineInformation = [];
     var _ready = false;
     var _notifyIndoorMapFloorOutlineInformationLoadedCallback = null;
 
     var _createPendingIndoorMapFloorOutlineInformations = function() {
-        _pendingIndoorFloorOutlineInformation.forEach(function(indoorMapFloorOutlineInformation) {
+        _pendingIndoorMapFloorOutlineInformation.forEach(function(indoorMapFloorOutlineInformation) {
             _createAndAdd(indoorMapFloorOutlineInformation);
         });
 
-        _pendingIndoorFloorOutlineInformation = [];
+        _pendingIndoorMapFloorOutlineInformation = [];
     };
 
     var _createAndAdd = function(indoorMapFloorOutlineInformation) {
@@ -35,16 +35,16 @@ function IndoorMapFloorOutlineInformationModuleImpl(emscriptenApi) {
             _createAndAdd(indoorMapFloorOutlineInformation);
         }
         else {
-            _pendingIndoorFloorOutlineInformation.push(indoorMapFloorOutlineInformation);
+            _pendingIndoorMapFloorOutlineInformation.push(indoorMapFloorOutlineInformation);
         }
     };
     
     this.removeIndoorMapFloorOutlineInformation = function(indoorMapFloorOutlineInformation) {
 
         if (!_ready) {
-            var index = _pendingIndoorFloorOutlineInformation.indexOf(indoorMapFloorOutlineInformation);
+            var index = _pendingIndoorMapFloorOutlineInformation.indexOf(indoorMapFloorOutlineInformation);
             if (index > -1) {
-                _pendingIndoorFloorOutlineInformation.splice(index, 1);
+                _pendingIndoorMapFloorOutlineInformation.splice(index, 1);
             }
             return;
         }
@@ -80,7 +80,7 @@ function IndoorMapFloorOutlineInformationModuleImpl(emscriptenApi) {
 
     var _fetchIndoorMapFloorOutlineInformation = function(indoorMapFloorOutlineInformationId) {
         var indoorMapFloorOutlineInformation = _nativeIdToIndoorMapFloorOutlineInformation[indoorMapFloorOutlineInformationId];
-        if (_emscriptenApi.indoorMapFloorOutlineInformationApi.getIndoorFloorOutlineInformationLoaded(indoorMapFloorOutlineInformationId)) {
+        if (_emscriptenApi.indoorMapFloorOutlineInformationApi.getIndoorMapFloorOutlineInformationLoaded(indoorMapFloorOutlineInformationId)) {
             var data = _emscriptenApi.indoorMapFloorOutlineInformationApi.tryGetIndoorMapFloorOutlineInformation(indoorMapFloorOutlineInformationId);
             if (data !== null) {
                 indoorMapFloorOutlineInformation._setData(data);
