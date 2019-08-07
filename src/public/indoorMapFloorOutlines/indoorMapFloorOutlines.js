@@ -4,7 +4,7 @@ var _indoorMapFloorOutlinePolygonRing = require("./indoor_map_floor_outline_poly
 
 module.exports = {
     IndoorMapFloorOutlinePolygon: _indoorMapFloorOutlinePolygon,
-    IndooMapFloorOutlinePolygonRing: _indoorMapFloorOutlinePolygonRing,
+    IndoorMapFloorOutlinePolygonRing: _indoorMapFloorOutlinePolygonRing,
     IndoorMapFloorOutlineInformation: _indoorMapFloorOutlineInformation.IndoorMapFloorOutlineInformation,
     indoorMapFloorOutlineInformation: _indoorMapFloorOutlineInformation.indoorMapFloorOutlineInformation
 };

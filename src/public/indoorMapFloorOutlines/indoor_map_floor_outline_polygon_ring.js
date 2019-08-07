@@ -1,4 +1,4 @@
-var IndooMapFloorOutlinePolygonRing = function(latLngPoints) {
+var IndoorMapFloorOutlinePolygonRing = function(latLngPoints) {
   var _latLngPoints = latLngPoints;
 
   this.getLatLngPoints = function() {
@@ -7,4 +7,4 @@ var IndooMapFloorOutlinePolygonRing = function(latLngPoints) {
 
 };
 
-module.exports = IndooMapFloorOutlinePolygonRing;
+module.exports = IndoorMapFloorOutlinePolygonRing;
