@@ -843,4 +843,51 @@ describe("map_interop:", function() {
     });
   });
 
+  describe("when using the frame rate api", function() {
+    var EmscriptenFrameRateApi = require("../../src/private/emscripten_api/emscripten_frame_rate_api");
+    var EmscriptenMemory = require("../../src/private/emscripten_api/emscripten_memory");
+    var _frameRateApi = null;
+    var _emscriptenMemory = null;
+
+    beforeEach(function() {
+      refreshSdk();
+      var apiPointer = 0;
+      var cwrap = Module.cwrap;
+      var runtime = Module.Runtime;
+      _emscriptenMemory = new EmscriptenMemory(Module);
+      _frameRateApi = new EmscriptenFrameRateApi(apiPointer, cwrap, runtime, _emscriptenMemory);
+    });
+
+    it("the setTargetVSyncInterval function must exist", function() {
+      _verifyApiFunctionExists(function() {
+        _frameRateApi.setTargetVSyncInterval(1);
+      });
+    });
+
+    it("the setThrottledTargetFrameInterval function must exist", function() {
+      _verifyApiFunctionExists(function() {
+        _frameRateApi.setThrottledTargetFrameInterval(1);
+      });
+    });
+
+    it("the setIdleSecondsBeforeThrottle function must exist", function() {
+      _verifyApiFunctionExists(function() {
+        _frameRateApi.setIdleSecondsBeforeThrottle(1);
+      });
+    });
+
+    it("the setThrottleWhenIdleEnabled function must exist", function() {
+      _verifyApiFunctionExists(function() {
+        _frameRateApi.setThrottleWhenIdleEnabled(true);
+      });
+    });
+
+    it("the cancelThrottle function must exist", function() {
+      _verifyApiFunctionExists(function() {
+        _frameRateApi.cancelThrottle();
+      });
+    });
+
+  });
+
 });

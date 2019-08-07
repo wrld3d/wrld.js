@@ -57,7 +57,8 @@ var EegeoLeafletMap = L.Map.extend({
             blueSphereModule,
             mapRuntimeModule,
             versionModule,
-            heatmapModule
+            heatmapModule,
+            frameRateModule
             ) {
         this._browserWindow = browserWindow;
         this._cameraModule = cameraModule;
@@ -65,6 +66,7 @@ var EegeoLeafletMap = L.Map.extend({
         this._polygonModule = polygonModule;
         this._polylineModule = polylineModule;
         this._layerPointMappingModule = layerPointMappingModule;
+        this._frameRateModule = frameRateModule;
         this.themes = themesModule;
         this.indoors = indoorsModule;
         this.routes = routingModule;
@@ -463,6 +465,26 @@ var EegeoLeafletMap = L.Map.extend({
 
     setDrawClearColor: function(clearColor) {
         this.rendering.setClearColor(clearColor);
+    },
+
+    setTargetVSyncInterval: function(targetVSyncInterval) {
+        this._frameRateModule.setTargetVSyncInterval(targetVSyncInterval);
+    },
+
+    setThrottledTargetFrameInterval: function(throttledTargetFrameIntervalMilliseconds) {
+        this._frameRateModule.setThrottledTargetFrameInterval(throttledTargetFrameIntervalMilliseconds);
+    },
+
+    setIdleSecondsBeforeThrottle: function(idleSecondsBeforeThrottle) {
+        this._frameRateModule.setIdleSecondsBeforeThrottle(idleSecondsBeforeThrottle);
+    },
+
+    setThrottleWhenIdleEnabled: function(throttleWhenIdleEnabled) {
+        this._frameRateModule.setThrottleWhenIdleEnabled(throttleWhenIdleEnabled);
+    },
+
+    cancelFrameRateThrottle: function() {
+        this._frameRateModule.cancelThrottle();
     },
 
     _getAngleFromCameraToHorizon: function() {
