@@ -23,7 +23,7 @@ var IndoorMapFloorOutlineInformation = function(indoorMapId, indoorMapFloorId) {
       return _isLoaded;
   };
 
-  this.getNativeId = function() {
+  this.getId = function() {
       return _nativeId;
   };
 

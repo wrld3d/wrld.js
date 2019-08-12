@@ -49,7 +49,7 @@ function IndoorMapFloorOutlineInformationModuleImpl(emscriptenApi) {
             return;
         }
 
-        var nativeId = indoorMapFloorOutlineInformation.getNativeId();
+        var nativeId = indoorMapFloorOutlineInformation.getId();
         if (nativeId === undefined) {
             return;
         }
