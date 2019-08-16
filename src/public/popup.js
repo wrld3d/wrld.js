@@ -98,9 +98,12 @@ var Popup = L.Popup.extend({
 		var left_style = Math.round(left) + "px";
 
 		if (L.DomUtil.getStyle(this._container, "left") !== left_style) { // Do not update if style is already applied to prevent vertical wiggling
+			this._container.style.left = left_style;
+		}
+
+		if (L.DomUtil.getStyle(this._container, "bottom") !== bottom_style) {
 			// bottom position the popup in case the height of the popup changes (images loading etc)
 			this._container.style.bottom = bottom_style;
-			this._container.style.left = left_style;
 		}
     },
 
