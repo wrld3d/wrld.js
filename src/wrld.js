@@ -13,8 +13,8 @@ var circle = require("./public/circle.js");
 var heatmap = require("./public/heatmap.js");
 
 require("./private/polyfills.js");
-
-var _baseUrl = "https://cdn-webgl.wrld3d.com/eegeojs/public/latest/";
+// TODO: Remove Before merge
+var _baseUrl = "https://cdn-webgl.wrld3d.com/eegeojs/test_build/entity_outline/latest/";
 var _appName = "eeGeoWebGL.jgz";
 
 
@@ -120,7 +120,9 @@ var Wrld = {
 	themes: require("./public/themes"),
 	buildings: require("./public/buildings/buildings"),
 	indoorMapEntities: require("./public/indoorMapEntities/indoorMapEntities"),
+	indoorMapEntityOutlines: require("./public/indoorMapEntityOutlines/indoorMapEntityOutlines"),
 	indoorMapFloorOutlines: require("./public/indoorMapFloorOutlines/indoorMapFloorOutlines"),
+	outlines: require("./public/outlines/outlines"),
 
 	getMapById: function(mapId) {
 		return _mapObjects[mapId];
