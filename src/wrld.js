@@ -120,7 +120,6 @@ var Wrld = {
 	themes: require("./public/themes"),
 	buildings: require("./public/buildings/buildings"),
 	indoorMapEntities: require("./public/indoorMapEntities/indoorMapEntities"),
-	indoorMapEntityOutlines: require("./public/indoorMapEntityOutlines/indoorMapEntityOutlines"),
 	indoorMapFloorOutlines: require("./public/indoorMapFloorOutlines/indoorMapFloorOutlines"),
 	outlines: require("./public/outlines/outlines"),
 
