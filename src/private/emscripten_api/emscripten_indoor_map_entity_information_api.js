@@ -1,6 +1,6 @@
 var indoorMapEntities = require("../../public/indoorMapEntities/indoorMapEntities");
 
-function EmscriptenIndoorMapEntityInformationApi(emscriptenApiPointer, cwrap, runtime, emscriptenMemory) {
+function EmscriptenIndoorMapEntityInformationApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
     
     var _emscriptenApiPointer = emscriptenApiPointer;
     var _emscriptenMemory = emscriptenMemory;
@@ -15,7 +15,7 @@ function EmscriptenIndoorMapEntityInformationApi(emscriptenApiPointer, cwrap, ru
     var _indoorEntityInformationApi_TryGetIndoorMapEntity = cwrap("indoorEntityInformationApi_TryGetIndoorMapEntity", "number", ["number", "number", "number", "number"]);
 
     this.registerIndoorMapEntityInformationChangedCallback = function(callback) {
-        _indoorEntityInformationApi_IndoorMapEntityInformationChangedCallback(_emscriptenApiPointer, runtime.addFunction(callback));
+        _indoorEntityInformationApi_IndoorMapEntityInformationChangedCallback(_emscriptenApiPointer, emscriptenModule.addFunction(callback));
     };
 
     this.createIndoorMapEntityInformation = function(indoorEntityInformation) {

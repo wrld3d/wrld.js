@@ -1,7 +1,7 @@
 var space = require("../../public/space");
 var interopUtils = require("./emscripten_interop_utils.js");
 
-function EmscriptenRenderingApi(emscriptenApiPointer, cwrap, runtime, emscriptenMemory) {
+function EmscriptenRenderingApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
 
     var _emscriptenApiPointer = emscriptenApiPointer;
     var _emscriptenMemory = emscriptenMemory;

@@ -1,4 +1,4 @@
-function EmscriptenLayerPointMappingApi(emscriptenApiPointer, cwrap, runtime, emscriptenMemory) {
+function EmscriptenLayerPointMappingApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
 
     var _emscriptenApiPointer = emscriptenApiPointer;
     var _emscriptenMemory = emscriptenMemory;

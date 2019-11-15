@@ -1,7 +1,7 @@
 var IndoorMapFloorOutlinePolygon = require("../../public/indoorMapFloorOutlines/indoor_map_floor_outline_polygon");
 var IndoorMapFloorOutlinePolygonRing = require("../../public/indoorMapFloorOutlines/indoor_map_floor_outline_polygon_ring");
 
-function EmscriptenIndoorMapFloorOutlineInformationApi(emscriptenApiPointer, cwrap, runtime, emscriptenMemory) {
+function EmscriptenIndoorMapFloorOutlineInformationApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
 
     var _emscriptenApiPointer = emscriptenApiPointer;
     var _emscriptenMemory = emscriptenMemory;
@@ -15,7 +15,7 @@ function EmscriptenIndoorMapFloorOutlineInformationApi(emscriptenApiPointer, cwr
     var _indoorMapFloorOutlineInformationApi_TryGetIndoorMapFloorOutlinePolygon = cwrap("indoorMapFloorOutlineInformationApi_TryGetIndoorMapFloorOutlinePolygon", "number", ["number","number","number","number","number","number","number","number"]);
 
     this.registerIndoorMapFloorOutlineInformationLoadedCallback = function(callback) {
-        _indoorMapFloorOutlineInformationApi_IndoorMapFloorOutlineInformationLoadedCallback(_emscriptenApiPointer, runtime.addFunction(callback));
+        _indoorMapFloorOutlineInformationApi_IndoorMapFloorOutlineInformationLoadedCallback(_emscriptenApiPointer, emscriptenModule.addFunction(callback));
     };
 
     this.createIndoorMapFloorOutlineInformation = function(indoorMapFloorOutlineInformation) {
