@@ -56,7 +56,7 @@ function EmscriptenMemory(emscriptenModule) {
     };
 
     this.stringifyPointer = function(ptr) {
-      return _emscriptenModule.Pointer_stringify(ptr);
+      return _emscriptenModule.UTF8ToString(ptr);
     };
 
     this.createInt8Buffer = function(bufferLen) {
