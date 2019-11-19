@@ -75,9 +75,8 @@ describe("map_interop:", function() {
       refreshSdk();
       var apiPointer = 0;
       var cwrap = Module.cwrap;
-      var runtime = Module.Runtime;
       _emscriptenMemory = new EmscriptenMemory(Module);
-      _cameraApi = new EmscriptenCameraApi(apiPointer, cwrap, runtime, _emscriptenMemory);
+      _cameraApi = new EmscriptenCameraApi(apiPointer, cwrap, Module, _emscriptenMemory);
     });
 
     it("the setView function should exist", function() {
@@ -154,8 +153,7 @@ describe("map_interop:", function() {
       refreshSdk();
       var apiPointer = 0;
       var cwrap = Module.cwrap;
-      var runtime = Module.Runtime;
-      _themesApi = new EmscriptenThemesApi(apiPointer, cwrap, runtime);
+      _themesApi = new EmscriptenThemesApi(apiPointer, cwrap, Module);
     });
 
     it("the setTheme function should exist", function() {
@@ -198,8 +196,7 @@ describe("map_interop:", function() {
         refreshSdk();
         var apiPointer = 0;
         var cwrap = Module.cwrap;
-        var runtime = Module.Runtime;
-        _geofenceApi = new EmscriptenGeofenceApi(apiPointer, cwrap, runtime, Module);
+        _geofenceApi = new EmscriptenGeofenceApi(apiPointer, cwrap, Module);
       });
     });
   });
@@ -212,8 +209,7 @@ describe("map_interop:", function() {
       refreshSdk();
       var apiPointer = 0;
       var cwrap = Module.cwrap;
-      var runtime = Module.Runtime;
-      _precacheApi = new EmscriptenPrecacheApi(apiPointer, cwrap, runtime);
+      _precacheApi = new EmscriptenPrecacheApi(apiPointer, cwrap, Module);
     });
 
     it("the beginPrecacheOperation function should exist", function() {
@@ -242,9 +238,8 @@ describe("map_interop:", function() {
       refreshSdk();
       var apiPointer = 0;
       var cwrap = Module.cwrap;
-      var runtime = Module.Runtime;
       _emscriptenMemory = new EmscriptenMemory(Module);
-      _spacesApi = new EmscriptenSpacesApi(apiPointer, cwrap, runtime, _emscriptenMemory);
+      _spacesApi = new EmscriptenSpacesApi(apiPointer, cwrap, Module, _emscriptenMemory);
     });
 
     it("the worldToScreen function should exist", function() {
@@ -323,9 +318,8 @@ describe("map_interop:", function() {
       refreshSdk();
       var apiPointer = 0;
       var cwrap = Module.cwrap;
-      var runtime = Module.Runtime;
       _emscriptenMemory = new EmscriptenMemory(Module);
-      _layerPointMappingApi = new EmscriptenLayerPointMappingApi(apiPointer, cwrap, runtime, _emscriptenMemory);
+      _layerPointMappingApi = new EmscriptenLayerPointMappingApi(apiPointer, cwrap, Module, _emscriptenMemory);
     });
 
     it("the createPointMapping function should exist", function() {
@@ -376,9 +370,8 @@ describe("map_interop:", function() {
       refreshSdk();
       var apiPointer = 0;
       var cwrap = Module.cwrap;
-      var runtime = Module.Runtime;
       _emscriptenMemory = new EmscriptenMemory(Module);
-      _indoorsApi = new EmscriptenIndoorsApi(apiPointer, cwrap, runtime, _emscriptenMemory);
+      _indoorsApi = new EmscriptenIndoorsApi(apiPointer, cwrap, Module, _emscriptenMemory);
     });
 
     it("the setNotificationCallbacks function should exist", function() {
@@ -519,8 +512,7 @@ describe("map_interop:", function() {
       refreshSdk();
       var apiPointer = 0;
       var cwrap = Module.cwrap;
-      var runtime = Module.Runtime;
-      _expandFloorsApi = new EmscriptenExpandFloorsApi(apiPointer, cwrap, runtime);
+      _expandFloorsApi = new EmscriptenExpandFloorsApi(apiPointer, cwrap, Module);
     });
 
     it("the expandIndoorMap function should exist", function() {
@@ -601,9 +593,8 @@ describe("map_interop:", function() {
       refreshSdk();
       var apiPointer = 0;
       var cwrap = Module.cwrap;
-      var runtime = Module.Runtime;
       _emscriptenMemory = new EmscriptenMemory(Module);
-      _indoorEntityApi = new EmscriptenIndoorEntityApi(apiPointer, cwrap, runtime, _emscriptenMemory);
+      _indoorEntityApi = new EmscriptenIndoorEntityApi(apiPointer, cwrap, Module, _emscriptenMemory);
     });
 
     it("the registerIndoorEntityPickedCallback function should exist", function() {
@@ -641,9 +632,8 @@ describe("map_interop:", function() {
       refreshSdk();
       var apiPointer = 0;
       var cwrap = Module.cwrap;
-      var runtime = Module.Runtime;
       _emscriptenMemory = new EmscriptenMemory(Module);
-      _emscriptenIndoorMapFloorOutlineInformationApi = new EmscriptenIndoorMapFloorOutlineInformationApi(apiPointer, cwrap, runtime, _emscriptenMemory);
+      _emscriptenIndoorMapFloorOutlineInformationApi = new EmscriptenIndoorMapFloorOutlineInformationApi(apiPointer, cwrap, Module, _emscriptenMemory);
     });
 
     it("the registerIndoorMapFloorOutlineInformationLoadedCallback fucntion should exist", function() {
@@ -692,9 +682,8 @@ describe("map_interop:", function() {
       refreshSdk();
       var apiPointer = 0;
       var cwrap = Module.cwrap;
-      var runtime = Module.Runtime;
       _emscriptenMemory = new EmscriptenMemory(Module);
-      _renderingApi = new EmscriptenRenderingApi(apiPointer, cwrap, runtime, _emscriptenMemory);
+      _renderingApi = new EmscriptenRenderingApi(apiPointer, cwrap, Module, _emscriptenMemory);
     });
 
     it("the setMapCollapsed function should exist", function() {
@@ -752,9 +741,8 @@ describe("map_interop:", function() {
       refreshSdk();
       var apiPointer = 0;
       var cwrap = Module.cwrap;
-      var runtime = Module.Runtime;
       _emscriptenMemory = new EmscriptenMemory(Module);
-      _polylineApi = new EmscriptenPolylineApi(apiPointer, cwrap, runtime, _emscriptenMemory);
+      _polylineApi = new EmscriptenPolylineApi(apiPointer, cwrap, Module, _emscriptenMemory);
     });
 
     it("the createPolyline function should exist", function() {
@@ -808,9 +796,8 @@ describe("map_interop:", function() {
       refreshSdk();
       var apiPointer = 0;
       var cwrap = Module.cwrap;
-      var runtime = Module.Runtime;
       _emscriptenMemory = new EmscriptenMemory(Module);
-      _heatmapApi = new EmscriptenHeatmapApi(apiPointer, cwrap, runtime, _emscriptenMemory);
+      _heatmapApi = new EmscriptenHeatmapApi(apiPointer, cwrap, Module, _emscriptenMemory);
       _heatmapMock = {
         getPolygonPoints: function() { return [] },
         getIndoorMapId: function() { return "" },
@@ -874,9 +861,8 @@ describe("map_interop:", function() {
       refreshSdk();
       var apiPointer = 0;
       var cwrap = Module.cwrap;
-      var runtime = Module.Runtime;
       _emscriptenMemory = new EmscriptenMemory(Module);
-      _blueSphereApi = new EmscriptenBlueSphereApi(apiPointer, cwrap, runtime, _emscriptenMemory);
+      _blueSphereApi = new EmscriptenBlueSphereApi(apiPointer, cwrap, Module, _emscriptenMemory);
     });
 
     it("the updateNativeState function should exist", function() {
@@ -904,9 +890,8 @@ describe("map_interop:", function() {
       refreshSdk();
       var apiPointer = 0;
       var cwrap = Module.cwrap;
-      var runtime = Module.Runtime;
       _emscriptenMemory = new EmscriptenMemory(Module);
-      _frameRateApi = new EmscriptenFrameRateApi(apiPointer, cwrap, runtime, _emscriptenMemory);
+      _frameRateApi = new EmscriptenFrameRateApi(apiPointer, cwrap, Module, _emscriptenMemory);
     });
 
     it("the setTargetVSyncInterval function must exist", function() {
