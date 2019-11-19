@@ -35,7 +35,7 @@ function EmscriptenMemory(emscriptenModule) {
         var strs = [];
         for (var i=0; i<string_array.length; ++i) {
             var str = _emscriptenModule._malloc(string_array[i].length + 1);
-            _emscriptenModule.writeStringToMemory(string_array[i],str);
+            _emscriptenModule.stringToUTF8(string_array[i],str, string_array[i].length + 1);
             _emscriptenModule.setValue(pointer + i*4, str, "*");
             strs.push(str);
         }
