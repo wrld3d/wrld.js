@@ -53,7 +53,7 @@ describe("map_interop:", function() {
       caller();
     } catch(e) {
       var genericExpectedEmscriptenCrashPattern = /^abort\((\d*|undefined)\)( at Error.*|. Build with -s ASSERTIONS=1 for more info.$)/;
-      var vtableExpeectedEmscriptenCrashPattern = /^FUNCTION_TABLE\[.+\] is not a function$/;
+      var vtableExpeectedEmscriptenCrashPattern = /^[$_a-zA-Z][$\w]*\[.+\] is not a function$/;
       if((typeof e !== 'string' || e.match(genericExpectedEmscriptenCrashPattern) == null) && (!e instanceof Error || (e.message.match(vtableExpeectedEmscriptenCrashPattern) == null && e.message.match(genericExpectedEmscriptenCrashPattern) == null))) {
         fail(e);
       }
