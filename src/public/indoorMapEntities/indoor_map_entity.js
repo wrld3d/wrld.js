@@ -20,9 +20,6 @@ var IndoorMapEntity = function(indoorMapEntityId, indoorMapFloorId, position, ou
         return _outlines;
     };
 
-    this.hasOutlines = function(){
-        return (_outlines.length > 0);
-    };
 };
 
 module.exports = IndoorMapEntity;

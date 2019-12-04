@@ -1,6 +1,4 @@
 var indoorMapEntities = require("../../public/indoorMapEntities/indoorMapEntities");
-var OutlinePolygon = require("../../public/outlines/outline_polygon");
-var OutlinePolygonRing = require("../../public/outlines/outline_polygon_ring");
 
 function EmscriptenIndoorMapEntityInformationApi(emscriptenApiPointer, cwrap, runtime, emscriptenMemory) {
     
@@ -11,17 +9,10 @@ function EmscriptenIndoorMapEntityInformationApi(emscriptenApiPointer, cwrap, ru
     var _indoorEntityInformationApi_CreateIndoorMapEntityInformation = cwrap("indoorMapEntityInformation_CreateIndoorMapEntityInformation", "number", ["number","string"]);
     var _indoorEntityInformationApi_DestroyIndoorMapEntityInformation = cwrap("indoorMapEntityInformation_DestroyIndoorMapEntityInformation", null, ["number","number"]);
     var _indoorEntityInformationApi_TryGetIndoorMapEntityCountBuffer = cwrap("indoorEntityInformationApi_TryGetIndoorMapEntityCountBuffer", "number", ["number","number","number"]);
-    var _indoorEntityInformationApi_TryGetIndoorMapEntityModelIds = cwrap("indoorEntityInformationApi_TryGetIndoorMapEntityModelIds", "number", ["number", "number", "number", "number"]);
-    var _indoorEntityInformationApi_TryGetIndoorMapEntityIdBufferSize = cwrap("indoorEntityInformationApi_TryGetIndoorMapEntityIdBufferSize", "number", ["number","number", "number"]);
-    var _indoorEntityInformationApi_TryGetIndoorMapEntityInformationLoadState = cwrap("indoorEntityInformationApi_TryGetIndoorMapEntityInformationLoadState", "number", ["number","number", "number"]);
-    var _indoorEntityInformationApi_TryGetIndoorMapEntity = cwrap("indoorEntityInformationApi_TryGetIndoorMapEntity", "number", ["number", "number", "number", "number"]);
-
-    var _indoorEntityInformationApi_TryGetNumberOfPolygons = cwrap("indoorEntityInformationApi_TryGetNumberOfPolygons", "number", ["number", "number", "number"]);
-    var _indoorEntityInformationApi_TryGetSizeOfPolygonOuterRing = cwrap("indoorEntityInformationApi_TryGetSizeOfPolygonOuterRing", "number", ["number", "number", "number", "number"]);
-    var _indoorEntityInformationApi_TryGetPolygonOuterRing = cwrap("indoorEntityInformationApi_TryGetPolygonOuterRing","number",["number", "number", "number", "number"]);
-    var _indoorEntityInformationApi_TryGetPolygonInnerRingCount = cwrap("indoorEntityInformationApi_TryGetPolygonInnerRingCount","number",["number", "number", "number", "number"]);
-    var _indoorEntityInformationApi_TryGetPolygonInnerRingPointCount = cwrap("indoorEntityInformationApi_TryGetPolygonInnerRingPointCount","number",["number", "number", "number", "number", "number"]);
-    var _indoorEntityInformationApi_TryGetPolygonInnerRing = cwrap("indoorEntityInformationApi_TryGetPolygonInnerRing","number",["number", "number", "number", "number", "number"]);
+        var _indoorEntityInformationApi_TryGetIndoorMapEntityInformationLoadState = cwrap("indoorEntityInformationApi_TryGetIndoorMapEntityInformationLoadState", "number", ["number","number", "number"]);
+    
+    var _indoorEntityInformationApi_TryGetIndoorMapEntityBuffersSize = cwrap("indoorEntityInformationApi_TryGetIndoorMapEntityBuffersSize", "number",  ["number", "number", "number", "number", "number", "number", "number"]);
+    var _indoorEntityInformationApi_TryGetIndoorMapEntityModels = cwrap("indoorEntityInformationApi_TryGetIndoorMapEntityModels", "number" , ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number"]);
 
     this.registerIndoorMapEntityInformationChangedCallback = function(callback) {
         _indoorEntityInformationApi_IndoorMapEntityInformationChangedCallback(_emscriptenApiPointer, runtime.addFunction(callback));
@@ -77,18 +68,6 @@ function EmscriptenIndoorMapEntityInformationApi(emscriptenApiPointer, cwrap, ru
             return null;
         }
 
-        var indoorMapEntityModelIdsBuf = _emscriptenMemory.createInt32Buffer(indoorMapEntityCount);
-
-        //Getting IndoorMapEntityModelIds
-        success = _indoorEntityInformationApi_TryGetIndoorMapEntityModelIds(
-            _emscriptenApiPointer,
-            IndoorMapEntityInformationId,
-            indoorMapEntityModelIdsBuf.ptr,
-            indoorMapEntityModelIdsBuf.element_count
-        );
-
-        var indoorMapEntityModelIds = _emscriptenMemory.consumeBufferToArray(indoorMapEntityModelIdsBuf);
-
         if (!success)
         {
             return null;
@@ -97,59 +76,112 @@ function EmscriptenIndoorMapEntityInformationApi(emscriptenApiPointer, cwrap, ru
         // Gets all indoorMapEntities from all Ids in indoorMapEntityModelIds
         var indoorMapEntitiesList = [];
 
-        for (var entityIndex = 0; entityIndex < indoorMapEntityCount; ++entityIndex)
+        // indoorMapEntityIdsTotalSizeBuf + latLongsPerContourSizeBuf + latLongsSizeBuf as one array
+        var indoorMapEntityIdsTotalSizeBuf = _emscriptenMemory.createInt32Buffer(1);
+        var indoorMapEntityIdsSizesBuf = _emscriptenMemory.createInt32Buffer(indoorMapEntityCount);
+        var latLongsPerContourSizeBuf = _emscriptenMemory.createInt32Buffer(1);
+        var latLongsSizeBuf = _emscriptenMemory.createInt32Buffer(1);
+
+        success = _indoorEntityInformationApi_TryGetIndoorMapEntityBuffersSize(
+            _emscriptenApiPointer,
+            IndoorMapEntityInformationId,
+            indoorMapEntityCount,
+            indoorMapEntityIdsTotalSizeBuf.ptr,
+            indoorMapEntityIdsSizesBuf.ptr,
+            latLongsPerContourSizeBuf.ptr,
+            latLongsSizeBuf.ptr);
+            
+            
+        var indoorMapEntityIdsTotalSize = _emscriptenMemory.consumeBufferToArray(indoorMapEntityIdsTotalSizeBuf);
+        var indoorMapEntityStringIdSizes = _emscriptenMemory.consumeBufferToArray(indoorMapEntityIdsSizesBuf);
+        var latLongsPerContourSize = _emscriptenMemory.consumeBufferToArray(latLongsPerContourSizeBuf);
+        var latLongsSize = _emscriptenMemory.consumeBufferToArray(latLongsSizeBuf) * 2;
+
+        if (!success)
         {
-            var indoorMapEntityStringIdSizeBuf = _emscriptenMemory.createInt32Buffer(1);
+            return null;
+        }
 
-            success = _indoorEntityInformationApi_TryGetIndoorMapEntityIdBufferSize(
-                _emscriptenApiPointer,
-                indoorMapEntityModelIds[entityIndex],
-                indoorMapEntityStringIdSizeBuf.ptr
-            );
+        var indoorMapEntityStringIdsBuf = _emscriptenMemory.createInt8Buffer(indoorMapEntityIdsTotalSize);
 
-            var indoorMapEntityStringIdSize = _emscriptenMemory.consumeBufferToArray(indoorMapEntityStringIdSizeBuf)[0];
-            
-            if(!success)
+        var indoorMapFloorIdBuf = _emscriptenMemory.createInt32Buffer(indoorMapEntityCount);
+        var positionLatLngBuf= _emscriptenMemory.createDoubleBuffer(indoorMapEntityCount * 2);
+
+        var contoursPerPolygonBuf = _emscriptenMemory.createInt32Buffer(indoorMapEntityCount);
+        var latLongsPerContourBuf = _emscriptenMemory.createInt32Buffer(latLongsPerContourSize);
+        var latLongsBuf = _emscriptenMemory.createDoubleBuffer(latLongsSize);
+
+
+        success = _indoorEntityInformationApi_TryGetIndoorMapEntityModels(
+            _emscriptenApiPointer,
+            IndoorMapEntityInformationId,
+            indoorMapEntityCount,
+            indoorMapEntityStringIdsBuf.ptr,
+            indoorMapEntityIdsTotalSize,
+            indoorMapFloorIdBuf.ptr,
+            positionLatLngBuf.ptr,
+            contoursPerPolygonBuf.ptr,
+            latLongsPerContourBuf.ptr,
+            latLongsPerContourSize,
+            latLongsBuf.ptr,
+            latLongsSize
+        );
+
+        var indoorMapEntityStringIds = _emscriptenMemory.consumeUtf8BufferToString(indoorMapEntityStringIdsBuf);
+        var indoorMapEntityFloorIds = _emscriptenMemory.consumeBufferToArray(indoorMapFloorIdBuf);
+        var positionLatLng = _emscriptenMemory.consumeBufferToArray(positionLatLngBuf);
+        var contoursPerPolygon = _emscriptenMemory.consumeBufferToArray(contoursPerPolygonBuf);
+        var latLongsPerContour = _emscriptenMemory.consumeBufferToArray(latLongsPerContourBuf);
+        var latLongsDegrees = _emscriptenMemory.consumeBufferToArray(latLongsBuf);
+
+        if (!success)
+        {
+            return null;
+        }
+
+        var idBufferHead = 0;
+        var latLongsPerContourHead = 0;
+        var latLongsDegreesHead = 0;
+
+        // Change i, Index
+        // indoorMapEntityStringIdSizes.length Should be the count of Entities
+        for (var i = 0; i < indoorMapEntityStringIdSizes.length; i++) {
+            var numCharsInId = indoorMapEntityStringIdSizes[i];
+            var idBufferEnd = idBufferHead + numCharsInId;
+            var indoorMapEntityId = indoorMapEntityStringIds.slice(idBufferHead, idBufferEnd);
+            idBufferHead = idBufferEnd;
+
+            var indoorMapEntityFloorId = indoorMapEntityFloorIds[i];
+
+            var posLat = positionLatLng[2*i];
+            var posLng = positionLatLng[2*i + 1];
+            var position = L.latLng(posLat, posLng);
+
+            var contourCount = contoursPerPolygon[i];
+            var polygonPoints = [];
+
+            var  latLongsPerContourEndIndex = latLongsPerContourHead + contourCount;
+            for (var latLongsPerContourIndex = latLongsPerContourHead; latLongsPerContourIndex < latLongsPerContourEndIndex;  latLongsPerContourIndex++)
             {
-                return null;
-            }
-            
-            var indoorMapEntityStringId = _emscriptenMemory.createInt8Buffer(indoorMapEntityStringIdSize);
-            var indoorMapFloorIdBuf = _emscriptenMemory.createInt32Buffer(1);
-            var positionLatLngBuf = _emscriptenMemory.createDoubleBuffer(2);
+                var contourPoints = [];
+                
+                var latLongsDegreesCount = latLongsPerContour[latLongsPerContourIndex];
+                var latLongsDegreesEndIndex = latLongsDegreesHead + latLongsDegreesCount;
 
-            success = _indoorEntityInformationApi_TryGetIndoorMapEntity(
-                _emscriptenApiPointer,
-                indoorMapEntityModelIds[entityIndex],
-                indoorMapEntityStringId.ptr,
-                indoorMapEntityStringIdSize,
-                indoorMapFloorIdBuf.ptr,
-                positionLatLngBuf.ptr
-            );
+                for(var pointIndex = latLongsDegreesHead; pointIndex < latLongsDegreesEndIndex; pointIndex++)
+                {
+                    var lat = latLongsDegrees[(pointIndex * 2)];
+                    var lng = latLongsDegrees[(pointIndex * 2) + 1];
+                    contourPoints.push([lat, lng]);
 
-            var indoorMapEntityId = _emscriptenMemory.consumeUtf8BufferToString(indoorMapEntityStringId);
-            var indoorMapEntityFloorIdArray = _emscriptenMemory.consumeBufferToArray(indoorMapFloorIdBuf);
-            var positionLatLngArray = _emscriptenMemory.consumeBufferToArray(positionLatLngBuf);
+                    latLongsDegreesHead++;
+                }                
+                polygonPoints.push(contourPoints);
 
-            if(!success)
-            {
-                return null;
+                latLongsPerContourHead++;
             }
 
-            var indoorMapEntityFloorId = indoorMapEntityFloorIdArray[0];
-
-            var lat = positionLatLngArray[0];
-            var lng = positionLatLngArray[1];
-            var position = L.latLng(lat, lng);
-
-            var Outlines = _GetOutlines(indoorMapEntityModelIds[entityIndex]);
-
-            if(Outlines === null)
-            {
-                return null;
-            }
-
-            var entity = new indoorMapEntities.IndoorMapEntity(indoorMapEntityId, indoorMapEntityFloorId, position, Outlines);
+            var entity = new indoorMapEntities.IndoorMapEntity(indoorMapEntityId, indoorMapEntityFloorId, position, polygonPoints);
             indoorMapEntitiesList.push(entity);
         }
 
@@ -160,140 +192,6 @@ function EmscriptenIndoorMapEntityInformationApi(emscriptenApiPointer, cwrap, ru
 
         return output;
     };
-
-    var _GetOutlines = function(indoorMapEntityModelId) {
-        var Outlines = [];
-
-        var indoorMapEntityNumOfOutlinesBuf = _emscriptenMemory.createInt32Buffer(1);
-
-        var success = _indoorEntityInformationApi_TryGetNumberOfPolygons(
-            _emscriptenApiPointer,
-            indoorMapEntityModelId, 
-            indoorMapEntityNumOfOutlinesBuf.ptr
-        );
-
-        var indoorMapEntityNumOfOutlines = _emscriptenMemory.consumeBufferToArray(indoorMapEntityNumOfOutlinesBuf)[0];
-
-        if (!success)
-        {
-            return null;
-        }
-
-        for(var outlineIndex = 0; outlineIndex < indoorMapEntityNumOfOutlines; outlineIndex++)
-        {
-            var outerRingPointCountBuf = _emscriptenMemory.createInt32Buffer(1);
-
-            success = _indoorEntityInformationApi_TryGetSizeOfPolygonOuterRing(
-                _emscriptenApiPointer,
-                indoorMapEntityModelId, 
-                outlineIndex,
-                outerRingPointCountBuf.ptr
-            );
-            var outerRingPointCount = _emscriptenMemory.consumeBufferToArray(outerRingPointCountBuf)[0];
-
-            if (!success)
-            {
-                return null;
-            }
-
-            var outerRingPointsBuf = _emscriptenMemory.createDoubleBuffer(2 * outerRingPointCount);
-                
-            success = _indoorEntityInformationApi_TryGetPolygonOuterRing(
-                _emscriptenApiPointer,
-                indoorMapEntityModelId,
-                outlineIndex,
-                outerRingPointsBuf.ptr
-            );
-
-            var entityOutlineRingPoints = _emscriptenMemory.consumeBufferToArray(outerRingPointsBuf);
-
-            if (!success)
-            {
-                return null;
-            }
-
-            var outlinePolygonRing = _getOutlinePolygonRing(entityOutlineRingPoints, outerRingPointCount);
-
-            var innerRingCountBuf = _emscriptenMemory.createInt32Buffer(1);
-
-            success = _indoorEntityInformationApi_TryGetPolygonInnerRingCount(
-                _emscriptenApiPointer,
-                indoorMapEntityModelId,
-                outlineIndex,
-                innerRingCountBuf.ptr
-            );
-
-            var innerRingCount = _emscriptenMemory.consumeBufferToArray(innerRingCountBuf)[0];
-
-            if (!success)
-            {
-                return null;
-            }
-
-            var innerRings = [];
-            // Loop though each inner ring.
-            for(var innerRingIndex = 0; innerRingIndex < innerRingCount; innerRingIndex++)
-            {
-                // Get Number of Points.
-                var innerRingPointCountBuf = _emscriptenMemory.createInt32Buffer(1);
-                
-                success = _indoorEntityInformationApi_TryGetPolygonInnerRingPointCount(
-                    _emscriptenApiPointer,
-                    indoorMapEntityModelId,
-                    outlineIndex,
-                    innerRingIndex,
-                    innerRingPointCountBuf.ptr
-                );
-                
-                var innerRingPointCount = _emscriptenMemory.consumeBufferToArray(innerRingPointCountBuf)[0];
-                
-                if (!success)
-                {
-                    return null;
-                }
-                // Get the points.
-                var innerRingPointsBuf = _emscriptenMemory.createDoubleBuffer(2 * innerRingPointCount);
-            
-                success = _indoorEntityInformationApi_TryGetPolygonInnerRing(
-                    _emscriptenApiPointer,
-                    indoorMapEntityModelId,
-                    outlineIndex,
-                    innerRingIndex,
-                    innerRingPointsBuf.ptr
-                );
-
-                var innerRingPoints = _emscriptenMemory.consumeBufferToArray(innerRingPointsBuf);
-
-                if (!success)
-                {
-                    return null;
-                }
-
-                // Our inner Polygon Rings we want to save.
-                innerRings.push(_getOutlinePolygonRing(innerRingPoints, innerRingPointCount));
-            }
-
-            Outlines.push(new OutlinePolygon(outlinePolygonRing, innerRings));
-
-        }
-
-        return Outlines;
-    };
-
-
-    var _getOutlinePolygonRing = function(doublesLatLngArray, pointCount) {
-        var OutlinePolygonRingPoints = [];
-
-        for(var pointIndex = 0; pointIndex < pointCount; pointIndex++)
-        {
-            var lat = doublesLatLngArray[(pointIndex * 2)];
-            var lng = doublesLatLngArray[(pointIndex * 2) + 1];
-            OutlinePolygonRingPoints.push(L.latLng(lat, lng));
-        }
-
-        return new OutlinePolygonRing(OutlinePolygonRingPoints);
-    };
-
 }
 
 module.exports = EmscriptenIndoorMapEntityInformationApi;
