@@ -1,8 +1,8 @@
-var IndoorMapEntity = function(indoorMapEntityId, indoorMapFloorId, position, outlines) {
+var IndoorMapEntity = function(indoorMapEntityId, indoorMapFloorId, position, outline) {
     var _indoorMapEntityId = indoorMapEntityId;
     var _indoorMapFloorId = indoorMapFloorId;
     var _position = position;
-    var _outlines = outlines;
+    var _outline = outline;
 
     this.getIndoorMapEntityId = function() {
         return _indoorMapEntityId;
@@ -16,8 +16,8 @@ var IndoorMapEntity = function(indoorMapEntityId, indoorMapFloorId, position, ou
         return _position;
     };
 
-    this.getOutlines = function(){
-        return _outlines;
+    this.getOutline = function(){
+        return _outline;
     };
 
 };
