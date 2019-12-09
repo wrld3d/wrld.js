@@ -35,7 +35,17 @@ rm -rf ./tmp/
 mkdir -p ${sdk_dir}
 curl ${sdk_url} 2>/dev/null >${sdk_dir}/eeGeoWebGL.js.gz
 gunzip ${sdk_dir}/eeGeoWebGL.js.gz
-curl --compressed ${memory_initialiser_url} 2>/dev/null >${sdk_dir}/eeGeoWebGL.js.mem
+
+# Manually check headers for gzip compression because of
+# missing '--compressed' flag with Windows shipped curl.
+out="$(curl -H "Accept-Encoding: gzip" -I ${memory_initialiser_url})"
+if [[ $out == *"Content-Encoding: gzip"* ]]; then
+  echo "Downloading and using gunzip to decompress memory file."
+  curl ${memory_initialiser_url} 2>/dev/null | gunzip >${sdk_dir}/eeGeoWebGL.js.mem
+else
+  echo "Downloading uncompressed memory file."
+  curl ${memory_initialiser_url} 2>/dev/null >${sdk_dir}/eeGeoWebGL.js.mem
+fi
 
 npm install
 npm run test
