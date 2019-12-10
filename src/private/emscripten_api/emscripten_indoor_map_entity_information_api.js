@@ -11,8 +11,8 @@ function EmscriptenIndoorMapEntityInformationApi(emscriptenApiPointer, cwrap, ru
     var _indoorEntityInformationApi_TryGetIndoorMapEntityCountBuffer = cwrap("indoorEntityInformationApi_TryGetIndoorMapEntityCountBuffer", "number", ["number","number","number"]);
         var _indoorEntityInformationApi_TryGetIndoorMapEntityInformationLoadState = cwrap("indoorEntityInformationApi_TryGetIndoorMapEntityInformationLoadState", "number", ["number","number", "number"]);
     
-    var _indoorEntityInformationApi_TryGetIndoorMapEntityBuffersSize = cwrap("indoorEntityInformationApi_TryGetIndoorMapEntityBuffersSize", "number",  ["number", "number", "number", "number", "number", "number", "number"]);
-    var _indoorEntityInformationApi_TryGetIndoorMapEntityModels = cwrap("indoorEntityInformationApi_TryGetIndoorMapEntityModels", "number" , ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number"]);
+    var _indoorEntityInformationApi_TryGetIndoorMapEntityBuffersSize = cwrap("indoorEntityInformationApi_TryGetIndoorMapEntityBuffersSize", "number",  ["number", "number", "number", "number", "number"]);
+    var _indoorEntityInformationApi_TryGetIndoorMapEntityModels = cwrap("indoorEntityInformationApi_TryGetIndoorMapEntityModels", "number" , ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number"]);
 
     this.registerIndoorMapEntityInformationChangedCallback = function(callback) {
         _indoorEntityInformationApi_IndoorMapEntityInformationChangedCallback(_emscriptenApiPointer, runtime.addFunction(callback));
@@ -47,8 +47,7 @@ function EmscriptenIndoorMapEntityInformationApi(emscriptenApiPointer, cwrap, ru
 
         var indoorMapEntityInformationLoadState = _emscriptenMemory.consumeBufferToArray(loadStateBuf);
 
-        if (!success)
-        {
+        if (!success) {
             return null;
         }
 
@@ -63,51 +62,45 @@ function EmscriptenIndoorMapEntityInformationApi(emscriptenApiPointer, cwrap, ru
 
         var indoorMapEntityCount = _emscriptenMemory.consumeBufferToArray(indoorMapEntitiesCountBuf)[0];
 
-        if (!success)
-        {
+        if (!success) {
             return null;
         }
 
-        if (!success)
-        {
+        if (!success) {
             return null;
         }
-
-        // Gets all indoorMapEntities from all Ids in indoorMapEntityModelIds
-        var indoorMapEntitiesList = [];
-
-        // indoorMapEntityIdsTotalSizeBuf + latLongsPerContourSizeBuf + latLongsSizeBuf as one array
-        var indoorMapEntityBufferSizesBuf = _emscriptenMemory.createInt32Buffer(3 + indoorMapEntityCount);
-
+        
+        var indoorMapEntityBufferSizesBuf = _emscriptenMemory.createInt32Buffer(3);
+        var indoorMapEntityIdsSizesBuf = _emscriptenMemory.createInt32Buffer(indoorMapEntityCount);
+        
         success = _indoorEntityInformationApi_TryGetIndoorMapEntityBuffersSize(
             _emscriptenApiPointer,
             IndoorMapEntityInformationId,
             indoorMapEntityCount,
+            indoorMapEntityIdsSizesBuf.ptr,
             indoorMapEntityBufferSizesBuf.ptr);
             
         var indoorMapEntityBufferSize = _emscriptenMemory.consumeBufferToArray(indoorMapEntityBufferSizesBuf);
-
+        var indoorMapEntityStringIdSizes = _emscriptenMemory.consumeBufferToArray(indoorMapEntityIdsSizesBuf);
+        
         var indoorMapEntityIdsTotalSize = indoorMapEntityBufferSize.shift();
         var latLongsPerContourSize = indoorMapEntityBufferSize.shift();
         var latLongsSize = indoorMapEntityBufferSize.shift() * 2;
-        var indoorMapEntityStringIdSizes = indoorMapEntityBufferSize;
         
-
-        if (!success)
-        {
+        if (!success) {
             return null;
         }
-
+        
         var indoorMapEntityStringIdsBuf = _emscriptenMemory.createInt8Buffer(indoorMapEntityIdsTotalSize);
-
+        
         var indoorMapFloorIdBuf = _emscriptenMemory.createInt32Buffer(indoorMapEntityCount);
         var positionLatLngBuf= _emscriptenMemory.createDoubleBuffer(indoorMapEntityCount * 2);
 
         var contoursPerPolygonBuf = _emscriptenMemory.createInt32Buffer(indoorMapEntityCount);
         var latLongsPerContourBuf = _emscriptenMemory.createInt32Buffer(latLongsPerContourSize);
         var latLongsBuf = _emscriptenMemory.createDoubleBuffer(latLongsSize);
-
-
+        
+        
         success = _indoorEntityInformationApi_TryGetIndoorMapEntityModels(
             _emscriptenApiPointer,
             IndoorMapEntityInformationId,
@@ -122,27 +115,26 @@ function EmscriptenIndoorMapEntityInformationApi(emscriptenApiPointer, cwrap, ru
             latLongsBuf.ptr,
             latLongsSize
         );
-
+            
         var indoorMapEntityStringIds = _emscriptenMemory.consumeUtf8BufferToString(indoorMapEntityStringIdsBuf);
         var indoorMapEntityFloorIds = _emscriptenMemory.consumeBufferToArray(indoorMapFloorIdBuf);
         var positionLatLng = _emscriptenMemory.consumeBufferToArray(positionLatLngBuf);
         var contoursPerPolygon = _emscriptenMemory.consumeBufferToArray(contoursPerPolygonBuf);
         var latLongsPerContour = _emscriptenMemory.consumeBufferToArray(latLongsPerContourBuf);
         var latLongsDegrees = _emscriptenMemory.consumeBufferToArray(latLongsBuf);
-
+        
         if (!success)
         {
             return null;
         }
+        
+        var indoorMapEntitiesList = [];
 
         var idBufferHead = 0;
         var latLongsPerContourHead = 0;
         var latLongsDegreesHead = 0;
-
-        // Change i, Index
-        // indoorMapEntityStringIdSizes.length Should be the count of Entities
         for (var i = 0; i < indoorMapEntityStringIdSizes.length; i++) {
-            var numCharsInId = indoorMapEntityStringIdSizes[i];
+                var numCharsInId = indoorMapEntityStringIdSizes[i];
             var idBufferEnd = idBufferHead + numCharsInId;
             var indoorMapEntityId = indoorMapEntityStringIds.slice(idBufferHead, idBufferEnd);
             idBufferHead = idBufferEnd;
