@@ -15,7 +15,7 @@ function EmscriptenIndoorMapFloorOutlineInformationApi(emscriptenApiPointer, cwr
     var _indoorMapFloorOutlineInformationApi_TryGetIndoorMapFloorOutlinePolygon = cwrap("indoorMapFloorOutlineInformationApi_TryGetIndoorMapFloorOutlinePolygon", "number", ["number","number","number","number","number","number","number","number"]);
 
     this.registerIndoorMapFloorOutlineInformationLoadedCallback = function(callback) {
-        _indoorMapFloorOutlineInformationApi_IndoorMapFloorOutlineInformationLoadedCallback(_emscriptenApiPointer, emscriptenModule.addFunction(callback));
+        _indoorMapFloorOutlineInformationApi_IndoorMapFloorOutlineInformationLoadedCallback(_emscriptenApiPointer, emscriptenModule.addFunction(callback, "vi"));
     };
 
     this.createIndoorMapFloorOutlineInformation = function(indoorMapFloorOutlineInformation) {

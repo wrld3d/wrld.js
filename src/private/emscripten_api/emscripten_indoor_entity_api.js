@@ -37,8 +37,8 @@ function EmscriptenIndoorEntityApi(emscriptenApiPointer, cwrap, emscriptenModule
 
 
     this.onInitialized = function() {
-        // register emscripten callbacks
-        _indoorEntityApi_SetIndoorEntityPickedCallback(_emscriptenApiPointer, emscriptenModule.addFunction(_onIndoorEntityPicked));
+        // register emscripten callbacks (Emscripten pointers are 32-bit ints)
+        _indoorEntityApi_SetIndoorEntityPickedCallback(_emscriptenApiPointer, emscriptenModule.addFunction(_onIndoorEntityPicked, "vi"));
     };
 
     this.registerIndoorEntityPickedCallback = function(callback) {

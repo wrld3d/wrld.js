@@ -15,7 +15,7 @@ function EmscriptenIndoorMapEntityInformationApi(emscriptenApiPointer, cwrap, em
     var _indoorEntityInformationApi_TryGetIndoorMapEntity = cwrap("indoorEntityInformationApi_TryGetIndoorMapEntity", "number", ["number", "number", "number", "number"]);
 
     this.registerIndoorMapEntityInformationChangedCallback = function(callback) {
-        _indoorEntityInformationApi_IndoorMapEntityInformationChangedCallback(_emscriptenApiPointer, emscriptenModule.addFunction(callback));
+        _indoorEntityInformationApi_IndoorMapEntityInformationChangedCallback(_emscriptenApiPointer, emscriptenModule.addFunction(callback, "vi"));
     };
 
     this.createIndoorMapEntityInformation = function(indoorEntityInformation) {

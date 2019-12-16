@@ -98,7 +98,7 @@ function EmscriptenCameraApi(emscriptenApiPointer, cwrap, emscriptenModule, emsc
     };
 
     this.setEventCallback = function(callback) {
-        _cameraApi_setEventCallback(_emscriptenApiPointer, emscriptenModule.addFunction(callback));
+        _cameraApi_setEventCallback(_emscriptenApiPointer, emscriptenModule.addFunction(callback, "vi"));
     };
 
     this.getDistanceFromZoomLevel = function(zoomLevel) {

@@ -35,32 +35,32 @@ function EmscriptenExpandFloorsApi(eegeoApiPointer, cwrap, emscriptenModule) {
 
     this.setCollapseStartCallback = function(callback) {
         _setCollapseStartCallback = _setCollapseStartCallback || cwrap("setCollapseStartCallback", null, ["number", "number"]);
-        _setCollapseStartCallback(_eegeoApiPointer, emscriptenModule.addFunction(callback));
+        _setCollapseStartCallback(_eegeoApiPointer, emscriptenModule.addFunction(callback, "v"));
     };
 
     this.setCollapseCallback = function(callback) {
         _setCollapseCallback = _setCollapseCallback || cwrap("setCollapseCallback", null, ["number", "number"]);
-        _setCollapseCallback(_eegeoApiPointer, emscriptenModule.addFunction(callback));
+        _setCollapseCallback(_eegeoApiPointer, emscriptenModule.addFunction(callback, "v"));
     };
 
     this.setCollapseEndCallback = function(callback) {
         _setCollapseEndCallback = _setCollapseEndCallback || cwrap("setCollapseEndCallback", null, ["number", "number"]);
-        _setCollapseEndCallback(_eegeoApiPointer, emscriptenModule.addFunction(callback));
+        _setCollapseEndCallback(_eegeoApiPointer, emscriptenModule.addFunction(callback, "v"));
     };
 
     this.setExpandStartCallback = function(callback) {
         _setExpandStartCallback = _setExpandStartCallback || cwrap("setExpandStartCallback", null, ["number", "number"]);
-        _setExpandStartCallback(_eegeoApiPointer, emscriptenModule.addFunction(callback));
+        _setExpandStartCallback(_eegeoApiPointer, emscriptenModule.addFunction(callback, "v"));
     };
 
     this.setExpandCallback = function(callback) {
         _setExpandCallback = _setExpandCallback || cwrap("setExpandCallback", null, ["number", "number"]);
-        _setExpandCallback(_eegeoApiPointer, emscriptenModule.addFunction(callback));
+        _setExpandCallback(_eegeoApiPointer, emscriptenModule.addFunction(callback, "v"));
     };
 
     this.setExpandEndCallback = function(callback) {
         _setExpandEndCallback = _setExpandEndCallback || cwrap("setExpandEndCallback", null, ["number", "number"]);
-        _setExpandEndCallback(_eegeoApiPointer, emscriptenModule.addFunction(callback));
+        _setExpandEndCallback(_eegeoApiPointer, emscriptenModule.addFunction(callback, "v"));
     };
 }
 
