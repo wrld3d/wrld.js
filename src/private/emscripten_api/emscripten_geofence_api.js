@@ -1,6 +1,6 @@
 var elevationMode = require("../elevation_mode.js");
 
-function EmscriptenGeofenceApi(eegeoApiPointer, cwrap, runtime, emscriptenModule) {
+function EmscriptenGeofenceApi(eegeoApiPointer, cwrap, emscriptenModule) {
 
     var _eegeoApiPointer = eegeoApiPointer;
     var _emscriptenModule = emscriptenModule;

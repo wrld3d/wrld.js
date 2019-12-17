@@ -1,6 +1,6 @@
 var space = require("../../public/space");
 
-function EmscriptenSpacesApi(eegeoApiPointer, cwrap, runtime, emscriptenMemory) {
+function EmscriptenSpacesApi(eegeoApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
 
     var _eegeoApiPointer = eegeoApiPointer;
     var _emscriptenMemory = emscriptenMemory;

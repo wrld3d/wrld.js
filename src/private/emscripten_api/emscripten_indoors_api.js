@@ -1,6 +1,6 @@
 var interopUtils = require("./emscripten_interop_utils.js");
 
-function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, runtime, emscriptenMemory) {
+function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
 
     var _emscriptenApiPointer = emscriptenApiPointer;
     var _emscriptenMemory = emscriptenMemory;
@@ -99,14 +99,14 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, runtime, emscriptenMe
     this.onInitialized = function() {
         _indoorsApi_RegisterIndoorMapCallbacks(
             _emscriptenApiPointer,
-            runtime.addFunction(_indoorMapEnteredHandler),
-            runtime.addFunction(_indoorMapEntryFailedHandler),
-            runtime.addFunction(_indoorMapExitedHandler),
-            runtime.addFunction(_indoorMapFloorChangedHandler),
-            runtime.addFunction(_indoorMapEntryMarkerAddedHandler),
-            runtime.addFunction(_indoorMapEntryMarkerRemovedHandler),
-            runtime.addFunction(_indoorMapLoadedHandler),
-            runtime.addFunction(_indoorMapUnloadedHandler)
+            emscriptenModule.addFunction(_indoorMapEnteredHandler),
+            emscriptenModule.addFunction(_indoorMapEntryFailedHandler),
+            emscriptenModule.addFunction(_indoorMapExitedHandler),
+            emscriptenModule.addFunction(_indoorMapFloorChangedHandler),
+            emscriptenModule.addFunction(_indoorMapEntryMarkerAddedHandler),
+            emscriptenModule.addFunction(_indoorMapEntryMarkerRemovedHandler),
+            emscriptenModule.addFunction(_indoorMapLoadedHandler),
+            emscriptenModule.addFunction(_indoorMapUnloadedHandler)
         );
     };
 

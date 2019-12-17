@@ -1,4 +1,4 @@
-function EmscriptenCameraApi(emscriptenApiPointer, cwrap, runtime, emscriptenMemory) {
+function EmscriptenCameraApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
 
     var _emscriptenApiPointer = emscriptenApiPointer;
     var _emscriptenMemory = emscriptenMemory;
@@ -98,7 +98,7 @@ function EmscriptenCameraApi(emscriptenApiPointer, cwrap, runtime, emscriptenMem
     };
 
     this.setEventCallback = function(callback) {
-        _cameraApi_setEventCallback(_emscriptenApiPointer, runtime.addFunction(callback));
+        _cameraApi_setEventCallback(_emscriptenApiPointer, emscriptenModule.addFunction(callback));
     };
 
     this.getDistanceFromZoomLevel = function(zoomLevel) {

@@ -53,41 +53,40 @@ function EmscriptenApi(emscriptenModule) {
         _emscriptenApiPointer = emscriptenApiPointer;
 
         var cwrap = _emscriptenModule.cwrap;
-        var runtime = _emscriptenModule.Runtime;
 
         var emscriptenMemory = new EmscriptenMemory(_emscriptenModule);
 
         // legacy - eegeo api usage via eegeo api pointer
-        this.geofenceApi = new EmscriptenGeofenceApi(_eegeoApiPointer, cwrap, runtime, _emscriptenModule);
-        this.spacesApi = new EmscriptenSpacesApi(_eegeoApiPointer, cwrap, runtime, emscriptenMemory);
-        this.themesApi = new EmscriptenThemesApi(_eegeoApiPointer, cwrap, runtime);
-        this.expandFloorsApi = new EmscriptenExpandFloorsApi(_eegeoApiPointer, cwrap, runtime);
-        this.propsApi = new EmscriptenPropsApi(_eegeoApiPointer, cwrap, runtime, emscriptenMemory);
+        this.geofenceApi = new EmscriptenGeofenceApi(_eegeoApiPointer, cwrap, _emscriptenModule);
+        this.spacesApi = new EmscriptenSpacesApi(_eegeoApiPointer, cwrap, _emscriptenModule, emscriptenMemory);
+        this.themesApi = new EmscriptenThemesApi(_eegeoApiPointer, cwrap, _emscriptenModule);
+        this.expandFloorsApi = new EmscriptenExpandFloorsApi(_eegeoApiPointer, cwrap, _emscriptenModule);
+        this.propsApi = new EmscriptenPropsApi(_eegeoApiPointer, cwrap, _emscriptenModule, emscriptenMemory);
 
         // emscripten-specific api usage via emscripten api pointer
         // New apis should follow this pattern
-        this.layerPointMappingApi = new EmscriptenLayerPointMappingApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
-        this.buildingsApi = new EmscriptenBuildingsApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
-        this.indoorsApi = new EmscriptenIndoorsApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
-        this.cameraApi = new EmscriptenCameraApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
-        this.indoorEntityApi = new EmscriptenIndoorEntityApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
-        this.precacheApi = new EmscriptenPrecacheApi(_emscriptenApiPointer, cwrap, runtime);
-        this.indoorMapEntityInformationApi = new EmscriptenIndoorMapEntityInformationApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
-        this.indoorMapFloorOutlineInformationApi = new EmscriptenIndoorMapFloorOutlineInformationApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
-        this.polylineApi = new EmscriptenPolylineApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
-        this.blueSphereApi = new EmscriptenBlueSphereApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
-        this.mapRuntimeApi = new EmscriptenMapRuntimeApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
+        this.layerPointMappingApi = new EmscriptenLayerPointMappingApi(_emscriptenApiPointer, cwrap, _emscriptenModule, emscriptenMemory);
+        this.buildingsApi = new EmscriptenBuildingsApi(_emscriptenApiPointer, cwrap, _emscriptenModule, emscriptenMemory);
+        this.indoorsApi = new EmscriptenIndoorsApi(_emscriptenApiPointer, cwrap, _emscriptenModule, emscriptenMemory);
+        this.cameraApi = new EmscriptenCameraApi(_emscriptenApiPointer, cwrap, _emscriptenModule, emscriptenMemory);
+        this.indoorEntityApi = new EmscriptenIndoorEntityApi(_emscriptenApiPointer, cwrap, _emscriptenModule, emscriptenMemory);
+        this.precacheApi = new EmscriptenPrecacheApi(_emscriptenApiPointer, cwrap, _emscriptenModule);
+        this.indoorMapEntityInformationApi = new EmscriptenIndoorMapEntityInformationApi(_emscriptenApiPointer, cwrap, _emscriptenModule, emscriptenMemory);
+        this.indoorMapFloorOutlineInformationApi = new EmscriptenIndoorMapFloorOutlineInformationApi(_emscriptenApiPointer, cwrap, _emscriptenModule, emscriptenMemory);
+        this.polylineApi = new EmscriptenPolylineApi(_emscriptenApiPointer, cwrap, _emscriptenModule, emscriptenMemory);
+        this.blueSphereApi = new EmscriptenBlueSphereApi(_emscriptenApiPointer, cwrap, _emscriptenModule, emscriptenMemory);
+        this.mapRuntimeApi = new EmscriptenMapRuntimeApi(_emscriptenApiPointer, cwrap, _emscriptenModule, emscriptenMemory);
         this.versionApi = new EmscriptenVersionApi(_emscriptenApiPointer, cwrap, emscriptenMemory);
-        this.heatmapApi = new EmscriptenHeatmapApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
-        this.renderingApi = new EmscriptenRenderingApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
-        this.frameRateApi = new EmscriptenFrameRateApi(_emscriptenApiPointer, cwrap, runtime, emscriptenMemory);
+        this.heatmapApi = new EmscriptenHeatmapApi(_emscriptenApiPointer, cwrap, _emscriptenModule, emscriptenMemory);
+        this.renderingApi = new EmscriptenRenderingApi(_emscriptenApiPointer, cwrap, _emscriptenModule, emscriptenMemory);
+        this.frameRateApi = new EmscriptenFrameRateApi(_emscriptenApiPointer, cwrap, _emscriptenModule, emscriptenMemory);
 
         var _setTopLevelCallbacks = _emscriptenModule.cwrap("setTopLevelCallbacks", null, ["number", "number", "number", "number"]);
         _setTopLevelCallbacks(
             _eegeoApiPointer,
-            runtime.addFunction(onUpdateCallback),
-            runtime.addFunction(onDrawCallback),
-            runtime.addFunction(onInitialStreamingCompletedCallback)
+            _emscriptenModule.addFunction(onUpdateCallback),
+            _emscriptenModule.addFunction(onDrawCallback),
+            _emscriptenModule.addFunction(onInitialStreamingCompletedCallback)
         );
         _ready = true;
     };

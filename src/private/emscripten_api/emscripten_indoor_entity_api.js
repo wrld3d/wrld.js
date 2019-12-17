@@ -1,4 +1,4 @@
-function EmscriptenIndoorEntityApi(emscriptenApiPointer, cwrap, runtime, emscriptenMemory) {
+function EmscriptenIndoorEntityApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
 
     var _emscriptenApiPointer = emscriptenApiPointer;
     var _emscriptenMemory = emscriptenMemory;
@@ -38,7 +38,7 @@ function EmscriptenIndoorEntityApi(emscriptenApiPointer, cwrap, runtime, emscrip
 
     this.onInitialized = function() {
         // register emscripten callbacks
-        _indoorEntityApi_SetIndoorEntityPickedCallback(_emscriptenApiPointer, runtime.addFunction(_onIndoorEntityPicked));
+        _indoorEntityApi_SetIndoorEntityPickedCallback(_emscriptenApiPointer, emscriptenModule.addFunction(_onIndoorEntityPicked));
     };
 
     this.registerIndoorEntityPickedCallback = function(callback) {

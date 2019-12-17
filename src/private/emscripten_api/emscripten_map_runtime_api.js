@@ -1,4 +1,4 @@
-function EmscriptenMapRuntimeApi(eegeoApiPointer, cwrap, runtime, emscriptenModule) {
+function EmscriptenMapRuntimeApi(eegeoApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
 
     var _eegeoApiPointer = eegeoApiPointer;
     var _pauseWebgl = cwrap("webglPause", null, ["number"]);

@@ -1,4 +1,4 @@
-function EmscriptenFrameRateApi(emscriptenApiPointer, cwrap, runtime, emscriptenMemory) {
+function EmscriptenFrameRateApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
 
     var _emscriptenApiPointer = emscriptenApiPointer;
 

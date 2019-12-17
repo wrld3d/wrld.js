@@ -1,4 +1,4 @@
-function EmscriptenThemesApi(eegeoApiPointer, cwrap, runtime) {
+function EmscriptenThemesApi(eegeoApiPointer, cwrap, emscriptenModule) {
 
     var _eegeoApiPointer = eegeoApiPointer;
     var _setTheme = null;
@@ -23,7 +23,7 @@ function EmscriptenThemesApi(eegeoApiPointer, cwrap, runtime) {
 
     this.registerStreamingCompletedCallback = function (callback) {
         _setCallback = _setCallback || cwrap("setStreamingCompletedCallback", null, ["number", "number"]);
-        _setCallback(_eegeoApiPointer, runtime.addFunction(callback));
+        _setCallback(_eegeoApiPointer, emscriptenModule.addFunction(callback));
     };
 }
 
