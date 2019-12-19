@@ -66,10 +66,6 @@ function EmscriptenIndoorMapEntityInformationApi(emscriptenApiPointer, cwrap, ru
             return null;
         }
 
-        if (!success) {
-            return null;
-        }
-        
         var indoorMapEntityBufferSizesBuf = _emscriptenMemory.createInt32Buffer(3);
         var indoorMapEntityIdsSizesBuf = _emscriptenMemory.createInt32Buffer(indoorMapEntityCount);
         
@@ -85,7 +81,7 @@ function EmscriptenIndoorMapEntityInformationApi(emscriptenApiPointer, cwrap, ru
         
         var indoorMapEntityIdsTotalSize = indoorMapEntityBufferSize.shift();
         var latLngsPerContourSize = indoorMapEntityBufferSize.shift();
-        var latLngsSize = indoorMapEntityBufferSize.shift() * 2;
+        var latLngsSize = indoorMapEntityBufferSize.shift();
         
         if (!success) {
             return null;
@@ -133,7 +129,7 @@ function EmscriptenIndoorMapEntityInformationApi(emscriptenApiPointer, cwrap, ru
         var latLngsPerContourHead = 0;
         var latLngsDegreesHead = 0;
         for (var i = 0; i < indoorMapEntityStringIdSizes.length; i++) {
-                var numCharsInId = indoorMapEntityStringIdSizes[i];
+            var numCharsInId = indoorMapEntityStringIdSizes[i];
             var idBufferEnd = idBufferHead + numCharsInId;
             var indoorMapEntityId = indoorMapEntityStringIds.slice(idBufferHead, idBufferEnd);
             idBufferHead = idBufferEnd;

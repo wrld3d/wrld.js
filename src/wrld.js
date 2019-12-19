@@ -14,7 +14,7 @@ var heatmap = require("./public/heatmap.js");
 
 require("./private/polyfills.js");
 // TODO: Remove Before merge
-var _baseUrl = "https://cdn-webgl.wrld3d.com/eegeojs/test_build/entity_outline/latest/";
+var _baseUrl = "https://cdn-webgl.wrld3d.com/eegeojs/latest/";
 var _appName = "eeGeoWebGL.jgz";
 
 
