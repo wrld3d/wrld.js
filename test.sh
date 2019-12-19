@@ -37,7 +37,9 @@ mkdir -p ${sdk_dir}
 curl ${sdk_url} 2>/dev/null >${sdk_dir}/eeGeoWebGL.js.gz
 gunzip ${sdk_dir}/eeGeoWebGL.js.gz
 
-
+out=$(curl -I -L -s -o /dev/null -w "%{http_code}" ${memory_initialiser_url})
+if ((200 <= out && out <= 299)); then
+  echo "A memory initialiser is available."
   # Manually check headers for gzip compression because of
   # missing '--compressed' flag with Windows shipped curl.
   out="$(curl -H "Accept-Encoding: gzip" -I ${memory_initialiser_url})"
@@ -47,6 +49,21 @@ gunzip ${sdk_dir}/eeGeoWebGL.js.gz
   else
     echo "Downloading uncompressed memory file."
     curl ${memory_initialiser_url} 2>/dev/null >${sdk_dir}/eeGeoWebGL.js.mem
+  fi
+fi
+
+out=$(curl -I -L -s -o /dev/null -w "%{http_code}" ${wasm_url})
+if ((200 <= out && out <= 299)); then
+  echo "A WebAssembly file is available."
+  # Manually check headers for gzip compression because of
+  # missing '--compressed' flag with Windows shipped curl.
+  out="$(curl -H "Accept-Encoding: gzip" -I ${wasm_url})"
+  if [[ $out == *"Content-Encoding: gzip"* ]]; then
+    echo "Downloading and using gunzip to decompress wasm file."
+    curl ${wasm_url} 2>/dev/null | gunzip >${sdk_dir}/eeGeoWebGL.wasm
+  else
+    echo "Downloading uncompressed wasm file."
+    curl ${wasm_url} 2>/dev/null >${sdk_dir}/eeGeoWebGL.wasm
   fi
 fi
 
