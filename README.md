@@ -1,3 +1,7 @@
+# WebAssembly Branch
+
+The tests don't work, so this isn't ready for general use. Notes are in [WASM.md](WASM.md).
+
 <a href="https://www.wrld3d.com/">
     <img src="https://cdn2.wrld3d.com/wp-content/uploads/2017/04/WRLD_Blue.png"  align="right" height="80px" />
 </a>
