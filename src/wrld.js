@@ -13,8 +13,8 @@ var circle = require("./public/circle.js");
 var heatmap = require("./public/heatmap.js");
 
 require("./private/polyfills.js");
-// TODO: Remove Before merge
-var _baseUrl = "https://cdn-webgl.wrld3d.com/eegeojs/latest/";
+
+var _baseUrl = "https://cdn-webgl.wrld3d.com/eegeojs/public/latest/";
 var _appName = "eeGeoWebGL.jgz";
 
 
