@@ -1,5 +1,5 @@
 
-function EmscriptenPrecacheApi(emscriptenApiPointer, cwrap, runtime) {
+function EmscriptenPrecacheApi(emscriptenApiPointer, cwrap, emscriptenModule) {
 
     var _emscriptenApiPointer = emscriptenApiPointer;
     var _beginPrecacheOperation = null;
@@ -10,13 +10,13 @@ function EmscriptenPrecacheApi(emscriptenApiPointer, cwrap, runtime) {
 
     this.registerCallbacks = function(completeCallback, cancelCallback) {
         if (_completeCallback !== null) {
-            runtime.removeFunction(_completeCallback);
+            emscriptenModule.removeFunction(_completeCallback);
         }
-        _completeCallback = runtime.addFunction(completeCallback);
+        _completeCallback = emscriptenModule.addFunction(completeCallback);
         if (_cancelCallback !== null) {
-            runtime.removeFunction(_cancelCallback);
+            emscriptenModule.removeFunction(_cancelCallback);
         }
-        _cancelCallback = runtime.addFunction(cancelCallback);
+        _cancelCallback = emscriptenModule.addFunction(cancelCallback);
 
     _setPrecacheCallbacks = _setPrecacheCallbacks || cwrap("precacheApi_setPrecacheCallbacks", null, ["number", "number", "number"]);
     _setPrecacheCallbacks(_emscriptenApiPointer, _completeCallback, _cancelCallback);

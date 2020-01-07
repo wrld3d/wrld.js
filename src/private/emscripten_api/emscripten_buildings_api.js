@@ -1,6 +1,6 @@
 var buildings = require("../../public/buildings/buildings");
 
-function EmscriptenBuildingsApi(emscriptenApiPointer, cwrap, runtime, emscriptenMemory) {
+function EmscriptenBuildingsApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
 
     var _emscriptenApiPointer = emscriptenApiPointer;
     var _emscriptenMemory = emscriptenMemory;
@@ -14,7 +14,7 @@ function EmscriptenBuildingsApi(emscriptenApiPointer, cwrap, runtime, emscripten
     var _buildingsApi_TryFindIntersectionWithBuilding = cwrap("buildingsApi_TryFindIntersectionWithBuilding", "number", ["number", "number", "number"]);
 
     this.registerBuildingInformationReceivedCallback = function(callback) {
-        _buildingsApi_SetBuildingHighlightChangedCallback(_emscriptenApiPointer, runtime.addFunction(callback));
+        _buildingsApi_SetBuildingHighlightChangedCallback(_emscriptenApiPointer, emscriptenModule.addFunction(callback));
     };
 
     this.createBuildingHighlight = function(buildingHighlight) {

@@ -1,7 +1,7 @@
 var elevationMode = require("../elevation_mode.js");
 var interopUtils = require("./emscripten_interop_utils.js");
 
-function EmscriptenPolylineApi(emscriptenApiPointer, cwrap, runtime, emscriptenMemory) {
+function EmscriptenPolylineApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
     var _emscriptenApiPointer = emscriptenApiPointer;
     var _emscriptenMemory = emscriptenMemory;
 

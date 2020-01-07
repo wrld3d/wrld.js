@@ -1,5 +1,5 @@
 
-function EmscriptenBlueSphereApi(emscriptenApiPointer, cwrap, runtime, emscriptenMemory) {
+function EmscriptenBlueSphereApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
     var _emscriptenApiPointer = emscriptenApiPointer;
 
     var _blueSphereApi_setEnabled = cwrap("blueSphereApi_setEnabled", null, ["number", "number"]);

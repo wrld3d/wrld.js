@@ -24,18 +24,28 @@ if [ -z "$sdk_version" ]; then
 	sdk_version="public/latest"
 fi
 
-sdk_url="https://cdn-webgl.eegeo.com/eegeojs/${sdk_version}/eeGeoWebGL.jgz"
-echo "Using eegeo.js SDK URL: ${sdk_url}"
+sdk_base_url="https://cdn-webgl.eegeo.com/eegeojs/${sdk_version}/"
+sdk_url="${sdk_base_url}eeGeoWebGL.jgz"
+memory_initialiser_url="${sdk_base_url}eeGeoWebGL.js.mem"
+echo "Using eegeo.js SDK URL: ${sdk_url}, MEM URL: ${memory_initialiser_url}"
 
 sdk_dir=./tmp/sdk
 
 rm -rf ./tmp/
 mkdir -p ${sdk_dir}
 curl ${sdk_url} 2>/dev/null >${sdk_dir}/eeGeoWebGL.js.gz
-gunzip ${sdk_dir}/eeGeoWebGL.js.gz 
+gunzip ${sdk_dir}/eeGeoWebGL.js.gz
 
-#Appending line to work with require.js loader used in jasmine tests
-echo 'module.exports = createWrldModule;' >> tmp/sdk/eeGeoWebGL.js
+# Manually check headers for gzip compression because of
+# missing '--compressed' flag with Windows shipped curl.
+out="$(curl -H "Accept-Encoding: gzip" -I ${memory_initialiser_url})"
+if [[ $out == *"Content-Encoding: gzip"* ]]; then
+  echo "Downloading and using gunzip to decompress memory file."
+  curl ${memory_initialiser_url} 2>/dev/null | gunzip >${sdk_dir}/eeGeoWebGL.js.mem
+else
+  echo "Downloading uncompressed memory file."
+  curl ${memory_initialiser_url} 2>/dev/null >${sdk_dir}/eeGeoWebGL.js.mem
+fi
 
 npm install
 npm run test

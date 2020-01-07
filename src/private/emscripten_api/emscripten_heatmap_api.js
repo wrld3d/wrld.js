@@ -3,7 +3,7 @@ var heatmap = require("../../public/heatmap.js");
 var interopUtils = require("./emscripten_interop_utils.js");
 
 
-function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, runtime, emscriptenMemory) {
+function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
     var _emscriptenApiPointer = emscriptenApiPointer;
     var _emscriptenMemory = emscriptenMemory;
 

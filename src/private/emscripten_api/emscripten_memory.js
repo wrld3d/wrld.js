@@ -22,8 +22,9 @@ function EmscriptenMemory(emscriptenModule) {
     };
 
     this.passString = function(string, func) {
-        var pointer = _emscriptenModule._malloc(32);
-        _emscriptenModule.stringToUTF8(string, pointer, 32);
+        var utf8Length = _emscriptenModule.lengthBytesUTF8(string);
+        var pointer = _emscriptenModule._malloc(utf8Length);
+        _emscriptenModule.stringToUTF8(string, pointer, utf8Length);
         func(pointer);
         _emscriptenModule._free(pointer);
     };
@@ -34,8 +35,9 @@ function EmscriptenMemory(emscriptenModule) {
         var pointer = _emscriptenModule._malloc(string_array.length*4);
         var strs = [];
         for (var i=0; i<string_array.length; ++i) {
-            var str = _emscriptenModule._malloc(string_array[i].length + 1);
-            _emscriptenModule.writeStringToMemory(string_array[i],str);
+            var utf8Length = _emscriptenModule.lengthBytesUTF8(string_array[i]) + 1;
+            var str = _emscriptenModule._malloc(utf8Length);
+            _emscriptenModule.stringToUTF8(string_array[i],str, utf8Length);
             _emscriptenModule.setValue(pointer + i*4, str, "*");
             strs.push(str);
         }
@@ -56,7 +58,7 @@ function EmscriptenMemory(emscriptenModule) {
     };
 
     this.stringifyPointer = function(ptr) {
-      return _emscriptenModule.Pointer_stringify(ptr);
+      return _emscriptenModule.UTF8ToString(ptr);
     };
 
     this.createInt8Buffer = function(bufferLen) {
