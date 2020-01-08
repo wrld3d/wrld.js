@@ -79,9 +79,9 @@ function EmscriptenIndoorMapEntityInformationApi(emscriptenApiPointer, cwrap, em
         var indoorMapEntityBufferSize = _emscriptenMemory.consumeBufferToArray(indoorMapEntityBufferSizesBuf);
         var indoorMapEntityStringIdSizes = _emscriptenMemory.consumeBufferToArray(indoorMapEntityIdsSizesBuf);
         
-        var indoorMapEntityIdsTotalSize = indoorMapEntityBufferSize.shift();
-        var latLngsPerContourSize = indoorMapEntityBufferSize.shift();
-        var latLngsSize = indoorMapEntityBufferSize.shift();
+        var indoorMapEntityIdsTotalSize = indoorMapEntityBufferSize[0];
+        var latLngsPerContourSize = indoorMapEntityBufferSize[1];
+        var latLngsSize = indoorMapEntityBufferSize[2];
         
         if (!success) {
             return null;
@@ -128,7 +128,7 @@ function EmscriptenIndoorMapEntityInformationApi(emscriptenApiPointer, cwrap, em
         var idBufferHead = 0;
         var latLngsPerContourHead = 0;
         var latLngsDegreesHead = 0;
-        for (var i = 0; i < indoorMapEntityStringIdSizes.length; i++) {
+        for (var i = 0; i < indoorMapEntityCount; i++) {
             var numCharsInId = indoorMapEntityStringIdSizes[i];
             var idBufferEnd = idBufferHead + numCharsInId;
             var indoorMapEntityId = indoorMapEntityStringIds.slice(idBufferHead, idBufferEnd);
@@ -155,7 +155,7 @@ function EmscriptenIndoorMapEntityInformationApi(emscriptenApiPointer, cwrap, em
                 {
                     var lat = latLngsDegrees[(pointIndex * 2)];
                     var lng = latLngsDegrees[(pointIndex * 2) + 1];
-                    contourPoints.push([lat, lng]);
+                    contourPoints.push(L.latLng(lat, lng));
 
                     latLngsDegreesHead++;
                 }                
