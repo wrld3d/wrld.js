@@ -49,7 +49,7 @@ function IndoorMapEntityInformationModuleImpl(emscriptenApi) {
             return;
         }
 
-        var nativeId = indoorMapEntityInformation.getId();
+        var nativeId = indoorMapEntityInformation.getNativeId();
         if (nativeId === undefined) {
             return;
         }

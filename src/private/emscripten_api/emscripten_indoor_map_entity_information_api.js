@@ -9,10 +9,10 @@ function EmscriptenIndoorMapEntityInformationApi(emscriptenApiPointer, cwrap, em
     var _indoorEntityInformationApi_CreateIndoorMapEntityInformation = cwrap("indoorMapEntityInformation_CreateIndoorMapEntityInformation", "number", ["number","string"]);
     var _indoorEntityInformationApi_DestroyIndoorMapEntityInformation = cwrap("indoorMapEntityInformation_DestroyIndoorMapEntityInformation", null, ["number","number"]);
     var _indoorEntityInformationApi_TryGetIndoorMapEntityCountBuffer = cwrap("indoorEntityInformationApi_TryGetIndoorMapEntityCountBuffer", "number", ["number","number","number"]);
-    var _indoorEntityInformationApi_TryGetIndoorMapEntityModelIds = cwrap("indoorEntityInformationApi_TryGetIndoorMapEntityModelIds", "number", ["number", "number", "number", "number"]);
-    var _indoorEntityInformationApi_TryGetIndoorMapEntityIdBufferSize = cwrap("indoorEntityInformationApi_TryGetIndoorMapEntityIdBufferSize", "number", ["number","number", "number"]);
     var _indoorEntityInformationApi_TryGetIndoorMapEntityInformationLoadState = cwrap("indoorEntityInformationApi_TryGetIndoorMapEntityInformationLoadState", "number", ["number","number", "number"]);
-    var _indoorEntityInformationApi_TryGetIndoorMapEntity = cwrap("indoorEntityInformationApi_TryGetIndoorMapEntity", "number", ["number", "number", "number", "number"]);
+    
+    var _indoorEntityInformationApi_TryGetIndoorMapEntityBuffersSize = cwrap("indoorEntityInformationApi_TryGetIndoorMapEntityBuffersSize", "number",  ["number", "number", "number", "number", "number"]);
+    var _indoorEntityInformationApi_TryGetIndoorMapEntityModels = cwrap("indoorEntityInformationApi_TryGetIndoorMapEntityModels", "number" , ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number"]);
 
     this.registerIndoorMapEntityInformationChangedCallback = function(callback) {
         _indoorEntityInformationApi_IndoorMapEntityInformationChangedCallback(_emscriptenApiPointer, emscriptenModule.addFunction(callback));
@@ -47,8 +47,7 @@ function EmscriptenIndoorMapEntityInformationApi(emscriptenApiPointer, cwrap, em
 
         var indoorMapEntityInformationLoadState = _emscriptenMemory.consumeBufferToArray(loadStateBuf);
 
-        if (!success)
-        {
+        if (!success) {
             return null;
         }
 
@@ -63,77 +62,109 @@ function EmscriptenIndoorMapEntityInformationApi(emscriptenApiPointer, cwrap, em
 
         var indoorMapEntityCount = _emscriptenMemory.consumeBufferToArray(indoorMapEntitiesCountBuf)[0];
 
-        if (!success)
-        {
+        if (!success) {
             return null;
         }
 
-        var indoorMapEntityModelIdsBuf = _emscriptenMemory.createInt32Buffer(indoorMapEntityCount);
-
-        //Getting IndoorMapEntityModelIds
-        success = _indoorEntityInformationApi_TryGetIndoorMapEntityModelIds(
+        var indoorMapEntityBufferSizesBuf = _emscriptenMemory.createInt32Buffer(3);
+        var indoorMapEntityIdsSizesBuf = _emscriptenMemory.createInt32Buffer(indoorMapEntityCount);
+        
+        success = _indoorEntityInformationApi_TryGetIndoorMapEntityBuffersSize(
             _emscriptenApiPointer,
             IndoorMapEntityInformationId,
-            indoorMapEntityModelIdsBuf.ptr,
-            indoorMapEntityModelIdsBuf.element_count
+            indoorMapEntityCount,
+            indoorMapEntityIdsSizesBuf.ptr,
+            indoorMapEntityBufferSizesBuf.ptr);
+            
+        var indoorMapEntityBufferSize = _emscriptenMemory.consumeBufferToArray(indoorMapEntityBufferSizesBuf);
+        var indoorMapEntityStringIdSizes = _emscriptenMemory.consumeBufferToArray(indoorMapEntityIdsSizesBuf);
+        
+        var indoorMapEntityIdsTotalSize = indoorMapEntityBufferSize[0];
+        var latLngsPerContourSize = indoorMapEntityBufferSize[1];
+        var latLngsSize = indoorMapEntityBufferSize[2];
+        
+        if (!success) {
+            return null;
+        }
+        
+        var indoorMapEntityStringIdsBuf = _emscriptenMemory.createInt8Buffer(indoorMapEntityIdsTotalSize);
+        
+        var indoorMapFloorIdBuf = _emscriptenMemory.createInt32Buffer(indoorMapEntityCount);
+        var positionLatLngBuf= _emscriptenMemory.createDoubleBuffer(indoorMapEntityCount * 2);
+
+        var contoursPerPolygonBuf = _emscriptenMemory.createInt32Buffer(indoorMapEntityCount);
+        var latLngsPerContourBuf = _emscriptenMemory.createInt32Buffer(latLngsPerContourSize);
+        var latLngsBuf = _emscriptenMemory.createDoubleBuffer(latLngsSize);
+        
+        success = _indoorEntityInformationApi_TryGetIndoorMapEntityModels(
+            _emscriptenApiPointer,
+            IndoorMapEntityInformationId,
+            indoorMapEntityCount,
+            indoorMapEntityStringIdsBuf.ptr,
+            indoorMapEntityIdsTotalSize,
+            indoorMapFloorIdBuf.ptr,
+            positionLatLngBuf.ptr,
+            contoursPerPolygonBuf.ptr,
+            latLngsPerContourBuf.ptr,
+            latLngsPerContourSize,
+            latLngsBuf.ptr,
+            latLngsSize
         );
-
-        var indoorMapEntityModelIds = _emscriptenMemory.consumeBufferToArray(indoorMapEntityModelIdsBuf);
-
+            
+        var indoorMapEntityStringIds = _emscriptenMemory.consumeUtf8BufferToString(indoorMapEntityStringIdsBuf);
+        var indoorMapEntityFloorIds = _emscriptenMemory.consumeBufferToArray(indoorMapFloorIdBuf);
+        var positionLatLng = _emscriptenMemory.consumeBufferToArray(positionLatLngBuf);
+        var contoursPerPolygon = _emscriptenMemory.consumeBufferToArray(contoursPerPolygonBuf);
+        var latLngsPerContour = _emscriptenMemory.consumeBufferToArray(latLngsPerContourBuf);
+        var latLngsDegrees = _emscriptenMemory.consumeBufferToArray(latLngsBuf);
+        
         if (!success)
         {
             return null;
         }
-
-        // Gets all indoorMapEntities from all Ids in indoorMapEntityModelIds
+        
         var indoorMapEntitiesList = [];
 
-        for (var entityIndex = 0; entityIndex < indoorMapEntityCount; ++entityIndex)
-        {
-            var indoorMapEntityStringIdSizeBuf = _emscriptenMemory.createInt32Buffer(1);
+        var idBufferHead = 0;
+        var latLngsPerContourHead = 0;
+        var latLngsDegreesHead = 0;
+        for (var i = 0; i < indoorMapEntityCount; i++) {
+            var numCharsInId = indoorMapEntityStringIdSizes[i];
+            var idBufferEnd = idBufferHead + numCharsInId;
+            var indoorMapEntityId = indoorMapEntityStringIds.slice(idBufferHead, idBufferEnd);
+            idBufferHead = idBufferEnd;
 
-            success = _indoorEntityInformationApi_TryGetIndoorMapEntityIdBufferSize(
-                _emscriptenApiPointer,
-                indoorMapEntityModelIds[entityIndex],
-                indoorMapEntityStringIdSizeBuf.ptr
-            );
+            var indoorMapEntityFloorId = indoorMapEntityFloorIds[i];
 
-            var indoorMapEntityStringIdSize = _emscriptenMemory.consumeBufferToArray(indoorMapEntityStringIdSizeBuf)[0];
-            
-            if(!success)
+            var posLat = positionLatLng[2*i];
+            var posLng = positionLatLng[2*i + 1];
+            var position = L.latLng(posLat, posLng);
+
+            var contourCount = contoursPerPolygon[i];
+            var polygonPoints = [];
+
+            var  latLngsPerContourEndIndex = latLngsPerContourHead + contourCount;
+            for (var latLngsPerContourIndex = latLngsPerContourHead; latLngsPerContourIndex < latLngsPerContourEndIndex;  latLngsPerContourIndex++)
             {
-                return null;
-            }
-            
-            var indoorMapEntityStringId = _emscriptenMemory.createInt8Buffer(indoorMapEntityStringIdSize);
-            var indoorMapFloorIdBuf = _emscriptenMemory.createInt32Buffer(1);
-            var positionLatLngBuf = _emscriptenMemory.createDoubleBuffer(2);
+                var contourPoints = [];
+                
+                var latLngsDegreesCount = latLngsPerContour[latLngsPerContourIndex];
+                var latLngsDegreesEndIndex = latLngsDegreesHead + latLngsDegreesCount;
 
-            success = _indoorEntityInformationApi_TryGetIndoorMapEntity(
-                _emscriptenApiPointer,
-                indoorMapEntityModelIds[entityIndex],
-                indoorMapEntityStringId.ptr,
-                indoorMapEntityStringIdSize,
-                indoorMapFloorIdBuf.ptr,
-                positionLatLngBuf.ptr
-            );
+                for(var pointIndex = latLngsDegreesHead; pointIndex < latLngsDegreesEndIndex; pointIndex++)
+                {
+                    var lat = latLngsDegrees[(pointIndex * 2)];
+                    var lng = latLngsDegrees[(pointIndex * 2) + 1];
+                    contourPoints.push(L.latLng(lat, lng));
 
-            var indoorMapEntityId = _emscriptenMemory.consumeUtf8BufferToString(indoorMapEntityStringId);
-            var indoorMapEntityFloorIdArray = _emscriptenMemory.consumeBufferToArray(indoorMapFloorIdBuf);
-            var positionLatLngArray = _emscriptenMemory.consumeBufferToArray(positionLatLngBuf);
+                    latLngsDegreesHead++;
+                }                
+                polygonPoints.push(contourPoints);
 
-            if(!success)
-            {
-                return null;
+                latLngsPerContourHead++;
             }
 
-            var indoorMapEntityFloorId = indoorMapEntityFloorIdArray[0];
-
-            var lat = positionLatLngArray[0];
-            var lng = positionLatLngArray[1];
-            var position = L.latLng(lat, lng);
-
-            var entity = new indoorMapEntities.IndoorMapEntity(indoorMapEntityId, indoorMapEntityFloorId, position);
+            var entity = new indoorMapEntities.IndoorMapEntity(indoorMapEntityId, indoorMapEntityFloorId, position, polygonPoints);
             indoorMapEntitiesList.push(entity);
         }
 
