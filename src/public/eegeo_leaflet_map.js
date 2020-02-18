@@ -493,6 +493,13 @@ var EegeoLeafletMap = L.Map.extend({
         this._frameRateModule.cancelThrottle();
     },
 
+    isHardwareAccelerationAvailable: function() {
+        var canvas = document.createElement("canvas");
+        var hardwareAccelerationEnforcer = { failIfMajorPerformanceCaveat: true };
+        var webglContext = canvas.getContext("webgl", hardwareAccelerationEnforcer) || canvas.getContext("experimental-webgl", hardwareAccelerationEnforcer);
+        return !!(webglContext && webglContext instanceof WebGLRenderingContext);
+    },
+
     _getAngleFromCameraToHorizon: function() {
         var altitude = this.getCameraDistanceToInterest();
         var earthRadius = 6378100.0;
