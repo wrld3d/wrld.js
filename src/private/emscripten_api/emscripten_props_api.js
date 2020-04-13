@@ -1,28 +1,28 @@
 var elevationMode = require("../elevation_mode.js");
 
-function EmscriptenPropsApi(eegeoApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
+function EmscriptenPropsApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
 
-    var _eegeoApiPointer = eegeoApiPointer;
+    var _emscriptenApiPointer = emscriptenApiPointer;
     var _emscriptenMemory = emscriptenMemory;
 
-    var _createProp = null;
-    var _createProps = null;
-    var _destroyProp = null;
-    var _destroyProps = null;
-    var _propExists = null;
-    var _setLocation = null;
-    var _setElevation = null;
-    var _setElevationMode = null;
-    var _setGeometryId = null;
-    var _setHeadingDegrees = null;
-    var _setAutomaticIndoorMapPopulationEnabled = null;
-    var _isAutomaticIndoorMapPopulationEnabled = null;
-    var _setIndoorMapPopulationServiceUrl = null;
+    var _propsApi_createProp = null;
+    var _propsApi_createProps = null;
+    var _propsApi_destroyProp = null;
+    var _propsApi_destroyProps = null;
+    var _propsApi_propExists = null;
+    var _propsApi_setLocation = null;
+    var _propsApi_setElevation = null;
+    var _propsApi_setElevationMode = null;
+    var _propsApi_setGeometryId = null;
+    var _propsApi_setHeadingDegrees = null;
+    var _propsApi_setAutomaticIndoorMapPopulationEnabled = null;
+    var _propsApi_isAutomaticIndoorMapPopulationEnabled = null;
+    var _propsApi_setIndoorMapPopulationServiceUrl = null;
 
     this.createProp = function(indoorMapId, floorId, name, latitude, longitude, elevation, elevationModeString, headingDegrees, geometryId) {
-        _createProp = _createProp || cwrap("createProp", "number", ["number", "string", "number", "string", "number", "number", "number", "number", "number", "string"]);
+        _propsApi_createProp = _propsApi_createProp || cwrap("propsApi_createProp", "number", ["number", "string", "number", "string", "number", "number", "number", "number", "number", "string"]);
         var elevationModeInt = elevationMode.getElevationModeInt(elevationModeString);
-        var propId = _createProp(_eegeoApiPointer, indoorMapId, floorId, name, latitude, longitude, elevation, elevationModeInt, headingDegrees, geometryId);
+        var propId = _propsApi_createProp(_emscriptenApiPointer, indoorMapId, floorId, name, latitude, longitude, elevation, elevationModeInt, headingDegrees, geometryId);
         return propId;
     };
 
@@ -41,7 +41,7 @@ function EmscriptenPropsApi(eegeoApiPointer, cwrap, emscriptenModule, emscripten
             throw new Error("Unequal array element counts in call to createProps.");
         }
 
-        _createProps = _createProps || cwrap("createProps", null, ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number"]);
+        _propsApi_createProps = _propsApi_createProps || cwrap("propsApi_createProps", null, ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number"]);
         var out_propIdsBuffer = _emscriptenMemory.createInt32Buffer(propCount);
 
         var elevationModeIntArray = [];
@@ -57,8 +57,8 @@ function EmscriptenPropsApi(eegeoApiPointer, cwrap, emscriptenModule, emscripten
         _emscriptenMemory.passStrings(indoorMapIdArray, function(indoorMapIdArrayPtr, indoorMapIdArraySize) {
             _emscriptenMemory.passStrings(nameArray, function(nameArrayPtr, nameArraySize) {
                 _emscriptenMemory.passStrings(geometryIdArray, function(geometryIdArrayPtr, geometryIdArraySize) {
-                    _createProps(
-                        _eegeoApiPointer,
+                    _propsApi_createProps(
+                        _emscriptenApiPointer,
                         propCount,
                         indoorMapIdArrayPtr,
                         floorIdBuffer.ptr,
@@ -69,10 +69,11 @@ function EmscriptenPropsApi(eegeoApiPointer, cwrap, emscriptenModule, emscripten
                         elevationModeBuffer.ptr,
                         headingDegreesBuffer.ptr,
                         geometryIdArrayPtr,
-                        out_propIdsBuffer.ptr);
-                        });
-                    });
+                        out_propIdsBuffer.ptr
+                    );
                 });
+            });
+        });
 
         _emscriptenMemory.freeBuffer(headingDegreesBuffer);
         _emscriptenMemory.freeBuffer(elevationModeBuffer);
@@ -85,62 +86,63 @@ function EmscriptenPropsApi(eegeoApiPointer, cwrap, emscriptenModule, emscripten
     };
 
     this.destroyProp = function(propId) {
-        _destroyProp = _destroyProp || cwrap("destroyProp", null, ["number", "number"]);
-        _destroyProp(_eegeoApiPointer, propId);
+        _propsApi_destroyProp = _propsApi_destroyProp || cwrap("propsApi_destroyProp", null, ["number", "number"]);
+        _propsApi_destroyProp(_emscriptenApiPointer, propId);
     };
 
     this.destroyProps = function(propIdArray) {
-        _destroyProps = _destroyProps || cwrap("destroyProps", null, ["number", "number", "number"]);
+        _propsApi_destroyProps = _propsApi_destroyProps || cwrap("propsApi_destroyProps", null, ["number", "number", "number"]);
 
         _emscriptenMemory.passInt32s(propIdArray, function(propIdArrayPtr, propIdArraySize){
-            _destroyProps(_eegeoApiPointer, propIdArrayPtr, propIdArraySize);
+            _propsApi_destroyProps(_emscriptenApiPointer, propIdArrayPtr, propIdArraySize);
         });
     };
 
     this.propExists = function(propId) {
-        _propExists = _propExists || cwrap("propExists", "number", ["number", "number"]);
-        return _propExists(_eegeoApiPointer, propId);
+        _propsApi_propExists = _propsApi_propExists || cwrap("propsApi_propExists", "number", ["number", "number"]);
+        return _propsApi_propExists(_emscriptenApiPointer, propId);
     };
 
     this.setLocation = function(propId, latitudeDegrees, longitudeDegrees) {
-        _setLocation = _setLocation || cwrap("setLocation", null, ["number", "number", "number", "number"]);
-        _setLocation(_eegeoApiPointer, propId, latitudeDegrees, longitudeDegrees);
+        _propsApi_setLocation = _propsApi_setLocation || cwrap("propsApi_setLocation", null, ["number", "number", "number", "number"]);
+        _propsApi_setLocation(_emscriptenApiPointer, propId, latitudeDegrees, longitudeDegrees);
     };
 
     this.setElevation = function(propId, elevation) {
-        _setElevation = _setElevation || cwrap("setElevation", null, ["number", "number", "number"]);
-        _setElevation(_eegeoApiPointer, propId, elevation);
+        _propsApi_setElevation = _propsApi_setElevation || cwrap("propsApi_setElevation", null, ["number", "number", "number"]);
+        _propsApi_setElevation(_emscriptenApiPointer, propId, elevation);
     };
 
     this.setElevationMode = function(propId, elevationModeString) {
-        _setElevationMode = _setElevationMode || cwrap("setElevationMode", null, ["number", "number", "number"]);
+        _propsApi_setElevationMode = _propsApi_setElevationMode || cwrap("propsApi_setElevationMode", null, ["number", "number", "number"]);
         var elevationModeInt = elevationMode.getElevationModeInt(elevationModeString);
-        _setElevationMode(_eegeoApiPointer, propId, elevationModeInt);
+        _propsApi_setElevationMode(_emscriptenApiPointer, propId, elevationModeInt);
     };
 
     this.setGeometryId = function(propId, geometryId) {
-        _setGeometryId = _setGeometryId || cwrap("setGeometryId", null, ["number", "number", "string"]);
-        _setGeometryId(_eegeoApiPointer, propId, geometryId);
+        _propsApi_setGeometryId = _propsApi_setGeometryId || cwrap("propsApi_setGeometryId", null, ["number", "number", "string"]);
+        _propsApi_setGeometryId(_emscriptenApiPointer, propId, geometryId);
     };
 
     this.setHeadingDegrees = function(propId, headingDegrees) {
-        _setHeadingDegrees = _setHeadingDegrees || cwrap("setHeadingDegrees", null, ["number", "number", "number", "number"]);
-        _setHeadingDegrees(_eegeoApiPointer, propId, headingDegrees);
+        _propsApi_setHeadingDegrees = _propsApi_setHeadingDegrees || cwrap("propsApi_setHeadingDegrees", null, ["number", "number", "number", "number"]);
+        _propsApi_setHeadingDegrees(_emscriptenApiPointer, propId, headingDegrees);
     };
 
     this.setAutomaticIndoorMapPopulationEnabled = function(enabled) {
-        _setAutomaticIndoorMapPopulationEnabled = _setAutomaticIndoorMapPopulationEnabled || cwrap("setAutomaticIndoorMapPopulationEnabled", null, ["number", "number"]);
-        _setAutomaticIndoorMapPopulationEnabled(_eegeoApiPointer, enabled);
+        _propsApi_setAutomaticIndoorMapPopulationEnabled = _propsApi_setAutomaticIndoorMapPopulationEnabled || cwrap("propsApi_setAutomaticIndoorMapPopulationEnabled", null, ["number", "number"]);
+        _propsApi_setAutomaticIndoorMapPopulationEnabled(_emscriptenApiPointer, enabled);
     };
 
     this.isAutomaticIndoorMapPopulationEnabled = function() {
-        _isAutomaticIndoorMapPopulationEnabled = _isAutomaticIndoorMapPopulationEnabled || cwrap("isAutomaticIndoorMapPopulationEnabled", "number", ["number"]);
-        return _isAutomaticIndoorMapPopulationEnabled(_eegeoApiPointer);
+        _propsApi_isAutomaticIndoorMapPopulationEnabled = _propsApi_isAutomaticIndoorMapPopulationEnabled || cwrap("propsApi_isAutomaticIndoorMapPopulationEnabled", "number", ["number"]);
+        return _propsApi_isAutomaticIndoorMapPopulationEnabled(_emscriptenApiPointer);
     };
 
     this.setIndoorMapPopulationServiceUrl = function(serviceUrl) {
-        _setIndoorMapPopulationServiceUrl = _setIndoorMapPopulationServiceUrl || cwrap("setIndoorMapPopulationServiceUrl", null, ["number", "string"]);
-        _setIndoorMapPopulationServiceUrl(_eegeoApiPointer, serviceUrl);
+        _propsApi_setIndoorMapPopulationServiceUrl = _propsApi_setIndoorMapPopulationServiceUrl || cwrap("propsApi_setIndoorMapPopulationServiceUrl", null, ["number", "string"]);
+        _propsApi_setIndoorMapPopulationServiceUrl(_emscriptenApiPointer, serviceUrl);
+    };
     };
 }
 
