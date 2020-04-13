@@ -58,6 +58,9 @@ var PropModule = function(emscriptenApi) {
     };
 
     var _createPendingProps = function() {
+        if (_pendingProps.length === 0) {
+            return;
+        }
         _createAndAddArray(_pendingProps);
         _pendingProps = [];
     };
