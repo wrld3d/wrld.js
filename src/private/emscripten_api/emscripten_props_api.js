@@ -18,6 +18,7 @@ function EmscriptenPropsApi(emscriptenApiPointer, cwrap, emscriptenModule, emscr
     var _propsApi_setAutomaticIndoorMapPopulationEnabled = null;
     var _propsApi_isAutomaticIndoorMapPopulationEnabled = null;
     var _propsApi_setIndoorMapPopulationServiceUrl = null;
+    var _propsApi_setIndoorMapPopulationRequestCompletedCallback = null;
 
     this.createProp = function(indoorMapId, floorId, name, latitude, longitude, elevation, elevationModeString, headingDegrees, geometryId) {
         _propsApi_createProp = _propsApi_createProp || cwrap("propsApi_createProp", "number", ["number", "string", "number", "string", "number", "number", "number", "number", "number", "string"]);
@@ -143,6 +144,10 @@ function EmscriptenPropsApi(emscriptenApiPointer, cwrap, emscriptenModule, emscr
         _propsApi_setIndoorMapPopulationServiceUrl = _propsApi_setIndoorMapPopulationServiceUrl || cwrap("propsApi_setIndoorMapPopulationServiceUrl", null, ["number", "string"]);
         _propsApi_setIndoorMapPopulationServiceUrl(_emscriptenApiPointer, serviceUrl);
     };
+
+    this.setIndoorMapPopulationRequestCompletedCallback = function(callback) {
+        _propsApi_setIndoorMapPopulationRequestCompletedCallback = _propsApi_setIndoorMapPopulationRequestCompletedCallback || cwrap("propsApi_setIndoorMapPopulationRequestCompletedCallback", null, ["number", "number", "number"]);
+        _propsApi_setIndoorMapPopulationRequestCompletedCallback(_emscriptenApiPointer, emscriptenModule.addFunction(callback));
     };
 }
 

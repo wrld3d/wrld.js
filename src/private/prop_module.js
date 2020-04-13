@@ -11,6 +11,8 @@ var PropModule = function(emscriptenApi) {
     var _hasPendingServiceUrl = false;
     var _ready = false;
 
+    var _this = this;
+
     var _createAndAdd = function(prop) {
         var propId = _emscriptenApi.propsApi.createProp(
             prop.getIndoorMapId(),
@@ -63,6 +65,13 @@ var PropModule = function(emscriptenApi) {
         }
         _createAndAddArray(_pendingProps);
         _pendingProps = [];
+    };
+
+    var _executeIndoorMapPopulationRequestCompletedCallbacks = function(succeeded, httpStatusCode) {
+        _this.fire("indoormappopulationrequestcomplete", {
+            succeeded: (succeeded === 0 ? false : true),
+            httpStatusCode: httpStatusCode
+        });
     };
 
     this.addProp = function(prop) {
@@ -137,6 +146,8 @@ var PropModule = function(emscriptenApi) {
         if (_hasPendingServiceUrl) {
             this.setIndoorMapPopulationServiceUrl(_pendingServiceUrl);
         }
+
+        _emscriptenApi.propsApi.setIndoorMapPopulationRequestCompletedCallback(_executeIndoorMapPopulationRequestCompletedCallbacks);
     };
 
     this.onUpdate = function(dt) {
@@ -202,5 +213,7 @@ var PropModule = function(emscriptenApi) {
     };
 };
 
-PropModule.prototype = MapModule;
+var PropPrototype = L.extend({}, MapModule, L.Mixin.Events);
+
+PropModule.prototype = PropPrototype;
 module.exports = PropModule;
