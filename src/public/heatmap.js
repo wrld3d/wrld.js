@@ -64,7 +64,7 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
         pointData.forEach(function (pointDatum) {
             var weight = 1.0;
             var latLng = [];
-            if (dataCoordProperty in pointData) {
+            if (dataCoordProperty in pointDatum) {
                 latLng = L.latLng(pointDatum[dataCoordProperty]);
 
                 if (dataWeightProperty in pointDatum) {
