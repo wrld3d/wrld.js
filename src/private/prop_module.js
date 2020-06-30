@@ -67,6 +67,10 @@ var PropModule = function(emscriptenApi) {
         _pendingProps = [];
     };
 
+    var _executeIndoorMapEntitySetPropsLoadedCallbacks = function(indoorMapId, floorId) {
+        _this.fire("indoormapentitysetpropsloaded", {indoorMapId: indoorMapId, floorId: floorId});
+    };
+
     var _executeIndoorMapPopulationRequestCompletedCallbacks = function(succeeded, httpStatusCode) {
         _this.fire("indoormappopulationrequestcomplete", {
             succeeded: (succeeded === 0 ? false : true),
@@ -147,7 +151,9 @@ var PropModule = function(emscriptenApi) {
             this.setIndoorMapPopulationServiceUrl(_pendingServiceUrl);
         }
 
+        _emscriptenApi.propsApi.setIndoorMapEntitySetPropsLoadedCallback(_executeIndoorMapEntitySetPropsLoadedCallbacks);
         _emscriptenApi.propsApi.setIndoorMapPopulationRequestCompletedCallback(_executeIndoorMapPopulationRequestCompletedCallbacks);
+        _emscriptenApi.propsApi.onInitialized();
     };
 
     this.onUpdate = function(dt) {
@@ -209,6 +215,15 @@ var PropModule = function(emscriptenApi) {
         else {
             _pendingServiceUrl = serviceUrl;
             _hasPendingServiceUrl = true;
+        }
+    };
+
+    this.getIndoorMapEntitySetProps = function(indoorMapId, floorId) {
+        if (_ready) {
+            return _emscriptenApi.propsApi.tryGetIndoorMapEntitySetProps(indoorMapId, floorId);
+        }
+        else {
+            return null;
         }
     };
 };
