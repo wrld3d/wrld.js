@@ -1,4 +1,5 @@
 var elevationMode = require("../elevation_mode.js");
+var indoorMapEntitySetProp = require("../../public/entity_set_prop.js");
 
 function EmscriptenPropsApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
 
@@ -17,8 +18,18 @@ function EmscriptenPropsApi(emscriptenApiPointer, cwrap, emscriptenModule, emscr
     var _propsApi_setHeadingDegrees = null;
     var _propsApi_setAutomaticIndoorMapPopulationEnabled = null;
     var _propsApi_isAutomaticIndoorMapPopulationEnabled = null;
+    var _propsApi_getIndoorMapPropCount = null;
+    var _propsApi_tryGetIndoorMapPropDataBufferSizes = null;
+    var _propsApi_tryGetIndoorMapPropData = null;
     var _propsApi_setIndoorMapPopulationServiceUrl = null;
+    var _propsApi_setIndoorMapEntitySetPropsLoadedCallback = null;
     var _propsApi_setIndoorMapPopulationRequestCompletedCallback = null;
+
+    var _indoorMapEntitySetPropsLoadedCallback = null;
+
+    this.onInitialized = function() {
+        this.registerIndoorMapEntitySetPropsLoadedHandler(indoorMapEntitySetPropsLoadedHandler);
+    };
 
     this.createProp = function(indoorMapId, floorId, name, latitude, longitude, elevation, elevationModeString, headingDegrees, geometryId) {
         _propsApi_createProp = _propsApi_createProp || cwrap("propsApi_createProp", "number", ["number", "string", "number", "string", "number", "number", "number", "number", "number", "string"]);
@@ -140,9 +151,114 @@ function EmscriptenPropsApi(emscriptenApiPointer, cwrap, emscriptenModule, emscr
         return _propsApi_isAutomaticIndoorMapPopulationEnabled(_emscriptenApiPointer);
     };
 
+    this.tryGetIndoorMapEntitySetProps = function(indoorMapId, floorId) {
+        _propsApi_getIndoorMapPropCount = _propsApi_getIndoorMapPropCount || cwrap("propsApi_getIndoorMapPropCount", "number", ["number", "string", "number"]);
+        var propCount = _propsApi_getIndoorMapPropCount(_emscriptenApiPointer, indoorMapId, floorId);
+
+        var indoorMapPerPropNameSizesBuf = _emscriptenMemory.createInt32Buffer(propCount);
+        var indoorMapPerPropModelSizesBuf = _emscriptenMemory.createInt32Buffer(propCount);
+        var indoorMapPropBufferSizesBuf = _emscriptenMemory.createInt32Buffer(2);
+
+        _propsApi_tryGetIndoorMapPropDataBufferSizes = _propsApi_tryGetIndoorMapPropDataBufferSizes || cwrap("propsApi_tryGetIndoorMapPropDataBufferSizes", "number", ["number", "string", "number", "number", "number", "number", "number"]);
+
+        var success = _propsApi_tryGetIndoorMapPropDataBufferSizes(
+                        _emscriptenApiPointer,
+                        indoorMapId, 
+                        floorId,
+                        propCount,
+                        indoorMapPerPropNameSizesBuf.ptr,
+                        indoorMapPerPropModelSizesBuf.ptr,
+                        indoorMapPropBufferSizesBuf.ptr);
+
+        if (!success) {
+            return null;
+        }
+
+        var indoorMapPerPropNameSizes = _emscriptenMemory.consumeBufferToArray(indoorMapPerPropNameSizesBuf);
+        var indoorMapPerPropModelSizes = _emscriptenMemory.consumeBufferToArray(indoorMapPerPropModelSizesBuf);
+        var indoorMapPropBufferSizes = _emscriptenMemory.consumeBufferToArray(indoorMapPropBufferSizesBuf);
+
+        var indoorMapPropNameTotalSize = indoorMapPropBufferSizes[0];
+        var indoorMapPropModelTotalSize = indoorMapPropBufferSizes[1];
+
+        var indoorMapPropStringNamesBuf = _emscriptenMemory.createInt8Buffer(indoorMapPropNameTotalSize);
+        var indoorMapPropStringModelsBuf = _emscriptenMemory.createInt8Buffer(indoorMapPropModelTotalSize);
+        var indoorMapPropLatLngBuf = _emscriptenMemory.createDoubleBuffer(propCount * 2);
+        var indoorMapPropHeightBuf = _emscriptenMemory.createDoubleBuffer(propCount);
+        var indoorMapPropOrientationBuf = _emscriptenMemory.createDoubleBuffer(propCount);
+
+        _propsApi_tryGetIndoorMapPropData = _propsApi_tryGetIndoorMapPropData || cwrap("propsApi_tryGetIndoorMapPropData", "number", ["number", "string", "number", "number", "number", "number", "number", "number", "number"]);
+
+        success = _propsApi_tryGetIndoorMapPropData(
+            _emscriptenApiPointer,
+            indoorMapId, 
+            floorId,
+            propCount,
+            indoorMapPropStringNamesBuf.ptr,
+            indoorMapPropStringModelsBuf.ptr,
+            indoorMapPropLatLngBuf.ptr,
+            indoorMapPropHeightBuf.ptr,
+            indoorMapPropOrientationBuf.ptr
+        );
+
+        if (!success) {
+            return null;
+        }
+
+        var indoorMapPropStringNames = _emscriptenMemory.consumeUtf8BufferToString(indoorMapPropStringNamesBuf);
+        var indoorMapPropStringModels = _emscriptenMemory.consumeUtf8BufferToString(indoorMapPropStringModelsBuf);
+        var indoorMapPropLatLngs = _emscriptenMemory.consumeBufferToArray(indoorMapPropLatLngBuf);
+        var indoorMapPropHeights = _emscriptenMemory.consumeBufferToArray(indoorMapPropHeightBuf);
+        var indoorMapPropOrientation = _emscriptenMemory.consumeBufferToArray(indoorMapPropOrientationBuf);
+
+        var indoorMapEntityPropList = [];
+
+        var nameBufferHead = 0;
+        var modelBufferHead = 0;
+        for (var i = 0; i < propCount; i++) {
+            var numCharsInName = indoorMapPerPropNameSizes[i];
+            var nameBufferEnd = nameBufferHead + numCharsInName;
+            var name = indoorMapPropStringNames.slice(nameBufferHead, nameBufferEnd);
+            nameBufferHead = nameBufferEnd;
+
+            var numCharsInModel = indoorMapPerPropModelSizes[i];
+            var modelBufferEnd = modelBufferHead + numCharsInModel;
+            var model = indoorMapPropStringModels.slice(modelBufferHead, modelBufferEnd);
+            modelBufferHead = modelBufferEnd;
+
+            var posLat = indoorMapPropLatLngs[2*i];
+            var posLng = indoorMapPropLatLngs[2*i + 1];
+            var position = L.latLng(posLat, posLng);
+
+            var height = indoorMapPropHeights[i];
+            var orientation = indoorMapPropOrientation[i];
+
+            var prop = new indoorMapEntitySetProp.IndoorMapEntitySetProp(indoorMapId, floorId, name, model, position, height, elevationMode.ElevationModeType.HEIGHT_ABOVE_GROUND, orientation);
+            indoorMapEntityPropList.push(prop);
+        }
+
+        return indoorMapEntityPropList;
+    };
+
     this.setIndoorMapPopulationServiceUrl = function(serviceUrl) {
         _propsApi_setIndoorMapPopulationServiceUrl = _propsApi_setIndoorMapPopulationServiceUrl || cwrap("propsApi_setIndoorMapPopulationServiceUrl", null, ["number", "string"]);
         _propsApi_setIndoorMapPopulationServiceUrl(_emscriptenApiPointer, serviceUrl);
+    };
+
+    var indoorMapEntitySetPropsLoadedHandler = function(indoorMapIdPtr, floorId) {
+        if (_indoorMapEntitySetPropsLoadedCallback !== null) {
+            var indoorMapId = _emscriptenMemory.stringifyPointer(indoorMapIdPtr);
+            _indoorMapEntitySetPropsLoadedCallback(indoorMapId, floorId);
+        }
+    };
+
+    this.setIndoorMapEntitySetPropsLoadedCallback = function(callback) {
+        _indoorMapEntitySetPropsLoadedCallback = callback;
+    };
+
+    this.registerIndoorMapEntitySetPropsLoadedHandler = function(callback) {
+        _propsApi_setIndoorMapEntitySetPropsLoadedCallback = _propsApi_setIndoorMapEntitySetPropsLoadedCallback || cwrap("propsApi_setIndoorMapEntitySetPropsLoadedCallback", null, ["number", "number"]);
+        _propsApi_setIndoorMapEntitySetPropsLoadedCallback(_emscriptenApiPointer, emscriptenModule.addFunction(callback));
     };
 
     this.setIndoorMapPopulationRequestCompletedCallback = function(callback) {
