@@ -406,12 +406,12 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
         return this;
     };
 
-    this.setEntityHighlights = function(ids, color, indoorMapId, borderThickness) {
+    this.setEntityHighlights = function(ids, highlightColor, indoorMapId, highlightBorderThickness) {
         if (!_ready) return;
 
         indoorMapId = _indoorMapIdOrDefault(indoorMapId);
-        borderThickness = _borderThicknessOrDefault(borderThickness);
-        _emscriptenApi.indoorEntityApi.setHighlights(ids, color, indoorMapId, borderThickness);
+        highlightBorderThickness = _borderThicknessOrDefault(highlightBorderThickness);
+        _emscriptenApi.indoorEntityApi.setHighlights(ids, highlightColor, indoorMapId, highlightBorderThickness);
     };
 
     this.clearEntityHighlights = function(ids, indoorMapId) {
