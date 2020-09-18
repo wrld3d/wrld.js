@@ -406,11 +406,12 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
         return this;
     };
 
-    this.setEntityHighlights = function(ids, color, indoorMapId) {
+    this.setEntityHighlights = function(ids, color, indoorMapId, borderThickness) {
         if (!_ready) return;
 
         indoorMapId = _indoorMapIdOrDefault(indoorMapId);
-        _emscriptenApi.indoorEntityApi.setHighlights(ids, color, indoorMapId);
+        borderThickness = _borderThicknessOrDefault(borderThickness);
+        _emscriptenApi.indoorEntityApi.setHighlights(ids, color, indoorMapId, borderThickness);
     };
 
     this.clearEntityHighlights = function(ids, indoorMapId) {
@@ -418,6 +419,14 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
 
         indoorMapId = _indoorMapIdOrDefault(indoorMapId);
         _emscriptenApi.indoorEntityApi.clearHighlights(ids, indoorMapId);
+    };
+
+    var _borderThicknessOrDefault = function(borderThickness) {
+        if (borderThickness === undefined || borderThickness === null) {
+            borderThickness = 0.5;
+        }
+
+        return borderThickness;
     };
 
     var _indoorMapIdOrDefault = function(indoorMapId) {
