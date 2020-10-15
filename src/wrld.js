@@ -139,6 +139,6 @@ L.Wrld = Wrld;
 L.eeGeo = L.Wrld;
 
 // The default image path is broken when using Browserify - it searches the script tags on the page
-L.Icon.Default.imagePath = "http://cdn.leafletjs.com/leaflet/v1.0.1/images/";
+L.Icon.Default.imagePath = "https://unpkg.com/leaflet@1.0.1/dist/images/";
 
 module.exports = L.Wrld;
