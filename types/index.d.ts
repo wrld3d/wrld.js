@@ -1,6 +1,10 @@
 
 import L from "leaflet";
 
+type IndoorMapId = string;
+type IndoorMapFloorId = number;
+type IndoorMapFloorIndex = number;
+
 /* Wrld.Map */
 
 type MapOptions = L.MapOptions & {
@@ -76,8 +80,8 @@ interface Map extends L.Map {
 type MarkerOptions = L.MarkerOptions & {
     elevation: number;
     elevationMode: "heightAboveGround" | "heightAboveSeaLevel";
-    indoorMapId: string;
-    indoorMapFloorId: number;
+    indoorMapId: IndoorMapId;
+    indoorMapFloorId: IndoorMapFloorId;
 };
 
 declare class Marker extends L.Marker {
@@ -86,6 +90,9 @@ declare class Marker extends L.Marker {
     setElevation(elevation : number): this;
     getElevationMode(): this;
     setElevationMode(elevationMode: "heightAboveGround" | "heightAboveSeaLevel"): this;
+    setIndoorMapWithFloorId(indoorMapId: IndoorMapId, indoorMapFloorId: IndoorMapFloorId): this;
+    setIndoorMapWithFloorIndex(indoorMapId: IndoorMapId, indoorMapFloorIndex: IndoorMapFloorIndex): this;
+    setOutdoor(): this;
 }
 
 /* Wrld */
