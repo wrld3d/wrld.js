@@ -435,12 +435,12 @@ var EegeoLeafletMap = L.Map.extend({
     },
 
     setCameraTiltDegrees: function(tilt) {
-      this._cameraModule.setTiltDegrees(tilt);
-      return this;
+        this._cameraModule.setTiltDegrees(tilt);
+        return this;
     },
 
     getCameraTiltDegrees: function() {
-      return this._cameraModule.getTiltDegrees();
+        return this._cameraModule.getTiltDegrees();
     },
 
     getCameraHeadingDegrees: function() {
@@ -448,20 +448,20 @@ var EegeoLeafletMap = L.Map.extend({
     },
 
     setCameraHeadingDegrees: function(heading) {
-      this._cameraModule.setHeadingDegrees(heading);
-      return this;
+        this._cameraModule.setHeadingDegrees(heading);
+        return this;
     },
 
     getMaximumPrecacheRadius: function() {
-      return this._precacheModule.getMaximumPrecacheRadius();
+        return this._precacheModule.getMaximumPrecacheRadius();
     },
 
     precache: function(center, radius, completionCallback) {
-      return this.precacheWithDetailedResult(center, radius, function(precacheResult) { completionCallback(precacheResult.succeeded); });
+        return this.precacheWithDetailedResult(center, radius, function(precacheResult) { completionCallback(precacheResult.succeeded); });
     },
 
     precacheWithDetailedResult: function(center, radius, completionCallback) {
-      return this._precacheModule.precache(center, radius, completionCallback);
+        return this._precacheModule.precache(center, radius, completionCallback);
     },
 
     setMapCollapsed: function(isMapCollapsed) {
