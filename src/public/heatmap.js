@@ -491,55 +491,55 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
         L.setOptions(this, options);
 
         // only call mutation method (which validates and sets dirty flag) if property exists in param
-        if (options.hasOwnProperty("indoorMapId") || options.hasOwnProperty("indooindoorMapFloorIdMapId")) {
+        if ("indoorMapId" in options || "indooindoorMapFloorIdMapId" in options) {
             this.setIndoorMapWithFloorId(this.options.indoorMapId, this.options.indoorMapFloorId);
         }
-        if (options.hasOwnProperty("elevation")) {
+        if ("elevation" in options) {
             this.setElevation(this.options.elevation);
         }
-        if (options.hasOwnProperty("elevationMode")) {
+        if ("elevationMode" in options) {
             this.setElevationMode(this.options.elevationMode);
         }
-        if (options.hasOwnProperty("densityBlend")) {
+        if ("densityBlend" in options) {
             this.setDensityBlend(this.options.densityBlend);
         }
-        if (options.hasOwnProperty("interpolateDensityByZoom")) {
+        if ("interpolateDensityByZoom" in options) {
             this.setInterpolateDensityByZoom(this.options.interpolateDensityByZoom);
         }
-        if (options.hasOwnProperty("zoomMin")) {
+        if ("zoomMin" in options) {
             this.setZoomMin(this.options.zoomMin);
         }
-        if (options.hasOwnProperty("zoomMax")) {
+        if ("zoomMax" in options) {
             this.setZoomMax(this.options.zoomMax);
         }
-        if (options.hasOwnProperty("intensityBias")) {
+        if ("intensityBias" in options) {
             this.setIntensityBias(this.options.intensityBias);
         }
-        if (options.hasOwnProperty("intensityScale")) {
+        if ("intensityScale" in options) {
             this.setIntensityScale(this.options.intensityScale);
         }
-        if (options.hasOwnProperty("opacity")) {
+        if ("opacity" in options) {
             this.setOpacity(this.options.opacity);
         }
-        if (options.hasOwnProperty("colorGradient")) {
+        if ("colorGradient" in options) {
             this.setColorGradient(this.options.colorGradient);
         }
-        if (options.hasOwnProperty("resolutionPixels")) {
+        if ("resolutionPixels" in options) {
             this.setResolution(this.options.resolutionPixels);
         }
-        if (options.hasOwnProperty("densityStops")) {
+        if ("densityStops" in options) {
             this.setDensityStops(this.options.densityStops);
         }
-        if (options.hasOwnProperty("useApproximation")) {
+        if ("useApproximation" in options) {
             this.setUseApproximation(this.options.useApproximation);
         }
-        if (options.hasOwnProperty("weightMin")) {
+        if ("weightMin" in options) {
             this.setWeightMin(this.options.weightMin);
         }
-        if (options.hasOwnProperty("weightMax")) {
+        if ("weightMax" in options) {
             this.setWeightMax(this.options.weightMax);
         }
-        if (options.hasOwnProperty("polygonPoints")) {
+        if ("polygonPoints" in options) {
             this.setPolygonPoints(this.options.polygonPoints);
         }
 

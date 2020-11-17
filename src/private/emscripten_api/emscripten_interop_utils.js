@@ -57,31 +57,31 @@ function colorObjectToVector4(color) {
     var b = undefined;
     var a = 255.0;
     if (typeof color === "object") {
-        if (color.hasOwnProperty("r")) {
+        if ("r" in color) {
             r = color.r;
         }
-        else if (color.hasOwnProperty("x")) {
+        else if ("x" in color) {
             r = color.x;
         }
 
-        if (color.hasOwnProperty("g")) {
+        if ("g" in color) {
             g = color.g;
         }
-        else if (color.hasOwnProperty("y")) {
+        else if ("y" in color) {
             g = color.y;
         }
 
-        if (color.hasOwnProperty("b")) {
+        if ("b" in color) {
             b = color.b;
         }
-        else if (color.hasOwnProperty("z")) {
+        else if ("z" in color) {
             b = color.z;
         }
 
-        if (color.hasOwnProperty("a")) {
+        if ("a" in color) {
             a = color.a;
         }
-        else if (color.hasOwnProperty("w")) {
+        else if ("w" in color) {
             a = color.w;
         }
     }

@@ -30,6 +30,7 @@ type MapOptions = L.MapOptions & {
 
 namespace Map {
 
+    // eslint-disable-next-line no-unused-vars
     type SetViewOptions = {
         headingDegrees: number;
         tiltDegrees: number;
@@ -39,6 +40,7 @@ namespace Map {
     };
 }
 
+// eslint-disable-next-line no-redeclare
 interface Map extends L.Map {
     getAltitudeAtLatLng(latLng: L.LatLngExpression): number;
     getCameraDistanceToInterest(): number;
@@ -54,7 +56,7 @@ interface Map extends L.Map {
     precacheWithDetailedResult(center: L.LatLngExpression, radius: number, callback: (success: boolean) => void): {
         cancel: () => void;
     };
-    setView(center: L.LatLngExpression, zoom: number, options?: SetViewOptions): this;
+    setView(center: L.LatLngExpression, zoom: number, options?: Map.SetViewOptions): this;
     setViewVerticallyLocked(isVerticallyLocked: boolean): this;
     layerPointToLatLng(point: L.PointExpression): L.LatLng;
     latLngToLayerPoint(latLng: L.LatLngExpression): L.Point;
