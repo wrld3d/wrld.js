@@ -28,7 +28,7 @@ type MapOptions = L.MapOptions & {
     throttledTargetFrameIntervalMilliseconds?: number;
 };
 
-declare namespace Map {
+namespace Map {
 
     type SetViewOptions = {
         headingDegrees: number;
@@ -84,7 +84,7 @@ type MarkerOptions = L.MarkerOptions & {
     indoorMapFloorId: IndoorMapFloorId;
 };
 
-declare class Marker extends L.Marker {
+class Marker extends L.Marker {
     constructor(latlng: L.LatLngExpression, options?: MarkerOptions);
     getElevation(): number;
     setElevation(elevation : number): this;
