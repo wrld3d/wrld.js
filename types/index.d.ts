@@ -95,13 +95,28 @@ class Marker extends L.Marker {
     setOutdoor(): this;
 }
 
+/* Wrld.Popup */
+
+type PopupOptions = L.PopupOptions & {
+    elevation: number;
+};
+
+class Popup extends L.Popup {
+    constructor(options?: PopupOptions, source?: L.Layer);
+    getElevation(): number;
+    setElevation(elevation : number): this;
+}
+
 /* Wrld */
 
-function map(element: HTMLElement | string, apiKey: string, options?: Wrld.MapOptions): Wrld.Map;
-function marker(latLng: L.LatLngExpression, options?: Wrld.MarkerOptions): Wrld.Marker;
+function map(element: HTMLElement | string, apiKey: string, options?: MapOptions): Map;
+function marker(latLng: L.LatLngExpression, options?: MarkerOptions): Marker;
+function popup(options?: PopupOptions, source?: L.Layer): Popup;
 
 declare module "wrld.js" {
     map;
     Marker;
     marker;
+    Popup;
+    popup;
 }
