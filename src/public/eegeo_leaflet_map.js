@@ -167,7 +167,7 @@ var EegeoLeafletMap = L.Map.extend({
         var id = L.stamp(layer);
 
         if (id in this._layersOnMap) {
-            return;
+            return this;
         }
 
         this._createPointMapping(layer);
@@ -175,19 +175,21 @@ var EegeoLeafletMap = L.Map.extend({
         this._layersOnMap[id] = layer;
 
         L.Map.prototype.addLayer.call(this, layer);
+        return this;
     },
 
     removeLayer: function(layer) {
         var id = L.stamp(layer);
 
         if(!(id in this._layersOnMap)) {
-            return;
+            return this;
         }
 
         this._removePointMapping(layer);
         L.Map.prototype.removeLayer.call(this, layer);
 
         delete this._layersOnMap[id];
+        return this;
     },
 
     onInitialized: function(emscriptenApi) {
@@ -314,6 +316,7 @@ var EegeoLeafletMap = L.Map.extend({
 
     setViewVerticallyLocked: function(isVerticallyLocked) {
         this._cameraModule.setVerticallyLocked(isVerticallyLocked);
+        return this;
     },
 
     fitBounds: function(bounds, options) {
@@ -463,6 +466,7 @@ var EegeoLeafletMap = L.Map.extend({
 
     setMapCollapsed: function(isMapCollapsed) {
         this.rendering.setMapCollapsed(isMapCollapsed);
+        return this;
     },
 
     isMapCollapsed: function() {
@@ -471,26 +475,32 @@ var EegeoLeafletMap = L.Map.extend({
 
     setDrawClearColor: function(clearColor) {
         this.rendering.setClearColor(clearColor);
+        return this;
     },
 
     setTargetVSyncInterval: function(targetVSyncInterval) {
         this._frameRateModule.setTargetVSyncInterval(targetVSyncInterval);
+        return this;
     },
 
     setThrottledTargetFrameInterval: function(throttledTargetFrameIntervalMilliseconds) {
         this._frameRateModule.setThrottledTargetFrameInterval(throttledTargetFrameIntervalMilliseconds);
+        return this;
     },
 
     setIdleSecondsBeforeThrottle: function(idleSecondsBeforeThrottle) {
         this._frameRateModule.setIdleSecondsBeforeThrottle(idleSecondsBeforeThrottle);
+        return this;
     },
 
     setThrottleWhenIdleEnabled: function(throttleWhenIdleEnabled) {
         this._frameRateModule.setThrottleWhenIdleEnabled(throttleWhenIdleEnabled);
+        return this;
     },
 
     cancelFrameRateThrottle: function() {
         this._frameRateModule.cancelThrottle();
+        return this;
     },
 
     isHardwareAccelerationAvailable: function() {
