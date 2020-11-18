@@ -5,6 +5,19 @@ type IndoorMapId = string;
 type IndoorMapFloorId = number;
 type IndoorMapFloorIndex = number;
 
+type Vector3 = [number, number, number] | {
+    x: number,
+    y: number,
+    z: number
+};
+
+type Vector4 = [number, number, number, number] | {
+    x: number,
+    y: number,
+    z: number,
+    w: number,
+};
+
 /* Wrld.Map */
 
 type MapOptions = L.MapOptions & {
@@ -77,7 +90,7 @@ interface Map extends L.Map {
     indoorMapFloorOutlines: any;
 }
 
-/* Wrld.Marker */
+/* L.Marker */
 
 type MarkerOptions = L.MarkerOptions & {
     elevation: number;
@@ -97,7 +110,7 @@ class Marker extends L.Marker {
     setOutdoor(): this;
 }
 
-/* Wrld.Popup */
+/* L.Popup */
 
 type PopupOptions = L.PopupOptions & {
     elevation: number;
@@ -109,11 +122,33 @@ class Popup extends L.Popup {
     setElevation(elevation : number): this;
 }
 
+/* Wrld.Polygon */
+
+type PolygonOptions = {
+    color?: Vector3 | Vector4;
+    elevation?: number;
+    elevationMode?: "heightAboveGround" | "heightAboveSeaLevel";
+    indoorMapId?: IndoorMapId;
+    indoorMapFloorId?: IndoorMapFloorId;
+};
+
+class Polygon {
+    constructor(latlngs: L.LatLngTuple[] | L.LatLngTuple[][], options?: PolygonOptions);
+    addTo(map: Map): this;
+    remove(): this;
+    getColor(): Vector4;
+    setColor(color: Vector3 | Vector4): this;
+    getPoints(): L.LatLngLiteral[];
+    addHole(points: L.LatLngTuple[]): this;
+    getHoles(): L.LatLngLiteral[][];
+}
+
 /* Wrld */
 
 function map(element: HTMLElement | string, apiKey: string, options?: MapOptions): Map;
 function marker(latLng: L.LatLngExpression, options?: MarkerOptions): Marker;
 function popup(options?: PopupOptions, source?: L.Layer): Popup;
+function polygon(latlngs: L.LatLngTuple[] | L.LatLngTuple[][], options?: PolygonOptions): Polygon;
 
 declare module "wrld.js" {
     map;
@@ -121,4 +156,6 @@ declare module "wrld.js" {
     marker;
     Popup;
     popup;
+    Polygon;
+    polygon;
 }
