@@ -92,11 +92,15 @@ interface Map extends L.Map {
     cancelFrameRateThrottle(): this;
     isHardwareAccelerationAvailable(): boolean;
 
+    // TODO
     indoors: any;
     themes: any;
+    routes: any;
     buildings: any;
+    props: any;
     indoorMapEntities: any;
     indoorMapFloorOutlines: any;
+    heatmaps: any;
 }
 
 /* L.Marker */
