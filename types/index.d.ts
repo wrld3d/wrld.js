@@ -181,6 +181,35 @@ class Polyline extends L.Polyline {
     setStyle(options: PolylineOptions): this;
 }
 
+/* Wrld.Prop */
+
+type PropOptions = {
+    elevation?: number;
+    elevationMode?: ElevationMode;
+    indoorMapId?: IndoorMapId;
+    indoorMapFloorId?: IndoorMapFloorId;
+    headingDegrees?: number;
+};
+
+class Prop {
+    constructor(name: string, geometryId: string, location: L.LatLngExpression, options?: PropOptions);
+    addTo(map: Map): this;
+    remove(): this;
+    getLocation(): L.LatLng;
+    setLocation(latLng: L.LatLngExpression): this;
+    getIndoorMapId(): IndoorMapId;
+    getIndoorMapFloorId(): IndoorMapFloorId;
+    getHeadingDegrees(): number;
+    setHeadingDegrees(heading: number): this;
+    getElevation(): number;
+    setElevation(elevation : number): this;
+    getElevationMode(): this;
+    setElevationMode(elevationMode: ElevationMode): this;
+    getGeometryId(): string;
+    setGeometryId(geometryId: string): this;
+    getName(): string;
+}
+
 /* Wrld */
 
 function map(element: HTMLElement | string, apiKey: string, options?: MapOptions): Map;
@@ -188,6 +217,7 @@ function marker(latLng: L.LatLngExpression, options?: MarkerOptions): Marker;
 function popup(options?: PopupOptions, source?: L.Layer): Popup;
 function polygon(latlngs: L.LatLngTuple[] | L.LatLngTuple[][], options?: PolygonOptions): Polygon;
 function polyline(latlngs: L.LatLngExpression[], options?: PolylineOptions): Polyline;
+function prop(name: string, geometryId: string, location: L.LatLngExpression, options?: PropOptions): Prop;
 
 declare module "wrld.js" {
     map;
@@ -199,4 +229,6 @@ declare module "wrld.js" {
     polygon;
     Polyline;
     polyline;
+    Prop;
+    prop;
 }
