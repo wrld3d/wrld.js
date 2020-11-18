@@ -20,6 +20,13 @@ type Vector4 = [number, number, number, number] | {
     w: number,
 };
 
+type Color = string | Vector3 | Vector4 | {
+    r: number,
+    g: number,
+    b: number,
+    a?: number
+};
+
 /* Wrld.Map */
 
 type MapOptions = L.MapOptions & {
@@ -145,12 +152,41 @@ class Polygon {
     getHoles(): L.LatLngLiteral[][];
 }
 
+/* Wrld.Polyline */
+
+type PolylineOptions = {
+    color?: Color;
+    elevation?: number;
+    elevationMode?: ElevationMode;
+    indoorMapId?: IndoorMapId;
+    indoorMapFloorId?: IndoorMapFloorId;
+    weight?: number;
+    miterLimit?: number;
+};
+
+class Polyline extends L.Polyline {
+    constructor(latlngs: L.LatLngExpression[], options?: PolylineOptions);
+    getPoints(): L.LatLng[];
+    getIndoorMapId(): IndoorMapId;
+    getIndoorMapFloorId(): IndoorMapFloorId;
+    setIndoorMapWithFloorId(indoorMapId: IndoorMapId, indoorMapFloorId: IndoorMapFloorId): this;
+    setElevation(elevation : number): this;
+    getElevationMode(): this;
+    setElevationMode(elevationMode: ElevationMode): this;
+    getWidth(): number;
+    getColor(): Color;
+    getMiterLimit(): number;
+    setOptions(options: PolylineOptions): this;
+    setStyle(options: PolylineOptions): this;
+}
+
 /* Wrld */
 
 function map(element: HTMLElement | string, apiKey: string, options?: MapOptions): Map;
 function marker(latLng: L.LatLngExpression, options?: MarkerOptions): Marker;
 function popup(options?: PopupOptions, source?: L.Layer): Popup;
 function polygon(latlngs: L.LatLngTuple[] | L.LatLngTuple[][], options?: PolygonOptions): Polygon;
+function polyline(latlngs: L.LatLngExpression[], options?: PolylineOptions): Polyline;
 
 declare module "wrld.js" {
     map;
@@ -160,4 +196,6 @@ declare module "wrld.js" {
     popup;
     Polygon;
     polygon;
+    Polyline;
+    polyline;
 }
