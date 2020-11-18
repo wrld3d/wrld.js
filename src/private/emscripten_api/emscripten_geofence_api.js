@@ -1,4 +1,5 @@
 var elevationMode = require("../elevation_mode.js");
+var interopUtils = require("./emscripten_interop_utils.js");
 
 function EmscriptenGeofenceApi(eegeoApiPointer, cwrap, emscriptenModule) {
 
@@ -71,7 +72,8 @@ function EmscriptenGeofenceApi(eegeoApiPointer, cwrap, emscriptenModule) {
     };
 
     this.setGeofenceColor = function(polygonId, color) {
-        _setGeofenceColor(_eegeoApiPointer, polygonId, color.x/255, color.y/255, color.z/255, color.w/255);
+        var colorVec4 = interopUtils.colorToVec4(color);
+        _setGeofenceColor(_eegeoApiPointer, polygonId, colorVec4.x/255, colorVec4.y/255, colorVec4.z/255, colorVec4.w/255);
     };
 }
 

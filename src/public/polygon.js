@@ -39,16 +39,16 @@ var Polygon = function(latLngs, config) {
     throw new Error("Incorrect array input format.");
   }
 
-	var _color = new space.Vector4(config["color"] || [0, 0, 255, 128]);
+	var _color = config["color"] || new space.Vector4(0, 0, 255, 128);
 	var _colorNeedsChanged = true;
 
 
 	this.getColor = function() {
-		return new space.Vector4(_color);
+		return _color;
 	};
 
 	this.setColor = function(color) {
-		_color = new space.Vector4(color);
+		_color = color;
 		_colorNeedsChanged = true;
     return this;
 	};

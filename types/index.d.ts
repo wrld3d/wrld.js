@@ -8,23 +8,23 @@ type IndoorMapFloorIndex = number;
 type ElevationMode = "heightAboveGround" | "heightAboveSeaLevel";
 
 type Vector3 = [number, number, number] | {
-    x: number,
-    y: number,
-    z: number
+    x: number;
+    y: number;
+    z: number;
 };
 
 type Vector4 = [number, number, number, number] | {
-    x: number,
-    y: number,
-    z: number,
-    w: number,
+    x: number;
+    y: number;
+    z: number;
+    w: number;
 };
 
 type Color = string | Vector3 | Vector4 | {
-    r: number,
-    g: number,
-    b: number,
-    a?: number
+    r: number;
+    g: number;
+    b: number;
+    a?: number;
 };
 
 /* Wrld.Map */
@@ -134,7 +134,7 @@ class Popup extends L.Popup {
 /* Wrld.Polygon */
 
 type PolygonOptions = {
-    color?: Vector3 | Vector4;
+    color?: Color;
     elevation?: number;
     elevationMode?: ElevationMode;
     indoorMapId?: IndoorMapId;
@@ -145,8 +145,8 @@ class Polygon {
     constructor(latlngs: L.LatLngTuple[] | L.LatLngTuple[][], options?: PolygonOptions);
     addTo(map: Map): this;
     remove(): this;
-    getColor(): Vector4;
-    setColor(color: Vector3 | Vector4): this;
+    getColor(): Color;
+    setColor(color: Color): this;
     getPoints(): L.LatLngLiteral[];
     addHole(points: L.LatLngTuple[]): this;
     getHoles(): L.LatLngLiteral[][];

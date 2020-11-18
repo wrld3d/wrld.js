@@ -5,6 +5,16 @@ function vec4ToRgba32(v) {
     return rgba;
 }
 
+function rgba32ToVec4(rgba) {
+    var vec4 = new space.Vector4(
+        ((rgba >> 24) & 0xFF),
+        ((rgba >> 16) & 0xFF),
+        ((rgba >> 8) & 0xFF),
+        (rgba & 0xFF)
+    );
+    return vec4;
+}
+
 function hexToRgba32(hex) {
     // https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
 
@@ -109,7 +119,12 @@ function colorToRgba32(color) {
     throw new Error("Unable to parse color: " + String(color));
 }
 
+function colorToVec4(color) {
+    return rgba32ToVec4(colorToRgba32(color));
+}
+
 module.exports = {
     colorToRgba32: colorToRgba32,
-    hexToRgba32: hexToRgba32
+    hexToRgba32: hexToRgba32,
+    colorToVec4: colorToVec4
 };
