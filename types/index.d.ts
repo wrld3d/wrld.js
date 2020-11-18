@@ -170,6 +170,7 @@ class Polyline extends L.Polyline {
     getIndoorMapId(): IndoorMapId;
     getIndoorMapFloorId(): IndoorMapFloorId;
     setIndoorMapWithFloorId(indoorMapId: IndoorMapId, indoorMapFloorId: IndoorMapFloorId): this;
+    getElevation(): number;
     setElevation(elevation : number): this;
     getElevationMode(): this;
     setElevationMode(elevationMode: ElevationMode): this;
