@@ -23,6 +23,7 @@ var Prop = function (name, geometryId, location, config) {
     this.setLocation = function (location) {
         _location = location;
         _locationNeedsChanged = true;
+        return this;
     };
 
     this.getIndoorMapId = function () {
@@ -40,6 +41,7 @@ var Prop = function (name, geometryId, location, config) {
     this.setHeadingDegrees = function (headingDegrees) {
         _headingDegrees = headingDegrees;
         _headingDegreesNeedsChanged = true;
+        return this;
     };
 
     this.getElevation = function () {
@@ -49,6 +51,7 @@ var Prop = function (name, geometryId, location, config) {
     this.setElevation = function (elevation) {
         _elevation = elevation;
         _elevationNeedsChanged = true;
+        return this;
     };
 
     this.getElevationMode = function () {
@@ -60,6 +63,7 @@ var Prop = function (name, geometryId, location, config) {
             _elevationMode = elevationModeString;
             _elevationModeNeedsChanged = true;
         }
+        return this;
     };
 
     this.getGeometryId = function () {
@@ -69,6 +73,7 @@ var Prop = function (name, geometryId, location, config) {
     this.setGeometryId = function (geometryId) {
         _geometryId = geometryId;
         _geometryIdNeedsChanged = true;
+        return this;
     };
 
     this.getName = function () {
