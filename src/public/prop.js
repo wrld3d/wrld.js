@@ -5,7 +5,7 @@ var Prop = function (name, geometryId, location, config) {
     var _name = name;
     var _geometryId = geometryId;
     var _geometryIdNeedsChanged = false;
-    var _location = location;
+    var _location = L.latLng(location);
     var _locationNeedsChanged = false;    
     var _indoorMapId = config["indoorMapId"] || "";
     var _indoorMapFloorId = config["indoorMapFloorId"] || 0;
@@ -21,7 +21,7 @@ var Prop = function (name, geometryId, location, config) {
     };
 
     this.setLocation = function (location) {
-        _location = location;
+        _location = L.latLng(location);
         _locationNeedsChanged = true;
         return this;
     };
