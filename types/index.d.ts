@@ -320,6 +320,80 @@ class Heatmap extends L.Layer {
     setUseApproximation(useApproximation: boolean): this;
 }
 
+/* Wrld.indoors */
+
+namespace indoors {
+    
+    // eslint-disable-next-line no-unused-vars
+    class IndoorMap {
+        exit(): void;
+        getIndoorMapId(): IndoorMapId;
+        getIndoorMapName(): string;
+        getFloorCount(): number;
+        getFloors(): IndoorMapFloor;
+        getSearchTags(): { name: string; search_tag: string; icon_key: string}[];
+    }
+
+    class IndoorMapFloor {
+        // retain compat with existing API -- id was exposed as short name
+        // whereas it should really be the floorId (a.k.a. z_order)
+        getFloorId(): string;
+        getFloorIndex(): number;
+        getFloorName(): string;
+        getFloorShortName(): string;
+    }
+    
+    // eslint-disable-next-line no-unused-vars
+    class IndoorMapEntrance {
+        getIndoorMapId(): IndoorMapId;
+        getIndoorMapName(): string;
+        getLatLng(): L.LatLng;
+    }
+}
+
+/* Wrld.themes */
+
+namespace themes {
+
+    // eslint-disable-next-line no-unused-vars
+    const season = {
+        Spring: "Spring",
+        Summer: "Summer",
+        Autumn: "Autumn",
+        Winter: "Winter"
+    };
+
+    // eslint-disable-next-line no-unused-vars
+    const time = {
+        Dawn: "Dawn",
+        Day: "Day",
+        Dusk: "Dusk",
+        Night: "Night"
+    };
+
+    // eslint-disable-next-line no-unused-vars
+    const weather = {
+        Clear: "Default",
+        Overcast: "Overcast",
+        Foggy: "Foggy",
+        Rainy: "Rainy",
+        Snowy: "Snowy"
+    };
+
+}
+
+/* Wrld.buildings - TODO */
+
+namespace buildings {}
+
+/* Wrld.indoorMapEntities - TODO */
+
+namespace indoorMapEntities {}
+
+/* Wrld.spaindoorMapFloorOutlinesce - TODO */
+
+namespace indoorMapFloorOutlines {}
+
 /* Wrld */
 
 function map(element: HTMLElement | string, apiKey: string, options?: MapOptions): Map;
@@ -344,4 +418,17 @@ declare module "wrld.js" {
     prop;
     Heatmap;
     heatmap;
+
+    indoors;
+    themes;
+    buildings;
+    indoorMapEntities;
+    indoorMapFloorOutlines;
 }
+
+// TODO: L.popup
+// TODO: L.circle
+// TODO: L.marker
+// TODO: L.polygon
+// TODO: L.polyline
+// TODO: L.rectangle
