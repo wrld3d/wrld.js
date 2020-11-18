@@ -210,6 +210,112 @@ class Prop {
     getName(): string;
 }
 
+/* Wrld.Heatmap */
+
+namespace Heatmap {
+
+    // eslint-disable-next-line no-unused-vars
+    type PointData = [number, number] | [number, number, number] | {
+        latLng?: L.LatLngExpression;
+        weight?: number;
+    } | {
+        [dataCoordProperty: string]: L.LatLngExpression;
+        [dataWeightProperty: string]: number;
+    };
+
+    // eslint-disable-next-line no-unused-vars
+    type DesnsityStop = {
+        stop: number;
+        radius: number;
+        gain: number;
+    };
+
+    // eslint-disable-next-line no-unused-vars
+    type ColorStop = {
+        stop: number;
+        color: Color;
+    };
+
+    // eslint-disable-next-line no-unused-vars
+    type OcclusionMapFeature = "ground" | "buildings" | "trees" | "transport";
+}
+
+type HeatmapOptions = {
+    densityStops?: Heatmap.DesnsityStop[];
+    densityBlend?: number;
+    interpolateDensityByZoom?: boolean;
+    zoomMin?: number;
+    zoomMax?: number;
+    weightMin?: number;
+    weightMax?: number;
+    colorGradient?: Heatmap.ColorStop[];
+    opacity?: number;
+    resolutionPixels?: number;
+    intensityBias?: number;
+    intensityScale?: number;
+    indoorMapId?: IndoorMapId;
+    indoorMapFloorId?: IndoorMapFloorId;
+    elevation?: number;
+    elevationMode?: ElevationMode;
+    occludedMapFeatures?: Heatmap.OcclusionMapFeature[],
+    occludedAlpha?: number;
+    occludedSaturation?: number;
+    occludedBrightness?: number;
+    polygonPoints?: L.LatLngTuple[];
+    dataCoordProperty?: string;
+    dataWeightProperty?: string;
+    textureBorderPercent?: number;
+    useApproximation?: boolean;
+};
+
+// eslint-disable-next-line no-redeclare
+class Heatmap extends L.Layer {
+    constructor(pointData: Heatmap.PointData[], options?: HeatmapOptions);
+
+    getDensityStops(): Heatmap.DesnsityStop[];
+    getDensityBlend(): number;
+    getInterpolateDensityByZoom(): boolean;
+    getZoomMin(): number;
+    getZoomMax(): number;
+    getWeightMin(): number;
+    getWeightMax(): number;
+    getColorGradient(): Heatmap.ColorStop[];
+    getOpacity(): number;
+    getResolutionPixels(): number;
+    getIntensityBias(): number;
+    getIntensityScale(): number;
+    getIndoorMapId(): IndoorMapId;
+    getIndoorMapFloorId(): IndoorMapFloorId;
+    getElevation(): number;
+    getElevationMode(): ElevationMode;
+    getOccludedMapFeatures(): Heatmap.OcclusionMapFeature[];
+    getOccludedAlpha(): number;
+    getOccludedSaturation(): number;
+    getOccludedBrightness(): number;
+    getPolygonPoints(): L.LatLngTuple;
+    getTextureBorderPercent(): number;
+    getUseApproximation(): boolean;
+
+    setOptions(options: HeatmapOptions): this;
+    setDensityStops(densityStops: Heatmap.DensityStop[]): this;
+    setDensityBlend(densityBlend: number): this;
+    setInterpolateDensityByZoom(interpolateDensityByZoom: boolean): this;
+    setZoomMin(zoomMin: number): this;
+    setZoomMax(zoomMax: number): this;
+    setWeightMin(weightMin: number): this;
+    setWeightMax(weightMax: number): this;
+    setColorGradient(colorGradient: Heatmap.ColorStop[]): this;
+    setOpacity(opacity: number): this;
+    setResolution(resolutionPixels: number): this;
+    setIntensityBias(intensityBias: number): this;
+    setIntensityScale(intensityScale: number): this;
+    setIndoorMapWithFloorId(indoorMapId: IndoorMapId, indoorMapFloorId: IndoorMapFloorId): this;
+    setElevation(elevation: number): this;
+    setElevationMode(mode: ElevationMode): this;
+    setPolygonPoints(polygonPoints: L.LatLngTuple): this;
+    setUseApproximation(useApproximation: boolean): this;
+}
+
 /* Wrld */
 
 function map(element: HTMLElement | string, apiKey: string, options?: MapOptions): Map;
@@ -218,6 +324,7 @@ function popup(options?: PopupOptions, source?: L.Layer): Popup;
 function polygon(latlngs: L.LatLngTuple[] | L.LatLngTuple[][], options?: PolygonOptions): Polygon;
 function polyline(latlngs: L.LatLngExpression[], options?: PolylineOptions): Polyline;
 function prop(name: string, geometryId: string, location: L.LatLngExpression, options?: PropOptions): Prop;
+function heatmap(pointData: Heatmap.PointData[], options?: HeatmapOptions): Heatmap;
 
 declare module "wrld.js" {
     map;
@@ -231,4 +338,6 @@ declare module "wrld.js" {
     polyline;
     Prop;
     prop;
+    Heatmap;
+    heatmap;
 }
