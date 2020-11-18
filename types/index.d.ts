@@ -5,6 +5,8 @@ type IndoorMapId = string;
 type IndoorMapFloorId = number;
 type IndoorMapFloorIndex = number;
 
+type ElevationMode = "heightAboveGround" | "heightAboveSeaLevel";
+
 type Vector3 = [number, number, number] | {
     x: number,
     y: number,
@@ -94,7 +96,7 @@ interface Map extends L.Map {
 
 type MarkerOptions = L.MarkerOptions & {
     elevation: number;
-    elevationMode: "heightAboveGround" | "heightAboveSeaLevel";
+    elevationMode: ElevationMode;
     indoorMapId: IndoorMapId;
     indoorMapFloorId: IndoorMapFloorId;
 };
@@ -104,7 +106,7 @@ class Marker extends L.Marker {
     getElevation(): number;
     setElevation(elevation : number): this;
     getElevationMode(): this;
-    setElevationMode(elevationMode: "heightAboveGround" | "heightAboveSeaLevel"): this;
+    setElevationMode(elevationMode: ElevationMode): this;
     setIndoorMapWithFloorId(indoorMapId: IndoorMapId, indoorMapFloorId: IndoorMapFloorId): this;
     setIndoorMapWithFloorIndex(indoorMapId: IndoorMapId, indoorMapFloorIndex: IndoorMapFloorIndex): this;
     setOutdoor(): this;
@@ -127,7 +129,7 @@ class Popup extends L.Popup {
 type PolygonOptions = {
     color?: Vector3 | Vector4;
     elevation?: number;
-    elevationMode?: "heightAboveGround" | "heightAboveSeaLevel";
+    elevationMode?: ElevationMode;
     indoorMapId?: IndoorMapId;
     indoorMapFloorId?: IndoorMapFloorId;
 };
