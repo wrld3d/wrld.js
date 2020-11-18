@@ -20,7 +20,7 @@ function EmscriptenRenderingApi(emscriptenApiPointer, cwrap, emscriptenModule, e
     };
 
     this.setClearColor = function(clearColor) {
-        var clearColorRGBA32 = interopUtils.hexToRgba32(clearColor);
+        var clearColorRGBA32 = interopUtils.colorToRgba32(clearColor);
         _renderingApi_SetClearColor(_emscriptenApiPointer, clearColorRGBA32);
     };
 

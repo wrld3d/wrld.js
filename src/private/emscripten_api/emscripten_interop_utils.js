@@ -125,6 +125,5 @@ function colorToVec4(color) {
 
 module.exports = {
     colorToRgba32: colorToRgba32,
-    hexToRgba32: hexToRgba32,
     colorToVec4: colorToVec4
 };

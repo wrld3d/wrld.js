@@ -41,8 +41,8 @@ type MapOptions = L.MapOptions & {
     trafficEnabled?: boolean;
     trafficDisabledWhenEnteringIndoorMaps?: boolean;
     indoorLabelsAlwaysHidden?: boolean;
-    drawClearColor?: string;
-    indoorMapBackgroundColor?: string;
+    drawClearColor?: Color;
+    indoorMapBackgroundColor?: Color;
     viewVerticallyLocked?: boolean;
     targetVSyncInterval?: number;
     frameRateThrottleWhenIdleEnabled?: boolean;
