@@ -116,7 +116,7 @@ class Marker extends L.Marker {
     constructor(latlng: L.LatLngExpression, options?: MarkerOptions);
     getElevation(): number;
     setElevation(elevation : number): this;
-    getElevationMode(): this;
+    getElevationMode(): ElevationMode;
     setElevationMode(elevationMode: ElevationMode): this;
     setIndoorMapWithFloorId(indoorMapId: IndoorMapId, indoorMapFloorId: IndoorMapFloorId): this;
     setIndoorMapWithFloorIndex(indoorMapId: IndoorMapId, indoorMapFloorIndex: IndoorMapFloorIndex): this;
@@ -176,7 +176,7 @@ class Polyline extends L.Polyline {
     setIndoorMapWithFloorId(indoorMapId: IndoorMapId, indoorMapFloorId: IndoorMapFloorId): this;
     getElevation(): number;
     setElevation(elevation : number): this;
-    getElevationMode(): this;
+    getElevationMode(): ElevationMode;
     setElevationMode(elevationMode: ElevationMode): this;
     getWidth(): number;
     getColor(): Color;
@@ -207,7 +207,7 @@ class Prop {
     setHeadingDegrees(heading: number): this;
     getElevation(): number;
     setElevation(elevation : number): this;
-    getElevationMode(): this;
+    getElevationMode(): ElevationMode;
     setElevationMode(elevationMode: ElevationMode): this;
     getGeometryId(): string;
     setGeometryId(geometryId: string): this;
