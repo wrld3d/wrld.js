@@ -50,7 +50,7 @@ type MapOptions = L.MapOptions & {
     throttledTargetFrameIntervalMilliseconds?: number;
 };
 
-namespace Map {
+declare namespace Map {
 
     // eslint-disable-next-line no-unused-vars
     type SetViewOptions = {
@@ -112,7 +112,7 @@ type MarkerOptions = L.MarkerOptions & {
     indoorMapFloorId: IndoorMapFloorId;
 };
 
-class Marker extends L.Marker {
+declare class Marker extends L.Marker {
     constructor(latlng: L.LatLngExpression, options?: MarkerOptions);
     getElevation(): number;
     setElevation(elevation : number): this;
@@ -129,7 +129,7 @@ type PopupOptions = L.PopupOptions & {
     elevation: number;
 };
 
-class Popup extends L.Popup {
+declare class Popup extends L.Popup {
     constructor(options?: PopupOptions, source?: L.Layer);
     getElevation(): number;
     setElevation(elevation : number): this;
@@ -145,7 +145,7 @@ type PolygonOptions = {
     indoorMapFloorId?: IndoorMapFloorId;
 };
 
-class Polygon {
+declare class Polygon {
     constructor(latlngs: L.LatLngTuple[] | L.LatLngTuple[][], options?: PolygonOptions);
     addTo(map: Map): this;
     remove(): this;
@@ -168,7 +168,7 @@ type PolylineOptions = {
     miterLimit?: number;
 };
 
-class Polyline extends L.Polyline {
+declare class Polyline extends L.Polyline {
     constructor(latlngs: L.LatLngExpression[], options?: PolylineOptions);
     getPoints(): L.LatLng[];
     getIndoorMapId(): IndoorMapId;
@@ -195,7 +195,7 @@ type PropOptions = {
     headingDegrees?: number;
 };
 
-class Prop {
+declare class Prop {
     constructor(name: string, geometryId: string, location: L.LatLngExpression, options?: PropOptions);
     addTo(map: Map): this;
     remove(): this;
@@ -216,15 +216,14 @@ class Prop {
 
 /* Wrld.Heatmap */
 
-namespace Heatmap {
+declare namespace Heatmap {
 
     // eslint-disable-next-line no-unused-vars
     type PointData = [number, number] | [number, number, number] | {
         latLng?: L.LatLngExpression;
         weight?: number;
     } | {
-        [dataCoordProperty: string]: L.LatLngExpression;
-        [dataWeightProperty: string]: number;
+        [property: string]: L.LatLngExpression | number;
     };
 
     // eslint-disable-next-line no-unused-vars
@@ -273,7 +272,7 @@ type HeatmapOptions = {
 };
 
 // eslint-disable-next-line no-redeclare
-class Heatmap extends L.Layer {
+declare class Heatmap extends L.Layer {
     constructor(pointData: Heatmap.PointData[], options?: HeatmapOptions);
 
     getDensityStops(): Heatmap.DensityStop[];
@@ -322,7 +321,7 @@ class Heatmap extends L.Layer {
 
 /* Wrld.indoors */
 
-namespace indoors {
+declare namespace indoors {
     
     // eslint-disable-next-line no-unused-vars
     class IndoorMap {
@@ -353,56 +352,58 @@ namespace indoors {
 
 /* Wrld.themes */
 
-namespace themes {
+declare namespace themes {
 
-    // eslint-disable-next-line no-unused-vars
-    const season = {
-        Spring: "Spring",
-        Summer: "Summer",
-        Autumn: "Autumn",
-        Winter: "Winter"
-    };
+    /* eslint-disable no-unused-vars */
+    enum season {
+        Spring = "Spring",
+        Summer = "Summer",
+        Autumn = "Autumn",
+        Winter = "Winter"
+    }
 
-    // eslint-disable-next-line no-unused-vars
-    const time = {
-        Dawn: "Dawn",
-        Day: "Day",
-        Dusk: "Dusk",
-        Night: "Night"
-    };
+    enum time {
+        Dawn = "Dawn",
+        Day = "Day",
+        Dusk = "Dusk",
+        Night = "Night"
+    }
 
-    // eslint-disable-next-line no-unused-vars
-    const weather = {
-        Clear: "Default",
-        Overcast: "Overcast",
-        Foggy: "Foggy",
-        Rainy: "Rainy",
-        Snowy: "Snowy"
-    };
+    enum weather {
+        Clear = "Default",
+        Overcast = "Overcast",
+        Foggy = "Foggy",
+        Rainy = "Rainy",
+        Snowy = "Snowy"
+    }
+    /* eslint-enable no-unused-vars */
 
 }
 
 /* Wrld.buildings - TODO */
 
-namespace buildings {}
+//declare namespace buildings {}
+const buildings: any;
 
 /* Wrld.indoorMapEntities - TODO */
 
-namespace indoorMapEntities {}
+//declare namespace indoorMapEntities {}
+const indoorMapEntities: any;
 
 /* Wrld.spaindoorMapFloorOutlinesce - TODO */
 
-namespace indoorMapFloorOutlines {}
+//declare namespace indoorMapFloorOutlines {}
+const indoorMapFloorOutlines: any;
 
 /* Wrld */
 
-function map(element: HTMLElement | string, apiKey: string, options?: MapOptions): Map;
-function marker(latLng: L.LatLngExpression, options?: MarkerOptions): Marker;
-function popup(options?: PopupOptions, source?: L.Layer): Popup;
-function polygon(latlngs: L.LatLngTuple[] | L.LatLngTuple[][], options?: PolygonOptions): Polygon;
-function polyline(latlngs: L.LatLngExpression[], options?: PolylineOptions): Polyline;
-function prop(name: string, geometryId: string, location: L.LatLngExpression, options?: PropOptions): Prop;
-function heatmap(pointData: Heatmap.PointData[], options?: HeatmapOptions): Heatmap;
+declare function map(element: HTMLElement | string, apiKey: string, options?: MapOptions): Map;
+declare function marker(latLng: L.LatLngExpression, options?: MarkerOptions): Marker;
+declare function popup(options?: PopupOptions, source?: L.Layer): Popup;
+declare function polygon(latlngs: L.LatLngTuple[] | L.LatLngTuple[][], options?: PolygonOptions): Polygon;
+declare function polyline(latlngs: L.LatLngExpression[], options?: PolylineOptions): Polyline;
+declare function prop(name: string, geometryId: string, location: L.LatLngExpression, options?: PropOptions): Prop;
+declare function heatmap(pointData: Heatmap.PointData[], options?: HeatmapOptions): Heatmap;
 
 declare module "wrld.js" {
     map;
