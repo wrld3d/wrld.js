@@ -132,6 +132,7 @@ function EmscriptenSpacesApi(eegeoApiPointer, cwrap, emscriptenModule, emscripte
     };
 
     this.getAltitudeAtLatLng = function(latLng) {
+        latLng = L.latLng(latLng);
         return _getAltitudeAtLatLng(latLng.lat, latLng.lng);
     };
 
