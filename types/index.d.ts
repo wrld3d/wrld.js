@@ -228,7 +228,7 @@ namespace Heatmap {
     };
 
     // eslint-disable-next-line no-unused-vars
-    type DesnsityStop = {
+    type DensityStop = {
         stop: number;
         radius: number;
         gain: number;
@@ -245,7 +245,7 @@ namespace Heatmap {
 }
 
 type HeatmapOptions = {
-    densityStops?: Heatmap.DesnsityStop[];
+    densityStops?: Heatmap.DensityStop[];
     densityBlend?: number;
     interpolateDensityByZoom?: boolean;
     zoomMin?: number;
@@ -276,7 +276,7 @@ type HeatmapOptions = {
 class Heatmap extends L.Layer {
     constructor(pointData: Heatmap.PointData[], options?: HeatmapOptions);
 
-    getDensityStops(): Heatmap.DesnsityStop[];
+    getDensityStops(): Heatmap.DensityStop[];
     getDensityBlend(): number;
     getInterpolateDensityByZoom(): boolean;
     getZoomMin(): number;
