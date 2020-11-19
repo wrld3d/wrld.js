@@ -5,6 +5,16 @@ function vec4ToRgba32(v) {
     return rgba;
 }
 
+function rgba32ToVec4(rgba) {
+    var vec4 = new space.Vector4(
+        ((rgba >> 24) & 0xFF),
+        ((rgba >> 16) & 0xFF),
+        ((rgba >> 8) & 0xFF),
+        (rgba & 0xFF)
+    );
+    return vec4;
+}
+
 function hexToRgba32(hex) {
     // https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
 
@@ -57,31 +67,31 @@ function colorObjectToVector4(color) {
     var b = undefined;
     var a = 255.0;
     if (typeof color === "object") {
-        if (color.hasOwnProperty("r")) {
+        if ("r" in color) {
             r = color.r;
         }
-        else if (color.hasOwnProperty("x")) {
+        else if ("x" in color) {
             r = color.x;
         }
 
-        if (color.hasOwnProperty("g")) {
+        if ("g" in color) {
             g = color.g;
         }
-        else if (color.hasOwnProperty("y")) {
+        else if ("y" in color) {
             g = color.y;
         }
 
-        if (color.hasOwnProperty("b")) {
+        if ("b" in color) {
             b = color.b;
         }
-        else if (color.hasOwnProperty("z")) {
+        else if ("z" in color) {
             b = color.z;
         }
 
-        if (color.hasOwnProperty("a")) {
+        if ("a" in color) {
             a = color.a;
         }
-        else if (color.hasOwnProperty("w")) {
+        else if ("w" in color) {
             a = color.w;
         }
     }
@@ -109,7 +119,11 @@ function colorToRgba32(color) {
     throw new Error("Unable to parse color: " + String(color));
 }
 
+function colorToVec4(color) {
+    return rgba32ToVec4(colorToRgba32(color));
+}
+
 module.exports = {
     colorToRgba32: colorToRgba32,
-    hexToRgba32: hexToRgba32
+    colorToVec4: colorToVec4
 };

@@ -37,7 +37,7 @@ var Polyline = L.Polyline.extend({
     },
 
     getWidth: function() {
-        return this.options.weight || this.options.width;
+        return this.options.weight;
     },
 
     getColor: function() {
