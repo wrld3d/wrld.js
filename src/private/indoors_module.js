@@ -160,7 +160,8 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
             _pendingEnterTransition = config;
             return;
         }
-        _emscriptenApi.cameraApi.setView({ location: config.latLng, distance: config.distance, allowInterruption: false, headingDegrees: config.orientation });
+        var animated = "animate" in config ? config["animate"] : true;
+        _emscriptenApi.cameraApi.setView({ location: config.latLng, distance: config.distance, allowInterruption: false, headingDegrees: config.orientation, animate: animated });
         _mapController._setIndoorTransitionCompleteEventListener(function() { _enterIndoorMap(config.indoorMapId); });
 
         _this.once("indoormapenter", function() {
@@ -324,16 +325,14 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
 
         var distance = 400;
 
-        if (!config) {
-            config = {
-                latLng: latLng,
-                distance: distance,
-                indoorMapId: indoorMapId,
-                orientation: 0
-            };
-        }
+        var defaultConfig = {
+            latLng: latLng,
+            distance: distance,
+            indoorMapId: indoorMapId,
+            orientation: 0
+        };
 
-        _transitionToIndoorMap(config);
+        _transitionToIndoorMap(Object.assign(defaultConfig, config));
 
         return true;
     };
