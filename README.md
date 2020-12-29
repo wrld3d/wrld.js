@@ -20,7 +20,7 @@ A [full API reference](https://www.wrld3d.com/wrld.js/docs/) is also available o
 
 ## Getting Started
 
-Before you begin, you will need to acquire an API key, which you can do by [signing up](https://www.wrld3d.com/register/) for a free account at [wrld3d.com](https://www.wrld3d.com).
+Before you begin, you will need to acquire an API key, which you can do by [signing up](https://www.wrld3d.com/register/) for an account at [wrld3d.com](https://www.wrld3d.com) and selecting the Digital Twin plan - free trials are available!
 
 You can easily embed a 3D map in any web page. The code below shows a simple example:
 
