@@ -320,7 +320,8 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
         }
 
         if (latLng === null) {
-            return false;
+            _enterIndoorMap(indoorMapId);
+            return true;
         }
 
         var distance = 400;
