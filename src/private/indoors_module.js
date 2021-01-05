@@ -320,6 +320,10 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
         }
 
         if (latLng === null) {
+            if (!_ready) {
+                return false;
+            }
+
             _enterIndoorMap(indoorMapId);
             return true;
         }
