@@ -68,8 +68,7 @@ var EegeoMapController = function (mapId, emscriptenApi, domElement, apiKey, bro
 
         drawClearColor: "#000000ff",
         indoorMapBackgroundColor: "#000000c0",
-        indoorSelectionTimeoutDuration: 30.0,
-        indoorTransitionFadeDuration: 0.5
+        indoorSelectionTimeoutDuration: 30.0
     };
 
     options = L.extend(_defaultOptions, options);
@@ -134,7 +133,6 @@ var EegeoMapController = function (mapId, emscriptenApi, domElement, apiKey, bro
     var trafficDisableWhenEnteringIndoorMaps = (options.trafficDisableWhenEnteringIndoorMaps) ? "1" : "0";
     var indoorLabelsAlwaysHidden = (options.indoorLabelsAlwaysHidden) ? "1" : "0";
     var indoorSelectionTimeoutDuration = options.indoorSelectionTimeoutDuration;
-    var indoorTransitionFadeDuration = options.indoorTransitionFadeDuration;
 
     _Module["arguments"] = [
         _canvasId,
@@ -154,8 +152,7 @@ var EegeoMapController = function (mapId, emscriptenApi, domElement, apiKey, bro
         trafficEnabled,
         trafficDisableWhenEnteringIndoorMaps,
         indoorLabelsAlwaysHidden,
-        indoorSelectionTimeoutDuration.toString(),
-        indoorTransitionFadeDuration.toString()
+        indoorSelectionTimeoutDuration.toString()
     ];
 
     this.leafletMap = new EegeoLeafletMap(
