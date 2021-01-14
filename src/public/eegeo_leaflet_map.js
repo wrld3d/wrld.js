@@ -378,6 +378,7 @@ var EegeoLeafletMap = L.Map.extend({
     },
 
     remove: function() {
+        this._mapRuntimeModule.Remove();
         return this;
     },
 
