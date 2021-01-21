@@ -42,6 +42,7 @@ var EegeoLeafletMap = L.Map.extend({
             browserWindow,
             id,
             options,
+            onRemoveCallback,
             cameraModule,
             precacheModule,
             themesModule,
@@ -62,6 +63,7 @@ var EegeoLeafletMap = L.Map.extend({
             frameRateModule
             ) {
         this._browserWindow = browserWindow;
+        this._onRemoveCallback = onRemoveCallback;
         this._cameraModule = cameraModule;
         this._precacheModule = precacheModule;
         this._polygonModule = polygonModule;
@@ -379,6 +381,7 @@ var EegeoLeafletMap = L.Map.extend({
 
     remove: function() {
         this._mapRuntimeModule.Remove();
+        this._onRemoveCallback();
         return this;
     },
 

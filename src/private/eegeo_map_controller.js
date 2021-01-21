@@ -33,7 +33,7 @@ var removeFileExtension = function(fileName, extensionToRemove) {
 };
 
 
-var EegeoMapController = function (mapId, emscriptenApi, domElement, apiKey, browserWindow, browserDocument, module, options) {
+var EegeoMapController = function (mapId, emscriptenApi, domElement, apiKey, browserWindow, browserDocument, module, options, onMapRemoveCallback) {
 
     var _defaultOptions = {
         canvasId: "canvas",
@@ -109,6 +109,8 @@ var EegeoMapController = function (mapId, emscriptenApi, domElement, apiKey, bro
         options.frameRateThrottleWhenIdleEnabled
     );
 
+    var _onMapRemoveCallback = onMapRemoveCallback;
+
     var _canvasId = _mapId ? options["canvasId"] + _mapId : options["canvasId"];
     var _canvasWidth = options["width"] || domElement.clientWidth;
     var _canvasHeight = options["height"] || domElement.clientHeight;
@@ -155,10 +157,16 @@ var EegeoMapController = function (mapId, emscriptenApi, domElement, apiKey, bro
         indoorSelectionTimeoutDuration.toString()
     ];
 
+    var _onRemove = function() {
+        _mapContainer.onRemove();
+        _onMapRemoveCallback();
+    };
+
     this.leafletMap = new EegeoLeafletMap(
         _browserWindow,
         _mapContainer.overlay,
         options,
+        _onRemove,
         _cameraModule,
         _precacheModule,
         _themesModule,
