@@ -80,8 +80,7 @@ interface Map extends L.Map {
     };
     setView(center: L.LatLngExpression, zoom: number, options?: Map.SetViewOptions): this;
     setViewVerticallyLocked(isVerticallyLocked: boolean): this;
-    layerPointToLatLng(point: L.PointExpression): L.LatLng;
-    latLngToLayerPoint(latLng: L.LatLngExpression): L.Point;
+    latLngsForLayer(layer: L.Layer): L.LatLng[];
     setMapCollapsed(isMapCollapsed: boolean): this;
     isMapCollapsed(): void;
     setDrawClearColor(clearColor: string): this;
