@@ -24,21 +24,21 @@ var _emscriptenFinishedLoading = false;
 var _mapsWaitingInitialization = [];
 
 var onEmscriptenLoaded = function() {
-  _emscriptenFinishedLoading = true;
-  _mapsWaitingInitialization.forEach(function(module) {
-    window.createWrldModule(module);
-  });
-  _mapsWaitingInitialization = [];
+	_emscriptenFinishedLoading = true;
+	_mapsWaitingInitialization.forEach(function(module) {
+		window.createWrldModule(module);
+	});
+	_mapsWaitingInitialization = [];
 };
 
 var createEmscriptenModule = function() {
-  if (!_emscriptenStartedLoading) {
+	if (!_emscriptenStartedLoading) {
 		var script = document.createElement("script");
 		script.src = _baseUrl + _appName;
-    script.onload = onEmscriptenLoaded;
+		script.onload = onEmscriptenLoaded;
 		document.body.appendChild(script);
 		_emscriptenStartedLoading = true;
-  }
+	}
 
 	var Module = {};
 	Module["locateFile"] = function(url) {
@@ -56,16 +56,16 @@ var createEmscriptenModule = function() {
 			});
 		}
 	};
-  return Module;
+  	return Module;
 };
 
 var initializeMap = function(module) {
-  if (!_emscriptenFinishedLoading) {
-    _mapsWaitingInitialization.push(module);
-  }
-  else {
-    window.createWrldModule(module);
-  }
+	if (!_emscriptenFinishedLoading) {
+		_mapsWaitingInitialization.push(module);
+	}
+	else {
+		window.createWrldModule(module);
+	}
 };
 
 var findMapContainerElement = function(elementOrId) {
@@ -108,12 +108,12 @@ var Wrld = {
 	popup: popup.popup,
 	Polygon: polygon.Polygon,
 	polygon: polygon.polygon,
-    Polyline: polyline.Polyline,
-    polyline: polyline.polyline,
+	Polyline: polyline.Polyline,
+	polyline: polyline.polyline,
 	Prop: prop.Prop,
 	prop: prop.prop,
-    Heatmap: heatmap.Heatmap,
-    heatmap: heatmap.heatmap,
+	Heatmap: heatmap.Heatmap,
+	heatmap: heatmap.heatmap,
 
 	indoors: require("./public/indoors/indoors"),
 	space: require("./public/space"),
