@@ -17,6 +17,12 @@ function MapRuntimeModule(emscriptenApi) {
         }
     };
 
+    this.Remove = function() {
+        if(_ready){
+            _emscriptenApi.mapRuntimeApi.onRemove();
+        }
+    };
+
     this.onInitialized = function() {
         _ready = true;
     };

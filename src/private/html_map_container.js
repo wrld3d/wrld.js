@@ -156,6 +156,12 @@ var HTMLMapContainer = function(browserDocument, browserWindow, parentElement, c
     this.height = function() {
         return this.mapContainer.clientHeight;
     };
+
+    this.onRemove = function() {
+        if (this.mapContainer.parentElement) {
+            this.mapContainer.parentElement.removeChild(this.mapContainer);
+        }
+    };
 };
 
 var LoadingSpinner = function(browserWindow, domElement) {
