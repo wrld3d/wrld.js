@@ -1002,42 +1002,42 @@ describe("map_interop:", function() {
         _frameRateApi.cancelThrottle();
       });
     });
+  });
 
-    describe("when using the map runtime api", function() {
-      var EmscriptenMapRuntimeApi = require("../../src/private/emscripten_api/emscripten_map_runtime_api");
-      var EmscriptenMemory = require("../../src/private/emscripten_api/emscripten_memory");
-      var _mapRuntimeApi = null;
-      var _emscriptenMemory = null;
-  
-      beforeEach(function(done) {
-        refreshSdk();
-        Module.then(() => {
-          var apiPointer = 0;
-          var cwrap = Module.cwrap;
-          _emscriptenMemory = new EmscriptenMemory(Module);
-          _mapRuntimeApi = new EmscriptenMapRuntimeApi(apiPointer, cwrap, Module, _emscriptenMemory);
-          done();
-        });
-      });
-  
-      it("the onPause function must exist", function() {
-        _verifyApiFunctionExists(function() {
-          _mapRuntimeApi.onPause();
-        });
-      });
-  
-      it("the onResume function must exist", function() {
-        _verifyApiFunctionExists(function() {
-          _mapRuntimeApi.onResume();
-        });
-      });
-  
-      it("the onRemove function must exist", function() {
-        _verifyApiFunctionExists(function() {
-          _mapRuntimeApi.onRemove();
-        });
-      });
+  describe("when using the map runtime api", function() {
+    var EmscriptenMapRuntimeApi = require("../../src/private/emscripten_api/emscripten_map_runtime_api");
+    var EmscriptenMemory = require("../../src/private/emscripten_api/emscripten_memory");
+    var _mapRuntimeApi = null;
+    var _emscriptenMemory = null;
 
+    beforeEach(function(done) {
+      refreshSdk();
+      Module.then(() => {
+        var apiPointer = 0;
+        var cwrap = Module.cwrap;
+        _emscriptenMemory = new EmscriptenMemory(Module);
+        _mapRuntimeApi = new EmscriptenMapRuntimeApi(apiPointer, cwrap, Module, _emscriptenMemory);
+        done();
+      });
+    });
+
+    it("the onPause function must exist", function() {
+      _verifyApiFunctionExists(function() {
+        _mapRuntimeApi.onPause();
+      });
+    });
+
+    it("the onResume function must exist", function() {
+      _verifyApiFunctionExists(function() {
+        _mapRuntimeApi.onResume();
+      });
+    });
+
+    it("the onRemove function must exist", function() {
+      _verifyApiFunctionExists(function() {
+        _mapRuntimeApi.onRemove();
+      });
+    });
   });
 
 });
