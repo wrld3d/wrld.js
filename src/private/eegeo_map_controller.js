@@ -162,6 +162,12 @@ var EegeoMapController = function (mapId, emscriptenApi, domElement, apiKey, bro
     };
 
     var _onRemove = function() {
+        _this.leafletMap._initEvents(true, _canvas);
+
+        if (_this._indoorEntranceMarkerUpdater) {
+            _this._indoorEntranceMarkerUpdater.removeAllEntranceMarkers();
+        }
+
         _mapContainer.onRemove();
     };
 

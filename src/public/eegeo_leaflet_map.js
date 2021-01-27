@@ -196,6 +196,18 @@ var EegeoLeafletMap = L.Map.extend({
         return this;
     },
 
+    _removeAllLayers: function() {
+        var layerIds = Object.keys(this._layersOnMap);
+        var _this = this;
+        layerIds.forEach(function(id) {
+            var layer = _this._layersOnMap[id];
+            if (layer === undefined) {
+                return;
+            }
+            _this.removeLayer(layer);
+        });
+    },
+
     onInitialized: function(emscriptenApi) {
         this._spacesApi = emscriptenApi.spacesApi;
         this._ready = true;
@@ -383,6 +395,7 @@ var EegeoLeafletMap = L.Map.extend({
 
     remove: function() {
         this._beforeRemoveCallback();
+        this._removeAllLayers();
         this._mapRuntimeModule.Remove();
         this._onRemoveCallback();
         return this;
