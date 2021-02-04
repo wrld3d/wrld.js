@@ -94,10 +94,10 @@ var Wrld = {
 		var mapId = _mapObjects.length;
 		var mapApiObject = new EmscriptenApi(wrldModule);
 		var mapOptions = options || {};
-		var beforeMapRemove = function() {
+		var onMapRemove = function() {
 			_mapObjects[mapId] = null;
 		};
-		var map = new EegeoMapController(mapId, mapApiObject, domElement, apiKey, browserWindow, browserDocument, wrldModule, mapOptions, beforeMapRemove);
+		var map = new EegeoMapController(mapId, mapApiObject, domElement, apiKey, browserWindow, browserDocument, wrldModule, mapOptions, onMapRemove);
 		_mapObjects.push(map);
 
 		initializeMap(wrldModule);

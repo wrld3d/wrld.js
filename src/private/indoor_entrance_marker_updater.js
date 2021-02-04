@@ -59,6 +59,11 @@ var IndoorEntranceMarkerUpdater = function(map, indoorsModule) {
 	_indoorsModule.on("indoormapenter", _hideEntranceMarkers);
 	_indoorsModule.on("indoormapexit", _showEntranceMarkers);
 
+	this.removeAllEntranceMarkers = function() {
+		_layerGroup.clearLayers();
+		_entranceMarkers = {};
+	};
+
 };
 
 module.exports = IndoorEntranceMarkerUpdater;
