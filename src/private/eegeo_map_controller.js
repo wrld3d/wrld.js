@@ -33,7 +33,7 @@ var removeFileExtension = function(fileName, extensionToRemove) {
 };
 
 
-var EegeoMapController = function (mapId, emscriptenApi, domElement, apiKey, browserWindow, browserDocument, module, options, beforeMapRemoveCallback) {
+var EegeoMapController = function (mapId, emscriptenApi, domElement, apiKey, browserWindow, browserDocument, module, options, onMapRemoveCallback) {
 
     var _defaultOptions = {
         canvasId: "canvas",
@@ -109,7 +109,7 @@ var EegeoMapController = function (mapId, emscriptenApi, domElement, apiKey, bro
         options.frameRateThrottleWhenIdleEnabled
     );
 
-    var _beforeMapRemoveCallback = beforeMapRemoveCallback;
+    var _onMapRemoveCallback = onMapRemoveCallback;
 
     var _canvasId = _mapId ? options["canvasId"] + _mapId : options["canvasId"];
     var _canvasWidth = options["width"] || domElement.clientWidth;
@@ -157,11 +157,8 @@ var EegeoMapController = function (mapId, emscriptenApi, domElement, apiKey, bro
         indoorSelectionTimeoutDuration.toString()
     ];
 
-    var _beforeRemove = function() {
-        _beforeMapRemoveCallback();
-    };
-
     var _onRemove = function() {
+        _onMapRemoveCallback();
         _this.leafletMap._initEvents(true, _canvas);
 
         if (_this._indoorEntranceMarkerUpdater) {
@@ -175,7 +172,6 @@ var EegeoMapController = function (mapId, emscriptenApi, domElement, apiKey, bro
         _browserWindow,
         _mapContainer.overlay,
         options,
-        _beforeRemove,
         _onRemove,
         _cameraModule,
         _precacheModule,
