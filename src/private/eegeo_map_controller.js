@@ -166,6 +166,11 @@ var EegeoMapController = function (mapId, emscriptenApi, domElement, apiKey, bro
         }
 
         _mapContainer.onRemove();
+
+        var gl = _Module.ctx || _Module.K;
+        if (gl && "getExtension" in gl) {
+            gl.getExtension("WEBGL_lose_context").loseContext();
+        }
     };
 
     this.leafletMap = new EegeoLeafletMap(
