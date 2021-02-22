@@ -27,7 +27,7 @@
     "sinon": "~1.17.6",
     "typescript": "^4.0.5",
     "uglify-js": "~2.6.0",
-    "watchify": "^3.11.1"
+    "watchify": "^4.0.0"
   },
   "dependencies": {
     "@types/leaflet": "^1.0.69",
