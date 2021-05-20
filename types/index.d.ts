@@ -95,7 +95,7 @@ interface Map extends L.Map {
     indoors: any;
     themes: any;
     routes: any;
-    buildings: any;
+    buildings: BuildingsModule;
     props: any;
     indoorMapEntities: any;
     indoorMapFloorOutlines: any;
@@ -379,10 +379,67 @@ declare namespace themes {
 
 }
 
-/* Wrld.buildings - TODO */
+/* Wrld.buildings */
 
-//declare namespace buildings {}
-const buildings: any;
+declare namespace buildings {
+    
+    /* eslint-disable no-unused-vars */
+    class BuildingHighlight {
+        getId(): number;
+        getOptions(): BuildingHighlightOptions;
+        getColor(): { x: number; y: number; z: number; w: number; };
+        getBuildingInformation(): null | BuildingInformation;
+        addTo(map: Map): this;
+        remove(): this;
+        setColor(color: Color): this;
+    }
+    
+    class BuildingHighlightOptions {
+        highlightBuildingAtLocation(latLng: L.LatLng): this;
+        highlightBuildingAtScreenPoint(screenPoint: L.Point): this;
+        color(color: Color): this
+        informationOnly(): this;
+    }
+    
+    function buildingHighlight(options: BuildingHighlightOptions): BuildingHighlight;
+    
+    function buildingHighlightOptions(): BuildingHighlightOptions;
+    
+    class BuildingInformation {
+        getBuildingId(): string;
+        getBuildingDimensions(): BuildingDimensions;
+        getBuildingContours(): BuildingContour[];
+    }
+    
+    class BuildingDimensions {
+        getBaseAltitude(): number;
+        getTopAltitude(): number;
+        getCentroid(): L.LatLng;
+    }
+    
+    class BuildingContour {
+        getBottomAltitude(): number;
+        getTopAltitude(): number;
+        getPoints(): L.LatLng[];
+    }
+    /* eslint-enable no-unused-vars */
+}
+
+type FindBuildingResult = {
+    found: boolean;
+    point: L.LatLng;
+};
+
+type BuildingInformationReceivedEventHandler = (buildingHighlight: buildings.BuildingHighlight) => void;
+
+class BuildingsModule {
+    findBuildingAtScreenPoint(screenPoint: L.LatLng): FindBuildingResult;
+    findBuildingAtLatLng(latLng: L.LatLng): FindBuildingResult;
+
+    on(type: "buildinginformationreceived", fn: BuildingInformationReceivedEventHandler): void;
+    once(type: "buildinginformationreceived", fn: BuildingInformationReceivedEventHandler): void;
+    off(type: "buildinginformationreceived", fn: BuildingInformationReceivedEventHandler): void;
+}
 
 /* Wrld.indoorMapEntities - TODO */
 
