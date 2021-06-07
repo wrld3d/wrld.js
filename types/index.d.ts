@@ -1,4 +1,3 @@
-
 import L from "leaflet";
 
 type IndoorMapId = string;
@@ -26,6 +25,11 @@ type Color = string | Vector3 | Vector4 | {
     b: number;
     a?: number;
 };
+
+interface Event {
+    type: string;
+    target: unknown;
+}
 
 /* Wrld.Map */
 
@@ -90,9 +94,9 @@ interface Map extends L.Map {
     setThrottledTargetFrameIntervalMilliseconds(throttledTargetFrameIntervalMilliseconds: number): this;
     cancelFrameRateThrottle(): this;
     isHardwareAccelerationAvailable(): boolean;
+    indoors: indoors.Indoors;
 
     // TODO
-    indoors: any;
     themes: any;
     routes: any;
     buildings: BuildingsModule;
@@ -321,6 +325,47 @@ declare class Heatmap extends L.Layer {
 /* Wrld.indoors */
 
 declare namespace indoors {
+    type EnterConfig = {
+        animate?: boolean;
+        latLng?: L.LatLng;
+        distance?: number;
+        orientation?: number
+    }
+
+    interface IndoorMapEvent extends Event { indoorMap: IndoorMap; }
+    interface IndoorFloorEvent extends Event { floor: IndoorMapFloor; }
+    interface IndoorEntranceEvent extends Event { entrance: IndoorMapEntrance; }
+    interface IndoorEntityEvent extends Event { ids: string[]; }
+
+    type EventType = "indoormapenter" | "indoormapexit" | "indoormapfloorchange" | "indoorentranceadd" | "indoorentranceremove" | "expandstart" | "expand" | "expandend" | "collapsestart" | "collapse" | "collapseend" | "indoorentityclick" | "indoormapenterrequested" | "indoormapload" | "indoormapunload" | "indoormapenterfailed";
+    type EventHandler<T extends Event = Event> = (e: T) => void
+
+    class Indoors {
+        isIndoors(): boolean;
+        enter(indoorMap: IndoorMapEntrance | IndoorMap | string): boolean;
+        exit(): void;
+        getActiveIndoorMap(): IndoorMap | null;
+        getFloor(): IndoorMapFloor | null;
+        setFloor(floor: IndoorMapFloor | string | number): boolean;
+        moveUp(numberOfFloors?: number): void;
+        moveDown(numberOfFloors?: number): void;
+        expand(): void;
+        collapse(): void;
+        setFloorInterpolation(value: number): void;
+        getFloorInterpolation(): number;
+        setFloorFromInterpolation(value: number): boolean;
+        setEntityHighlights(ids: string | string[], highlightColour: [number, number, number, number?], indoorId?: string, highlightBorderThickness?: number): void;
+        clearEntityHighlights(ids: string | string[], indoorId?: string): void;
+        tryGetReadableName(indoorMapId: string): string | null;
+        tryGetFloorReadableName(indoorMapId: string, indoorMapFloorId: string): string | null;
+        tryGetFloorShortName(indoorMapId: string, indoorMapFloorId: string): string | null;
+        setBackgroundColor(color: string): void;
+        on(event: "indoormapenter" | "indoormapexit", handler: EventHandler<IndoorMapEvent>): void;
+        on(event: "indoormapfloorchange", handler: EventHandler<IndoorFloorEvent>): void;
+        on(event: "indoorentranceadd" | "indoorentranceremove", handler: EventHandler<IndoorEntranceEvent>): void;
+        on(event: EventType, handler: EventHandler): void;
+        off(event: EventType, handler: (e: Event) => void): void;
+    }
     
     // eslint-disable-next-line no-unused-vars
     class IndoorMap {
@@ -442,7 +487,7 @@ type FindBuildingResult = {
 
 type BuildingInformationReceivedEventHandler = (buildingHighlight: buildings.BuildingHighlight) => void;
 
-class BuildingsModule {
+declare class BuildingsModule {
     findBuildingAtScreenPoint(screenPoint: L.LatLng): FindBuildingResult;
     findBuildingAtLatLng(latLng: L.LatLng): FindBuildingResult;
 
@@ -454,12 +499,12 @@ class BuildingsModule {
 /* Wrld.indoorMapEntities - TODO */
 
 //declare namespace indoorMapEntities {}
-const indoorMapEntities: any;
+declare const indoorMapEntities: any;
 
 /* Wrld.spaindoorMapFloorOutlinesce - TODO */
 
 //declare namespace indoorMapFloorOutlines {}
-const indoorMapFloorOutlines: any;
+declare const indoorMapFloorOutlines: any;
 
 /* Wrld */
 
