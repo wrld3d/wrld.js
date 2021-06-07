@@ -328,14 +328,24 @@ declare namespace indoors {
         getIndoorMapId(): IndoorMapId;
         getIndoorMapName(): string;
         getFloorCount(): number;
-        getFloors(): IndoorMapFloor;
+        getFloors(): IndoorMapFloor[];
         getSearchTags(): { name: string; search_tag: string; icon_key: string}[];
     }
 
     class IndoorMapFloor {
-        // retain compat with existing API -- id was exposed as short name
-        // whereas it should really be the floorId (a.k.a. z_order)
+        /**
+         * Returns the short name of the floor.
+         *
+         * Note: this is for compatibility with the existing API – the short name was exposed as id. The actual id property in the submission json is not accessible through this API.
+         *
+         * @deprecated use {@link IndoorMapFloor#getFloorShortName} instead.
+         * @returns {string}
+         */
         getFloorId(): string;
+        /**
+         * @returns {number} the z_order of the floor, as defined in the json submission.
+        */
+        getFloorZOrder(): number;
         getFloorIndex(): number;
         getFloorName(): string;
         getFloorShortName(): string;
