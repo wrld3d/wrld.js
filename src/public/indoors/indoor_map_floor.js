@@ -7,33 +7,36 @@ var IndoorMapFloor = function (floorId, floorIndex, floorName, floorShortName) {
     /**
      * Returns the short name of the floor.
      *
-     * Retain compat with existing API – id was exposed as short name,
-     * whereas it should really be the floorId (a.k.a. z_order).
+     * Note: this is for compatibility with the existing API – the short name was exposed as id. The actual id property in the submission json is not accessible through this API.
      *
      * @deprecated use {@link IndoorMapFloor#getFloorShortName} instead.
+     * @returns {string}
      */
     this.getFloorId = function () {
         return _floorShortName;
     };
 
     /**
-     * Returns the floor id, which matches the z_order in the json submission.
+     * Returns the z_order of the floor, as defined in the json submission.
      * 
-     *  @deprecated use {@link IndoorMapFloor#getFloorZOrder} 
+     * Note: this is for compatibility with the existing API. The actual id property in the submission json is not accessible through this API.
+     * 
+     * @deprecated use {@link IndoorMapFloor#getFloorZOrder}
+     * @returns {number}
      */
     this._getFloorId = function () {
         return _floorId;
     };
 
     /**
-     * Returns the floor id, which matches with the z_order in the json submission.
+     * @returns {number} the z_order of the floor, as defined in the json submission.
      */
     this.getFloorZOrder = function () {
         return _floorId;
     };
 
     /**
-     * Returns the index of the floor array.
+     * @returns {number} the index of this floor in the array.
      */
     this.getFloorIndex = function () {
         return _floorIndex;
