@@ -345,7 +345,7 @@ declare namespace indoors {
         /**
          * Returns the floor id, which matches with the z_order in the json submission.
         */
-        getFloorZOrder(): string;
+        getFloorZOrder(): number;
         getFloorIndex(): number;
         getFloorName(): string;
         getFloorShortName(): string;
