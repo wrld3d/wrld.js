@@ -343,15 +343,15 @@ declare namespace indoors {
     class Indoors {
         isIndoors(): boolean;
         enter(indoorMap: IndoorMapEntrance | IndoorMap | string): boolean;
-        exit(): void;
+        exit(): this;
         getActiveIndoorMap(): IndoorMap | null;
         getFloor(): IndoorMapFloor | null;
         setFloor(floor: IndoorMapFloor | string | number): boolean;
-        moveUp(numberOfFloors?: number): void;
-        moveDown(numberOfFloors?: number): void;
-        expand(): void;
-        collapse(): void;
-        setFloorInterpolation(value: number): void;
+        moveUp(numberOfFloors?: number): boolean;
+        moveDown(numberOfFloors?: number): boolean;
+        expand(): this;
+        collapse(): this;
+        setFloorInterpolation(value: number): this;
         getFloorInterpolation(): number;
         setFloorFromInterpolation(value: number): boolean;
         setEntityHighlights(ids: string | string[], highlightColour: [number, number, number, number?], indoorId?: string, highlightBorderThickness?: number): void;
@@ -360,11 +360,11 @@ declare namespace indoors {
         tryGetFloorReadableName(indoorMapId: string, indoorMapFloorId: string): string | null;
         tryGetFloorShortName(indoorMapId: string, indoorMapFloorId: string): string | null;
         setBackgroundColor(color: string): void;
-        on(event: "indoormapenter" | "indoormapexit", handler: EventHandler<IndoorMapEvent>): void;
-        on(event: "indoormapfloorchange", handler: EventHandler<IndoorFloorEvent>): void;
-        on(event: "indoorentranceadd" | "indoorentranceremove", handler: EventHandler<IndoorEntranceEvent>): void;
-        on(event: EventType, handler: EventHandler): void;
-        off(event: EventType, handler: (e: Event) => void): void;
+        on(event: "indoormapenter" | "indoormapexit", handler: EventHandler<IndoorMapEvent>): this;
+        on(event: "indoormapfloorchange", handler: EventHandler<IndoorFloorEvent>): this;
+        on(event: "indoorentranceadd" | "indoorentranceremove", handler: EventHandler<IndoorEntranceEvent>): this;
+        on(event: EventType, handler: EventHandler): this;
+        off(event: EventType, handler: (e: Event) => void): this;
     }
     
     // eslint-disable-next-line no-unused-vars
