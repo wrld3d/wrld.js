@@ -55,8 +55,6 @@ type MapOptions = L.MapOptions & {
 };
 
 declare namespace Map {
-
-    // eslint-disable-next-line no-unused-vars
     type SetViewOptions = {
         headingDegrees: number;
         tiltDegrees: number;
@@ -66,7 +64,6 @@ declare namespace Map {
     };
 }
 
-// eslint-disable-next-line no-redeclare
 interface Map extends L.Map {
     getAltitudeAtLatLng(latLng: L.LatLngExpression): number;
     getCameraDistanceToInterest(): number;
@@ -95,15 +92,15 @@ interface Map extends L.Map {
     cancelFrameRateThrottle(): this;
     isHardwareAccelerationAvailable(): boolean;
     indoors: indoors.Indoors;
+    buildings: BuildingsModule;
 
     // TODO
-    themes: any;
-    routes: any;
-    buildings: BuildingsModule;
-    props: any;
-    indoorMapEntities: any;
-    indoorMapFloorOutlines: any;
-    heatmaps: any;
+    themes: unknown;
+    routes: unknown;
+    props: unknown;
+    indoorMapEntities: unknown;
+    indoorMapFloorOutlines: unknown;
+    heatmaps: unknown;
 }
 
 /* L.Marker */
@@ -220,8 +217,6 @@ declare class Prop {
 /* Wrld.Heatmap */
 
 declare namespace Heatmap {
-
-    // eslint-disable-next-line no-unused-vars
     type PointData = [number, number] | [number, number, number] | {
         latLng?: L.LatLngExpression;
         weight?: number;
@@ -229,20 +224,17 @@ declare namespace Heatmap {
         [property: string]: L.LatLngExpression | number;
     };
 
-    // eslint-disable-next-line no-unused-vars
     type DensityStop = {
         stop: number;
         radius: number;
         gain: number;
     };
 
-    // eslint-disable-next-line no-unused-vars
     type ColorStop = {
         stop: number;
         color: Color;
     };
 
-    // eslint-disable-next-line no-unused-vars
     type OcclusionMapFeature = "ground" | "buildings" | "trees" | "transport";
 }
 
@@ -274,7 +266,6 @@ type HeatmapOptions = {
     useApproximation?: boolean;
 };
 
-// eslint-disable-next-line no-redeclare
 declare class Heatmap extends L.Layer {
     constructor(pointData: Heatmap.PointData[], options?: HeatmapOptions);
 
@@ -342,7 +333,7 @@ declare namespace indoors {
 
     class Indoors {
         isIndoors(): boolean;
-        enter(indoorMap: IndoorMapEntrance | IndoorMap | string): boolean;
+        enter(indoorMap: IndoorMapEntrance | IndoorMap | string, config: EnterConfig): boolean;
         exit(): this;
         getActiveIndoorMap(): IndoorMap | null;
         getFloor(): IndoorMapFloor | null;
@@ -363,11 +354,11 @@ declare namespace indoors {
         on(event: "indoormapenter" | "indoormapexit", handler: EventHandler<IndoorMapEvent>): this;
         on(event: "indoormapfloorchange", handler: EventHandler<IndoorFloorEvent>): this;
         on(event: "indoorentranceadd" | "indoorentranceremove", handler: EventHandler<IndoorEntranceEvent>): this;
+        on(event: "indoorentityclick", handler: EventHandler<IndoorEntityEvent>): this;
         on(event: EventType, handler: EventHandler): this;
         off(event: EventType, handler: (e: Event) => void): this;
     }
-    
-    // eslint-disable-next-line no-unused-vars
+
     class IndoorMap {
         exit(): void;
         getIndoorMapId(): IndoorMapId;
@@ -395,8 +386,7 @@ declare namespace indoors {
         getFloorName(): string;
         getFloorShortName(): string;
     }
-    
-    // eslint-disable-next-line no-unused-vars
+
     class IndoorMapEntrance {
         getIndoorMapId(): IndoorMapId;
         getIndoorMapName(): string;
@@ -408,7 +398,6 @@ declare namespace indoors {
 
 declare namespace themes {
 
-    /* eslint-disable no-unused-vars */
     enum season {
         Spring = "Spring",
         Summer = "Summer",
@@ -430,15 +419,11 @@ declare namespace themes {
         Rainy = "Rainy",
         Snowy = "Snowy"
     }
-    /* eslint-enable no-unused-vars */
-
 }
 
 /* Wrld.buildings */
 
 declare namespace buildings {
-    
-    /* eslint-disable no-unused-vars */
     class BuildingHighlight {
         getId(): number;
         getOptions(): BuildingHighlightOptions;
@@ -477,7 +462,6 @@ declare namespace buildings {
         getTopAltitude(): number;
         getPoints(): L.LatLng[];
     }
-    /* eslint-enable no-unused-vars */
 }
 
 type FindBuildingResult = {
@@ -499,12 +483,12 @@ declare class BuildingsModule {
 /* Wrld.indoorMapEntities - TODO */
 
 //declare namespace indoorMapEntities {}
-declare const indoorMapEntities: any;
+declare const indoorMapEntities: unknown;
 
 /* Wrld.spaindoorMapFloorOutlinesce - TODO */
 
 //declare namespace indoorMapFloorOutlines {}
-declare const indoorMapFloorOutlines: any;
+declare const indoorMapFloorOutlines: unknown;
 
 /* Wrld */
 
