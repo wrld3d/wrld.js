@@ -92,12 +92,12 @@ interface Map extends L.Map {
     cancelFrameRateThrottle(): this;
     isHardwareAccelerationAvailable(): boolean;
     indoors: indoors.Indoors;
+    props: props.Props;
     buildings: BuildingsModule;
 
     // TODO
     themes: unknown;
     routes: unknown;
-    props: unknown;
     indoorMapEntities: unknown;
     indoorMapFloorOutlines: unknown;
     heatmaps: unknown;
@@ -187,31 +187,44 @@ declare class Polyline extends L.Polyline {
 
 /* Wrld.Prop */
 
-type PropOptions = {
-    elevation?: number;
-    elevationMode?: ElevationMode;
-    indoorMapId?: IndoorMapId;
-    indoorMapFloorId?: IndoorMapFloorId;
-    headingDegrees?: number;
-};
+declare namespace props {
+    class Props {
+        addProp(prop: Prop): void;
+        addProps(props: Prop[]): void;
+        removeProp(prop: Prop): void;
+        removeProps(props: Prop[]): void;
+        setAutomaticIndoorMapPopulationEnabled(enabled: boolean): void;
+        isAutomaticIndoorMapPopulationEnabled(): boolean;
+        setIndoorMapPopulationServiceUrl(serviceUrl: string): boolean;
+        getIndoorMapEntitySetProps(indoorMapId: string, floorId: string): Props[] | null;
+    }
 
-declare class Prop {
-    constructor(name: string, geometryId: string, location: L.LatLngExpression, options?: PropOptions);
-    addTo(map: Map): this;
-    remove(): this;
-    getLocation(): L.LatLng;
-    setLocation(latLng: L.LatLngExpression): this;
-    getIndoorMapId(): IndoorMapId;
-    getIndoorMapFloorId(): IndoorMapFloorId;
-    getHeadingDegrees(): number;
-    setHeadingDegrees(heading: number): this;
-    getElevation(): number;
-    setElevation(elevation : number): this;
-    getElevationMode(): ElevationMode;
-    setElevationMode(elevationMode: ElevationMode): this;
-    getGeometryId(): string;
-    setGeometryId(geometryId: string): this;
-    getName(): string;
+    type PropOptions = {
+        elevation?: number;
+        elevationMode?: ElevationMode;
+        indoorMapId?: IndoorMapId;
+        indoorMapFloorId?: IndoorMapFloorId;
+        headingDegrees?: number;
+    };
+    
+    class Prop {
+        constructor(name: string, geometryId: string, location: L.LatLngExpression, options?: PropOptions);
+        addTo(map: Map): this;
+        remove(): this;
+        getLocation(): L.LatLng;
+        setLocation(latLng: L.LatLngExpression): this;
+        getIndoorMapId(): IndoorMapId;
+        getIndoorMapFloorId(): IndoorMapFloorId;
+        getHeadingDegrees(): number;
+        setHeadingDegrees(heading: number): this;
+        getElevation(): number;
+        setElevation(elevation : number): this;
+        getElevationMode(): ElevationMode;
+        setElevationMode(elevationMode: ElevationMode): this;
+        getGeometryId(): string;
+        setGeometryId(geometryId: string): this;
+        getName(): string;
+    }
 }
 
 /* Wrld.Heatmap */
@@ -497,7 +510,7 @@ declare function marker(latLng: L.LatLngExpression, options?: MarkerOptions): Ma
 declare function popup(options?: PopupOptions, source?: L.Layer): Popup;
 declare function polygon(latlngs: L.LatLngTuple[] | L.LatLngTuple[][], options?: PolygonOptions): Polygon;
 declare function polyline(latlngs: L.LatLngExpression[], options?: PolylineOptions): Polyline;
-declare function prop(name: string, geometryId: string, location: L.LatLngExpression, options?: PropOptions): Prop;
+declare function prop(name: string, geometryId: string, location: L.LatLngExpression, options?: props.PropOptions): props.Prop;
 declare function heatmap(pointData: Heatmap.PointData[], options?: HeatmapOptions): Heatmap;
 
 declare module "wrld.js" {
@@ -510,11 +523,11 @@ declare module "wrld.js" {
     polygon;
     Polyline;
     polyline;
-    Prop;
     prop;
     Heatmap;
     heatmap;
 
+    props;
     indoors;
     themes;
     buildings;
