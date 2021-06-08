@@ -333,7 +333,7 @@ declare namespace indoors {
 
     class Indoors {
         isIndoors(): boolean;
-        enter(indoorMap: IndoorMapEntrance | IndoorMap | string, config: EnterConfig): boolean;
+        enter(indoorMap: IndoorMapEntrance | IndoorMap | string, config?: EnterConfig): boolean;
         exit(): this;
         getActiveIndoorMap(): IndoorMap | null;
         getFloor(): IndoorMapFloor | null;
