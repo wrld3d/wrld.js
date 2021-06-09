@@ -55,13 +55,13 @@ type MapOptions = L.MapOptions & {
 };
 
 declare namespace Map {
-    type SetViewOptions = {
+    type SetViewOptions = Partial<{
         headingDegrees: number;
         tiltDegrees: number;
         animate: boolean;
         durationSeconds: number;
         allowInterruption: boolean;
-    };
+    }>;
 }
 
 interface Map extends L.Map {
