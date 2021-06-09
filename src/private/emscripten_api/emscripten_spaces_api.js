@@ -166,9 +166,9 @@ function EmscriptenSpacesApi(eegeoApiPointer, cwrap, emscriptenModule, emscripte
         };
     };
 
-
     this.getMortonKeyAtLatLng = function(latLng) {
-        return _getMortonKeyAtLatLng(latLng.lat, latLng.lng);
+        var _latLng = L.latLng(latLng);
+        return _getMortonKeyAtLatLng(_latLng.lat, _latLng.lng);
     };
 
     this.getMortonKeyCenter = function(mortonKey) {

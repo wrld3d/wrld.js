@@ -66,6 +66,9 @@ declare namespace Map {
 
 interface Map extends L.Map {
     getAltitudeAtLatLng(latLng: L.LatLngExpression): number;
+    getMortonKeyAtLatLng(latLng: L.LatLngExpression): string | null;
+    getMortonKeyCenter(mortonKey: string): L.LatLng | null;
+    getMortonKeyCorners(mortonKey: string, insetMeters: number): L.LatLng[] | null;
     getCameraDistanceToInterest(): number;
     getCameraPitchDegrees(): number;
     getCameraTiltDegrees(): number;
