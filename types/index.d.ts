@@ -97,12 +97,12 @@ interface Map extends L.Map {
     indoors: indoors.Indoors;
     props: props.Props;
     buildings: BuildingsModule;
+    indoorMapFloorOutlines: IndoorMapFloorOutlineInformationModule;
 
     // TODO
     themes: unknown;
     routes: unknown;
     indoorMapEntities: unknown;
-    indoorMapFloorOutlines: unknown;
     heatmaps: unknown;
 }
 
@@ -501,10 +501,46 @@ declare class BuildingsModule {
 //declare namespace indoorMapEntities {}
 declare const indoorMapEntities: unknown;
 
-/* Wrld.spaindoorMapFloorOutlinesce - TODO */
 
-//declare namespace indoorMapFloorOutlines {}
-declare const indoorMapFloorOutlines: unknown;
+/* Wrld.indoorMapFloorOutlines */
+
+declare namespace indoorMapFloorOutlines {
+
+    class IndoorMapFloorOutlineInformation {
+        constructor(indoorMapId: string, indoorMapFloorId: number);
+        getIndoorMapId(): string;
+        getIndoorMapFloorId(): number;
+        getIndoorMapFloorOutlinePolygons(): IndoorMapFloorOutlinePolygon[];
+        getIsLoaded(): boolean;
+        getId(): number;
+        addTo(map: Map): this;
+        remove(): this;
+    }
+    
+    function indoorMapFloorOutlineInformation(indoorMapId: string, indoorMapFloorId: number): IndoorMapFloorOutlineInformation;
+
+    class IndoorMapFloorOutlinePolygon {
+        getOuterRing(): IndoorMapFloorOutlinePolygonRing;
+        getInnerRings(): IndoorMapFloorOutlinePolygonRing[];
+    }
+
+    class IndoorMapFloorOutlinePolygonRing {
+        getLatLngPoints(): L.LatLng[];
+    }
+}
+
+type FindBuildingResult = {
+    found: boolean;
+    point: L.LatLng;
+};
+
+type IndoorMapFloorOutlineInformationLoadedEventHandler = (indoorMapFloorOutlineInformation: indoorMapFloorOutlines.IndoorMapFloorOutlineInformation) => void;
+
+declare class IndoorMapFloorOutlineInformationModule {
+    on(type: "indoormapflooroutlineinformationloaded", fn: IndoorMapFloorOutlineInformationLoadedEventHandler): void;
+    once(type: "indoormapflooroutlineinformationloaded", fn: IndoorMapFloorOutlineInformationLoadedEventHandler): void;
+    off(type: "indoormapflooroutlineinformationloaded", fn: IndoorMapFloorOutlineInformationLoadedEventHandler): void;
+}
 
 /* Wrld */
 
