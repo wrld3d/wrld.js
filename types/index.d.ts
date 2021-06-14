@@ -485,7 +485,8 @@ type FindBuildingResult = {
     point: L.LatLng;
 };
 
-type BuildingInformationReceivedEventHandler = (buildingHighlight: buildings.BuildingHighlight) => void;
+type BuildingInformationReceivedEvent = { type: "buildinginformationreceived", buildingHighlight: buildings.BuildingHighlight, target: BuildingsModule };
+type BuildingInformationReceivedEventHandler = (event: BuildingInformationReceivedEvent) => void;
 
 declare class BuildingsModule {
     findBuildingAtScreenPoint(screenPoint: L.Point): FindBuildingResult;
