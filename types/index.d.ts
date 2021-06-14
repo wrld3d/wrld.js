@@ -488,7 +488,7 @@ type FindBuildingResult = {
 type BuildingInformationReceivedEventHandler = (buildingHighlight: buildings.BuildingHighlight) => void;
 
 declare class BuildingsModule {
-    findBuildingAtScreenPoint(screenPoint: L.LatLng): FindBuildingResult;
+    findBuildingAtScreenPoint(screenPoint: L.Point): FindBuildingResult;
     findBuildingAtLatLng(latLng: L.LatLng): FindBuildingResult;
 
     on(type: "buildinginformationreceived", fn: BuildingInformationReceivedEventHandler): void;
@@ -529,10 +529,6 @@ declare namespace indoorMapFloorOutlines {
     }
 }
 
-type FindBuildingResult = {
-    found: boolean;
-    point: L.LatLng;
-};
 
 type IndoorMapFloorOutlineInformationLoadedEventHandler = (indoorMapFloorOutlineInformation: indoorMapFloorOutlines.IndoorMapFloorOutlineInformation) => void;
 
