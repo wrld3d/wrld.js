@@ -109,10 +109,10 @@ interface Map extends L.Map {
 /* L.Marker */
 
 type MarkerOptions = L.MarkerOptions & {
-    elevation: number;
-    elevationMode: ElevationMode;
-    indoorMapId: IndoorMapId;
-    indoorMapFloorId: IndoorMapFloorId;
+    elevation?: number;
+    elevationMode?: ElevationMode;
+    indoorMapId?: IndoorMapId;
+    indoorMapFloorId?: IndoorMapFloorId;
 };
 
 declare class Marker extends L.Marker {
