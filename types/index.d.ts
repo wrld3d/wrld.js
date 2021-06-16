@@ -199,7 +199,7 @@ declare namespace props {
         setAutomaticIndoorMapPopulationEnabled(enabled: boolean): void;
         isAutomaticIndoorMapPopulationEnabled(): boolean;
         setIndoorMapPopulationServiceUrl(serviceUrl: string): boolean;
-        getIndoorMapEntitySetProps(indoorMapId: string, floorId: string): Props[] | null;
+        getIndoorMapEntitySetProps(indoorMapId: IndoorMapId, indoorMapFloorId: IndoorMapFloorId): Props[] | null;
     }
 
     type PropOptions = {
@@ -363,9 +363,9 @@ declare namespace indoors {
         setFloorFromInterpolation(value: number): boolean;
         setEntityHighlights(ids: string | string[], highlightColour: [number, number, number, number?], indoorId?: string, highlightBorderThickness?: number): void;
         clearEntityHighlights(ids: string | string[], indoorId?: string): void;
-        tryGetReadableName(indoorMapId: string): string | null;
-        tryGetFloorReadableName(indoorMapId: string, indoorMapFloorId: string): string | null;
-        tryGetFloorShortName(indoorMapId: string, indoorMapFloorId: string): string | null;
+        tryGetReadableName(indoorMapId: IndoorMapId): string | null;
+        tryGetFloorReadableName(indoorMapId: IndoorMapId, indoorMapFloorId: IndoorMapFloorId): string | null;
+        tryGetFloorShortName(indoorMapId: IndoorMapId, indoorMapFloorId: IndoorMapFloorId): string | null;
         setBackgroundColor(color: string): void;
         on(event: "indoormapenter" | "indoormapexit", handler: EventHandler<IndoorMapEvent>): this;
         on(event: "indoormapfloorchange", handler: EventHandler<IndoorFloorEvent>): this;
@@ -508,9 +508,9 @@ declare const indoorMapEntities: unknown;
 declare namespace indoorMapFloorOutlines {
 
     class IndoorMapFloorOutlineInformation {
-        constructor(indoorMapId: string, indoorMapFloorId: number);
-        getIndoorMapId(): string;
-        getIndoorMapFloorId(): number;
+        constructor(indoorMapId: IndoorMapId, indoorMapFloorId: IndoorMapFloorId);
+        getIndoorMapId(): IndoorMapId;
+        getIndoorMapFloorId(): IndoorMapFloorId;
         getIndoorMapFloorOutlinePolygons(): IndoorMapFloorOutlinePolygon[];
         getIsLoaded(): boolean;
         getId(): number;
@@ -518,7 +518,7 @@ declare namespace indoorMapFloorOutlines {
         remove(): this;
     }
     
-    function indoorMapFloorOutlineInformation(indoorMapId: string, indoorMapFloorId: number): IndoorMapFloorOutlineInformation;
+    function indoorMapFloorOutlineInformation(indoorMapId: IndoorMapId, indoorMapFloorId: IndoorMapFloorId): IndoorMapFloorOutlineInformation;
 
     class IndoorMapFloorOutlinePolygon {
         getOuterRing(): IndoorMapFloorOutlinePolygonRing;
