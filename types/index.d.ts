@@ -52,6 +52,10 @@ type MapOptions = L.MapOptions & {
     frameRateThrottleWhenIdleEnabled?: boolean;
     idleSecondsBeforeFrameRateThrottle?: number;
     throttledTargetFrameIntervalMilliseconds?: number;
+    /** If provided, the map will attempt to enter this indoor map */
+    indoorId?: string;
+    /** If provided, the map will open on this floor if `indoorId` is also provided */
+    floorIndex?: number;
 };
 
 declare namespace Map {
