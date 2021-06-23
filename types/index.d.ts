@@ -379,13 +379,19 @@ declare namespace indoors {
         off(event: EventType, handler: (e: Event) => void): this;
     }
 
+    interface SearchTag {
+        name: string;
+        search_tag: string;
+        icon_key: string;
+    }
+
     class IndoorMap {
         exit(): void;
         getIndoorMapId(): IndoorMapId;
         getIndoorMapName(): string;
         getFloorCount(): number;
         getFloors(): IndoorMapFloor[];
-        getSearchTags(): { name: string; search_tag: string; icon_key: string}[];
+        getSearchTags(): SearchTag[];
     }
 
     class IndoorMapFloor {

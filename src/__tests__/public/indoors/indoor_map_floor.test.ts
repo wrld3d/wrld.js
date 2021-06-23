@@ -27,7 +27,7 @@ describe("IndoorMapFloor", () => {
     });
   });
 
-  /* deprecated IndoorMapEntrance._getFloorId */
+  /* deprecated internal IndoorMapEntrance._getFloorId */
 
   describe("IndoorMapEntrance._getFloorId", () => {
     it("is a function", () => {
