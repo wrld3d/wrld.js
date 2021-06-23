@@ -3,7 +3,7 @@ import "wrld.js";
 
 import IndoorMapEntrance from "../../../public/indoors/indoor_map_entrance";
 
-describe("IndoorMapEntrance", () => {
+describe("IndoorMapEntrance class", () => {
   let entrance: Wrld.indoors.IndoorMapEntrance;
   const mapId = "testId";
   const mapName = "testName";

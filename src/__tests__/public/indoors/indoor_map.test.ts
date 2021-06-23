@@ -1,10 +1,9 @@
 import Wrld from "../../../../types";
-import "wrld.js";
 
 import IndoorMap from "../../../public/indoors/indoor_map";
 import IndoorMapFloor from "../../../public/indoors/indoor_map_floor";
 
-describe("IndoorMap", () => {
+describe("IndoorMap class", () => {
   let entrance: Wrld.indoors.IndoorMap;
   const indoorMapId = "testId";
   const indoorMapName = "testName";

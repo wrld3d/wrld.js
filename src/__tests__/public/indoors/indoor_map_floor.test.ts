@@ -1,9 +1,8 @@
 import Wrld from "../../../../types";
-import "wrld.js";
 
 import IndoorMapFloor from "../../../public/indoors/indoor_map_floor";
 
-describe("IndoorMapFloor", () => {
+describe("IndoorMapFloor class", () => {
   let floor: Wrld.indoors.IndoorMapFloor;
   const floorZOrder = 1;
   const floorIndex = 0;
