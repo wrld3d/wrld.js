@@ -48,4 +48,4 @@ else
 fi
 
 npm install
-npm run test
+npm run test:interop

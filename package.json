@@ -10,7 +10,11 @@
     "build-min": "npm run build-dist && uglifyjs -c -m < dist/wrld.js > dist/wrld.min.js",
     "watch": "npm run build-dist && watchify -s WRLD src/wrld.js -o dist/wrld.js -v --debug",
     "lint": "eslint . --ext .js,.ts",
-    "test": "sh -c './node_modules/jasmine/bin/jasmine.js JASMINE_CONFIG_PATH=tests/jasmine.json'"
+    "test": "run-s test:unit test:lint test:build",
+    "test:build": "run-s build",
+    "test:lint": "run-s lint",
+    "test:interop": "sh -c './node_modules/jasmine/bin/jasmine.js JASMINE_CONFIG_PATH=tests/jasmine.json'",
+    "test:unit": "jest"
   },
   "author": "WRLD",
   "repository": {
@@ -19,12 +23,17 @@
   },
   "license": "See license in LICENSE.md",
   "devDependencies": {
+    "@types/jest": "^26.0.23",
+    "@types/node": "^12.20.15",
     "@typescript-eslint/eslint-plugin": "^4.8.1",
     "@typescript-eslint/parser": "^4.8.1",
     "browserify": "~13.0.0",
     "eslint": "^6.8.0",
     "jasmine": "~2.5.2",
+    "jest": "^27.0.5",
+    "npm-run-all": "^4.1.5",
     "sinon": "~1.17.6",
+    "ts-jest": "^27.0.3",
     "typescript": "^4.0.5",
     "uglify-js": "~2.6.0",
     "watchify": "^4.0.0"
