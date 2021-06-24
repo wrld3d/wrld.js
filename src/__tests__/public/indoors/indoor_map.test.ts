@@ -8,7 +8,7 @@ describe("IndoorMap class", () => {
   const indoorMapId = "testId";
   const indoorMapName = "testName";
   const indoorMapSourceVendor = "testSourceVendor";
-  // Floor creation logic is burried in the indoors module and can't make use of it here
+  // Floor creation logic is buried in the indoors module and can't make use of it here
   const floorCount = 2;
   const floors: Wrld.indoors.IndoorMapFloor[] = [];
   for (let i = 0; i < floorCount; ++i) {
