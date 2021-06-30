@@ -75,7 +75,7 @@ var findMapContainerElement = function(elementOrId) {
 		id = elementOrId;
 		element = document.getElementById(id);
 	}
-	if (!element) {
+	if (element instanceof HTMLElement === false) {
 		var idError = (id === null) ? "" : (" with id '" + id + "'");
 		throw "No map container found" + idError;
 	}

@@ -1,16 +1,14 @@
-import { Map, MapOptions } from "../../types";
+import { MapOptions } from "../../types";
 
 import Wrld from "../wrld";
 
 describe("Wrld.map", () => {
-  let map: Map | null;
   const elementId = "map";
   let element: HTMLElement | null;
   const apiKey = "testApiKey";
   let options: MapOptions;
 
   beforeEach(() => {
-    map = null;
     element = null;
   });
 
@@ -18,45 +16,71 @@ describe("Wrld.map", () => {
     expect(typeof Wrld.map).toBe("function");
   });
 
-  describe("when no container element is passed", () => {
+  describe("when null is passed as the container element", () => {
     it("throws an error", () => {
       expect(() => Wrld.map(null, apiKey, options)).toThrowError("No map container found");
     });
   });
 
-  // TODO
+  describe("when undefined is passed as the container element", () => {
+    it("throws an error", () => {
+      expect(() => Wrld.map(undefined, apiKey, options)).toThrowError("No map container found");
+    });
+  });
+
+  describe("when false is passed as the container element", () => {
+    it("throws an error", () => {
+      expect(() => Wrld.map(false, apiKey, options)).toThrowError("No map container found");
+    });
+  });
+
+  describe("when true is passed as the container element", () => {
+    it("throws an error", () => {
+      expect(() => Wrld.map(true, apiKey, options)).toThrowError("No map container found");
+    });
+  });
+
+  describe("when a falsy number is passed as the container element", () => {
+    it("throws an error", () => {
+      expect(() => Wrld.map(0, apiKey, options)).toThrowError("No map container found");
+    });
+  });
+
+  describe("when a truthy number is passed as the container element", () => {
+    it("throws an error", () => {
+      expect(() => Wrld.map(1, apiKey, options)).toThrowError("No map container found");
+    });
+  });
+
   describe("when passing a container element that is NOT on the DOM", () => {
-    it("creates an instance of the map", () => {
+    it("does not throw an error", () => {
       element = document.createElement("div");
-      map = Wrld.map(element, apiKey, options);
-      expect(map).toBeTruthy();
+      expect(() => Wrld.map(element, apiKey, options)).not.toThrow();
     });
   });
 
-  // TODO
   describe("when passing a container element id for an element that is NOT on the DOM", () => {
-    it("creates an instance of the map", () => {
+    it("throws an error", () => {
       element = document.createElement("div");
       element.setAttribute("id", elementId);
       expect(() => Wrld.map(elementId, apiKey, options)).toThrowError("No map container found");
     });
   });
 
-  // TODO
   describe("when passing a container element that is on the DOM", () => {
-    it("creates an instance of the map", () => {
+    it("does not throw an error", () => {
       element = document.createElement("div");
-      map = Wrld.map(element, apiKey, options);
-      expect(map).toBeTruthy();
+      document.body.appendChild(element);
+      expect(() => Wrld.map(element, apiKey, options)).not.toThrow();
     });
   });
 
-  // TODO
   describe("when passing a container element id for an element that is on the DOM", () => {
-    it("creates an instance of the map", () => {
+    it("does not throw an error", () => {
       element = document.createElement("div");
       element.setAttribute("id", elementId);
-      expect(() => Wrld.map(elementId, apiKey, options)).toThrowError("No map container found");
+      document.body.appendChild(element);
+      expect(() => Wrld.map(elementId, apiKey, options)).not.toThrow();
     });
   });
 });
