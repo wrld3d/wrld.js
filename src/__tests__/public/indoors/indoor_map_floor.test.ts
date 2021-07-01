@@ -30,10 +30,12 @@ describe("IndoorMapFloor class", () => {
 
   describe("IndoorMapEntrance._getFloorId", () => {
     it("is a function", () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       expect(typeof (floor as any)._getFloorId).toBe("function");
     });
 
     it("returns the floor z order", () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const value = (floor as any)._getFloorId();
       expect(value).toBe(floorZOrder);
     });
