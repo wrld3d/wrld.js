@@ -18,7 +18,7 @@ describe("IndoorMapFloorOutlinePolygonRing class", () => {
       expect(typeof indoorMapFloorOutlinePolygonRing.getLatLngPoints).toBe("function");
     });
 
-    it("returns the outer ring", () => {
+    it("returns the latLngPoints", () => {
       const value = indoorMapFloorOutlinePolygonRing.getLatLngPoints();
       expect(value).toBe(latLngPoints);
     });
