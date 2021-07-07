@@ -31,6 +31,8 @@ interface Event<T = string> {
     target: any;
 }
 
+type EventHandler<T extends Event = Event<EventType>> = (e: T) => void
+
 /* Wrld.Map */
 
 type MapOptions = L.MapOptions & {
@@ -100,9 +102,9 @@ interface Map extends L.Map {
     isHardwareAccelerationAvailable(): boolean;
     indoors: indoors.Indoors;
     props: props.Props;
-    buildings: BuildingsModule;
-    indoorMapEntities: IndoorMapEntitiesModule;
-    indoorMapFloorOutlines: IndoorMapFloorOutlineInformationModule;
+    buildings: buildings.Buildings;
+    indoorMapEntities: indoorMapEntities.IndoorMapEntities;
+    indoorMapFloorOutlines: indoorMapFloorOutlines.IndoorMapFloorOutlines;
 
     // TODO
     themes: any;
@@ -344,12 +346,15 @@ declare namespace indoors {
     }
 
     interface IndoorMapEvent extends Event { indoorMap: IndoorMap; }
-    interface IndoorFloorEvent extends Event { floor: IndoorMapFloor; }
-    interface IndoorEntranceEvent extends Event { entrance: IndoorMapEntrance; }
-    interface IndoorEntityEvent extends Event { ids: string[]; }
+    interface IndoorMapFloorEvent extends Event { floor: IndoorMapFloor; }
+    interface IndoorMapEntranceEvent extends Event { entrance: IndoorMapEntrance; }
+    interface IndoorMapEntityEvent extends Event { ids: string[]; }
+    type IndoorMapEventHandler = EventHandler<IndoorMapEvent>;
+    type IndoorMapFloorEventHandler = EventHandler<IndoorMapFloorEvent>;
+    type IndoorMapEntranceEventHandler = EventHandler<IndoorMapEntranceEvent>;
+    type IndoorMapEntityEventHandler = EventHandler<IndoorMapEntityEvent>;
 
     type EventType = "indoormapenter" | "indoormapexit" | "indoormapfloorchange" | "indoorentranceadd" | "indoorentranceremove" | "expandstart" | "expand" | "expandend" | "collapsestart" | "collapse" | "collapseend" | "indoorentityclick" | "indoormapenterrequested" | "indoormapload" | "indoormapunload" | "indoormapenterfailed";
-    type EventHandler<T extends Event = Event<EventType>> = (e: T) => void
 
     class Indoors {
         isIndoors(): boolean;
@@ -371,19 +376,19 @@ declare namespace indoors {
         tryGetFloorReadableName(indoorMapId: IndoorMapId, indoorMapFloorId: IndoorMapFloorId): string | null;
         tryGetFloorShortName(indoorMapId: IndoorMapId, indoorMapFloorId: IndoorMapFloorId): string | null;
         setBackgroundColor(color: string): void;
-        on(event: "indoormapenter" | "indoormapexit", handler: EventHandler<IndoorMapEvent>): this;
-        on(event: "indoormapenter" | "indoormapexit", handler: EventHandler<IndoorMapEvent>): this;
-        on(event: "indoormapfloorchange", handler: EventHandler<IndoorFloorEvent>): this;
-        on(event: "indoorentranceadd" | "indoorentranceremove", handler: EventHandler<IndoorEntranceEvent>): this;
-        on(event: "indoorentityclick", handler: EventHandler<IndoorEntityEvent>): this;
+        on(event: "indoormapenter" | "indoormapexit", handler: IndoorMapEventHandler): this;
+        on(event: "indoormapenter" | "indoormapexit", handler: IndoorMapEventHandler): this;
+        on(event: "indoormapfloorchange", handler: IndoorMapFloorEventHandler): this;
+        on(event: "indoorentranceadd" | "indoorentranceremove", handler: IndoorMapEntranceEventHandler): this;
+        on(event: "indoorentityclick", handler: IndoorMapEntityEventHandler): this;
         on(event: EventType, handler: EventHandler): this;
-        once(event: "indoormapenter" | "indoormapexit", handler: EventHandler<IndoorMapEvent>): this;
-        once(event: "indoormapenter" | "indoormapexit", handler: EventHandler<IndoorMapEvent>): this;
-        once(event: "indoormapfloorchange", handler: EventHandler<IndoorFloorEvent>): this;
-        once(event: "indoorentranceadd" | "indoorentranceremove", handler: EventHandler<IndoorEntranceEvent>): this;
-        once(event: "indoorentityclick", handler: EventHandler<IndoorEntityEvent>): this;
+        once(event: "indoormapenter" | "indoormapexit", handler: IndoorMapEventHandler): this;
+        once(event: "indoormapenter" | "indoormapexit", handler: IndoorMapEventHandler): this;
+        once(event: "indoormapfloorchange", handler: IndoorMapFloorEventHandler): this;
+        once(event: "indoorentranceadd" | "indoorentranceremove", handler: IndoorMapEntranceEventHandler): this;
+        once(event: "indoorentityclick", handler: IndoorMapEntityEventHandlerP): this;
         once(event: EventType, handler: EventHandler): this;
-        off(event: EventType, handler: (e: Event<EventType>) => void): this;
+        off(event: EventType, handler: (e: Event) => void): this;
     }
 
     interface SearchTag {
@@ -455,6 +460,25 @@ declare namespace themes {
 /* Wrld.buildings */
 
 declare namespace buildings {
+
+    type FindBuildingResult = {
+        found: boolean;
+        point: L.LatLng;
+    };
+
+    interface BuildingInformationReceivedEvent extends Event { buildingHighlight: buildings.BuildingHighlight }
+    type BuildingInformationReceivedEventHandler = EventHandler<BuildingInformationReceivedEvent>;
+
+    type EventType = "buildinginformationreceived";
+
+    class Buildings {
+        findBuildingAtScreenPoint(screenPoint: L.Point): FindBuildingResult;
+        findBuildingAtLatLng(latLng: L.LatLng): FindBuildingResult;
+        on(type: "buildinginformationreceived", fn: BuildingInformationReceivedEventHandler): void;
+        once(type: "buildinginformationreceived", fn: BuildingInformationReceivedEventHandler): void;
+        off(event: EventType, handler: (e: Event) => void): this;
+    }
+
     class BuildingHighlight {
         getId(): number;
         getOptions(): BuildingHighlightOptions;
@@ -495,27 +519,20 @@ declare namespace buildings {
     }
 }
 
-type FindBuildingResult = {
-    found: boolean;
-    point: L.LatLng;
-};
-
-type BuildingInformationReceivedEventType = "buildinginformationreceived";
-interface BuildingInformationReceivedEvent extends Event<BuildingInformationReceivedEventType> { buildingHighlight: buildings.BuildingHighlight }
-type BuildingInformationReceivedEventHandler = (event: BuildingInformationReceivedEvent) => void;
-
-interface BuildingsModule {
-    findBuildingAtScreenPoint(screenPoint: L.Point): FindBuildingResult;
-    findBuildingAtLatLng(latLng: L.LatLng): FindBuildingResult;
-
-    on(type: BuildingInformationReceivedEventType, fn: BuildingInformationReceivedEventHandler): void;
-    once(type: BuildingInformationReceivedEventType, fn: BuildingInformationReceivedEventHandler): void;
-    off(type: BuildingInformationReceivedEventType, fn: BuildingInformationReceivedEventHandler): void;
-}
-
 /* Wrld.indoorMapEntities */
 
 declare namespace indoorMapEntities {
+
+    interface IndoorMapEntityInformationChangedEvent extends Event { indoorMapEntityInformation: indoorMapEntities.IndoorMapEntityInformation }
+    type IndoorMapEntityInformationChangedEventHandler = EventHandler<IndoorMapEntityInformationChangedEvent>;
+
+    type EventType = "indoormapentityinformationchanged";
+
+    class IndoorMapEntities {
+        on(type: IndoorMapEntityInformationChangedEventType, fn: IndoorMapEntityInformationChangedEventHandler): void;
+        once(type: IndoorMapEntityInformationChangedEventType, fn: IndoorMapEntityInformationChangedEventHandler): void;
+        off(event: EventType, handler: (e: Event) => void): this;
+    }
 
     class IndoorMapEntity {
         constructor(indoorMapEntityId: string, indoorMapFloorId: IndoorMapFloorId, position: L.LantLng, outline: L.LatLngTuple[][]);
@@ -547,19 +564,20 @@ declare namespace indoorMapEntities {
 
 }
 
-type IndoorMapEntityInformationChangedEventType = "indoormapentityinformationchanged";
-interface IndoorMapEntityInformationChangedEvent extends Event<BuildingInformationReceivedEventType> { indoorMapEntityInformation: indoorMapEntities.IndoorMapEntityInformation }
-type IndoorMapEntityInformationChangedEventHandler = (event: IndoorMapEntityInformationChangedEvent) => void;
-
-interface IndoorMapEntitiesModule {
-    on(type: IndoorMapEntityInformationChangedEventType, fn: IndoorMapEntityInformationChangedEventHandler): void;
-    once(type: IndoorMapEntityInformationChangedEventType, fn: IndoorMapEntityInformationChangedEventHandler): void;
-    off(type: IndoorMapEntityInformationChangedEventType, fn: IndoorMapEntityInformationChangedEventHandler): void;
-}
-
 /* Wrld.indoorMapFloorOutlines */
 
 declare namespace indoorMapFloorOutlines {
+
+    interface IndoorMapFloorOutlineInformationLoadedEvent extends Event { indoorMapFloorOutlineInformation: indoorMapFloorOutlines.IndoorMapFloorOutlineInformation }
+    type IndoorMapFloorOutlineInformationLoadedEventHandler = EventHandler<IndoorMapFloorOutlineInformationLoadedEvent>;
+
+    type EventType = "indoormapflooroutlineinformationloaded";
+
+    class IndoorMapFloorOutlines {
+        on(type: "indoormapflooroutlineinformationloaded", fn: IndoorMapFloorOutlineInformationLoadedEventHandler): void;
+        once(type: "indoormapflooroutlineinformationloaded", fn: IndoorMapFloorOutlineInformationLoadedEventHandler): void;
+        off(event: EventType, handler: (e: Event) => void): this;
+    }
 
     class IndoorMapFloorOutlineInformation {
         constructor(indoorMapId: IndoorMapId, indoorMapFloorId: IndoorMapFloorId);
@@ -582,17 +600,6 @@ declare namespace indoorMapFloorOutlines {
     class IndoorMapFloorOutlinePolygonRing {
         getLatLngPoints(): L.LatLng[];
     }
-}
-
-
-type IndoorMapFloorOutlineInformationLoadedEventType = "indoormapflooroutlineinformationloaded";
-interface IndoorMapFloorOutlineInformationLoadedEvent extends Event<BuildingInformationReceivedEventType> { indoorMapFloorOutlineInformation: indoorMapFloorOutlines.IndoorMapFloorOutlineInformation }
-type IndoorMapFloorOutlineInformationLoadedEventHandler = (event: IndoorMapFloorOutlineInformationLoadedEvent) => void;
-
-interface IndoorMapFloorOutlineInformationModule {
-    on(type: IndoorMapFloorOutlineInformationLoadedEventType, fn: IndoorMapFloorOutlineInformationLoadedEventHandler): void;
-    once(type: IndoorMapFloorOutlineInformationLoadedEventType, fn: IndoorMapFloorOutlineInformationLoadedEventHandler): void;
-    off(type: IndoorMapFloorOutlineInformationLoadedEventType, fn: IndoorMapFloorOutlineInformationLoadedEventHandler): void;
 }
 
 /* Wrld */
