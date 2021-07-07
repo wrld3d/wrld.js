@@ -496,7 +496,7 @@ type FindBuildingResult = {
 type BuildingInformationReceivedEvent = { type: "buildinginformationreceived", buildingHighlight: buildings.BuildingHighlight, target: BuildingsModule };
 type BuildingInformationReceivedEventHandler = (event: BuildingInformationReceivedEvent) => void;
 
-declare class BuildingsModule {
+interface BuildingsModule {
     findBuildingAtScreenPoint(screenPoint: L.Point): FindBuildingResult;
     findBuildingAtLatLng(latLng: L.LatLng): FindBuildingResult;
 
@@ -541,7 +541,7 @@ declare namespace indoorMapEntities {
 
 type IndoorMapEntityInformationChangedEventHandler = (indoorMapEntityInformation: indoorMapEntities.IndoorMapEntityInformation) => void;
 
-declare class IndoorMapEntitiesModule {
+interface IndoorMapEntitiesModule {
     on(type: "indoormapentityinformationchanged", fn: IndoorMapEntityInformationChangedEventHandler): void;
     once(type: "indoormapentityinformationchanged", fn: IndoorMapEntityInformationChangedEventHandler): void;
     off(type: "indoormapentityinformationchanged", fn: IndoorMapEntityInformationChangedEventHandler): void;
@@ -576,7 +576,7 @@ declare namespace indoorMapFloorOutlines {
 
 type IndoorMapFloorOutlineInformationLoadedEventHandler = (indoorMapFloorOutlineInformation: indoorMapFloorOutlines.IndoorMapFloorOutlineInformation) => void;
 
-declare class IndoorMapFloorOutlineInformationModule {
+interface IndoorMapFloorOutlineInformationModule {
     on(type: "indoormapflooroutlineinformationloaded", fn: IndoorMapFloorOutlineInformationLoadedEventHandler): void;
     once(type: "indoormapflooroutlineinformationloaded", fn: IndoorMapFloorOutlineInformationLoadedEventHandler): void;
     off(type: "indoormapflooroutlineinformationloaded", fn: IndoorMapFloorOutlineInformationLoadedEventHandler): void;
