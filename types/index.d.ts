@@ -101,12 +101,12 @@ interface Map extends L.Map {
     indoors: indoors.Indoors;
     props: props.Props;
     buildings: BuildingsModule;
+    indoorMapEntities: IndoorMapEntitiesModule;
     indoorMapFloorOutlines: IndoorMapFloorOutlineInformationModule;
 
     // TODO
     themes: any;
     routes: any;
-    indoorMapEntities: any;
     heatmaps: any;
 }
 
@@ -396,16 +396,14 @@ declare namespace indoors {
 
     class IndoorMapFloor {
         /**
-         * Returns the short name of the floor.
-         *
          * Note: this is for compatibility with the existing API – the short name was exposed as id. The actual id property in the submission json is not accessible through this API.
          *
-         * @deprecated use {@link IndoorMapFloor#getFloorShortName} instead.
-         * @returns {string}
+         * @deprecated use {@link IndoorMapFloor.getFloorShortName} instead.
+         * @returns the short name of the floor.
          */
         getFloorId(): string;
         /**
-         * @returns {number} the z_order of the floor, as defined in the json submission.
+         * @returns the z_order of the floor, as defined in the json submission.
         */
         getFloorZOrder(): number;
         getFloorIndex(): number;
@@ -507,11 +505,47 @@ declare class BuildingsModule {
     off(type: "buildinginformationreceived", fn: BuildingInformationReceivedEventHandler): void;
 }
 
-/* Wrld.indoorMapEntities - TODO */
+/* Wrld.indoorMapEntities */
 
-//declare namespace indoorMapEntities {}
-declare const indoorMapEntities: any;
+declare namespace indoorMapEntities {
 
+    class IndoorMapEntity {
+        constructor(indoorMapEntityId: string, indoorMapFloorId: IndoorMapFloorId, position: L.LantLng, outline: L.LatLngTuple[][]);
+        getIndoorMapEntityId(): string;
+        getIndoorMapFloorId(): IndoorMapFloorId;
+        getPosition(): L.LatLng;
+        getOutline(): L.LatLngTuple[][];
+    }
+
+    class IndoorMapEntityInformation {
+        constructor(indoorMapId: IndoorMapId);
+        getIndoorMapEntityId(): string;
+        getIndoorMapEntities(): IndoorMapEntity[];
+        getLoadState(): "None" | "Partial" | "Complete";
+        /**
+         * @returns the auto-incrementing unique id of this IndoorMapEntityInformation object.
+         */
+        getId(): number;
+        /**
+         * @deprecated use {@link IndoorMapEntityInformation.getId}
+         * @returns the auto-incrementing unique id of this IndoorMapEntityInformation object.
+         */
+        getNativeId(): number;
+        addTo(map: Map): this;
+        remove(): this;
+    }
+    
+    function indoorMapEntityInformation(indoorMapId: IndoorMapId): IndoorMapEntityInformation;
+
+}
+
+type IndoorMapEntityInformationChangedEventHandler = (indoorMapEntityInformation: indoorMapEntities.IndoorMapEntityInformation) => void;
+
+declare class IndoorMapEntitiesModule {
+    on(type: "indoormapentityinformationchanged", fn: IndoorMapEntityInformationChangedEventHandler): void;
+    once(type: "indoormapentityinformationchanged", fn: IndoorMapEntityInformationChangedEventHandler): void;
+    off(type: "indoormapentityinformationchanged", fn: IndoorMapEntityInformationChangedEventHandler): void;
+}
 
 /* Wrld.indoorMapFloorOutlines */
 
@@ -539,7 +573,6 @@ declare namespace indoorMapFloorOutlines {
         getLatLngPoints(): L.LatLng[];
     }
 }
-
 
 type IndoorMapFloorOutlineInformationLoadedEventHandler = (indoorMapFloorOutlineInformation: indoorMapFloorOutlines.IndoorMapFloorOutlineInformation) => void;
 
