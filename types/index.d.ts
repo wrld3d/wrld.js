@@ -519,20 +519,20 @@ declare namespace indoorMapEntities {
 
     class IndoorMapEntityInformation {
         constructor(indoorMapId: IndoorMapId);
-        getIndoorMapEntityId(): string;
-        getIndoorMapEntities(): IndoorMapEntity[];
-        getLoadState(): "None" | "Partial" | "Complete";
         /**
          * @returns the auto-incrementing unique id of this IndoorMapEntityInformation object.
          */
         getId(): number;
+        getIndoorMapId(): IndoorMapId;
+        getIndoorMapEntities(): IndoorMapEntity[];
+        getLoadState(): "None" | "Partial" | "Complete";
+        addTo(map: Map): this;
+        remove(): this;
         /**
          * @deprecated use {@link IndoorMapEntityInformation.getId}
          * @returns the auto-incrementing unique id of this IndoorMapEntityInformation object.
          */
         getNativeId(): number;
-        addTo(map: Map): this;
-        remove(): this;
     }
     
     function indoorMapEntityInformation(indoorMapId: IndoorMapId): IndoorMapEntityInformation;
