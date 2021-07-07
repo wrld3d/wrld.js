@@ -24,6 +24,19 @@ var IndoorMapEntityInformation = function(indoorMapId) {
         return _loadState;
     };
 
+    /**
+     * Returns the auto-incrementing unique id of this IndoorMapEntityInformation object.
+     * @returns {number}
+     */
+    this.getId = function() {
+        return _nativeId;
+    };
+
+    /**
+     * Returns the auto-incrementing unique id of this IndoorMapEntityInformation object.
+     * @deprecated use {@link IndoorMapEntityInformation.getId}
+     * @returns {number}
+     */
     this.getNativeId = function() {
         return _nativeId;
     };
