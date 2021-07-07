@@ -574,7 +574,7 @@ declare namespace indoorMapFloorOutlines {
     }
 }
 
-type IndoorMapFloorOutlineInformationLoadedEventHandler = (indoorMapFloorOutlineInformation: indoorMapFloorOutlines.IndoorMapFloorOutlineInformation) => void;
+type IndoorMapFloorOutlineInformationLoadedEventHandler = (event: { indoorMapFloorOutlineInformation: indoorMapFloorOutlines.IndoorMapFloorOutlineInformation }) => void;
 
 interface IndoorMapFloorOutlineInformationModule {
     on(type: "indoormapflooroutlineinformationloaded", fn: IndoorMapFloorOutlineInformationLoadedEventHandler): void;
