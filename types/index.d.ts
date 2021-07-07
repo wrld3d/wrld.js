@@ -28,7 +28,7 @@ type Color = string | Vector3 | Vector4 | {
 
 interface Event {
     type: string;
-    target: unknown;
+    target: any;
 }
 
 /* Wrld.Map */
@@ -104,10 +104,10 @@ interface Map extends L.Map {
     indoorMapFloorOutlines: IndoorMapFloorOutlineInformationModule;
 
     // TODO
-    themes: unknown;
-    routes: unknown;
-    indoorMapEntities: unknown;
-    heatmaps: unknown;
+    themes: any;
+    routes: any;
+    indoorMapEntities: any;
+    heatmaps: any;
 }
 
 /* L.Marker */
@@ -510,7 +510,7 @@ declare class BuildingsModule {
 /* Wrld.indoorMapEntities - TODO */
 
 //declare namespace indoorMapEntities {}
-declare const indoorMapEntities: unknown;
+declare const indoorMapEntities: any;
 
 
 /* Wrld.indoorMapFloorOutlines */
