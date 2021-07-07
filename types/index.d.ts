@@ -539,7 +539,7 @@ declare namespace indoorMapEntities {
 
 }
 
-type IndoorMapEntityInformationChangedEventHandler = (indoorMapEntityInformation: indoorMapEntities.IndoorMapEntityInformation) => void;
+type IndoorMapEntityInformationChangedEventHandler = (event: { indoorMapEntityInformation: indoorMapEntities.IndoorMapEntityInformation }) => void;
 
 interface IndoorMapEntitiesModule {
     on(type: "indoormapentityinformationchanged", fn: IndoorMapEntityInformationChangedEventHandler): void;
