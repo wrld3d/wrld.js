@@ -175,6 +175,7 @@ type PolylineOptions = {
     indoorMapFloorId?: IndoorMapFloorId;
     weight?: number;
     miterLimit?: number;
+    displayOption?: "currentIndoorMap" | "currentFloor";
 };
 
 declare class Polyline extends L.Polyline {
