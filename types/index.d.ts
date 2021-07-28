@@ -377,6 +377,11 @@ declare namespace indoors {
         tryGetFloorReadableName(indoorMapId: IndoorMapId, indoorMapFloorId: IndoorMapFloorId): string | null;
         tryGetFloorShortName(indoorMapId: IndoorMapId, indoorMapFloorId: IndoorMapFloorId): string | null;
         setBackgroundColor(color: string): void;
+        hideLabelsForEntity(entityName: string): this;
+        hideLabelsForEntities(entityNames: string[]): this;
+        showLabelsForEntity(entityName: string): this;
+        showLabelsForEntities(entityNames: string[]): this;
+        showAllLabels(): this;
         on(event: "indoormapenter" | "indoormapexit", handler: IndoorMapEventHandler): this;
         on(event: "indoormapenter" | "indoormapexit", handler: IndoorMapEventHandler): this;
         on(event: "indoormapfloorchange", handler: IndoorMapFloorEventHandler): this;
