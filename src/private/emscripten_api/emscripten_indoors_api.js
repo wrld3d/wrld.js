@@ -28,6 +28,9 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, emscriptenModule, ems
     var _indoorsApi_TryGetFloorShortNameBufferSize = cwrap("indoorsApi_TryGetFloorShortNameBufferSize", "number", ["number", "string", "number", "number", "number"]);
     var _indoorsApi_TryGetFloorShortName = cwrap("indoorsApi_TryGetFloorShortName", "number", ["number", "string", "number", "number", "number", "number"]);
     var _indoorsApi_SetBackgroundColor = cwrap("indoorsApi_SetBackgroundColor", null, ["number", "number"]);
+    var _indoorsApi_HideLabelsForEntities = cwrap("indoorsApi_HideLabelsForEntities", null, ["number", "number", "number"]);
+    var _indoorsApi_ShowLabelsForEntities = cwrap("indoorsApi_ShowLabelsForEntities", null, ["number", "number", "number"]);
+    var _indoorsApi_ShowAllLabels = cwrap("indoorsApi_ShowAllLabels", null, ["number"]);
 
     var _onIndoorMapEntered = null;
     var _onIndoorMapEnterFailed = null;
@@ -275,6 +278,22 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, emscriptenModule, ems
     this.setBackgroundColor = function(color) {
         var colorRGBA32 = interopUtils.colorToRgba32(color);
         _indoorsApi_SetBackgroundColor(_emscriptenApiPointer, colorRGBA32);
+    };
+
+    this.hideLabelsForEntities = function(entityNames) {
+        _emscriptenMemory.passStrings(entityNames, function(resultStrings, stringArraySize){
+            _indoorsApi_HideLabelsForEntities(_emscriptenApiPointer, resultStrings, stringArraySize);
+        });
+    };
+
+    this.showLabelsForEntities = function(entityNames) {
+        _emscriptenMemory.passStrings(entityNames, function(resultStrings, stringArraySize){
+            _indoorsApi_ShowLabelsForEntities(_emscriptenApiPointer, resultStrings, stringArraySize);
+        });
+    };
+
+    this.showAllLabels = function() {
+        _indoorsApi_ShowAllLabels(_emscriptenApiPointer);
     };
 }
 
