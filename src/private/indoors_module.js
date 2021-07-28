@@ -450,6 +450,38 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
         _emscriptenApi.indoorsApi.setBackgroundColor(color);
     };
 
+    this.hideLabelsForEntity = function(entityName) {
+        return this.hideLabelsForEntities([entityName]);
+    };
+
+    this.hideLabelsForEntities = function(entityNames) {
+        if (_emscriptenApi.ready()) {
+            _emscriptenApi.indoorsApi.hideLabelsForEntities(entityNames);
+        }
+
+        return this;
+    };
+    
+    this.showLabelsForEntity = function(entityName) {
+        return this.showLabelsForEntities([entityName]);
+    };
+
+    this.showLabelsForEntities = function(entityNames) {
+        if (_emscriptenApi.ready()) {
+            _emscriptenApi.indoorsApi.showLabelsForEntities(entityNames);
+        }
+
+        return this;
+    };
+
+    this.showAllLabels = function() {
+        if (_emscriptenApi.ready()) {
+            _emscriptenApi.indoorsApi.showAllLabels();
+        }
+
+        return this;
+    };
+
 };
 
 var IndoorsPrototype = L.extend({}, MapModule, L.Mixin.Events);
