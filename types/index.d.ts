@@ -34,7 +34,7 @@ declare module "wrld.js" {
     ElevationMode,
     Vector3,
     Vector4,
-  }
+  };
 
   export {
     Map,
@@ -58,5 +58,5 @@ declare module "wrld.js" {
     buildings,
     indoorMapEntities,
     indoorMapFloorOutlines,
-  }
+  };
 }
