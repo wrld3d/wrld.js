@@ -1,20 +1,20 @@
-import Wrld from "../../../../types";
+import indoors from "../../../../types/indoors";
 
 import IndoorMap from "../../../public/indoors/indoor_map";
 import IndoorMapFloor from "../../../public/indoors/indoor_map_floor";
 
 describe("IndoorMap class", () => {
-  let entrance: Wrld.indoors.IndoorMap;
+  let entrance: indoors.IndoorMap;
   const indoorMapId = "testId";
   const indoorMapName = "testName";
   const indoorMapSourceVendor = "testSourceVendor";
   // Floor creation logic is buried in the indoors module and can't make use of it here
   const floorCount = 2;
-  const floors: Wrld.indoors.IndoorMapFloor[] = [];
+  const floors: indoors.IndoorMapFloor[] = [];
   for (let i = 0; i < floorCount; ++i) {
     floors.push(new IndoorMapFloor(i, i, `Floor ${i}`, i.toString()));
   }
-  const searchTags: Wrld.indoors.SearchTag[] = [
+  const searchTags: indoors.SearchTag[] = [
     {
       name: "name",
       search_tag: "search_tag",

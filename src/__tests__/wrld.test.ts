@@ -1,4 +1,4 @@
-import { MapOptions } from "../../types";
+import Map from "../../types/map";
 
 import Wrld from "../wrld";
 
@@ -6,7 +6,7 @@ describe("Wrld.map", () => {
   const elementId = "map";
   let element: HTMLElement | null;
   const apiKey = "testApiKey";
-  let options: MapOptions;
+  let options: Map.Options;
 
   beforeEach(() => {
     element = null;

@@ -1,10 +1,10 @@
-import Wrld from "../../../../types";
+import indoors from "../../../../types/indoors";
 import "wrld.js";
 
 import IndoorMapEntrance from "../../../public/indoors/indoor_map_entrance";
 
 describe("IndoorMapEntrance class", () => {
-  let entrance: Wrld.indoors.IndoorMapEntrance;
+  let entrance: indoors.IndoorMapEntrance;
   const mapId = "testId";
   const mapName = "testName";
   const lat = 56.459233;

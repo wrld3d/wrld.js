@@ -1,10 +1,10 @@
-import Wrld from "../../../../types";
+import indoorMapFloorOutlines from "../../../../types/indoorMapFloorOutlines";
 import "wrld.js";
 
 import IndoorMapFloorOutlinePolygonRing from "../../../public/indoorMapFloorOutlines/indoor_map_floor_outline_polygon_ring";
 
 describe("IndoorMapFloorOutlinePolygonRing class", () => {
-  let indoorMapFloorOutlinePolygonRing: Wrld.indoorMapFloorOutlines.IndoorMapFloorOutlinePolygonRing;
+  let indoorMapFloorOutlinePolygonRing: indoorMapFloorOutlines.IndoorMapFloorOutlinePolygonRing;
   const latLngPoints = [L.latLng(0, 0)];
 
   beforeEach(() => {

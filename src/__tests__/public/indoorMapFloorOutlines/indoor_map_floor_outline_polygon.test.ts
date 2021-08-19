@@ -1,4 +1,4 @@
-import Wrld from "../../../../types";
+import indoorMapFloorOutlines from "../../../../types/indoorMapFloorOutlines";
 import "wrld.js";
 
 import IndoorMapFloorOutlinePolygon from "../../../public/indoorMapFloorOutlines/indoor_map_floor_outline_polygon";
@@ -6,7 +6,7 @@ import IndoorMapFloorOutlinePolygon from "../../../public/indoorMapFloorOutlines
 import { createMockIndoorMapFloorOutlinePolygonRing } from "../../__mocks__/mockIndoorMapFloorOutlines";
 
 describe("IndoorMapFloorOutlinePolygon class", () => {
-  let indoorMapFloorOutlinePolygon: Wrld.indoorMapFloorOutlines.IndoorMapFloorOutlinePolygon;
+  let indoorMapFloorOutlinePolygon: indoorMapFloorOutlines.IndoorMapFloorOutlinePolygon;
   const outerRing = createMockIndoorMapFloorOutlinePolygonRing();
   const innerRings = createMockIndoorMapFloorOutlinePolygonRing();
 

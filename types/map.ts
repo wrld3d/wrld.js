@@ -6,6 +6,9 @@ import type buildings from "./buildings";
 import type indoorMapEntities from "./indoorMapEntities";
 import type indoorMapFloorOutlines from "./indoorMapFloorOutlines";
 import type { Color } from "./color";
+import type themes from "./themes";
+import type routes from "./routes";
+import type Heatmap from "./heatmap";
 
 declare namespace Map {
   type MapId = string;
@@ -81,11 +84,9 @@ interface Map extends L.Map {
   buildings: buildings.Buildings;
   indoorMapEntities: indoorMapEntities.IndoorMapEntities;
   indoorMapFloorOutlines: indoorMapFloorOutlines.IndoorMapFloorOutlines;
-
-  // TODO
-  themes: any;
-  routes: any;
-  heatmaps: any;
+  themes: themes.Themes;
+  routes: routes.Routes;
+  heatmaps: Heatmap.Heatmaps;
 }
 
 export default Map;

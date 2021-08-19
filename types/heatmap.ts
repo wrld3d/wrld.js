@@ -51,6 +51,11 @@ declare namespace Heatmap {
     textureBorderPercent?: number;
     useApproximation?: boolean;
   };
+
+  type Heatmaps = {
+    addHeatmap: (heatmap: Heatmap) => void;
+    removeHeatmap: (heatmap: Heatmap) => void;
+  }
 }
 
 declare class Heatmap extends L.Layer {

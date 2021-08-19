@@ -1,4 +1,4 @@
-import Wrld from "../../../../types";
+import indoorMapFloorOutlines from "../../../../types/indoorMapFloorOutlines";
 
 import { IndoorMapFloorOutlineInformation } from "../../../public/indoorMapFloorOutlines/indoor_map_floor_outline_information";
 
@@ -6,7 +6,7 @@ import { createMockMap } from "../../__mocks__/mockMap";
 import { createMockIndoorMapFloorOutlinePolygon } from "../../__mocks__/mockIndoorMapFloorOutlines";
 
 describe("IndoorMapFloorOutlineInformation class", () => {
-  let indoorMapFloorOutlineInformation: Wrld.indoorMapFloorOutlines.IndoorMapFloorOutlineInformation;
+  let indoorMapFloorOutlineInformation: indoorMapFloorOutlines.IndoorMapFloorOutlineInformation;
   const indoorMapId = "testId";
   const floorZOrder = 1;
   const outlinePolygons = [createMockIndoorMapFloorOutlinePolygon()];

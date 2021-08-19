@@ -1,6 +1,7 @@
-export interface WrldEvent<T = string> {
-  type: T;
-  target: any;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export interface WrldEvent<TYPE = string, TARGET = any> {
+  type: TYPE;
+  target: TARGET;
 }
 
-export type EventHandler<T extends WrldEvent = WrldEvent<any>> = (e: T) => void
+export type EventHandler<T extends WrldEvent = WrldEvent> = (e: T) => void
