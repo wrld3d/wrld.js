@@ -1,9 +1,9 @@
-import Wrld from "../../../../types";
+import indoors from "../../../../types/indoors";
 
 import IndoorMapFloor from "../../../public/indoors/indoor_map_floor";
 
 describe("IndoorMapFloor class", () => {
-  let floor: Wrld.indoors.IndoorMapFloor;
+  let floor: indoors.IndoorMapFloor;
   const floorZOrder = 1;
   const floorIndex = 0;
   const floorName = "Ground Floor";

@@ -1,4 +1,4 @@
-import { Map } from "../../../types";
+import Map from "../../../types/map";
 
 import Wrld from "../../wrld";
 
