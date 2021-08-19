@@ -6,6 +6,8 @@ import type buildings from "./buildings";
 import type indoorMapEntities from "./indoorMapEntities";
 import type indoorMapFloorOutlines from "./indoorMapFloorOutlines";
 import type { Color } from "./color";
+import type themes from "./themes";
+import type Heatmap from "./heatmap";
 
 declare namespace Map {
   type MapId = string;
@@ -81,11 +83,26 @@ interface Map extends L.Map {
   buildings: buildings.Buildings;
   indoorMapEntities: indoorMapEntities.IndoorMapEntities;
   indoorMapFloorOutlines: indoorMapFloorOutlines.IndoorMapFloorOutlines;
-
-  // TODO
-  themes: any;
-  routes: any;
-  heatmaps: any;
+  themes: {
+    setTheme: (season: themes.season, time: themes.time, weather: themes.weather) => void,
+    setSeason: (season: themes.season) => void,
+    setTime: (time: themes.time) => void,
+    setWeather: (weather: themes.weather) => void,
+    setEnvironmentThemesManifest: (manifest: string) => void,
+  };
+  routes: {
+    getRoutes: (
+      viaPoints: ([number, number] | [number, number, number])[],
+      onLoadHandler: (points: L.LatLng[]) => void,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      onErrorHandler: (error: Record<string, any>) => void,
+      transportModule: "walking" | "driving"
+    ) => void
+  };
+  heatmaps: {
+    addHeatmap: (heatmap: Heatmap) => void;
+    removeHeatmap: (heatmap: Heatmap) => void;
+  };
 }
 
 export default Map;
