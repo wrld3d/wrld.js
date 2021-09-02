@@ -7,6 +7,7 @@ const config: Config.InitialOptions = {
   transform: { "\\.[jt]sx?$": "babel-jest" },
   clearMocks: true,
   collectCoverage: true,
+  collectCoverageFrom: ["./src/**"]
 };
 
 export default config;
