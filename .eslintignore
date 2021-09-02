@@ -3,4 +3,4 @@ example/
 node_modules/
 tests/
 tmp/
-covarage/
+coverage/
