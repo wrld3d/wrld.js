@@ -1,6 +1,5 @@
-import Map from "../../types/map";
-
-import Wrld from "../wrld";
+import type Map from "../../types/map";
+import Wrld from "../wrld.js";
 
 describe("Wrld.map", () => {
   const elementId = "map";

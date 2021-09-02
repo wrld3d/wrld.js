@@ -1,4 +1,4 @@
-import indoorMapFloorOutlines from "../../../public/indoorMapFloorOutlines/indoorMapFloorOutlines";
+import { IndoorMapFloorOutlinePolygon, IndoorMapFloorOutlinePolygonRing, IndoorMapFloorOutlineInformation, indoorMapFloorOutlineInformation } from "../../../public/indoorMapFloorOutlines/indoorMapFloorOutlines";
 
 describe("indoorMapFloorOutlines namespace", () => {
 
@@ -6,7 +6,7 @@ describe("indoorMapFloorOutlines namespace", () => {
 
   describe("indoorMapFloorOutlines.IndoorMapFloorOutlinePolygon", () => {
     it("is a function", () => {
-      expect(typeof indoorMapFloorOutlines.IndoorMapFloorOutlinePolygon).toBe("function");
+      expect(typeof IndoorMapFloorOutlinePolygon).toBe("function");
     });
   });
 
@@ -14,7 +14,7 @@ describe("indoorMapFloorOutlines namespace", () => {
 
   describe("indoorMapFloorOutlines.IndoorMapFloorOutlinePolygonRing", () => {
     it("is a function", () => {
-      expect(typeof indoorMapFloorOutlines.IndoorMapFloorOutlinePolygonRing).toBe("function");
+      expect(typeof IndoorMapFloorOutlinePolygonRing).toBe("function");
     });
   });
 
@@ -22,7 +22,7 @@ describe("indoorMapFloorOutlines namespace", () => {
 
   describe("indoorMapFloorOutlines.IndoorMapFloorOutlineInformation", () => {
     it("is a function", () => {
-      expect(typeof indoorMapFloorOutlines.IndoorMapFloorOutlineInformation).toBe("function");
+      expect(typeof IndoorMapFloorOutlineInformation).toBe("function");
     });
   });
 
@@ -30,7 +30,7 @@ describe("indoorMapFloorOutlines namespace", () => {
 
   describe("indoorMapFloorOutlines.indoorMapFloorOutlineInformation", () => {
     it("is a function", () => {
-      expect(typeof indoorMapFloorOutlines.indoorMapFloorOutlineInformation).toBe("function");
+      expect(typeof indoorMapFloorOutlineInformation).toBe("function");
     });
   });
 });
