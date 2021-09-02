@@ -1,4 +1,4 @@
-var MapModule = require("./map_module");
+import MapModule from "./map_module";
 
 function BlueSphereModule(emscriptenApi) {
 
@@ -83,6 +83,7 @@ function BlueSphereModule(emscriptenApi) {
     };
 
 }
+
 BlueSphereModule.prototype = MapModule;
 
-module.exports = BlueSphereModule;
+export default BlueSphereModule;

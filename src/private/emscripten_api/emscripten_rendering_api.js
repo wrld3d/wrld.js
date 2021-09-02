@@ -1,5 +1,5 @@
-var space = require("../../public/space");
-var interopUtils = require("./emscripten_interop_utils.js");
+import { Vector3 } from "../../public/space";
+import { colorToRgba32 } from "./emscripten_interop_utils.js";
 
 function EmscriptenRenderingApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
 
@@ -20,7 +20,7 @@ function EmscriptenRenderingApi(emscriptenApiPointer, cwrap, emscriptenModule, e
     };
 
     this.setClearColor = function(clearColor) {
-        var clearColorRGBA32 = interopUtils.colorToRgba32(clearColor);
+        var clearColorRGBA32 = colorToRgba32(clearColor);
         _renderingApi_SetClearColor(_emscriptenApiPointer, clearColorRGBA32);
     };
 
@@ -30,7 +30,7 @@ function EmscriptenRenderingApi(emscriptenApiPointer, cwrap, emscriptenModule, e
             _renderingApi_GetCameraRelativePosition(_emscriptenApiPointer, latLng.lat, latLng.lng, latLng.alt || 0.0, arraySize, resultArray);
             renderPosition = _emscriptenMemory.readDoubles(resultArray, arraySize);
         });
-        return new space.Vector3(renderPosition);
+        return new Vector3(renderPosition);
     };
 
     this.getNorthFacingOrientationMatrix = function(latLng) {
@@ -69,23 +69,23 @@ function EmscriptenRenderingApi(emscriptenApiPointer, cwrap, emscriptenModule, e
 
         var lighting = {
             key: {
-                direction: new space.Vector3(lightingData[0], lightingData[1], lightingData[2]),
-                color: new space.Vector3(lightingData[9], lightingData[10], lightingData[11])
+                direction: new Vector3(lightingData[0], lightingData[1], lightingData[2]),
+                color: new Vector3(lightingData[9], lightingData[10], lightingData[11])
             },
             back: {
-                direction: new space.Vector3(lightingData[3], lightingData[4], lightingData[5]),
-                color: new space.Vector3(lightingData[12], lightingData[13], lightingData[14])
+                direction: new Vector3(lightingData[3], lightingData[4], lightingData[5]),
+                color: new Vector3(lightingData[12], lightingData[13], lightingData[14])
             },
             fill: {
-                direction: new space.Vector3(lightingData[6], lightingData[7], lightingData[8]),
-                color: new space.Vector3(lightingData[15], lightingData[16], lightingData[17])
+                direction: new Vector3(lightingData[6], lightingData[7], lightingData[8]),
+                color: new Vector3(lightingData[15], lightingData[16], lightingData[17])
             },
             ambient: {
-                color: new space.Vector3(lightingData[18], lightingData[19], lightingData[20])
+                color: new Vector3(lightingData[18], lightingData[19], lightingData[20])
             }
         };
         return lighting;
     };
 }
 
-module.exports = EmscriptenRenderingApi;
+export default EmscriptenRenderingApi;

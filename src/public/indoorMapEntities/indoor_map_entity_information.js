@@ -1,10 +1,10 @@
-var IndoorMapEntityInformationLoadStateType = {
+const IndoorMapEntityInformationLoadStateType = {
     NONE: "None",
     PARTIAL: "Partial",
     COMPLETE: "Complete"
 };
 
-var IndoorMapEntityInformation = function(indoorMapId) {
+export const IndoorMapEntityInformation = function(indoorMapId) {
     
     var _nativeId = null;
     var _map = null;
@@ -80,11 +80,6 @@ var IndoorMapEntityInformation = function(indoorMapId) {
     };
 };
 
-var indoorMapEntityInformation = function(indoorMapId) {
+export const indoorMapEntityInformation = function(indoorMapId) {
     return new IndoorMapEntityInformation(indoorMapId);
-};
-
-module.exports = {
-    IndoorMapEntityInformation: IndoorMapEntityInformation,
-    indoorMapEntityInformation: indoorMapEntityInformation
 };

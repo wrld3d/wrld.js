@@ -1,7 +1,7 @@
-var L = require("leaflet");
-var space = require("./space");
+import { latLng } from "leaflet";
+import { Vector4 } from "./space";
 
-var Polygon = function(latLngs, config) {
+export const Polygon = function(latLngs, config) {
 	var _map = null;
 	var _outerRing = [];
 	var _holes = [];
@@ -10,7 +10,7 @@ var Polygon = function(latLngs, config) {
 	function loadLatLngs(coords){
     var points = [];
 		coords.forEach(function(coord) {
-			points.push(L.latLng(coord));
+			points.push(latLng(coord));
 		});
     return points;
 	}
@@ -39,7 +39,7 @@ var Polygon = function(latLngs, config) {
     throw new Error("Incorrect array input format.");
   }
 
-	var _color = config["color"] || new space.Vector4(0, 0, 255, 128);
+	var _color = config["color"] || new Vector4(0, 0, 255, 128);
 	var _colorNeedsChanged = true;
 
 
@@ -96,11 +96,6 @@ var Polygon = function(latLngs, config) {
   };
 };
 
-var polygon = function(latlngs, config) {
+export const polygon = function(latlngs, config) {
 	return new Polygon(latlngs, config || {});
-};
-
-module.exports = {
-	Polygon: Polygon,
-	polygon: polygon
 };

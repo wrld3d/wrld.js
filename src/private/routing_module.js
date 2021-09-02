@@ -1,4 +1,4 @@
-var MapModule = require("./map_module");
+import MapModule from "./map_module";
 
 var RoutingModule = function(apiKey, indoorsModule) {
 
@@ -150,4 +150,4 @@ var RoutingModule = function(apiKey, indoorsModule) {
 
 RoutingModule.prototype = MapModule;
 
-module.exports = RoutingModule;
+export default RoutingModule;

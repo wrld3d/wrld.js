@@ -57,4 +57,4 @@ function EmscriptenBlueSphereApi(emscriptenApiPointer, cwrap, emscriptenModule, 
     };
 }
 
-module.exports = EmscriptenBlueSphereApi;
+export default EmscriptenBlueSphereApi;

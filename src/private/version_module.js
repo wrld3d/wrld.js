@@ -1,4 +1,4 @@
-var MapModule = require("./map_module");
+import MapModule from "./map_module";
 
 function VersionModule(emscriptenApi) {
 
@@ -24,6 +24,7 @@ function VersionModule(emscriptenApi) {
     };
 
 }
+
 VersionModule.prototype = MapModule;
 
-module.exports = VersionModule;
+export default VersionModule;

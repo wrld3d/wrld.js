@@ -1,4 +1,4 @@
-var BuildingDimensions = function(
+export const BuildingDimensions = function(
     baseAltitude,
     topAltitude,
     centroid
@@ -28,6 +28,3 @@ var BuildingDimensions = function(
     };
 
 };
-
-module.exports = BuildingDimensions;
-

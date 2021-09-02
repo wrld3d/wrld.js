@@ -1,5 +1,5 @@
-var elevationMode = require("../elevation_mode.js");
-var indoorMapEntitySetProp = require("../../public/entity_set_prop.js");
+import { getElevationModeInt, ElevationModeType } from "../elevation_mode.js";
+import { IndoorMapEntitySetProp } from "../../public/entity_set_prop.js";
 
 function EmscriptenPropsApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
 
@@ -33,7 +33,7 @@ function EmscriptenPropsApi(emscriptenApiPointer, cwrap, emscriptenModule, emscr
 
     this.createProp = function(indoorMapId, floorId, name, latitude, longitude, elevation, elevationModeString, headingDegrees, geometryId) {
         _propsApi_createProp = _propsApi_createProp || cwrap("propsApi_createProp", "number", ["number", "string", "number", "string", "number", "number", "number", "number", "number", "string"]);
-        var elevationModeInt = elevationMode.getElevationModeInt(elevationModeString);
+        var elevationModeInt = getElevationModeInt(elevationModeString);
         var propId = _propsApi_createProp(_emscriptenApiPointer, indoorMapId, floorId, name, latitude, longitude, elevation, elevationModeInt, headingDegrees, geometryId);
         return propId;
     };
@@ -57,7 +57,7 @@ function EmscriptenPropsApi(emscriptenApiPointer, cwrap, emscriptenModule, emscr
         var out_propIdsBuffer = _emscriptenMemory.createInt32Buffer(propCount);
 
         var elevationModeIntArray = [];
-        elevationModeArray.forEach(function(elevationModeString){ elevationModeIntArray.push(elevationMode.getElevationModeInt(elevationModeString)); });
+        elevationModeArray.forEach(function(elevationModeString){ elevationModeIntArray.push(getElevationModeInt(elevationModeString)); });
 
         var floorIdBuffer = _emscriptenMemory.createBufferFromArray(floorIdArray, _emscriptenMemory.createInt32Buffer);
         var latitudeBuffer = _emscriptenMemory.createBufferFromArray(latitudeArray, _emscriptenMemory.createDoubleBuffer);
@@ -127,7 +127,7 @@ function EmscriptenPropsApi(emscriptenApiPointer, cwrap, emscriptenModule, emscr
 
     this.setElevationMode = function(propId, elevationModeString) {
         _propsApi_setElevationMode = _propsApi_setElevationMode || cwrap("propsApi_setElevationMode", null, ["number", "number", "number"]);
-        var elevationModeInt = elevationMode.getElevationModeInt(elevationModeString);
+        var elevationModeInt = getElevationModeInt(elevationModeString);
         _propsApi_setElevationMode(_emscriptenApiPointer, propId, elevationModeInt);
     };
 
@@ -233,7 +233,7 @@ function EmscriptenPropsApi(emscriptenApiPointer, cwrap, emscriptenModule, emscr
             var height = indoorMapPropHeights[i];
             var orientation = indoorMapPropOrientation[i];
 
-            var prop = new indoorMapEntitySetProp.IndoorMapEntitySetProp(indoorMapId, floorId, name, model, position, height, elevationMode.ElevationModeType.HEIGHT_ABOVE_GROUND, orientation);
+            var prop = new IndoorMapEntitySetProp(indoorMapId, floorId, name, model, position, height, ElevationModeType.HEIGHT_ABOVE_GROUND, orientation);
             indoorMapEntityPropList.push(prop);
         }
 
@@ -267,4 +267,4 @@ function EmscriptenPropsApi(emscriptenApiPointer, cwrap, emscriptenModule, emscr
     };
 }
 
-module.exports = EmscriptenPropsApi;
+export default EmscriptenPropsApi;

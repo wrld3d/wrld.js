@@ -1,5 +1,5 @@
-var MapModule = require("./map_module");
-var IdToObjectMap = require("./id_to_object_map");
+import MapModule from "./map_module";
+import IdToObjectMap from "./id_to_object_map";
 
 var PropModule = function(emscriptenApi) {
     var _emscriptenApi = emscriptenApi;
@@ -231,4 +231,5 @@ var PropModule = function(emscriptenApi) {
 var PropPrototype = L.extend({}, MapModule, L.Mixin.Events);
 
 PropModule.prototype = PropPrototype;
-module.exports = PropModule;
+
+export default PropModule;

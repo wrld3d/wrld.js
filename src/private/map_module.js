@@ -1,4 +1,4 @@
-var MapModule = {
+export const MapModule = {
     onUpdate: function(dt) {
 
     },
@@ -16,4 +16,4 @@ var MapModule = {
     }
 };
 
-module.exports = MapModule;
+export default MapModule;

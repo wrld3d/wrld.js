@@ -115,4 +115,4 @@ function EmscriptenCameraApi(emscriptenApiPointer, cwrap, emscriptenModule, emsc
 
 }
 
-module.exports = EmscriptenCameraApi;
+export default EmscriptenCameraApi;

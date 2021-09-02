@@ -1,4 +1,4 @@
-var IndoorMapEntity = function(indoorMapEntityId, indoorMapFloorId, position, outline) {
+export const IndoorMapEntity = function(indoorMapEntityId, indoorMapFloorId, position, outline) {
     var _indoorMapEntityId = indoorMapEntityId;
     var _indoorMapFloorId = indoorMapFloorId;
     var _position = position;
@@ -21,5 +21,3 @@ var IndoorMapEntity = function(indoorMapEntityId, indoorMapFloorId, position, ou
     };
 
 };
-
-module.exports = IndoorMapEntity;

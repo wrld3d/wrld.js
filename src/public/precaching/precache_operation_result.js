@@ -1,4 +1,4 @@
-var PrecacheOperationResult = function(succeeded) {
+export const PrecacheOperationResult = function(succeeded) {
     var _succeeded = succeeded;
 
     this.getSucceeded = function() {
@@ -6,4 +6,4 @@ var PrecacheOperationResult = function(succeeded) {
     };
 };
 
-module.exports = PrecacheOperationResult;
+export default PrecacheOperationResult;

@@ -1,5 +1,5 @@
-var popups = require("../public/popup.js");
-var indoorOptions = require("../private/indoor_map_layer_options.js");
+import { Popup } from "../public/popup.js";
+import { hasIndoorMap, matchesIndoorMap } from "../private/indoor_map_layer_options.js";
 
 var undefinedPoint = L.point(-100, -100);
 var undefinedLatLng = L.latLng(0, 0);
@@ -401,7 +401,7 @@ var EegeoLeafletMap = L.Map.extend({
     openPopup: function(popup, latLng, options) {
         if (!(popup instanceof L.Popup)) {
             var content = popup;
-            popup = new popups.Popup(options)
+            popup = new Popup(options)
                 .setLatLng(latLng)
                 .setContent(content);
         }
@@ -581,7 +581,7 @@ var EegeoLeafletMap = L.Map.extend({
 
     _isVisibleForCurrentMapState: function(layer) {
         var currentMapStateIsOutdoors = !this.indoors.isIndoors();
-        var layerIsOutdoors = !indoorOptions.hasIndoorMap(layer);
+        var layerIsOutdoors = !hasIndoorMap(layer);
 
 		if (layer.options.displayOption === "currentMap")
 			return true;
@@ -596,7 +596,7 @@ var EegeoLeafletMap = L.Map.extend({
             return false;
         }
 
-        return indoorOptions.matchesIndoorMap(
+        return matchesIndoorMap(
             this.indoors.getActiveIndoorMap().getIndoorMapId(),
             this.indoors.getFloor()._getFloorId(),
             this.indoors.getFloor().getFloorIndex(),
@@ -609,4 +609,4 @@ var EegeoLeafletMap = L.Map.extend({
 
 });
 
-module.exports = EegeoLeafletMap;
+export default EegeoLeafletMap;

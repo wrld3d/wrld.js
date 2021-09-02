@@ -1,4 +1,4 @@
-var markers = require("../public/marker");
+import { marker as _marker } from "../public/marker";
 
 var IndoorEntranceMarkerUpdater = function(map, indoorsModule) {
 
@@ -33,7 +33,7 @@ var IndoorEntranceMarkerUpdater = function(map, indoorsModule) {
 	};
 
 	var _createEntranceMarker = function(entrance) {
-		var marker = markers.marker(entrance.getLatLng(), {
+		var marker = _marker(entrance.getLatLng(), {
 			title: entrance.getIndoorMapName(),
 			icon: _entranceIcon
 		});
@@ -66,4 +66,4 @@ var IndoorEntranceMarkerUpdater = function(map, indoorsModule) {
 
 };
 
-module.exports = IndoorEntranceMarkerUpdater;
+export default IndoorEntranceMarkerUpdater;

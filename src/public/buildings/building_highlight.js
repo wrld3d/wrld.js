@@ -1,6 +1,6 @@
-var space = require("../space");
+import { Vector4 } from "../space";
 
-var BuildingHighlight = function(options) {
+export const BuildingHighlight = function(options) {
 
     var _options = options;
     var _id = null;
@@ -9,7 +9,7 @@ var BuildingHighlight = function(options) {
     var _buildingInformation = null;
 
     this.getColor = function() {
-        return new space.Vector4(_color);
+        return new Vector4(_color);
     };
 
     this.getOptions = function() {
@@ -17,7 +17,7 @@ var BuildingHighlight = function(options) {
     };
 
     this.setColor = function(color) {
-        _color = new space.Vector4(color);
+        _color = new Vector4(color);
         if (_map !== null) {
             _map.buildings._getImpl().notifyBuildingHighlightChanged(this);
         }
@@ -58,12 +58,6 @@ var BuildingHighlight = function(options) {
     };
 };
 
-var buildingHighlight = function(options) {
+export const buildingHighlight = function(options) {
     return new BuildingHighlight(options);
 };
-
-module.exports = {
-    BuildingHighlight: BuildingHighlight,
-    buildingHighlight: buildingHighlight
-};
-

@@ -30,4 +30,4 @@ function EmscriptenFrameRateApi(emscriptenApiPointer, cwrap, emscriptenModule, e
 
 }
 
-module.exports = EmscriptenFrameRateApi;
+export default EmscriptenFrameRateApi;

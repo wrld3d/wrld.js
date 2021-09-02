@@ -1,4 +1,4 @@
-var MapMoveEvents = function(leafletMap) {
+const MapMoveEvents = function(leafletMap) {
 
     var _eventType = [
         "move",
@@ -34,4 +34,5 @@ var MapMoveEvents = function(leafletMap) {
         cameraApi.setEventCallback(_onEvent);
     };
 };
-module.exports = MapMoveEvents;
+
+export default MapMoveEvents;

@@ -35,4 +35,4 @@ function EmscriptenPrecacheApi(emscriptenApiPointer, cwrap, emscriptenModule) {
     };
 }
 
-module.exports = EmscriptenPrecacheApi;
+export default EmscriptenPrecacheApi;

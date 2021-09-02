@@ -1,4 +1,4 @@
-var MapModule = require("./map_module");
+import MapModule from "./map_module";
 
 function MapRuntimeModule(emscriptenApi) {
 
@@ -27,6 +27,7 @@ function MapRuntimeModule(emscriptenApi) {
         _ready = true;
     };
 }
+
 MapRuntimeModule.prototype = MapModule;
 
-module.exports = MapRuntimeModule;
+export default MapRuntimeModule;

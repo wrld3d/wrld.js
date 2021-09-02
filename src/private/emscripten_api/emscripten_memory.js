@@ -129,4 +129,4 @@ function EmscriptenMemory(emscriptenModule) {
     };
 }
 
-module.exports = EmscriptenMemory;
+export default EmscriptenMemory;

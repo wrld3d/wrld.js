@@ -1,12 +1,12 @@
-var space = require("../space");
+import { Vector4 } from "../space";
 
-var BuildingHighlightSelectionType = {
+export const BuildingHighlightSelectionType = {
     SELECT_AT_LOCATION: "selectAtLocation",
     SELECT_AT_SCEEN_POINT: "selectAtScreenPoint"
 };
 
 
-var BuildingHighlightOptions = function() {
+export const BuildingHighlightOptions = function() {
 
 
     var _selectionLocationLatLng = L.latLng([0.0, 0.0]);
@@ -50,7 +50,7 @@ var BuildingHighlightOptions = function() {
     };
 
     this.getColor = function() {
-        return new space.Vector4(_color);
+        return new Vector4(_color);
     };
 
     this.getIsInformationOnly = function() {
@@ -59,13 +59,7 @@ var BuildingHighlightOptions = function() {
 
 };
 
-var buildingHighlightOptions = function() {
+export const buildingHighlightOptions = function() {
     return new BuildingHighlightOptions();
-};
-
-module.exports = {
-    BuildingHighlightOptions: BuildingHighlightOptions,
-    buildingHighlightOptions: buildingHighlightOptions,
-    BuildingHighlightSelectionType: BuildingHighlightSelectionType
 };
 

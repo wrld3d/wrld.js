@@ -1,6 +1,6 @@
-var MapModule = require("./map_module");
-var IdToObjectMap = require("./id_to_object_map");
-var PrecacheOperationResult = require("../public/precaching/precache_operation_result");
+import MapModule from "./map_module";
+import IdToObjectMap from "./id_to_object_map";
+import PrecacheOperationResult from "../public/precaching/precache_operation_result";
 
 var PrecacheOperation = function(operation) {
     var _operation = operation;
@@ -147,6 +147,7 @@ var PrecacheModule = function(emscriptenApi) {
     };
 
 };
+
 PrecacheModule.prototype = MapModule;
 
-module.exports = PrecacheModule;
+export default PrecacheModule;

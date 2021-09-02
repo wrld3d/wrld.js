@@ -1,5 +1,5 @@
-var elevationMode = require("../elevation_mode.js");
-var interopUtils = require("./emscripten_interop_utils.js");
+import { ElevationModeType } from "../elevation_mode.js";
+import { colorToVec4 } from "./emscripten_interop_utils.js";
 
 function EmscriptenGeofenceApi(eegeoApiPointer, cwrap, emscriptenModule) {
 
@@ -11,7 +11,7 @@ function EmscriptenGeofenceApi(eegeoApiPointer, cwrap, emscriptenModule) {
     
     this._getElevationIsAboveSeaLevelFromConfig = function(config) {
         var configUsingNewApi = typeof config.elevationMode !== "undefined";
-        return configUsingNewApi ? config.elevationMode.toLowerCase() === elevationMode.ElevationModeType.HEIGHT_ABOVE_SEA_LEVEL.toLowerCase() : 
+        return configUsingNewApi ? config.elevationMode.toLowerCase() === ElevationModeType.HEIGHT_ABOVE_SEA_LEVEL.toLowerCase() : 
             (config.offsetFromSeaLevel || false);
     };
     
@@ -72,9 +72,9 @@ function EmscriptenGeofenceApi(eegeoApiPointer, cwrap, emscriptenModule) {
     };
 
     this.setGeofenceColor = function(polygonId, color) {
-        var colorVec4 = interopUtils.colorToVec4(color);
+        var colorVec4 = colorToVec4(color);
         _setGeofenceColor(_eegeoApiPointer, polygonId, colorVec4.x/255, colorVec4.y/255, colorVec4.z/255, colorVec4.w/255);
     };
 }
 
-module.exports = EmscriptenGeofenceApi;
+export default EmscriptenGeofenceApi;

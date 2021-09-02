@@ -80,4 +80,4 @@ function EmscriptenLayerPointMappingApi(emscriptenApiPointer, cwrap, emscriptenM
     };    
 }
 
-module.exports = EmscriptenLayerPointMappingApi;
+export default EmscriptenLayerPointMappingApi;

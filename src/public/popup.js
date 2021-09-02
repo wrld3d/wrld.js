@@ -1,4 +1,4 @@
-var Popup = L.Popup.extend({
+export const Popup = L.Popup.extend({
     options: {
         elevation: 0,
         closeWhenMovedOffscreen: false
@@ -121,11 +121,6 @@ var Popup = L.Popup.extend({
     }
 });
 
-var popup = function(options, source) {
+export const popup = function(options, source) {
     return new Popup(options, source);
-};
-
-module.exports = {
-    Popup: Popup,
-    popup: popup
 };

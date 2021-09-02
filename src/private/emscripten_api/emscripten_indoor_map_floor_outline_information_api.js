@@ -1,5 +1,5 @@
-var IndoorMapFloorOutlinePolygon = require("../../public/indoorMapFloorOutlines/indoor_map_floor_outline_polygon");
-var IndoorMapFloorOutlinePolygonRing = require("../../public/indoorMapFloorOutlines/indoor_map_floor_outline_polygon_ring");
+import IndoorMapFloorOutlinePolygon from "../../public/indoorMapFloorOutlines/indoor_map_floor_outline_polygon";
+import IndoorMapFloorOutlinePolygonRing from "../../public/indoorMapFloorOutlines/indoor_map_floor_outline_polygon_ring";
 
 function EmscriptenIndoorMapFloorOutlineInformationApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
 
@@ -139,4 +139,4 @@ function EmscriptenIndoorMapFloorOutlineInformationApi(emscriptenApiPointer, cwr
     };
 }
 
-module.exports = EmscriptenIndoorMapFloorOutlineInformationApi;
+export default EmscriptenIndoorMapFloorOutlineInformationApi;

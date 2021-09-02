@@ -27,4 +27,4 @@ function EmscriptenThemesApi(eegeoApiPointer, cwrap, emscriptenModule) {
     };
 }
 
-module.exports = EmscriptenThemesApi;
+export default EmscriptenThemesApi;

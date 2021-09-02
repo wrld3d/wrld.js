@@ -73,4 +73,4 @@ function EmscriptenIndoorEntityApi(emscriptenApiPointer, cwrap, emscriptenModule
     };
 }
 
-module.exports = EmscriptenIndoorEntityApi;
+export default EmscriptenIndoorEntityApi;

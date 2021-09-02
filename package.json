@@ -2,26 +2,39 @@
   "name": "wrld.js",
   "version": "0.0.1",
   "description": "A JavaScript API for beautiful 3D maps",
-  "main": "src/wrld.js",
+  "author": "WRLD",
+  "license": "See license in LICENSE.md",
+  "type": "module",
+
+  "source": "./src/wrld.js",
+  "exports": "./dist/wrld.modern.js",
+  "main": "./dist/wrld.cjs",
+  "module": "./dist/wrld.module.js",
+  "unpkg": "./dist/wrld.js",
+  "types": "types/index.d.ts",
+
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wrld3d/wrld.js.git"
+  },
   "scripts": {
     "clean": "rm -rf dist",
-    "build": "npm run build-min",
-    "build-dist": "npm run clean && mkdir dist && browserify -s WRLD src/wrld.js > dist/wrld.js",
-    "build-min": "npm run build-dist && uglifyjs -c -m < dist/wrld.js > dist/wrld.min.js",
-    "watch": "npm run build-dist && watchify -s WRLD src/wrld.js -o dist/wrld.js -v --debug",
+    "build": "microbundle --generateTypes false --name WRLD",
+    "build-dist": "npm run build",
+    "build-min": "npm run build",
+    "watch": "microbundle watch",
+    "dev": "npm run watch",
     "lint": "eslint . --ext .js,.ts",
     "test": "run-s test:unit test:lint test:build",
     "test:build": "run-s build",
     "test:lint": "run-s lint",
     "test:interop": "sh -c './node_modules/jasmine/bin/jasmine.js JASMINE_CONFIG_PATH=tests/jasmine.json'",
-    "test:unit": "jest"
+    "test:unit": "NODE_OPTIONS=--experimental-vm-modules jest"
   },
-  "author": "WRLD",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/wrld3d/wrld.js.git"
+  "dependencies": {
+    "@types/leaflet": "^1.0.69",
+    "leaflet": "1.0.1"
   },
-  "license": "See license in LICENSE.md",
   "devDependencies": {
     "@types/jest": "^26.0.23",
     "@types/node": "^12.20.15",
@@ -31,16 +44,12 @@
     "eslint": "^6.8.0",
     "jasmine": "~2.5.2",
     "jest": "^27.0.5",
+    "microbundle": "^0.13.3",
     "npm-run-all": "^4.1.5",
     "sinon": "~1.17.6",
     "ts-jest": "^27.0.3",
     "typescript": "^4.0.5",
     "uglify-js": "~2.6.0",
     "watchify": "^4.0.0"
-  },
-  "dependencies": {
-    "@types/leaflet": "^1.0.69",
-    "leaflet": "1.0.1"
-  },
-  "types": "types/index.d.ts"
+  }
 }

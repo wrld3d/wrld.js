@@ -1,13 +1,13 @@
-var ElevationModeType = {
+export const ElevationModeType = {
     HEIGHT_ABOVE_GROUND: "heightAboveGround",
     HEIGHT_ABOVE_SEA_LEVEL: "heightAboveSeaLevel"
 };
 
-function isValidElevationMode(elevationMode) {
+export function isValidElevationMode(elevationMode) {
     return elevationMode === ElevationModeType.HEIGHT_ABOVE_GROUND || elevationMode === ElevationModeType.HEIGHT_ABOVE_SEA_LEVEL;
 }
 
-function getElevationModeInt(elevationModeString) {
+export function getElevationModeInt(elevationModeString) {
     var elevationModes = {
         heightAboveSeaLevel: 0,
         heightAboveGround: 1
@@ -22,10 +22,3 @@ function getElevationModeInt(elevationModeString) {
 
     return elevationModeInt;
 }
-
-module.exports = {
-    ElevationModeType: ElevationModeType,
-    isValidElevationMode: isValidElevationMode,
-    getElevationModeInt: getElevationModeInt
-};
-

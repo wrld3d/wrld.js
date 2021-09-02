@@ -1,6 +1,6 @@
-var elevationMode = require("../elevation_mode.js");
-var heatmap = require("../../public/heatmap.js");
-var interopUtils = require("./emscripten_interop_utils.js");
+import { getElevationModeInt } from "../elevation_mode.js";
+import { HeatmapOcclusionMapFeature } from "../../public/heatmap.js";
+import { colorToRgba32 } from "./emscripten_interop_utils.js";
 
 
 function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
@@ -33,16 +33,16 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, emscriptenModule, ems
         var occludedMapFeaturesInt = 0;
 
         occludedMapFeatures.forEach(function(occlusionFeature) {
-            if (occlusionFeature === heatmap.HeatmapOcclusionMapFeature.GROUND) {
+            if (occlusionFeature === HeatmapOcclusionMapFeature.GROUND) {
                 occludedMapFeaturesInt = occludedMapFeaturesInt | 0x1;
             }
-            else if (occlusionFeature === heatmap.HeatmapOcclusionMapFeature.BUILDINGS) {
+            else if (occlusionFeature === HeatmapOcclusionMapFeature.BUILDINGS) {
                 occludedMapFeaturesInt = occludedMapFeaturesInt | 0x2;
             }
-            else if (occlusionFeature === heatmap.HeatmapOcclusionMapFeature.TREES) {
+            else if (occlusionFeature === HeatmapOcclusionMapFeature.TREES) {
                 occludedMapFeaturesInt = occludedMapFeaturesInt | 0x4;
             }
-            else if (occlusionFeature === heatmap.HeatmapOcclusionMapFeature.TRANSPORT) {
+            else if (occlusionFeature === HeatmapOcclusionMapFeature.TRANSPORT) {
                 occludedMapFeaturesInt = occludedMapFeaturesInt | 0x8;
             }
         });
@@ -90,7 +90,7 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, emscriptenModule, ems
         var indoorMapId = heatmap.getIndoorMapId();
         var indoorMapFloorId = heatmap.getIndoorMapFloorId();
         var elevation = heatmap.getElevation();
-        var elevationModeInt = elevationMode.getElevationModeInt(heatmap.getElevationMode());
+        var elevationModeInt = getElevationModeInt(heatmap.getElevationMode());
 
         // data
         var dataFlat = _buildFlatData(heatmap.getData());
@@ -109,7 +109,7 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, emscriptenModule, ems
         var gradientColors = [];
         heatmap.getColorGradient().forEach(function(gradient) {
             gradientStops.push(gradient.stop);
-            gradientColors.push(interopUtils.colorToRgba32(gradient.color));
+            gradientColors.push(colorToRgba32(gradient.color));
         });
 
         // heatmap_todo investigate supporting ES6 for Float32Array / typed arrays
@@ -195,7 +195,7 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, emscriptenModule, ems
         }
 
         if (changedFlags.elevation) {
-            var elevationModeInt = elevationMode.getElevationModeInt(heatmap.getElevationMode());
+            var elevationModeInt = getElevationModeInt(heatmap.getElevationMode());
             _heatmapApi_setElevation(
                 _emscriptenApiPointer,
                 heatmapId,
@@ -251,7 +251,7 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, emscriptenModule, ems
             var gradientColors = [];
             heatmap.getColorGradient().forEach(function(gradient) {
                 gradientStops.push(gradient.stop);
-                gradientColors.push(interopUtils.colorToRgba32(gradient.color));
+                gradientColors.push(colorToRgba32(gradient.color));
             });
 
             var gradientStopsBuffer = _emscriptenMemory.createBufferFromArray(gradientStops, _emscriptenMemory.createDoubleBuffer);
@@ -338,4 +338,4 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, emscriptenModule, ems
     };
 }
 
-module.exports = EmscriptenHeatmapApi;
+export default EmscriptenHeatmapApi;

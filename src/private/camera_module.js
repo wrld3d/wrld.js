@@ -1,4 +1,4 @@
-var MapModule = require("./map_module");
+import MapModule from "./map_module";
 
 var CameraModule = function(
     emscriptenApi,
@@ -179,4 +179,5 @@ var CameraModule = function(
 };
 
 CameraModule.prototype = MapModule;
-module.exports = CameraModule;
+
+export default CameraModule;

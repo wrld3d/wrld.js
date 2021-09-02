@@ -1,4 +1,4 @@
-var MapModule = require("./map_module");
+import MapModule from "./map_module";
 
 function BuildingsModuleImpl(emscriptenApi) {
 
@@ -158,4 +158,4 @@ var BuildingsModulePrototype = L.extend({}, MapModule, L.Mixin.Events);
 
 BuildingsModule.prototype = BuildingsModulePrototype;
 
-module.exports = BuildingsModule;
+export default BuildingsModule;

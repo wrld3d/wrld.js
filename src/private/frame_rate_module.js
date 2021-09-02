@@ -1,5 +1,4 @@
-var MapModule = require("./map_module");
-
+import MapModule from "./map_module";
 
 function FrameRateModule(
     emscriptenApi,
@@ -68,6 +67,7 @@ function FrameRateModule(
         _emscriptenApi.frameRateApi.cancelThrottle();
     };
 }
+
 FrameRateModule.prototype = MapModule;
 
-module.exports = FrameRateModule;
+export default FrameRateModule;

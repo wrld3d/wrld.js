@@ -1,4 +1,4 @@
-var MapModule = require("./map_module");
+import MapModule from "./map_module";
 
 
 function RenderingModule(emscriptenApi, clearColor) {
@@ -74,6 +74,7 @@ function RenderingModule(emscriptenApi, clearColor) {
     };
 
 }
+
 RenderingModule.prototype = MapModule;
 
-module.exports = RenderingModule;
+export default RenderingModule;

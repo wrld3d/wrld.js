@@ -1,13 +1,13 @@
-var elevationMode = require("../private/elevation_mode.js");
+import { ElevationModeType, isValidElevationMode } from "../private/elevation_mode.js";
 
-var HeatmapOcclusionMapFeature = {
+export const HeatmapOcclusionMapFeature = {
     GROUND: "ground",
     BUILDINGS: "buildings",
     TREES: "trees",
     TRANSPORT: "transport"
 };
 
-var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
+export const Heatmap = (L.Layer ? L.Layer : L.Class).extend({
 
     constants: {
         RESOLUTION_PIXELS_MIN: 64.0,
@@ -18,7 +18,7 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
         dataCoordProperty: "latLng",
         dataWeightProperty: "weight",
         elevation: 0.0,
-        elevationMode: elevationMode.ElevationModeType.HEIGHT_ABOVE_GROUND,
+        elevationMode: ElevationModeType.HEIGHT_ABOVE_GROUND,
         indoorMapId: "",
         indoorMapFloorId: 0,
         polygonPoints: [],
@@ -364,7 +364,7 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
     },
 
     setElevationMode: function (mode) {
-        if (!elevationMode.isValidElevationMode(mode)) {
+        if (!isValidElevationMode(mode)) {
             throw new Error("Heatmap elevationMode must be valid");
         }
         this.options.elevationMode = mode;
@@ -596,12 +596,7 @@ var Heatmap = (L.Layer ? L.Layer : L.Class).extend({
     }
 });
 
-var heatmap = function (pointData, heatmapOptions) {
+export const heatmap = function (pointData, heatmapOptions) {
     return new Heatmap(pointData, heatmapOptions || {});
 };
 
-module.exports = {
-    Heatmap: Heatmap,
-    heatmap: heatmap,
-    HeatmapOcclusionMapFeature: HeatmapOcclusionMapFeature
-};

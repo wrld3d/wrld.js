@@ -1,4 +1,4 @@
-var Vector3 = function(x, y, z) {
+export const Vector3 = function(x, y, z) {
     if (typeof(x) === "number") {
         this.x = x;
         this.y = y;
@@ -15,7 +15,7 @@ var Vector3 = function(x, y, z) {
     };
 };
 
-var Vector4 = function(x, y, z, w) {
+export const Vector4 = function(x, y, z, w) {
     if (typeof(x) === "number") {
         this.x = x;
         this.y = y;
@@ -82,7 +82,7 @@ var _nearestZoomBelow = function(distance) {
     return _altitudeToZoom(distance, function(d, z) { return d >= z; });
 };
 
-var zoomToDistance = function(zoom) {
+export const zoomToDistance = function(zoom) {
     var zoomlevel = zoom;
     if(zoomlevel < 0) {
         zoomlevel =  0;
@@ -97,7 +97,7 @@ var zoomToDistance = function(zoom) {
     return _lerp(_altitudes[nearestZoomBelow], _altitudes[nearestZoomAbove], valueBetweenNearestZoomLevels);
 };
 
-var distanceToZoom = function(distance) {
+export const distanceToZoom = function(distance) {
     var smallestAltitude = _altitudes.length - 1;
     if(distance < _altitudes[smallestAltitude])
     {
@@ -114,12 +114,3 @@ var distanceToZoom = function(distance) {
 
     return (nearestZoomAbove === nearestZoomBelow) ? nearestZoomBelow : _lerp(nearestZoomBelow, nearestZoomAbove, distanceFromZoomLevelBelow / distanceBetweenNearestZoomLevels);
 };
-
-var space = {
-    Vector3: Vector3,
-    Vector4: Vector4,
-    zoomToDistance: zoomToDistance,
-    distanceToZoom: distanceToZoom
-};
-
-module.exports = space;

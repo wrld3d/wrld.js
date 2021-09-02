@@ -1,7 +1,7 @@
-var MapModule = require("./map_module");
-var Themes = require("../public/themes");
+import MapModule from "./map_module";
+import * as Themes from "../public/themes";
 
-var ThemesModule = function(emscriptenApi) {
+export const ThemesModule = function(emscriptenApi) {
 
     var _emscriptenApi = emscriptenApi;
     var _ready = false;
@@ -100,4 +100,4 @@ var ThemesModule = function(emscriptenApi) {
 
 ThemesModule.prototype = MapModule;
 
-module.exports = ThemesModule;
+export default ThemesModule;

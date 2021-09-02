@@ -1,4 +1,4 @@
-var MapModule = require("./map_module");
+import MapModule from "./map_module";
 
 function IndoorMapEntityInformationModuleImpl(emscriptenApi) {
 
@@ -112,4 +112,4 @@ var IndoorMapEntityInformationModulePrototype = L.extend({}, MapModule, L.Mixin.
 
 IndoorMapEntityInformationModule.prototype = IndoorMapEntityInformationModulePrototype;
 
-module.exports = IndoorMapEntityInformationModule;
+export default IndoorMapEntityInformationModule;

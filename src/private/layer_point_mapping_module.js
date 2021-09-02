@@ -1,6 +1,6 @@
-var MapModule = require("./map_module");
-var indoorOptions = require("./indoor_map_layer_options.js");
-var elevationMode = require("./elevation_mode.js");
+import MapModule from "./map_module";
+import { getIndoorMapId, getIndoorMapFloorIndex, getIndoorMapFloorId } from "./indoor_map_layer_options.js";
+import { getElevationModeInt } from "./elevation_mode.js";
 
 var _undefinedPoint = L.point(-100, -100);
 
@@ -52,21 +52,21 @@ var LayerPointMappingModule = function(emscriptenApi) {
 
         var elevation = layer.options.elevation || 0.0;
         
-        var elevationModeInt = elevationMode.getElevationModeInt(layer.options.elevationMode);
+        var elevationModeInt = getElevationModeInt(layer.options.elevationMode);
 
         var api = _emscriptenApi.layerPointMappingApi;
         
         // due to legacy uses where positions were defined using floor index (poi tool, for example)
         // check to see if we're dealing with a floor index, and use that instead. Floor id & index 
         // have different semantics, so they cannot be used interchangeably.
-        var indoorMapId = indoorOptions.getIndoorMapId(layer);
-        var indoorMapFloorIndex = indoorOptions.getIndoorMapFloorIndex(layer);
+        var indoorMapId = getIndoorMapId(layer);
+        var indoorMapFloorIndex = getIndoorMapFloorIndex(layer);
         var indoorMapWithFloorIndex = indoorMapId !== null && indoorMapFloorIndex !== null;
 
         if(indoorMapWithFloorIndex === true) {
             api.createPointMappingWithFloorIndex(id, elevation, elevationModeInt, indoorMapId, indoorMapFloorIndex, latLngsFlatArray);
         } else {
-            var indoorMapFloorId = indoorOptions.getIndoorMapFloorId(layer);
+            var indoorMapFloorId = getIndoorMapFloorId(layer);
             var indoorOptionsValid = indoorMapId !== null && indoorMapFloorId !== null;            
 
             // in the case where _either_ the indoor map id or the floor id is invalid, use neither (defaults to outside)
@@ -228,4 +228,5 @@ var LayerPointMappingModule = function(emscriptenApi) {
 };
 
 LayerPointMappingModule.prototype = MapModule;
-module.exports = LayerPointMappingModule;
+
+export default LayerPointMappingModule;

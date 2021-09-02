@@ -1,4 +1,4 @@
-var interopUtils = require("./emscripten_interop_utils.js");
+import { colorToRgba32 } from "./emscripten_interop_utils.js";
 
 function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
 
@@ -276,7 +276,7 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, emscriptenModule, ems
     };
 
     this.setBackgroundColor = function(color) {
-        var colorRGBA32 = interopUtils.colorToRgba32(color);
+        var colorRGBA32 = colorToRgba32(color);
         _indoorsApi_SetBackgroundColor(_emscriptenApiPointer, colorRGBA32);
     };
 
@@ -297,4 +297,4 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, emscriptenModule, ems
     };
 }
 
-module.exports = EmscriptenIndoorsApi;
+export default EmscriptenIndoorsApi;

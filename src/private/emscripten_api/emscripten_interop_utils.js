@@ -1,4 +1,4 @@
-var space = require("../../public/space");
+import { Vector4 } from "../../public/space";
 
 function vec4ToRgba32(v) {
     var rgba = ((v.x & 0xFF) << 24) + ((v.y & 0xFF) << 16) + ((v.z & 0xFF) << 8) + (v.w & 0xFF);
@@ -6,7 +6,7 @@ function vec4ToRgba32(v) {
 }
 
 function rgba32ToVec4(rgba) {
-    var vec4 = new space.Vector4(
+    var vec4 = new Vector4(
         ((rgba >> 24) & 0xFF),
         ((rgba >> 16) & 0xFF),
         ((rgba >> 8) & 0xFF),
@@ -58,7 +58,7 @@ function colorArrayToVector4(color) {
     if (isNaN(r) || isNaN(g) || isNaN(b) || isNaN(a)) {
         throw new Error("Unable to parse color - value out of range: " + String(color));
     }
-    return new space.Vector4(r, g, b, a);
+    return new Vector4(r, g, b, a);
 }
 
 function colorObjectToVector4(color) {
@@ -102,10 +102,10 @@ function colorObjectToVector4(color) {
     if (isNaN(r) || isNaN(g) || isNaN(b) || isNaN(a)) {
         throw new Error("Unable to parse color - value out of range: " + String(color));
     }
-    return new space.Vector4(r, g, b, a);
+    return new Vector4(r, g, b, a);
 }
 
-function colorToRgba32(color) {
+export function colorToRgba32(color) {
     if (typeof(color) === "string") {
         return hexToRgba32(color);
     }
@@ -119,11 +119,6 @@ function colorToRgba32(color) {
     throw new Error("Unable to parse color: " + String(color));
 }
 
-function colorToVec4(color) {
+export function colorToVec4(color) {
     return rgba32ToVec4(colorToRgba32(color));
 }
-
-module.exports = {
-    colorToRgba32: colorToRgba32,
-    colorToVec4: colorToVec4
-};

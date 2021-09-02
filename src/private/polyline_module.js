@@ -1,4 +1,4 @@
-var MapModule = require("./map_module");
+import MapModule from "./map_module";
 
 function PolylineModule(emscriptenApi) {
 
@@ -67,6 +67,7 @@ function PolylineModule(emscriptenApi) {
         _createPendingPolylines();
     };
 }
+
 PolylineModule.prototype = MapModule;
 
-module.exports = PolylineModule;
+export default PolylineModule;

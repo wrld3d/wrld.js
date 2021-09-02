@@ -1,4 +1,4 @@
-var IndoorMapFloorOutlineInformation = function(indoorMapId, indoorMapFloorId) {
+export const IndoorMapFloorOutlineInformation = function(indoorMapId, indoorMapFloorId) {
 
   var _nativeId = null;
   var _map = null;
@@ -54,11 +54,6 @@ var IndoorMapFloorOutlineInformation = function(indoorMapId, indoorMapFloorId) {
   };
 };
 
-var indoorMapFloorOutlineInformation = function(indoorMapId, indoorMapFloorId) {
+export const indoorMapFloorOutlineInformation = function(indoorMapId, indoorMapFloorId) {
   return new IndoorMapFloorOutlineInformation(indoorMapId, indoorMapFloorId);
-};
-
-module.exports = {
-  IndoorMapFloorOutlineInformation: IndoorMapFloorOutlineInformation,
-  indoorMapFloorOutlineInformation: indoorMapFloorOutlineInformation
 };

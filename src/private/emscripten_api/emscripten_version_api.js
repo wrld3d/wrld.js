@@ -41,4 +41,4 @@ function EmscriptenVersionApi(emscriptenApiPointer, cwrap, emscriptenMemory) {
     };
 }
 
-module.exports = EmscriptenVersionApi;
+export default EmscriptenVersionApi;

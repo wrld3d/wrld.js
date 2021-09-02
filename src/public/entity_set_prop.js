@@ -1,4 +1,4 @@
-var IndoorMapEntitySetProp = function(
+export const IndoorMapEntitySetProp = function(
         indoorMapId,
         floorId,
         name,
@@ -51,7 +51,7 @@ var IndoorMapEntitySetProp = function(
     };
 };
 
-var indoorMapEntitySetProp = function(indoorMapId,
+export const indoorMapEntitySetProp = function(indoorMapId,
                                       floorId,
                                       name,
                                       geometryId,
@@ -68,9 +68,4 @@ var indoorMapEntitySetProp = function(indoorMapId,
                                       elevation,
                                       elevationMode,
                                       headingDegrees);
-};
-
-module.exports = {
-    IndoorMapEntitySetProp: IndoorMapEntitySetProp,
-    indoorMapEntitySetProp: indoorMapEntitySetProp
 };

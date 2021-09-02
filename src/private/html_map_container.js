@@ -1,4 +1,4 @@
-var HTMLMapContainer = function(browserDocument, browserWindow, parentElement, canvasId, canvasWidth, canvasHeight, backgroundColor, containerId, mapId) {
+export const HTMLMapContainer = function(browserDocument, browserWindow, parentElement, canvasId, canvasWidth, canvasHeight, backgroundColor, containerId, mapId) {
 
     var _browserWindow = browserWindow;
     var _browserDocument = browserDocument;
@@ -190,4 +190,4 @@ var LoadingSpinner = function(browserWindow, domElement) {
     };
 };
 
-module.exports = HTMLMapContainer;
+export default HTMLMapContainer;

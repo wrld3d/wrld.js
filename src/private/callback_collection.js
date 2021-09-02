@@ -18,4 +18,4 @@ var CallbackCollection = function() {
     };
 };
 
-module.exports = CallbackCollection;
+export default CallbackCollection;

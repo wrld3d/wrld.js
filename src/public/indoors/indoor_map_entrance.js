@@ -1,4 +1,4 @@
-var IndoorMapEntrance = function(indoorMapId, indoorMapName, latLng) {
+export const IndoorMapEntrance = function(indoorMapId, indoorMapName, latLng) {
 
     var _indoorMapId = indoorMapId;
     var _indoorMapName = indoorMapName;
@@ -17,4 +17,4 @@ var IndoorMapEntrance = function(indoorMapId, indoorMapName, latLng) {
     };
 };
 
-module.exports = IndoorMapEntrance;
+export default IndoorMapEntrance;

@@ -1,4 +1,4 @@
-var BuildingInformation = function(
+export const BuildingInformation = function(
     buildingId,
     buildingDimensions,
     buildingContours
@@ -28,6 +28,3 @@ var BuildingInformation = function(
     };
 
 };
-
-module.exports = BuildingInformation;
-

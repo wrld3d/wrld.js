@@ -1,4 +1,4 @@
-var space = require("../../public/space");
+import { Vector3 } from "../../public/space";
 
 function EmscriptenSpacesApi(eegeoApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
 
@@ -24,7 +24,7 @@ function EmscriptenSpacesApi(eegeoApiPointer, cwrap, emscriptenModule, emscripte
             _worldToScreenWrap(_eegeoApiPointer, lat, long, alt, resultArray);
             screenPos = _emscriptenMemory.readDoubles(resultArray, 3);
         });
-        return new space.Vector3(screenPos);
+        return new Vector3(screenPos);
     };
 
     var _screenToLatLng = function(screenX, screenY, raycastFunc) {
@@ -146,8 +146,8 @@ function EmscriptenSpacesApi(eegeoApiPointer, cwrap, emscriptenModule, emscripte
         var resultRayBuffer = _emscriptenMemory.createDoubleBuffer(6);
         _spacesApi_ScreenPointToRay(_eegeoApiPointer, point.x, point.y, resultRayBuffer.ptr);
         var resultArray = _emscriptenMemory.consumeBufferToArray(resultRayBuffer);
-        var rayOrigin = new space.Vector3(resultArray[0], resultArray[1], resultArray[2]);
-        var rayDirection = new space.Vector3(resultArray[3], resultArray[4], resultArray[5]);
+        var rayOrigin = new Vector3(resultArray[0], resultArray[1], resultArray[2]);
+        var rayDirection = new Vector3(resultArray[3], resultArray[4], resultArray[5]);
         return {
             origin: rayOrigin,
             direction: rayDirection
@@ -158,8 +158,8 @@ function EmscriptenSpacesApi(eegeoApiPointer, cwrap, emscriptenModule, emscripte
         var resultRayBuffer = _emscriptenMemory.createDoubleBuffer(6);
         _spacesApi_LatLongToVerticallyDownRay(_eegeoApiPointer, latLng.lat, latLng.lng, resultRayBuffer.ptr);
         var resultArray = _emscriptenMemory.consumeBufferToArray(resultRayBuffer);
-        var rayOrigin = new space.Vector3(resultArray[0], resultArray[1], resultArray[2]);
-        var rayDirection = new space.Vector3(resultArray[3], resultArray[4], resultArray[5]);
+        var rayOrigin = new Vector3(resultArray[0], resultArray[1], resultArray[2]);
+        var rayDirection = new Vector3(resultArray[3], resultArray[4], resultArray[5]);
         return {
             origin: rayOrigin,
             direction: rayDirection
@@ -180,4 +180,4 @@ function EmscriptenSpacesApi(eegeoApiPointer, cwrap, emscriptenModule, emscripte
     };
 }
 
-module.exports = EmscriptenSpacesApi;
+export default EmscriptenSpacesApi;

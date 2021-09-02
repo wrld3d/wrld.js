@@ -64,4 +64,4 @@ function EmscriptenExpandFloorsApi(eegeoApiPointer, cwrap, emscriptenModule) {
     };
 }
 
-module.exports = EmscriptenExpandFloorsApi;
+export default EmscriptenExpandFloorsApi;

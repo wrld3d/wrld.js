@@ -1,4 +1,4 @@
-var IdToObjectMap = function() {
+export const IdToObjectMap = function() {
     var _objects = {};
 
     this.insertObject = function(id, object) {
@@ -33,4 +33,4 @@ var IdToObjectMap = function() {
     };
 };
 
-module.exports = IdToObjectMap;
+export default IdToObjectMap;

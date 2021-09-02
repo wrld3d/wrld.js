@@ -1,4 +1,4 @@
-var IndoorWatermarkController = function(mapId, showWrldWatermark) {
+const IndoorWatermarkController = function(mapId, showWrldWatermark) {
   var _indoorWatermarkElement = null;
   var _elementId = "wrld-indoor-map-watermark" + mapId;
   var _urlRoot = "https://cdn-webgl.wrld3d.com/wrldjs/resources/indoor-vendors/";
@@ -53,4 +53,4 @@ var IndoorWatermarkController = function(mapId, showWrldWatermark) {
   };
 };
 
-module.exports = IndoorWatermarkController;
+export default IndoorWatermarkController;

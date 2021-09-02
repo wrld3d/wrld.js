@@ -1,4 +1,4 @@
-var IndoorMapFloor = function (floorId, floorIndex, floorName, floorShortName) {
+export const IndoorMapFloor = function (floorId, floorIndex, floorName, floorShortName) {
     var _floorId = floorId;
     var _floorIndex = floorIndex;
     var _floorName = floorName;
@@ -47,4 +47,4 @@ var IndoorMapFloor = function (floorId, floorIndex, floorName, floorShortName) {
     };
 };
 
-module.exports = IndoorMapFloor;
+export default IndoorMapFloor;

@@ -1,4 +1,4 @@
-var MapModule = require("./map_module");
+import MapModule from "./map_module";
 
 function HeatmapModule(emscriptenApi) {
 
@@ -67,6 +67,7 @@ function HeatmapModule(emscriptenApi) {
         _createPendingHeatmaps();
     };
 }
+
 HeatmapModule.prototype = MapModule;
 
-module.exports = HeatmapModule;
+export default HeatmapModule;

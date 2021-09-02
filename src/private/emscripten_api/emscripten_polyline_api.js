@@ -1,5 +1,5 @@
-var elevationMode = require("../elevation_mode.js");
-var interopUtils = require("./emscripten_interop_utils.js");
+import { getElevationModeInt } from "../elevation_mode.js";
+import { colorToRgba32 } from "./emscripten_interop_utils.js";
 
 function EmscriptenPolylineApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
     var _emscriptenApiPointer = emscriptenApiPointer;
@@ -36,9 +36,9 @@ function EmscriptenPolylineApi(emscriptenApiPointer, cwrap, emscriptenModule, em
         var indoorMapId = polyline.getIndoorMapId();
         var indoorMapFloorId = polyline.getIndoorMapFloorId();
         var elevation = polyline.getElevation();
-        var elevationModeInt = elevationMode.getElevationModeInt(polyline.getElevationMode());
+        var elevationModeInt = getElevationModeInt(polyline.getElevationMode());
         var width = polyline.getWidth();
-        var colorRGBA32 = interopUtils.colorToRgba32(polyline.getColor());
+        var colorRGBA32 = colorToRgba32(polyline.getColor());
         var miterLimit = polyline.getMiterLimit();
 
         var polylineId = _polylineApi_createPolyline(
@@ -75,8 +75,8 @@ function EmscriptenPolylineApi(emscriptenApiPointer, cwrap, emscriptenModule, em
         polyline._needsNativeUpdate = false;
 
         var indoorMapId = polyline.getIndoorMapId();
-        var elevationModeInt = elevationMode.getElevationModeInt(polyline.getElevationMode());
-        var colorRGBA32 = interopUtils.colorToRgba32(polyline.getColor());
+        var elevationModeInt = getElevationModeInt(polyline.getElevationMode());
+        var colorRGBA32 = colorToRgba32(polyline.getColor());
 
         _polylineApi_setIndoorMap(
             _emscriptenApiPointer,
@@ -103,4 +103,4 @@ function EmscriptenPolylineApi(emscriptenApiPointer, cwrap, emscriptenModule, em
     };
 }
 
-module.exports = EmscriptenPolylineApi;
+export default EmscriptenPolylineApi;

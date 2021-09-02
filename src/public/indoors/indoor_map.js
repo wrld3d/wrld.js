@@ -1,4 +1,4 @@
-var IndoorMap = function(indoorMapId, indoorMapName, indoorMapSourceVendor, floorCount, floors, searchTags, exitFunc) {
+export const IndoorMap = function(indoorMapId, indoorMapName, indoorMapSourceVendor, floorCount, floors, searchTags, exitFunc) {
 
 	var _indoorMapId = indoorMapId;
 	var _indoorMapName = indoorMapName;
@@ -34,4 +34,4 @@ var IndoorMap = function(indoorMapId, indoorMapName, indoorMapSourceVendor, floo
 	};
 };
 
-module.exports = IndoorMap;
+export default IndoorMap;

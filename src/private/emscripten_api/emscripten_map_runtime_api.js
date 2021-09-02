@@ -19,4 +19,4 @@ function EmscriptenMapRuntimeApi(eegeoApiPointer, cwrap, emscriptenModule, emscr
 
 }
 
-module.exports = EmscriptenMapRuntimeApi;
+export default EmscriptenMapRuntimeApi;

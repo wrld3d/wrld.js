@@ -1,4 +1,4 @@
-var buildings = require("../../public/buildings/buildings");
+import { BuildingHighlightSelectionType, BuildingDimensions, BuildingContour, BuildingInformation } from "../../public/buildings/buildings";
 
 function EmscriptenBuildingsApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
 
@@ -24,7 +24,7 @@ function EmscriptenBuildingsApi(emscriptenApiPointer, cwrap, emscriptenModule, e
 
         var shouldCreateView = options.getIsInformationOnly() ? 0 : 1;
 
-        if (options.getSelectionMode() === buildings.BuildingHighlightSelectionType.SELECT_AT_LOCATION) {
+        if (options.getSelectionMode() === BuildingHighlightSelectionType.SELECT_AT_LOCATION) {
             var latLng = options.getSelectionLocation();
             buildingHighlightId = _buildingsApi_CreateHighlightAtLocation(
                 _emscriptenApiPointer,
@@ -114,7 +114,7 @@ function EmscriptenBuildingsApi(emscriptenApiPointer, cwrap, emscriptenModule, e
         var topAltitude = _emscriptenMemory.consumeBufferToArray(topAltitudeBuf);
         var centroid = L.latLng(_emscriptenMemory.consumeBufferToArray(centroidBuf));
 
-        var buildingDimensions = new buildings.BuildingDimensions(baseAltitude, topAltitude, centroid);
+        var buildingDimensions = new BuildingDimensions(baseAltitude, topAltitude, centroid);
 
         var contourPointsLatLngDoubles = _emscriptenMemory.consumeBufferToArray(contourPointsLatLngDoublesBuf);
         var contourPointCounts = _emscriptenMemory.consumeBufferToArray(contourPointCountsBuf);
@@ -131,7 +131,7 @@ function EmscriptenBuildingsApi(emscriptenApiPointer, cwrap, emscriptenModule, e
                 var lng = contourPointsLatLngDoubles[pointBufferIndex++];
                 points.push(L.latLng(lat, lng));
             }
-            var contour = new buildings.BuildingContour(
+            var contour = new BuildingContour(
                 contourBottomAltitudes[contourIndex],
                 contourTopAltitudes[contourIndex],
                 points);
@@ -142,7 +142,7 @@ function EmscriptenBuildingsApi(emscriptenApiPointer, cwrap, emscriptenModule, e
             return null;
         }
 
-        return new buildings.BuildingInformation(buildingId, buildingDimensions, buildingContours);
+        return new BuildingInformation(buildingId, buildingDimensions, buildingContours);
     };
 
     this.findIntersectionWithBuilding = function(ray) {
@@ -167,4 +167,4 @@ function EmscriptenBuildingsApi(emscriptenApiPointer, cwrap, emscriptenModule, e
 
 }
 
-module.exports = EmscriptenBuildingsApi;
+export default EmscriptenBuildingsApi;

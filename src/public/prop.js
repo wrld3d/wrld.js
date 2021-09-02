@@ -1,6 +1,6 @@
-var elevationMode = require("../private/elevation_mode.js");
+import { ElevationModeType, isValidElevationMode } from "../private/elevation_mode.js";
 
-var Prop = function (name, geometryId, location, config) {
+export const Prop = function (name, geometryId, location, config) {
     var _map = null;
     var _name = name;
     var _geometryId = geometryId;
@@ -13,7 +13,7 @@ var Prop = function (name, geometryId, location, config) {
     var _headingDegreesNeedsChanged = false;
     var _elevation = config["elevation"] || 0.0;
     var _elevationNeedsChanged = false;
-    var _elevationMode = config["elevationMode"] || elevationMode.ElevationModeType.HEIGHT_ABOVE_GROUND;
+    var _elevationMode = config["elevationMode"] || ElevationModeType.HEIGHT_ABOVE_GROUND;
     var _elevationModeNeedsChanged = false;
     
     this.getLocation = function() {
@@ -59,7 +59,7 @@ var Prop = function (name, geometryId, location, config) {
     };
 
     this.setElevationMode = function (elevationModeString) {
-        if (elevationMode.isValidElevationMode(elevationModeString)) {
+        if (isValidElevationMode(elevationModeString)) {
             _elevationMode = elevationModeString;
             _elevationModeNeedsChanged = true;
         }
@@ -138,11 +138,6 @@ var Prop = function (name, geometryId, location, config) {
     };
 };
 
-var prop = function(name, geometryId, location, config) {
+export const prop = function(name, geometryId, location, config) {
     return new Prop(name, geometryId, location, config || {});
-};
-
-module.exports = {
-    Prop: Prop,
-    prop: prop
 };

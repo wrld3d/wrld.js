@@ -1,4 +1,4 @@
-var MapModule = require("./map_module");
+import MapModule from "./map_module";
 
 function PolygonsModule(emscriptenApi) {
 
@@ -71,6 +71,7 @@ function PolygonsModule(emscriptenApi) {
         _createPendingPolygons();
     };
 }
+
 PolygonsModule.prototype = MapModule;
 
-module.exports = PolygonsModule;
+export default PolygonsModule;

@@ -1,4 +1,4 @@
-var BuildingContour = function(
+export const BuildingContour = function(
     bottomAltitude,
     topAltitude,
     points
@@ -27,6 +27,3 @@ var BuildingContour = function(
         };
     };
 };
-
-module.exports = BuildingContour;
-

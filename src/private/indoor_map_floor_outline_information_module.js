@@ -1,4 +1,4 @@
-var MapModule = require("./map_module");
+import MapModule from "./map_module";
 
 function IndoorMapFloorOutlineInformationModuleImpl(emscriptenApi) {
 
@@ -114,4 +114,4 @@ var IndoorMapFloorOutlineInformationModulePrototype = L.extend({}, MapModule, L.
 
 IndoorMapFloorOutlineInformationModule.prototype = IndoorMapFloorOutlineInformationModulePrototype;
 
-module.exports = IndoorMapFloorOutlineInformationModule;
+export default IndoorMapFloorOutlineInformationModule;

@@ -1,6 +1,6 @@
-var MapModule = require("./map_module");
-var indoors = require("../public/indoors/indoors");
-var IndoorWatermarkController = require("./indoor_watermark_controller");
+import MapModule from "./map_module";
+import { IndoorMap, IndoorMapFloor, IndoorMapEntrance } from "../public/indoors/indoors";
+import IndoorWatermarkController from "./indoor_watermark_controller";
 
 var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floorIndex, center, headingDegrees, zoom, showWrldWatermark, backgroundColor) {
 
@@ -33,7 +33,7 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
         var floors = _createFloorsArray(floorCount);
         var searchTags = _createSearchTagsArray();
         var exitFunc = _this.exit;
-        var indoorMap = new indoors.IndoorMap(mapId, mapName, sourceVendor, floorCount, floors, searchTags, exitFunc);
+        var indoorMap = new IndoorMap(mapId, mapName, sourceVendor, floorCount, floors, searchTags, exitFunc);
         return indoorMap;
     };
 
@@ -47,7 +47,7 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
 
             var floorId = floorNumber;
 
-            var floor = new indoors.IndoorMapFloor(floorId, floorIndex, floorName, floorShortName);
+            var floor = new IndoorMapFloor(floorId, floorIndex, floorName, floorShortName);
             floors.push(floor);
         }
         return floors;
@@ -99,13 +99,13 @@ var IndoorsModule = function(emscriptenApi, mapController, mapId, indoorId, floo
     var _executeIndoorMapEntranceAddedCallbacks = function(indoorMapId, indoorMapName, indoorMapLatLng) {
         // discard the altitude, as we're going to use the SDK IPointOnMap positioning to snap it to the terrain (this is now default)
         // alternative is to use the altitude, but use "elevationMode: heightAboveSeaLevel" when creating the indoor entrance marker
-        var entrance = new indoors.IndoorMapEntrance(indoorMapId, indoorMapName, L.latLng([indoorMapLatLng.lat, indoorMapLatLng.lng]));
+        var entrance = new IndoorMapEntrance(indoorMapId, indoorMapName, L.latLng([indoorMapLatLng.lat, indoorMapLatLng.lng]));
         _entrances[entrance.getIndoorMapId()] = entrance;
         _this.fire("indoorentranceadd", { entrance: entrance });
     };
 
     var _executeIndoorMapEntranceRemovedCallbacks = function(indoorMapId, indoorMapName, indoorMapLatLng) {
-        var entrance = new indoors.IndoorMapEntrance(indoorMapId, indoorMapName, indoorMapLatLng);
+        var entrance = new IndoorMapEntrance(indoorMapId, indoorMapName, indoorMapLatLng);
         delete _entrances[entrance.getIndoorMapId()];
         _this.fire("indoorentranceremove", { entrance: entrance });
     };
@@ -488,4 +488,4 @@ var IndoorsPrototype = L.extend({}, MapModule, L.Mixin.Events);
 
 IndoorsModule.prototype = IndoorsPrototype;
 
-module.exports = IndoorsModule;
+export default IndoorsModule;
