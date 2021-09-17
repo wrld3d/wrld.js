@@ -1,5 +1,4 @@
-export const IndoorMapFloorOutlineInformation = function(indoorMapId, indoorMapFloorId) {
-
+export function IndoorMapFloorOutlineInformation (indoorMapId, indoorMapFloorId) {
   var _nativeId = null;
   var _map = null;
   var _indoorMapId = indoorMapId;
@@ -7,53 +6,42 @@ export const IndoorMapFloorOutlineInformation = function(indoorMapId, indoorMapF
   var _outlinePolygons = [];
   var _isLoaded = false;
 
-  this.getIndoorMapId = function() {
-      return _indoorMapId;
-  };
+  this.getIndoorMapId = () => _indoorMapId;
 
-  this.getIndoorMapFloorId = function() {
-      return _indoorMapFloorId;
-  };
+  this.getIndoorMapFloorId = () => _indoorMapFloorId;
   
-  this.getIndoorMapFloorOutlinePolygons = function() {
-      return _outlinePolygons;
+  this.getIndoorMapFloorOutlinePolygons = () => _outlinePolygons;
+
+  this.getIsLoaded = () => _isLoaded;
+
+  this.getId = () => _nativeId;
+
+  this.addTo = (map) => {
+    if (_map !== null) {
+        this.remove();
+    }
+    _map = map;
+    _map.indoorMapFloorOutlines._getImpl().addIndoorMapFloorOutlineInformation(this);
+    return this;
   };
 
-  this.getIsLoaded = function() {
-      return _isLoaded;
+  this.remove = () => {
+    if (_map !== null) {
+        _map.indoorMapFloorOutlines._getImpl().removeIndoorMapFloorOutlineInformation(this);
+        _map = null;
+    }
+    return this;
   };
 
-  this.getId = function() {
-      return _nativeId;
+  this._setNativeHandle = (nativeId) => {
+    _nativeId = nativeId;
   };
 
-  this.addTo = function(map) {
-      if (_map !== null) {
-          this.remove();
-      }
-      _map = map;
-      _map.indoorMapFloorOutlines._getImpl().addIndoorMapFloorOutlineInformation(this);
-      return this;
+  this._setData = (data) => {
+    _outlinePolygons = data;
+    _isLoaded = true;
   };
+}
 
-  this.remove = function() {
-      if (_map !== null) {
-          _map.indoorMapFloorOutlines._getImpl().removeIndoorMapFloorOutlineInformation(this);
-          _map = null;
-      }
-      return this;
-  };
-
-  this._setNativeHandle = function(nativeId) {
-      _nativeId = nativeId;
-  };
-
-  this._setData = function(data) {
-      _outlinePolygons = data;
-      _isLoaded = true;
-  };
-};
-
-export const indoorMapFloorOutlineInformation = function(indoorMapId, indoorMapFloorId) {
-  return new IndoorMapFloorOutlineInformation(indoorMapId, indoorMapFloorId);
-};
+export const indoorMapFloorOutlineInformation = (indoorMapId, indoorMapFloorId) =>
+    new IndoorMapFloorOutlineInformation(indoorMapId, indoorMapFloorId);

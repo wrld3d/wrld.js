@@ -101,6 +101,4 @@ export const Polyline = _Polyline.extend({
     }
 });
 
-export const polyline = function(latlngs, polylineOptions) {
-    return new Polyline(latlngs, polylineOptions || {});
-};
+export const polyline = (latlngs, polylineOptions) => new Polyline(latlngs, polylineOptions || {});

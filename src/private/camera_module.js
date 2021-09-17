@@ -1,6 +1,6 @@
 import MapModule from "./map_module";
 
-var CameraModule = function(
+function CameraModule (
     emscriptenApi,
     startLatLng,
     initialZoom,
@@ -176,7 +176,7 @@ var CameraModule = function(
     this.setVerticallyLocked = function(isVerticallyLocked) {
          _setVerticallyLocked(isVerticallyLocked);
     };
-};
+}
 
 CameraModule.prototype = MapModule;
 

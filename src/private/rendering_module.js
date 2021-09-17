@@ -1,24 +1,21 @@
 import MapModule from "./map_module";
 
-
-function RenderingModule(emscriptenApi, clearColor) {
+export function RenderingModule(emscriptenApi, clearColor) {
 
     var _emscriptenApi = emscriptenApi;
     var _isMapCollapsed = false;
     var _clearColor = clearColor;
     var _ready = false;
 
-    this.onInitialized = function() {
+    this.onInitialized = () => {
         _emscriptenApi.renderingApi.setClearColor(_clearColor);
         _emscriptenApi.renderingApi.setMapCollapsed(_isMapCollapsed);
         _ready = true;
     };
 
-    this.ready = function() {
-        return _ready;
-    };
+    this.ready = () => _ready;
 
-    this.setMapCollapsed = function(isMapCollapsed) {
+    this.setMapCollapsed = (isMapCollapsed) => {
         _isMapCollapsed = isMapCollapsed;
         if (!_ready) {
             return;
@@ -26,11 +23,9 @@ function RenderingModule(emscriptenApi, clearColor) {
         _emscriptenApi.renderingApi.setMapCollapsed(_isMapCollapsed);
     };
 
-    this.isMapCollapsed = function(isMapCollapsed) {
-        return _isMapCollapsed;
-    },
+    this.isMapCollapsed = () => _isMapCollapsed,
 
-    this.setClearColor = function(clearColor) {
+    this.setClearColor = (clearColor) => {
         _clearColor = clearColor;
         if (!_ready) {
             return;
@@ -38,41 +33,40 @@ function RenderingModule(emscriptenApi, clearColor) {
         _emscriptenApi.renderingApi.setClearColor(_clearColor);
     };
 
-    this.getCameraRelativePosition = function(latLng) {
+    this.getCameraRelativePosition = (latLng) => {
         if (!_ready) {
             return null;
         }
         return _emscriptenApi.renderingApi.getCameraRelativePosition(latLng);
     };
 
-    this.getNorthFacingOrientationMatrix = function(latLng) {
+    this.getNorthFacingOrientationMatrix = (latLng) => {
         if (!_ready) {
             return null;
         }
         return _emscriptenApi.renderingApi.getNorthFacingOrientationMatrix(latLng);
     };
 
-    this.getCameraProjectionMatrix = function() {
+    this.getCameraProjectionMatrix = () => {
         if (!_ready) {
             return null;
         }
         return _emscriptenApi.renderingApi.getCameraProjectionMatrix();
     };
 
-    this.getCameraOrientationMatrix = function() {
+    this.getCameraOrientationMatrix = () => {
         if (!_ready) {
             return null;
         }
         return _emscriptenApi.renderingApi.getCameraOrientationMatrix();
     };
 
-    this.getLightingData = function() {
+    this.getLightingData = () => {
         if (!_ready) {
             return null;
         }
         return _emscriptenApi.renderingApi.getLightingData();
     };
-
 }
 
 RenderingModule.prototype = MapModule;

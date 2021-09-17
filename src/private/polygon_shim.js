@@ -68,6 +68,4 @@ export const PolygonShim = Polygon.extend({
     }
 });
 
-export const polygonShim = function (latlng, options) {
-	return new PolygonShim(latlng, options);
-};
+export const polygonShim = (latlng, options) => new PolygonShim(latlng, options);

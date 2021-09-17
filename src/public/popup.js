@@ -121,6 +121,4 @@ export const Popup = L.Popup.extend({
     }
 });
 
-export const popup = function(options, source) {
-    return new Popup(options, source);
-};
+export const popup = (options, source) => new Popup(options, source);

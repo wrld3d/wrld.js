@@ -1,6 +1,6 @@
 import { ElevationModeType, isValidElevationMode } from "../private/elevation_mode.js";
 
-export const Prop = function (name, geometryId, location, config) {
+export function Prop (name, geometryId, location, config) {
     var _map = null;
     var _name = name;
     var _geometryId = geometryId;
@@ -16,49 +16,37 @@ export const Prop = function (name, geometryId, location, config) {
     var _elevationMode = config["elevationMode"] || ElevationModeType.HEIGHT_ABOVE_GROUND;
     var _elevationModeNeedsChanged = false;
     
-    this.getLocation = function() {
-        return _location;
-    };
+    this.getLocation = () => _location;
 
-    this.setLocation = function (location) {
+    this.setLocation = (location) => {
         _location = L.latLng(location);
         _locationNeedsChanged = true;
         return this;
     };
 
-    this.getIndoorMapId = function () {
-        return _indoorMapId;
-    };
+    this.getIndoorMapId = () => _indoorMapId;
 
-    this.getIndoorMapFloorId = function () {
-        return _indoorMapFloorId;
-    };
+    this.getIndoorMapFloorId = () => _indoorMapFloorId;
 
-    this.getHeadingDegrees = function () {
-        return _headingDegrees;
-    };
+    this.getHeadingDegrees = () => _headingDegrees;
 
-    this.setHeadingDegrees = function (headingDegrees) {
+    this.setHeadingDegrees = (headingDegrees) => {
         _headingDegrees = headingDegrees;
         _headingDegreesNeedsChanged = true;
         return this;
     };
 
-    this.getElevation = function () {
-        return _elevation;
-    };
+    this.getElevation = () => _elevation;
 
-    this.setElevation = function (elevation) {
+    this.setElevation = (elevation) => {
         _elevation = elevation;
         _elevationNeedsChanged = true;
         return this;
     };
 
-    this.getElevationMode = function () {
-        return _elevationMode;
-    };
+    this.getElevationMode = () => _elevationMode;
 
-    this.setElevationMode = function (elevationModeString) {
+    this.setElevationMode = (elevationModeString) => {
         if (isValidElevationMode(elevationModeString)) {
             _elevationMode = elevationModeString;
             _elevationModeNeedsChanged = true;
@@ -66,61 +54,47 @@ export const Prop = function (name, geometryId, location, config) {
         return this;
     };
 
-    this.getGeometryId = function () {
-        return _geometryId;
-    };
+    this.getGeometryId = () => _geometryId;
 
-    this.setGeometryId = function (geometryId) {
+    this.setGeometryId = (geometryId) => {
         _geometryId = geometryId;
         _geometryIdNeedsChanged = true;
         return this;
     };
 
-    this.getName = function () {
-        return _name;
-    };
+    this.getName = () => _name;
 
-    this._geometryIdNeedsChanged = function () {
-        return _geometryIdNeedsChanged;
-    };
+    this._geometryIdNeedsChanged = () => _geometryIdNeedsChanged;
 
-    this._onGeometryIdChanged = function () {
+    this._onGeometryIdChanged = () => {
         _geometryIdNeedsChanged = false;
     };
 
-    this._elevationNeedsChanged = function () {
-        return _elevationNeedsChanged;
-    };
+    this._elevationNeedsChanged = () => _elevationNeedsChanged;
 
-    this._onElevationChanged = function () {
+    this._onElevationChanged = () => {
         _elevationNeedsChanged = false;
     };
 
-    this._elevationModeNeedsChanged = function () {
-        return _elevationModeNeedsChanged;
-    };
+    this._elevationModeNeedsChanged = () => _elevationModeNeedsChanged;
 
-    this._onElevationModeChanged = function () {
+    this._onElevationModeChanged = () => {
         _elevationModeNeedsChanged = false;
     };
 
-    this._headingDegreesNeedsChanged = function () {
-        return _headingDegreesNeedsChanged;
-    };
+    this._headingDegreesNeedsChanged = () => _headingDegreesNeedsChanged;
 
-    this._onHeadingDegreesChanged = function () {
+    this._onHeadingDegreesChanged = () => {
         _headingDegreesNeedsChanged = false;
     };
 
-    this._locationNeedsChanged = function () {
-        return _locationNeedsChanged;
-    };
+    this._locationNeedsChanged = () => _locationNeedsChanged;
 
-    this._onLocationChanged = function () {
+    this._onLocationChanged = () => {
         _locationNeedsChanged = false;
     };
 
-    this.addTo = function(map) {
+    this.addTo = (map) => {
         if (_map !== null) {
             this.remove();
         }
@@ -129,15 +103,13 @@ export const Prop = function (name, geometryId, location, config) {
         return this;
     };
 	
-    this.remove = function() {
+    this.remove = () => {
         if (_map !== null) {
             _map.props.removeProp(this);
             _map = null;
         }
         return this;
     };
-};
+}
 
-export const prop = function(name, geometryId, location, config) {
-    return new Prop(name, geometryId, location, config || {});
-};
+export const prop = (name, geometryId, location, config) => new Prop(name, geometryId, location, config || {});

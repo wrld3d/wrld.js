@@ -1,6 +1,6 @@
 import { BuildingHighlightSelectionType, BuildingDimensions, BuildingContour, BuildingInformation } from "../../public/buildings/buildings";
 
-function EmscriptenBuildingsApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
+export function EmscriptenBuildingsApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
 
     var _emscriptenApiPointer = emscriptenApiPointer;
     var _emscriptenMemory = emscriptenMemory;
@@ -13,11 +13,11 @@ function EmscriptenBuildingsApi(emscriptenApiPointer, cwrap, emscriptenModule, e
     var _buildingsApi_TryGetBuildingInformation = cwrap("buildingsApi_TryGetBuildingInformation", "number", ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number"]);
     var _buildingsApi_TryFindIntersectionWithBuilding = cwrap("buildingsApi_TryFindIntersectionWithBuilding", "number", ["number", "number", "number"]);
 
-    this.registerBuildingInformationReceivedCallback = function(callback) {
+    this.registerBuildingInformationReceivedCallback = (callback) => {
         _buildingsApi_SetBuildingHighlightChangedCallback(_emscriptenApiPointer, emscriptenModule.addFunction(callback));
     };
 
-    this.createBuildingHighlight = function(buildingHighlight) {
+    this.createBuildingHighlight = (buildingHighlight) => {
         var buildingHighlightId = 0;
         var options = buildingHighlight.getOptions();
         var color = buildingHighlight.getColor();
@@ -30,10 +30,10 @@ function EmscriptenBuildingsApi(emscriptenApiPointer, cwrap, emscriptenModule, e
                 _emscriptenApiPointer,
                 latLng.lat,
                 latLng.lng,
-                color.x/255,
-                color.y/255,
-                color.z/255,
-                color.w/255,
+                color.x / 255,
+                color.y / 255,
+                color.z / 255,
+                color.w / 255,
                 shouldCreateView
             );
         }
@@ -43,10 +43,10 @@ function EmscriptenBuildingsApi(emscriptenApiPointer, cwrap, emscriptenModule, e
                 _emscriptenApiPointer,
                 point.x,
                 point.y,
-                color.x/255,
-                color.y/255,
-                color.z/255,
-                color.w/255,
+                color.x / 255,
+                color.y / 255,
+                color.z / 255,
+                color.w / 255,
                 shouldCreateView
             );
         }
@@ -55,15 +55,15 @@ function EmscriptenBuildingsApi(emscriptenApiPointer, cwrap, emscriptenModule, e
     };
 
 
-    this.destroyBuildingHighlight = function(buildingHighlightId) {
+    this.destroyBuildingHighlight = (buildingHighlightId) => {
         _buildingsApi_DestroyHighlight(_emscriptenApiPointer, buildingHighlightId);
     };
 
-    this.setHighlightColor = function(buildingHighlightId, color) {
-        _buildingsApi_SetHighlightColor(_emscriptenApiPointer, buildingHighlightId, color.x/255, color.y/255, color.z/255, color.w/255);
+    this.setHighlightColor = (buildingHighlightId, color) => {
+        _buildingsApi_SetHighlightColor(_emscriptenApiPointer, buildingHighlightId, color.x / 255, color.y / 255, color.z / 255, color.w / 255);
     };
 
-    this.tryGetBuildingInformation = function(buildingHighlightId) {
+    this.tryGetBuildingInformation = (buildingHighlightId) => {
         var buildingIdSizeBuf = _emscriptenMemory.createInt32Buffer(1);
         var contourPointsSizeBuf = _emscriptenMemory.createInt32Buffer(1);
         var buildingContoursSizeBuf = _emscriptenMemory.createInt32Buffer(1);
@@ -74,8 +74,7 @@ function EmscriptenBuildingsApi(emscriptenApiPointer, cwrap, emscriptenModule, e
         var contourPointsSize = _emscriptenMemory.consumeBufferToArray(contourPointsSizeBuf)[0];
         var buildingContoursSize = _emscriptenMemory.consumeBufferToArray(buildingContoursSizeBuf)[0];
 
-        if (!success)
-        {
+        if (!success) {
             return null;
         }
 
@@ -107,7 +106,7 @@ function EmscriptenBuildingsApi(emscriptenApiPointer, cwrap, emscriptenModule, e
             contourBottomAltitudeBuf.element_count,
             contourTopAltitudeBuf.ptr,
             contourTopAltitudeBuf.element_count
-            );
+        );
 
         var buildingId = _emscriptenMemory.consumeUtf8BufferToString(buildingIdBuf);
         var baseAltitude = _emscriptenMemory.consumeBufferToArray(baseAltitudeBuf);
@@ -145,7 +144,7 @@ function EmscriptenBuildingsApi(emscriptenApiPointer, cwrap, emscriptenModule, e
         return new BuildingInformation(buildingId, buildingDimensions, buildingContours);
     };
 
-    this.findIntersectionWithBuilding = function(ray) {
+    this.findIntersectionWithBuilding = (ray) => {
         var rayElements = [ray.origin.x, ray.origin.y, ray.origin.z, ray.direction.x, ray.direction.y, ray.direction.z];
 
         var rayBuffer = _emscriptenMemory.createBufferFromArray(rayElements, _emscriptenMemory.createDoubleBuffer);
@@ -159,12 +158,10 @@ function EmscriptenBuildingsApi(emscriptenApiPointer, cwrap, emscriptenModule, e
         var resultArray = _emscriptenMemory.consumeBufferToArray(intersectionLatLngAltBuffer);
 
         return {
-            found : didIntersect,
-            point : L.latLng(resultArray)
+            found: didIntersect,
+            point: L.latLng(resultArray)
         };
     };
-
-
 }
 
 export default EmscriptenBuildingsApi;

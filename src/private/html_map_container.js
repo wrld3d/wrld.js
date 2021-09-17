@@ -1,9 +1,9 @@
-export const HTMLMapContainer = function(browserDocument, browserWindow, parentElement, canvasId, canvasWidth, canvasHeight, backgroundColor, containerId, mapId) {
+export function HTMLMapContainer (browserDocument, browserWindow, parentElement, canvasId, canvasWidth, canvasHeight, backgroundColor, containerId, mapId) {
 
     var _browserWindow = browserWindow;
     var _browserDocument = browserDocument;
 
-    var _createDOMElement = function(parentElement, tagName, attributes, style) {
+    var _createDOMElement = (parentElement, tagName, attributes, style) => {
         var element = _browserDocument.createElement(tagName);
         for (var attributeName in attributes) {
             element.setAttribute(attributeName, attributes[attributeName]);
@@ -15,7 +15,7 @@ export const HTMLMapContainer = function(browserDocument, browserWindow, parentE
         return element;
     };
 
-    var _createMapContainer = function(parentElement) {
+    var _createMapContainer = (parentElement) => {
         var attributes = {
             "class": "wrld-map-container",
             "id": containerId
@@ -37,7 +37,7 @@ export const HTMLMapContainer = function(browserDocument, browserWindow, parentE
         css.innerHTML = ".leaflet-dragging .wrld-map-container { cursor: move; cursor: -webkit-grabbing; cursor: -moz-grabbing; }";
         document.head.appendChild(css);
 
-        mapContainer.onmousedown = function(e) {
+        mapContainer.onmousedown = (e) => {
             // Prevent middle-mouse scrolling on Windows
             if (e.button === 1) {
                 return false;
@@ -52,8 +52,8 @@ export const HTMLMapContainer = function(browserDocument, browserWindow, parentE
         return mapContainer;
     };
 
-    var _createLeafletOverlay = function(parentElement) {
-        var attributes = {"class": "wrld-leaflet-overlay"};
+    var _createLeafletOverlay = (parentElement) => {
+        var attributes = { "class": "wrld-leaflet-overlay" };
         var style = {
             "position": "absolute",
             "overflow": "hidden",
@@ -65,8 +65,8 @@ export const HTMLMapContainer = function(browserDocument, browserWindow, parentE
         return _createDOMElement(parentElement, "div", attributes, style);
     };
 
-    var _createErrorMessage = function(parentElement, messageText) {
-        var attributes = {"class": "wrld-error-message"};
+    var _createErrorMessage = (parentElement, messageText) => {
+        var attributes = { "class": "wrld-error-message" };
         var style = {
             "position": "absolute",
             "left": "0px",
@@ -82,7 +82,7 @@ export const HTMLMapContainer = function(browserDocument, browserWindow, parentE
         return errorMessage;
     };
 
-    var _createCanvas = function(parentElement, canvasId, width, height, backgroundColor) {
+    var _createCanvas = (parentElement, canvasId, width, height, backgroundColor) => {
         var attributes = {
             "class": "wrld-map-canvas",
             "id": canvasId,
@@ -98,7 +98,7 @@ export const HTMLMapContainer = function(browserDocument, browserWindow, parentE
         return canvas;
     };
 
-    var _createLoadingSpinner = function(parentElement) {
+    var _createLoadingSpinner = (parentElement) => {
         var style = {
             "position": "absolute",
             "width": "18px",
@@ -109,7 +109,7 @@ export const HTMLMapContainer = function(browserDocument, browserWindow, parentE
         return _createDOMElement(parentElement, "div", {}, style);
     };
 
-    var _createIndoorMapWatermark = function(parentElement) {
+    var _createIndoorMapWatermark = (parentElement) => {
         var attributes = {
             "id": "wrld-indoor-map-watermark" + mapId,
             "class": "wrld-indoor-map-watermark",
@@ -139,38 +139,38 @@ export const HTMLMapContainer = function(browserDocument, browserWindow, parentE
     this.loadingSpinner = new LoadingSpinner(_browserWindow, this.loadingSpinnerIcon);
     this.loadingSpinner.startSpinning();
 
-    this.onInitialized = function() {
+    this.onInitialized = () => {
         this.loadingSpinner.stopSpinning();
         this.loadingSpinnerIcon.parentNode.removeChild(this.loadingSpinnerIcon);
     };
 
-    this.onError = function(message) {
+    this.onError = (message) => {
         this.loadingSpinner.stopSpinning();
         _createErrorMessage(this.mapContainer, message);
     };
 
-    this.width = function() {
+    this.width = () => {
         return this.mapContainer.clientWidth;
     };
 
-    this.height = function() {
+    this.height = () => {
         return this.mapContainer.clientHeight;
     };
 
-    this.onRemove = function() {
+    this.onRemove = () => {
         if (this.mapContainer.parentElement) {
             this.mapContainer.parentElement.removeChild(this.mapContainer);
         }
     };
-};
+}
 
-var LoadingSpinner = function(browserWindow, domElement) {
+function LoadingSpinner (browserWindow, domElement) {
     var _browserWindow = browserWindow;
     var _domElement = domElement;
     var _speed = 360;
     var _spinning = false;
 
-    var spin = function(timestamp) {
+    var spin = (timestamp) => {
         if (!_spinning) {
             return;
         }
@@ -180,14 +180,14 @@ var LoadingSpinner = function(browserWindow, domElement) {
         _browserWindow.requestAnimationFrame(spin);
     };
 
-    this.startSpinning = function() {
+    this.startSpinning = () => {
         _spinning = true;
         spin();
     };
 
-    this.stopSpinning = function() {
+    this.stopSpinning = () => {
         _spinning = false;
     };
-};
+}
 
 export default HTMLMapContainer;

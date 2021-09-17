@@ -1,6 +1,6 @@
 import { marker as _marker } from "../public/marker";
 
-var IndoorEntranceMarkerUpdater = function(map, indoorsModule) {
+export function IndoorEntranceMarkerUpdater (map, indoorsModule) {
 
 	var _map = map;
 	var _indoorsModule = indoorsModule;
@@ -14,7 +14,7 @@ var IndoorEntranceMarkerUpdater = function(map, indoorsModule) {
 	    iconAnchor: [24, 48]
 	});
 
-	var _addEntranceMarker = function(event) {
+	var _addEntranceMarker = (event) => {
 		var entrance = event.entrance;
 		var id = entrance.getIndoorMapId();
 
@@ -23,7 +23,7 @@ var IndoorEntranceMarkerUpdater = function(map, indoorsModule) {
 		_entranceMarkers[id] = marker;
 	};
 
-	var _removeEntranceMarker = function(event) {
+	var _removeEntranceMarker = (event) => {
 		var entrance = event.entrance;
 		var id = entrance.getIndoorMapId();
 
@@ -32,22 +32,22 @@ var IndoorEntranceMarkerUpdater = function(map, indoorsModule) {
 		delete _entranceMarkers[id];
 	};
 
-	var _createEntranceMarker = function(entrance) {
+	var _createEntranceMarker = (entrance) => {
 		var marker = _marker(entrance.getLatLng(), {
 			title: entrance.getIndoorMapName(),
 			icon: _entranceIcon
 		});
-		marker.on("click", function() {
+		marker.on("click", function () {
 			_indoorsModule.enter(entrance);
 		});
 		return marker;
 	};
 
-	var _showEntranceMarkers = function() {
+	var _showEntranceMarkers = () => {
 		_map.addLayer(_layerGroup);
 	};
 
-	var _hideEntranceMarkers = function() {
+	var _hideEntranceMarkers = () => {
 		_map.removeLayer(_layerGroup);
 	};
 
@@ -59,11 +59,11 @@ var IndoorEntranceMarkerUpdater = function(map, indoorsModule) {
 	_indoorsModule.on("indoormapenter", _hideEntranceMarkers);
 	_indoorsModule.on("indoormapexit", _showEntranceMarkers);
 
-	this.removeAllEntranceMarkers = function() {
+	this.removeAllEntranceMarkers = () => {
 		_layerGroup.clearLayers();
 		_entranceMarkers = {};
 	};
 
-};
+}
 
 export default IndoorEntranceMarkerUpdater;

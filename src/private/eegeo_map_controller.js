@@ -23,7 +23,7 @@ import VersionModule from "./version_module";
 import HeatmapModule from "./heatmap_module";
 import FrameRateModule from "./frame_rate_module";
 
-const removeFileExtension = function(fileName, extensionToRemove) {
+const removeFileExtension = (fileName, extensionToRemove) => {
     var extensionPosition = fileName.lastIndexOf(".");
     var extension = fileName.slice(extensionPosition);
     if (extension === extensionToRemove) {
@@ -32,7 +32,7 @@ const removeFileExtension = function(fileName, extensionToRemove) {
     return fileName;
 };
 
-export const EegeoMapController = function (mapId, emscriptenApi, domElement, apiKey, browserWindow, browserDocument, module, options, onMapRemoveCallback) {
+export function EegeoMapController (mapId, emscriptenApi, domElement, apiKey, browserWindow, browserDocument, module, options, onMapRemoveCallback) {
 
     var _defaultOptions = {
         canvasId: "canvas",
@@ -287,6 +287,6 @@ export const EegeoMapController = function (mapId, emscriptenApi, domElement, ap
         });
         _this.leafletMap.onInitialStreamingCompleted();
     };
-};
+}
 
 export default EegeoMapController;

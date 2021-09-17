@@ -3,7 +3,7 @@ import * as elevationMode from "../private/elevation_mode.js";
 import * as popups from "./popup";
 import { setPositionSmooth } from "../private/eegeo_dom_util";
 
-export var Marker = L.Marker.extend({
+export const Marker = L.Marker.extend({
     initialize: function(latlng, options) {
         L.Marker.prototype.initialize.call(this, latlng, options);
 
@@ -186,6 +186,4 @@ export var Marker = L.Marker.extend({
 
 });
 
-export var marker = function(latLng, options) {
-    return new Marker(latLng, options);
-};
+export var marker = (latLng, options) => new Marker(latLng, options);

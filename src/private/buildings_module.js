@@ -1,6 +1,6 @@
 import MapModule from "./map_module";
 
-function BuildingsModuleImpl(emscriptenApi) {
+export function BuildingsModuleImpl(emscriptenApi) {
 
     var _emscriptenApi = emscriptenApi;
     var _nativeIdToBuildingHighlights = {};
@@ -9,19 +9,19 @@ function BuildingsModuleImpl(emscriptenApi) {
     var _ready = false;
     var _notifyBuildingInformationReceivedCallback = null;
 
-    var _createPendingBuildingHighlights = function() {
-        _pendingBuildingHighlights.forEach(function(buildingHighlight) {
-            _createAndAdd(buildingHighlight);
-        });
+    var _createPendingBuildingHighlights = () => {
+        _pendingBuildingHighlights.forEach((buildingHighlight) => {
+                _createAndAdd(buildingHighlight);
+            });
         _pendingBuildingHighlights = [];
     };
 
-    var _createAndAdd = function(buildingHighlight) {
+    var _createAndAdd = (buildingHighlight) => {
         var nativeId = _emscriptenApi.buildingsApi.createBuildingHighlight(buildingHighlight);
         _nativeIdToBuildingHighlights[nativeId] = buildingHighlight;
         buildingHighlight._setNativeHandle(nativeId);
-        
-        if(nativeId in _callbackInvokedBeforeAssignement){
+
+        if (nativeId in _callbackInvokedBeforeAssignement) {
             delete _callbackInvokedBeforeAssignement[nativeId];
             _notifyBuildingInformationReceived(nativeId);
         }
@@ -29,7 +29,7 @@ function BuildingsModuleImpl(emscriptenApi) {
         return nativeId;
     };
 
-    this.addBuildingHighlight = function(buildingHighlight) {
+    this.addBuildingHighlight = (buildingHighlight) => {
         if (_ready) {
             _createAndAdd(buildingHighlight);
         }
@@ -38,7 +38,7 @@ function BuildingsModuleImpl(emscriptenApi) {
         }
     };
 
-    this.removeBuildingHighlight = function(buildingHighlight) {
+    this.removeBuildingHighlight = (buildingHighlight) => {
 
         if (!_ready) {
             var index = _pendingBuildingHighlights.indexOf(buildingHighlight);
@@ -58,7 +58,7 @@ function BuildingsModuleImpl(emscriptenApi) {
         buildingHighlight._setNativeHandle(null);
     };
 
-    this.notifyBuildingHighlightChanged = function(buildingHighlight) {
+    this.notifyBuildingHighlightChanged = (buildingHighlight) => {
         if (_ready) {
             var nativeId = buildingHighlight.getId();
             if (nativeId === undefined) {
@@ -68,14 +68,14 @@ function BuildingsModuleImpl(emscriptenApi) {
         }
     };
 
-    this.findIntersectionWithBuilding = function(ray) {
+    this.findIntersectionWithBuilding = (ray) => {
         if (!_ready) {
             return undefined;
         }
         return _emscriptenApi.buildingsApi.findIntersectionWithBuilding(ray);
     };
 
-    this.findBuildingAtScreenPoint = function(screenPoint) {
+    this.findBuildingAtScreenPoint = (screenPoint) => {
         if (!_ready) {
             return undefined;
         }
@@ -84,7 +84,7 @@ function BuildingsModuleImpl(emscriptenApi) {
         return this.findIntersectionWithBuilding(ray);
     };
 
-    this.findBuildingAtLatLng = function(latLng) {
+    this.findBuildingAtLatLng = (latLng) => {
         if (!_ready) {
             return undefined;
         }
@@ -93,30 +93,28 @@ function BuildingsModuleImpl(emscriptenApi) {
         return this.findIntersectionWithBuilding(ray);
     };
 
-    this.onInitialized = function() {
+    this.onInitialized = () => {
         _ready = true;
         _emscriptenApi.buildingsApi.registerBuildingInformationReceivedCallback(_executeBuildingInformationReceivedCallback);
         _createPendingBuildingHighlights();
     };
 
-    this.isReady = function() {
-        return _ready;
-    };
+    this.isReady = () => _ready;
 
-    this.setBuildingInformationReceivedCallback = function(callback) {
+    this.setBuildingInformationReceivedCallback = (callback) => {
         _notifyBuildingInformationReceivedCallback = callback;
     };
 
-    var _executeBuildingInformationReceivedCallback = function(buildingHighlightId) {
+    var _executeBuildingInformationReceivedCallback = (buildingHighlightId) => {
         if (buildingHighlightId in _nativeIdToBuildingHighlights) {
             _notifyBuildingInformationReceived(buildingHighlightId);
         }
-        else{
+        else {
             _callbackInvokedBeforeAssignement[buildingHighlightId] = true;
         }
     };
 
-    var _notifyBuildingInformationReceived = function(buildingHighlightId) {
+    var _notifyBuildingInformationReceived = (buildingHighlightId) => {
         var buildingHighlight = _nativeIdToBuildingHighlights[buildingHighlightId];
         var buildingInformation = _emscriptenApi.buildingsApi.tryGetBuildingInformation(buildingHighlightId);
         if (buildingInformation !== null) {
@@ -132,26 +130,20 @@ function BuildingsModule(emscriptenApi) {
     var _buildingsModuleImpl = new BuildingsModuleImpl(emscriptenApi);
     var _this = this;
 
-    var _buildingInformationReceivedHandler = function(buildingHighlight) {
-        _this.fire("buildinginformationreceived", {buildingHighlight: buildingHighlight});
+    var _buildingInformationReceivedHandler = (buildingHighlight) => {
+        _this.fire("buildinginformationreceived", { buildingHighlight: buildingHighlight });
     };
 
-    this.findBuildingAtScreenPoint = function(screenPoint) {
-        return _buildingsModuleImpl.findBuildingAtScreenPoint(screenPoint);
-    };
+    this.findBuildingAtScreenPoint = (screenPoint) => _buildingsModuleImpl.findBuildingAtScreenPoint(screenPoint);
 
-    this.findBuildingAtLatLng = function(latLng) {
-        return _buildingsModuleImpl.findBuildingAtLatLng(latLng);
-    };
+    this.findBuildingAtLatLng = (latLng) => _buildingsModuleImpl.findBuildingAtLatLng(latLng);
 
-    this.onInitialized = function() {
+    this.onInitialized = () => {
         _buildingsModuleImpl.setBuildingInformationReceivedCallback(_buildingInformationReceivedHandler);
         _buildingsModuleImpl.onInitialized();
     };
 
-    this._getImpl = function() {
-        return _buildingsModuleImpl;
-    };
+    this._getImpl = () => _buildingsModuleImpl;
 }
 
 var BuildingsModulePrototype = L.extend({}, MapModule, L.Mixin.Events);

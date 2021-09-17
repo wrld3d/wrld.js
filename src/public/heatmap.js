@@ -61,28 +61,28 @@ export const Heatmap = (L.Layer ? L.Layer : L.Class).extend({
         var weightedCoords = [];
         var dataCoordProperty = this.options.dataCoordProperty;
         var dataWeightProperty = this.options.dataWeightProperty;
-        pointData.forEach(function (pointDatum) {
-            var weight = 1.0;
-            var latLng = [];
-            if (dataCoordProperty in pointDatum) {
-                latLng = L.latLng(pointDatum[dataCoordProperty]);
+        pointData.forEach((pointDatum) => {
+                var weight = 1.0;
+                var latLng = [];
+                if (dataCoordProperty in pointDatum) {
+                    latLng = L.latLng(pointDatum[dataCoordProperty]);
 
-                if (dataWeightProperty in pointDatum) {
-                    weight = pointDatum[dataWeightProperty];
+                    if (dataWeightProperty in pointDatum) {
+                        weight = pointDatum[dataWeightProperty];
+                    }
                 }
-            }
-            else {
-                latLng = L.latLng(pointDatum[0], pointDatum[1]);
-                if (pointDatum.length > 2) {
-                    weight = pointDatum[2];
+                else {
+                    latLng = L.latLng(pointDatum[0], pointDatum[1]);
+                    if (pointDatum.length > 2) {
+                        weight = pointDatum[2];
+                    }
                 }
-            }
 
-            weightedCoords.push({
-                latLng: latLng,
-                weight: weight
+                weightedCoords.push({
+                    latLng: latLng,
+                    weight: weight
+                });
             });
-        });
         return weightedCoords;
     },
 
@@ -175,7 +175,7 @@ export const Heatmap = (L.Layer ? L.Layer : L.Class).extend({
             densityStops.push(this._loadDensityParams(densityStopsArray));
         }
         else if (arrayDepth <= 2) {
-            densityStopsArray.forEach(function (densityStopsSet) {
+            densityStopsArray.forEach((densityStopsSet) => {
                 densityStops.push(this._loadDensityParams(densityStopsSet));
             }, this);
         }
@@ -596,7 +596,5 @@ export const Heatmap = (L.Layer ? L.Layer : L.Class).extend({
     }
 });
 
-export const heatmap = function (pointData, heatmapOptions) {
-    return new Heatmap(pointData, heatmapOptions || {});
-};
+export const heatmap = (pointData, heatmapOptions) => new Heatmap(pointData, heatmapOptions || {});
 

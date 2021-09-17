@@ -1,4 +1,4 @@
-function EmscriptenExpandFloorsApi(eegeoApiPointer, cwrap, emscriptenModule) {
+export function EmscriptenExpandFloorsApi(eegeoApiPointer, cwrap, emscriptenModule) {
 
     var _eegeoApiPointer = eegeoApiPointer;
     
@@ -13,52 +13,52 @@ function EmscriptenExpandFloorsApi(eegeoApiPointer, cwrap, emscriptenModule) {
     var _setExpandCallback = null;
     var _setExpandEndCallback = null;
 
-    this.expandIndoorMap = function() {
+    this.expandIndoorMap = () => {
         _expandIndoorMap = _expandIndoorMap || cwrap("expandIndoorMap", "number", ["number"]);
         return _expandIndoorMap(_eegeoApiPointer);
     };
 
-    this.collapseIndoorMap = function() {
+    this.collapseIndoorMap = () => {
         _collapseIndoorMap = _collapseIndoorMap || cwrap("collapseIndoorMap", null, ["number"]);
         return _collapseIndoorMap(_eegeoApiPointer);
     };
 
-    this.getFloorParam = function() {
+    this.getFloorParam = () => {
         _getFloorParam = _getFloorParam || cwrap("getFloorParam", null, ["number"]);
         return _getFloorParam(_eegeoApiPointer);
     };
 
-    this.setFloorParam = function(value) {
+    this.setFloorParam = (value) => {
         _setFloorParam = _setFloorParam || cwrap("setFloorParam", null, ["number", "number"]);
         return _setFloorParam(_eegeoApiPointer, value);
     };
 
-    this.setCollapseStartCallback = function(callback) {
+    this.setCollapseStartCallback = (callback) => {
         _setCollapseStartCallback = _setCollapseStartCallback || cwrap("setCollapseStartCallback", null, ["number", "number"]);
         _setCollapseStartCallback(_eegeoApiPointer, emscriptenModule.addFunction(callback));
     };
 
-    this.setCollapseCallback = function(callback) {
+    this.setCollapseCallback = (callback) => {
         _setCollapseCallback = _setCollapseCallback || cwrap("setCollapseCallback", null, ["number", "number"]);
         _setCollapseCallback(_eegeoApiPointer, emscriptenModule.addFunction(callback));
     };
 
-    this.setCollapseEndCallback = function(callback) {
+    this.setCollapseEndCallback = (callback) => {
         _setCollapseEndCallback = _setCollapseEndCallback || cwrap("setCollapseEndCallback", null, ["number", "number"]);
         _setCollapseEndCallback(_eegeoApiPointer, emscriptenModule.addFunction(callback));
     };
 
-    this.setExpandStartCallback = function(callback) {
+    this.setExpandStartCallback = (callback) => {
         _setExpandStartCallback = _setExpandStartCallback || cwrap("setExpandStartCallback", null, ["number", "number"]);
         _setExpandStartCallback(_eegeoApiPointer, emscriptenModule.addFunction(callback));
     };
 
-    this.setExpandCallback = function(callback) {
+    this.setExpandCallback = (callback) => {
         _setExpandCallback = _setExpandCallback || cwrap("setExpandCallback", null, ["number", "number"]);
         _setExpandCallback(_eegeoApiPointer, emscriptenModule.addFunction(callback));
     };
 
-    this.setExpandEndCallback = function(callback) {
+    this.setExpandEndCallback = (callback) => {
         _setExpandEndCallback = _setExpandEndCallback || cwrap("setExpandEndCallback", null, ["number", "number"]);
         _setExpandEndCallback(_eegeoApiPointer, emscriptenModule.addFunction(callback));
     };

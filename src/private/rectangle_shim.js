@@ -57,6 +57,4 @@ export const RectangleShim = Rectangle.extend({
     }
 });
 
-export const rectangleShim = function (latlng, options) {
-	return new RectangleShim(latlng, options);
-};
+export const rectangleShim = (latlng, options) => new RectangleShim(latlng, options);

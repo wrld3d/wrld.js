@@ -1,6 +1,6 @@
 const tinyRotationString = " rotate(0.0001deg)";
 
-export const setPositionSmooth = function (el, point, disable3D) {
+export const setPositionSmooth = (el, point, disable3D) => {
   L.DomUtil.setPosition(el, point, disable3D);
 
   if (!disable3D && L.Browser.any3d) {

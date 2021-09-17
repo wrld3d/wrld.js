@@ -1,29 +1,17 @@
-export const BuildingContour = function(
-    bottomAltitude,
-    topAltitude,
-    points
-    ) {
-    var _bottomAltitude = bottomAltitude;
-    var _topAltitude = topAltitude;
-    var _points = points;
+export function BuildingContour(bottomAltitude, topAltitude, points) {
+  var _bottomAltitude = bottomAltitude;
+  var _topAltitude = topAltitude;
+  var _points = points;
 
-    this.getBottomAltitude = function() {
-        return _bottomAltitude;
-    };
+  this.getBottomAltitude = () => _bottomAltitude;
 
-    this.getTopAltitude = function() {
-        return _topAltitude;
-    };
+  this.getTopAltitude = () => _topAltitude;
 
-    this.getPoints = function() {
-        return _points;
-    };
+  this.getPoints = () => _points;
 
-    this.toJson = function() {
-        return {
-            bottom_altitude: _bottomAltitude,
-            top_altitude: _topAltitude,
-            points: _points
-        };
-    };
-};
+  this.toJson = () => ({
+    bottom_altitude: _bottomAltitude,
+    top_altitude: _topAltitude,
+    points: _points,
+  });
+}

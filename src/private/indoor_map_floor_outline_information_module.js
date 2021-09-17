@@ -1,7 +1,6 @@
 import MapModule from "./map_module";
 
-function IndoorMapFloorOutlineInformationModuleImpl(emscriptenApi) {
-
+export function IndoorMapFloorOutlineInformationModuleImpl(emscriptenApi) {
     var _emscriptenApi = emscriptenApi;
     var _nativeIdToIndoorMapFloorOutlineInformation = {};
     var _callbackInvokedBeforeAssignement = {};
@@ -9,20 +8,20 @@ function IndoorMapFloorOutlineInformationModuleImpl(emscriptenApi) {
     var _ready = false;
     var _notifyIndoorMapFloorOutlineInformationLoadedCallback = null;
 
-    var _createPendingIndoorMapFloorOutlineInformations = function() {
-        _pendingIndoorMapFloorOutlineInformation.forEach(function(indoorMapFloorOutlineInformation) {
+    var _createPendingIndoorMapFloorOutlineInformations = () => {
+        _pendingIndoorMapFloorOutlineInformation.forEach((indoorMapFloorOutlineInformation) => {
             _createAndAdd(indoorMapFloorOutlineInformation);
         });
 
         _pendingIndoorMapFloorOutlineInformation = [];
     };
 
-    var _createAndAdd = function(indoorMapFloorOutlineInformation) {
+    var _createAndAdd = (indoorMapFloorOutlineInformation) => {
         var nativeId = _emscriptenApi.indoorMapFloorOutlineInformationApi.createIndoorMapFloorOutlineInformation(indoorMapFloorOutlineInformation);
         _nativeIdToIndoorMapFloorOutlineInformation[nativeId] = indoorMapFloorOutlineInformation;
         indoorMapFloorOutlineInformation._setNativeHandle(nativeId);
 
-        if(nativeId in _callbackInvokedBeforeAssignement){
+        if (nativeId in _callbackInvokedBeforeAssignement) {
             delete _callbackInvokedBeforeAssignement[nativeId];
             _fetchIndoorMapFloorOutlineInformation(nativeId);
         }
@@ -30,7 +29,7 @@ function IndoorMapFloorOutlineInformationModuleImpl(emscriptenApi) {
         return nativeId;
     };
 
-    this.addIndoorMapFloorOutlineInformation = function(indoorMapFloorOutlineInformation) {
+    this.addIndoorMapFloorOutlineInformation = (indoorMapFloorOutlineInformation) => {
         if (_ready) {
             _createAndAdd(indoorMapFloorOutlineInformation);
         }
@@ -39,7 +38,7 @@ function IndoorMapFloorOutlineInformationModuleImpl(emscriptenApi) {
         }
     };
     
-    this.removeIndoorMapFloorOutlineInformation = function(indoorMapFloorOutlineInformation) {
+    this.removeIndoorMapFloorOutlineInformation = (indoorMapFloorOutlineInformation) => {
 
         if (!_ready) {
             var index = _pendingIndoorMapFloorOutlineInformation.indexOf(indoorMapFloorOutlineInformation);
@@ -59,26 +58,26 @@ function IndoorMapFloorOutlineInformationModuleImpl(emscriptenApi) {
         indoorMapFloorOutlineInformation._setNativeHandle(null);
     };
 
-    this.onInitialized = function() {
+    this.onInitialized = () => {
         _ready = true;
         _emscriptenApi.indoorMapFloorOutlineInformationApi.registerIndoorMapFloorOutlineInformationLoadedCallback(_executeIndoorMapFloorOutlineInformationLoadedCallback);
         _createPendingIndoorMapFloorOutlineInformations();
     };
 
-    this.setIndoorMapFloorOutlineInformationLoadedCallback = function(callback) {
+    this.setIndoorMapFloorOutlineInformationLoadedCallback = (callback) => {
         _notifyIndoorMapFloorOutlineInformationLoadedCallback = callback;
     };
 
-    var _executeIndoorMapFloorOutlineInformationLoadedCallback = function(indoorMapFloorOutlineInformationId) {
+    var _executeIndoorMapFloorOutlineInformationLoadedCallback = (indoorMapFloorOutlineInformationId) => {
         if (indoorMapFloorOutlineInformationId in _nativeIdToIndoorMapFloorOutlineInformation) {
             _fetchIndoorMapFloorOutlineInformation(indoorMapFloorOutlineInformationId);
         }
-        else{
+        else {
             _callbackInvokedBeforeAssignement[indoorMapFloorOutlineInformationId] = true;
         }
     };
 
-    var _fetchIndoorMapFloorOutlineInformation = function(indoorMapFloorOutlineInformationId) {
+    var _fetchIndoorMapFloorOutlineInformation = (indoorMapFloorOutlineInformationId) => {
         var indoorMapFloorOutlineInformation = _nativeIdToIndoorMapFloorOutlineInformation[indoorMapFloorOutlineInformationId];
         if (_emscriptenApi.indoorMapFloorOutlineInformationApi.getIndoorMapFloorOutlineInformationLoaded(indoorMapFloorOutlineInformationId)) {
             var data = _emscriptenApi.indoorMapFloorOutlineInformationApi.tryGetIndoorMapFloorOutlineInformation(indoorMapFloorOutlineInformationId);
@@ -94,20 +93,18 @@ function IndoorMapFloorOutlineInformationModuleImpl(emscriptenApi) {
 
 function IndoorMapFloorOutlineInformationModule(emscriptenApi) {
     var _indoorMapFloorOutlineInformationModuleImpl = new IndoorMapFloorOutlineInformationModuleImpl(emscriptenApi);
-    var _this = this;
+    
 
-    var _IndoorMapFloorOutlineInformationLoadedHandler = function(indoorMapFloorOutlineInformation) {
-        _this.fire("indoormapflooroutlineinformationloaded", {indoorMapFloorOutlineInformation: indoorMapFloorOutlineInformation});
+    var _IndoorMapFloorOutlineInformationLoadedHandler = (indoorMapFloorOutlineInformation) => {
+        this.fire("indoormapflooroutlineinformationloaded", { indoorMapFloorOutlineInformation: indoorMapFloorOutlineInformation });
     };
 
-    this.onInitialized = function() {
+    this.onInitialized = () => {
         _indoorMapFloorOutlineInformationModuleImpl.setIndoorMapFloorOutlineInformationLoadedCallback(_IndoorMapFloorOutlineInformationLoadedHandler);
         _indoorMapFloorOutlineInformationModuleImpl.onInitialized();
     };
 
-    this._getImpl = function() {
-        return _indoorMapFloorOutlineInformationModuleImpl;
-    };
+    this._getImpl = () => _indoorMapFloorOutlineInformationModuleImpl;
 }
 
 var IndoorMapFloorOutlineInformationModulePrototype = L.extend({}, MapModule, L.Mixin.Events);

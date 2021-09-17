@@ -4,7 +4,7 @@ const IndoorMapEntityInformationLoadStateType = {
     COMPLETE: "Complete"
 };
 
-export const IndoorMapEntityInformation = function(indoorMapId) {
+export function IndoorMapEntityInformation (indoorMapId) {
     
     var _nativeId = null;
     var _map = null;
@@ -12,36 +12,26 @@ export const IndoorMapEntityInformation = function(indoorMapId) {
     var _indoorMapEntities = [];
     var _loadState = IndoorMapEntityInformationLoadStateType.NONE;
 
-    this.getIndoorMapId = function() {
-        return _indoorMapId;
-    };
+    this.getIndoorMapId = () => _indoorMapId;
     
-    this.getIndoorMapEntities = function() {
-        return _indoorMapEntities;
-    };
+    this.getIndoorMapEntities = () => _indoorMapEntities;
 
-    this.getLoadState = function() {
-        return _loadState;
-    };
+    this.getLoadState = () => _loadState;
 
     /**
      * Returns the auto-incrementing unique id of this IndoorMapEntityInformation object.
      * @returns {number}
      */
-    this.getId = function() {
-        return _nativeId;
-    };
+    this.getId = () => _nativeId;
 
     /**
      * Returns the auto-incrementing unique id of this IndoorMapEntityInformation object.
      * @deprecated use {@link IndoorMapEntityInformation.getId}
      * @returns {number}
      */
-    this.getNativeId = function() {
-        return _nativeId;
-    };
+    this.getNativeId = () => _nativeId;
 
-    this.addTo = function(map) {
+    this.addTo = (map) => {
         if (_map !== null) {
             this.remove();
         }
@@ -50,7 +40,7 @@ export const IndoorMapEntityInformation = function(indoorMapId) {
         return this;
     };
 
-    this.remove = function() {
+    this.remove = () => {
         if (_map !== null) {
             _map.indoorMapEntities._getImpl().removeIndoorMapEntityInformation(this);
             _map = null;
@@ -58,11 +48,11 @@ export const IndoorMapEntityInformation = function(indoorMapId) {
         return this;
     };
 
-    this._setNativeHandle = function(nativeId) {
+    this._setNativeHandle = (nativeId) => {
         _nativeId = nativeId;
     };
 
-    this._setData = function(data) {
+    this._setData = (data) => {
         _indoorMapEntities = data.IndoorMapEntities;
 
         switch(data.LoadState)
@@ -78,8 +68,6 @@ export const IndoorMapEntityInformation = function(indoorMapId) {
                 break;
         }
     };
-};
+}
 
-export const indoorMapEntityInformation = function(indoorMapId) {
-    return new IndoorMapEntityInformation(indoorMapId);
-};
+export const indoorMapEntityInformation = (indoorMapId) => new IndoorMapEntityInformation(indoorMapId);

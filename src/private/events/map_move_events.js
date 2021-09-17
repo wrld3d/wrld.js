@@ -1,4 +1,4 @@
-const MapMoveEvents = function(leafletMap) {
+export function MapMoveEvents (leafletMap) {
 
     var _eventType = [
         "move",
@@ -23,16 +23,16 @@ const MapMoveEvents = function(leafletMap) {
         "transitionend"
     ];
 
-    var _onEvent = function(eventKey) {
+    var _onEvent = (eventKey) => {
         if (typeof _eventType[eventKey] === undefined) {
             return;
         }
         leafletMap.fire(_eventType[eventKey]);
     };
 
-    this.setEventCallbacks = function(cameraApi) {
+    this.setEventCallbacks = (cameraApi) => {
         cameraApi.setEventCallback(_onEvent);
     };
-};
+}
 
 export default MapMoveEvents;

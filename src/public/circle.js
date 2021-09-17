@@ -70,6 +70,4 @@ export const Circle = L.Circle.extend({
     }
 });
 
-export const circle = function (latlng, options, legacyOptions) {
-	return new Circle(latlng, options, legacyOptions);
-};
+export const circle = (latlng, options, legacyOptions) => new Circle(latlng, options, legacyOptions);

@@ -1,6 +1,6 @@
 import MapModule from "./map_module";
 
-function PolygonsModule(emscriptenApi) {
+export function PolygonsModule(emscriptenApi) {
 
     var _emscriptenApi = emscriptenApi;
     var _polygonIdToPolygons = {};
@@ -8,43 +8,41 @@ function PolygonsModule(emscriptenApi) {
     var _ready = false;
 
 
-    var _createPendingPolygons = function() {
-        _pendingPolygons.forEach(function(polygon) {
+    var _createPendingPolygons = () => {
+        _pendingPolygons.forEach(function (polygon) {
             _createAndAdd(polygon);
         });
         _pendingPolygons = [];
     };
 
-    var _createAndAdd = function(polygon) {
+    var _createAndAdd = (polygon) => {
         var polygonId = _emscriptenApi.geofenceApi.createGeofence(polygon.getPoints(), polygon.getHoles(), polygon._getConfig());
         _polygonIdToPolygons[polygonId] = polygon;
         return polygonId;
     };
 
-    this.addPolygon = function(polygon) {
+    this.addPolygon = (polygon) => {
         if (_ready) {
             _createAndAdd(polygon);
-    	}
+        }
         else {
             _pendingPolygons.push(polygon);
         }
     };
 
-    this.removePolygon = function(polygon) {
+    this.removePolygon = (polygon) => {
 
         if (!_ready) {
             var index = _pendingPolygons.indexOf(polygon);
             if (index > -1) {
                 _pendingPolygons.splice(index, 1);
             }
-            return; 
+            return;
         }
 
-        var polygonId = Object.keys(_polygonIdToPolygons).find(function(key) { 
-                return _polygonIdToPolygons[key] === polygon;
-            }
+        var polygonId = Object.keys(_polygonIdToPolygons).find((key) => _polygonIdToPolygons[key] === polygon
         );
-        
+
         if (polygonId === undefined) {
             return;
         }
@@ -56,17 +54,17 @@ function PolygonsModule(emscriptenApi) {
     this.onUpdate = function() {
         if (_ready) {
 
-            Object.keys(_polygonIdToPolygons).forEach(function(polygonId) {
-                var polygon = _polygonIdToPolygons[polygonId];
-                if (polygon._colorNeedsChanged()) {
-                    _emscriptenApi.geofenceApi.setGeofenceColor(polygonId, polygon.getColor());
-                    polygon._onColorChanged();
-                }
-            });
+            Object.keys(_polygonIdToPolygons).forEach((polygonId) => {
+                    var polygon = _polygonIdToPolygons[polygonId];
+                    if (polygon._colorNeedsChanged()) {
+                        _emscriptenApi.geofenceApi.setGeofenceColor(polygonId, polygon.getColor());
+                        polygon._onColorChanged();
+                    }
+                });
 		}
     };
 
-    this.onInitialized = function() {
+    this.onInitialized = () => {
         _ready = true;
         _createPendingPolygons();
     };

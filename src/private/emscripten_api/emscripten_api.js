@@ -48,7 +48,7 @@ export function EmscriptenApi(emscriptenModule) {
     this.heatmapApi = null;
     this.frameRateApi = null;
 
-    this.onInitialized = function(eegeoApiPointer, emscriptenApiPointer, onUpdateCallback, onDrawCallback, onInitialStreamingCompletedCallback) {
+    this.onInitialized = (eegeoApiPointer, emscriptenApiPointer, onUpdateCallback, onDrawCallback, onInitialStreamingCompletedCallback) => {
         _eegeoApiPointer = eegeoApiPointer;
         _emscriptenApiPointer = emscriptenApiPointer;
 
@@ -91,9 +91,7 @@ export function EmscriptenApi(emscriptenModule) {
         _ready = true;
     };
 
-    this.ready = function() {
-        return _ready;
-    };
+    this.ready = () => _ready;
 }
 
 export default EmscriptenApi;

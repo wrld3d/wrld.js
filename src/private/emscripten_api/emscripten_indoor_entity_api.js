@@ -1,4 +1,4 @@
-function EmscriptenIndoorEntityApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
+export function EmscriptenIndoorEntityApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
 
     var _emscriptenApiPointer = emscriptenApiPointer;
     var _emscriptenMemory = emscriptenMemory;
@@ -10,42 +10,42 @@ function EmscriptenIndoorEntityApi(emscriptenApiPointer, cwrap, emscriptenModule
     var _indoorEntityPickedCallback = null;
     
 
-    var _onIndoorEntityPicked = function(idsPtr) {
+    var _onIndoorEntityPicked = (idsPtr) => {
         if (_indoorEntityPickedCallback !== null) {
             var ids = _emscriptenMemory.stringifyPointer(idsPtr);
             _indoorEntityPickedCallback(ids);
         }
     };
 
-    var _setHighlights = function(ids, color, indoorMapId, borderThickness) {
-        _emscriptenMemory.passStrings(ids, function(resultStrings, stringArraySize){
-            _emscriptenMemory.passDoubles(color, function(doubleArray, arraySize) {
+    var _setHighlights = (ids, color, indoorMapId, borderThickness) => {
+        _emscriptenMemory.passStrings(ids, (resultStrings, stringArraySize) => {
+        _emscriptenMemory.passDoubles(color, (doubleArray, arraySize) => {
                 _indoorEntityApi_SetHighlightsWithBorderThickness(_emscriptenApiPointer, indoorMapId, resultStrings, stringArraySize, doubleArray, borderThickness);
             });
         });
     };
 
-    var _clearHighlights = function(ids, indoorMapId) {
-        _emscriptenMemory.passStrings(ids, function(resultStrings, stringArraySize){
+    var _clearHighlights = (ids, indoorMapId) => {
+        _emscriptenMemory.passStrings(ids, (resultStrings, stringArraySize) => {
             _indoorEntityApi_ClearHighlights(_emscriptenApiPointer, indoorMapId, resultStrings, stringArraySize);
         });
     };
 
-    var _clearAllHighlights = function() {
+    var _clearAllHighlights = () => {
         _indoorEntityApi_ClearAllHighlights(_emscriptenApiPointer);
     };
 
 
-    this.onInitialized = function() {
+    this.onInitialized = () => {
         // register emscripten callbacks
         _indoorEntityApi_SetIndoorEntityPickedCallback(_emscriptenApiPointer, emscriptenModule.addFunction(_onIndoorEntityPicked));
     };
 
-    this.registerIndoorEntityPickedCallback = function(callback) {
+    this.registerIndoorEntityPickedCallback = (callback) => {
         _indoorEntityPickedCallback = callback;
     };
 
-    this.setHighlights = function(ids, color, indoorMapId, borderThickness) {
+    this.setHighlights = (ids, color, indoorMapId, borderThickness) => {
         if (indoorMapId === null || indoorMapId === undefined) {
             return;
         }
@@ -56,7 +56,7 @@ function EmscriptenIndoorEntityApi(emscriptenApiPointer, cwrap, emscriptenModule
         _setHighlights(ids, color, indoorMapId, borderThickness);
     };
     
-    this.clearHighlights = function(ids, indoorMapId) {
+    this.clearHighlights = (ids, indoorMapId) => {
         if (ids === undefined) {
             _clearAllHighlights();
         }

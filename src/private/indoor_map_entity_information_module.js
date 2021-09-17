@@ -1,6 +1,6 @@
 import MapModule from "./map_module";
 
-function IndoorMapEntityInformationModuleImpl(emscriptenApi) {
+export function IndoorMapEntityInformationModuleImpl(emscriptenApi) {
 
     var _emscriptenApi = emscriptenApi;
     var _nativeIdToIndoorMapEntityInformation = {};
@@ -9,28 +9,28 @@ function IndoorMapEntityInformationModuleImpl(emscriptenApi) {
     var _ready = false;
     var _notifyIndoorMapEntityInformationChangedCallback = null;
 
-    var _createPendingIndoorMapEntityInformations = function() {
-        _pendingIndoorEntityInformation.forEach(function(indoorMapEntityInformation) {
+    var _createPendingIndoorMapEntityInformations = () => {
+        _pendingIndoorEntityInformation.forEach(function (indoorMapEntityInformation) {
             _createAndAdd(indoorMapEntityInformation);
         });
 
         _pendingIndoorEntityInformation = [];
     };
 
-    var _createAndAdd = function(indoorMapEntityInformation) {
+    var _createAndAdd = (indoorMapEntityInformation) => {
         var nativeId = _emscriptenApi.indoorMapEntityInformationApi.createIndoorMapEntityInformation(indoorMapEntityInformation);
         _nativeIdToIndoorMapEntityInformation[nativeId] = indoorMapEntityInformation;
         indoorMapEntityInformation._setNativeHandle(nativeId);
 
-        if(nativeId in _callbackInvokedBeforeAssignement){
+        if (nativeId in _callbackInvokedBeforeAssignement) {
             delete _callbackInvokedBeforeAssignement[nativeId];
             _notifyIndoorMapEntityInformationChanged(nativeId);
         }
-        
+
         return nativeId;
     };
 
-    this.addIndoorMapEntityInformation = function(indoorMapEntityInformation) {
+    this.addIndoorMapEntityInformation = (indoorMapEntityInformation) => {
         if (_ready) {
             _createAndAdd(indoorMapEntityInformation);
         }
@@ -39,7 +39,7 @@ function IndoorMapEntityInformationModuleImpl(emscriptenApi) {
         }
     };
     
-    this.removeIndoorMapEntityInformation = function(indoorMapEntityInformation) {
+    this.removeIndoorMapEntityInformation = (indoorMapEntityInformation) => {
 
         if (!_ready) {
             var index = _pendingIndoorEntityInformation.indexOf(indoorMapEntityInformation);
@@ -59,26 +59,26 @@ function IndoorMapEntityInformationModuleImpl(emscriptenApi) {
         indoorMapEntityInformation._setNativeHandle(null);
     };
 
-    this.onInitialized = function() {
+    this.onInitialized = () => {
         _ready = true;
         _emscriptenApi.indoorMapEntityInformationApi.registerIndoorMapEntityInformationChangedCallback(_executeIndoorMapEntityInformationChangedCallback);
         _createPendingIndoorMapEntityInformations();
     };
 
-    this.setIndoorMapEntityInformationChangedCallback = function(callback) {
+    this.setIndoorMapEntityInformationChangedCallback = (callback) => {
         _notifyIndoorMapEntityInformationChangedCallback = callback;
     };
 
-    var _executeIndoorMapEntityInformationChangedCallback = function(indoorMapEntityInformationId) {
+    var _executeIndoorMapEntityInformationChangedCallback = (indoorMapEntityInformationId) => {
         if (indoorMapEntityInformationId in _nativeIdToIndoorMapEntityInformation) {
             _notifyIndoorMapEntityInformationChanged(indoorMapEntityInformationId);
         }
-        else{
+        else {
             _callbackInvokedBeforeAssignement[indoorMapEntityInformationId] = true;
         }
     };
 
-    var _notifyIndoorMapEntityInformationChanged = function(indoorMapEntityInformationId) {
+    var _notifyIndoorMapEntityInformationChanged = (indoorMapEntityInformationId) => {
         var indoorMapEntityInformation = _nativeIdToIndoorMapEntityInformation[indoorMapEntityInformationId];
         var data = _emscriptenApi.indoorMapEntityInformationApi.tryGetIndoorMapEntityInformation(indoorMapEntityInformationId);
         if (data !== null) {
@@ -92,20 +92,17 @@ function IndoorMapEntityInformationModuleImpl(emscriptenApi) {
 
 function IndoorMapEntityInformationModule(emscriptenApi) {
     var _indoorMapEntityInformationModuleImpl = new IndoorMapEntityInformationModuleImpl(emscriptenApi);
-    var _this = this;
 
-    var _IndoorMapEntityInformationChangedHandler = function(indoorMapEntityInformation) {
-        _this.fire("indoormapentityinformationchanged", {indoorMapEntityInformation: indoorMapEntityInformation});
+    var _IndoorMapEntityInformationChangedHandler = (indoorMapEntityInformation) => {
+        this.fire("indoormapentityinformationchanged", { indoorMapEntityInformation: indoorMapEntityInformation });
     };
 
-    this.onInitialized = function() {
+    this.onInitialized = () => {
         _indoorMapEntityInformationModuleImpl.setIndoorMapEntityInformationChangedCallback(_IndoorMapEntityInformationChangedHandler);
         _indoorMapEntityInformationModuleImpl.onInitialized();
     };
 
-    this._getImpl = function() {
-        return _indoorMapEntityInformationModuleImpl;
-    };
+    this._getImpl = () => _indoorMapEntityInformationModuleImpl;
 }
 
 var IndoorMapEntityInformationModulePrototype = L.extend({}, MapModule, L.Mixin.Events);

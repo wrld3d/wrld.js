@@ -1,6 +1,6 @@
 import MapModule from "./map_module";
 
-function HeatmapModule(emscriptenApi) {
+export function HeatmapModule(emscriptenApi) {
 
     var _emscriptenApi = emscriptenApi;
     var _heatmapIdToHeatmap = {};
@@ -8,20 +8,20 @@ function HeatmapModule(emscriptenApi) {
     var _ready = false;
 
 
-    var _createPendingHeatmaps = function() {
-        _pendingHeatmaps.forEach(function(heatmap) {
+    var _createPendingHeatmaps = () => {
+        _pendingHeatmaps.forEach(function (heatmap) {
             _createAndAdd(heatmap);
         });
         _pendingHeatmaps = [];
     };
 
-    var _createAndAdd = function(heatmap) {
+    var _createAndAdd = (heatmap) => {
         var heatmapId = _emscriptenApi.heatmapApi.createHeatmap(heatmap);
         _heatmapIdToHeatmap[heatmapId] = heatmap;
         return heatmapId;
     };
 
-    this.addHeatmap = function(heatmap) {
+    this.addHeatmap = (heatmap) => {
         if (_ready) {
             _createAndAdd(heatmap);
         }
@@ -30,7 +30,7 @@ function HeatmapModule(emscriptenApi) {
         }
     };
 
-    this.removeHeatmap = function(heatmap) {
+    this.removeHeatmap = (heatmap) => {
 
         if (!_ready) {
             var index = _pendingHeatmaps.indexOf(heatmap);
@@ -40,10 +40,7 @@ function HeatmapModule(emscriptenApi) {
             return;
         }
 
-        var heatmapId = Object.keys(_heatmapIdToHeatmap).find(function(key) {
-                return _heatmapIdToHeatmap[key] === heatmap;
-            }
-        );
+        var heatmapId = Object.keys(_heatmapIdToHeatmap).find((key) => _heatmapIdToHeatmap[key] === heatmap);
 
         if (heatmapId === undefined) {
             return;
@@ -53,16 +50,16 @@ function HeatmapModule(emscriptenApi) {
         delete _heatmapIdToHeatmap[heatmapId];
     };
 
-    this.onUpdate = function() {
+    this.onUpdate = () => {
         if (_ready) {
-            Object.keys(_heatmapIdToHeatmap).forEach(function(heatmapId) {
-                var heatmap = _heatmapIdToHeatmap[heatmapId];
-                _emscriptenApi.heatmapApi.updateNativeState(heatmapId, heatmap);
-            });
+            Object.keys(_heatmapIdToHeatmap).forEach((heatmapId) => {
+                    var heatmap = _heatmapIdToHeatmap[heatmapId];
+                    _emscriptenApi.heatmapApi.updateNativeState(heatmapId, heatmap);
+                });
         }
     };
 
-    this.onInitialized = function() {
+    this.onInitialized = () => {
         _ready = true;
         _createPendingHeatmaps();
     };

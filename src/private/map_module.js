@@ -1,18 +1,14 @@
 export const MapModule = {
-    onUpdate: function(dt) {
-
+    onUpdate: (dt) => {
     },
 
-    onDraw: function(dt) {
-
+    onDraw: (dt) => {
     },
 
-    onInitialized: function() {
-
+    onInitialized: () => {
     },
 
-    onInitialStreamingCompleted: function() {
-        
+    onInitialStreamingCompleted: () => {
     }
 };
 

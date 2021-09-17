@@ -1,11 +1,11 @@
 import { Vector4 } from "../../public/space";
 
-function vec4ToRgba32(v) {
+const vec4ToRgba32 = (v) => {
     var rgba = ((v.x & 0xFF) << 24) + ((v.y & 0xFF) << 16) + ((v.z & 0xFF) << 8) + (v.w & 0xFF);
     return rgba;
-}
+};
 
-function rgba32ToVec4(rgba) {
+const rgba32ToVec4 = (rgba) => {
     var vec4 = new Vector4(
         ((rgba >> 24) & 0xFF),
         ((rgba >> 16) & 0xFF),
@@ -13,9 +13,9 @@ function rgba32ToVec4(rgba) {
         (rgba & 0xFF)
     );
     return vec4;
-}
+};
 
-function hexToRgba32(hex) {
+const hexToRgba32 = (hex) => {
     // https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
 
     hex = hex.replace(/^#/, "");
@@ -36,9 +36,9 @@ function hexToRgba32(hex) {
     }
 
     return (rgb << 8) + a;
-}
+};
 
-function colorArrayToVector4(color) {
+const colorArrayToVector4 = (color) => {
     var r = 0.0;
     var g = 0.0;
     var b = 0.0;
@@ -59,9 +59,9 @@ function colorArrayToVector4(color) {
         throw new Error("Unable to parse color - value out of range: " + String(color));
     }
     return new Vector4(r, g, b, a);
-}
+};
 
-function colorObjectToVector4(color) {
+const colorObjectToVector4 = (color) => {
     var r = undefined;
     var g = undefined;
     var b = undefined;
@@ -103,10 +103,10 @@ function colorObjectToVector4(color) {
         throw new Error("Unable to parse color - value out of range: " + String(color));
     }
     return new Vector4(r, g, b, a);
-}
+};
 
-export function colorToRgba32(color) {
-    if (typeof(color) === "string") {
+export const colorToRgba32 = (color) => {
+    if (typeof (color) === "string") {
         return hexToRgba32(color);
     }
     else if (Array.isArray(color)) {
@@ -117,8 +117,8 @@ export function colorToRgba32(color) {
     }
 
     throw new Error("Unable to parse color: " + String(color));
-}
+};
 
-export function colorToVec4(color) {
+export const colorToVec4 = (color) => {
     return rgba32ToVec4(colorToRgba32(color));
-}
+};

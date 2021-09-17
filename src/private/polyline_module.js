@@ -1,6 +1,6 @@
 import MapModule from "./map_module";
 
-function PolylineModule(emscriptenApi) {
+export function PolylineModule(emscriptenApi) {
 
     var _emscriptenApi = emscriptenApi;
     var _polylineIdToPolyline = {};
@@ -8,20 +8,20 @@ function PolylineModule(emscriptenApi) {
     var _ready = false;
 
 
-    var _createPendingPolylines = function() {
-        _pendingPolylines.forEach(function(polyline) {
-            _createAndAdd(polyline);
-        });
+    var _createPendingPolylines = () => {
+        _pendingPolylines.forEach((polyline) => {
+                _createAndAdd(polyline);
+            });
         _pendingPolylines = [];
     };
 
-    var _createAndAdd = function(polyline) {
+    var _createAndAdd = (polyline) => {
         var polylineId = _emscriptenApi.polylineApi.createPolyline(polyline);
         _polylineIdToPolyline[polylineId] = polyline;
         return polylineId;
     };
 
-    this.addPolyline = function(polyline) {
+    this.addPolyline = (polyline) => {
         if (_ready) {
             _createAndAdd(polyline);
         }
@@ -30,7 +30,7 @@ function PolylineModule(emscriptenApi) {
         }
     };
 
-    this.removePolyline = function(polyline) {
+    this.removePolyline = (polyline) => {
 
         if (!_ready) {
             var index = _pendingPolylines.indexOf(polyline);
@@ -40,9 +40,7 @@ function PolylineModule(emscriptenApi) {
             return;
         }
 
-        var polylineId = Object.keys(_polylineIdToPolyline).find(function(key) {
-                return _polylineIdToPolyline[key] === polyline;
-            }
+        var polylineId = Object.keys(_polylineIdToPolyline).find((key) => _polylineIdToPolyline[key] === polyline
         );
 
         if (polylineId === undefined) {
@@ -53,16 +51,16 @@ function PolylineModule(emscriptenApi) {
         delete _polylineIdToPolyline[polylineId];
     };
 
-    this.onUpdate = function() {
+    this.onUpdate = () => {
         if (_ready) {
-            Object.keys(_polylineIdToPolyline).forEach(function(polylineId) {
-                var polyline = _polylineIdToPolyline[polylineId];
-                _emscriptenApi.polylineApi.updateNativeState(polylineId, polyline);
-            });
+            Object.keys(_polylineIdToPolyline).forEach((polylineId) => {
+                    var polyline = _polylineIdToPolyline[polylineId];
+                    _emscriptenApi.polylineApi.updateNativeState(polylineId, polyline);
+                });
         }
     };
 
-    this.onInitialized = function() {
+    this.onInitialized = () => {
         _ready = true;
         _createPendingPolylines();
     };

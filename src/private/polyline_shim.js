@@ -67,6 +67,5 @@ export const PolylineShim = Polyline.extend({
     }
 });
 
-export const polylineShim = function (latlng, options) {
-	return new PolylineShim(latlng, options);
-};
+export const polylineShim = (latlng, options) => new PolylineShim(latlng, options);
+

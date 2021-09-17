@@ -1,6 +1,6 @@
 import MapModule from "./map_module";
 
-function BlueSphereModule(emscriptenApi) {
+export function BlueSphereModule(emscriptenApi) {
 
     var _emscriptenApi = emscriptenApi;
     var _ready = false;
@@ -13,69 +13,55 @@ function BlueSphereModule(emscriptenApi) {
     var _stateChanged = false;
     var _showOrientation = true;
 
-    this.isEnabled = function() {
-        return _isEnabled;
-    };
+    this.isEnabled = () => _isEnabled;
 
-    this.setEnabled = function(isEnabled) {
+    this.setEnabled = (isEnabled) => {
         _isEnabled = isEnabled ? true : false;
     };
 
-    this.getLocation = function() {
-        return _location;
-    };
+    this.getLocation = () => _location;
 
-    this.setLocation = function (location) {
+    this.setLocation = (location) => {
         _location = L.latLng(location);
         _stateChanged = true;
     };
 
-    this.getIndoorMapId = function () {
-        return _indoorMapId;
-    };
+    this.getIndoorMapId = () => _indoorMapId;
 
-    this.getIndoorMapFloorId = function () {
-        return _indoorMapFloorId;
-    };
+    this.getIndoorMapFloorId = () => _indoorMapFloorId;
 
-    this.setIndoorMap = function (indoorMapId, indoorMapFloorId) {
+    this.setIndoorMap = (indoorMapId, indoorMapFloorId) => {
         _indoorMapId = indoorMapId;
         _indoorMapFloorId = indoorMapFloorId;
     };
 
-    this.isOrientationVisible = function () {
-        return _showOrientation;
-    };
+    this.isOrientationVisible = () => _showOrientation;
 
-    this.getHeadingDegrees = function () {
-        return _headingDegrees;
-    };
+    this.getHeadingDegrees = () => _headingDegrees;
 
-    this.setHeadingDegrees = function (headingDegrees) {
+    this.setHeadingDegrees = (headingDegrees) => {
         _headingDegrees = headingDegrees;
         _stateChanged = true;
     };
 
-    this.getElevation = function () {
-        return _elevation;
-    };
+    this.getElevation = () => _elevation;
 
-    this.setElevation = function (elevation) {
+    this.setElevation = (elevation) => {
         _elevation = elevation;
         _stateChanged = true;
     };
 
-    this.showOrientation = function (isVisible) {
+    this.showOrientation = (isVisible) => {
         _showOrientation = isVisible;
         _stateChanged = true;
     };
 
-    this.onInitialized = function() {
+    this.onInitialized = () => {
         _ready = true;
         _emscriptenApi.blueSphereApi.updateNativeState(this);
     };
 
-    this.onUpdate = function() {
+    this.onUpdate = () => {
         if (_ready && _stateChanged) {
             _emscriptenApi.blueSphereApi.updateNativeState(this);
             _stateChanged = false;
