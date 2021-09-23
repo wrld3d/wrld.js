@@ -1,15 +1,10 @@
-var IndoorMapFloorOutlinePolygon = function(outerRing, innerRings) {
+export function IndoorMapFloorOutlinePolygon(outerRing, innerRings) {
   var _outerRing = outerRing;
   var _innerRings = innerRings;
 
-  this.getOuterRing = function() {
-      return _outerRing;
-  };
+  this.getOuterRing = () => _outerRing;
 
-  this.getInnerRings = function() {
-      return _innerRings;
-  };
+  this.getInnerRings = () => _innerRings;
+}
 
-};
-
-module.exports = IndoorMapFloorOutlinePolygon;
+export default IndoorMapFloorOutlinePolygon;

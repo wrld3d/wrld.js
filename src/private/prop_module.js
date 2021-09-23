@@ -1,7 +1,7 @@
-var MapModule = require("./map_module");
-var IdToObjectMap = require("./id_to_object_map");
+import MapModule from "./map_module";
+import IdToObjectMap from "./id_to_object_map";
 
-var PropModule = function(emscriptenApi) {
+export function PropModule (emscriptenApi) {
     var _emscriptenApi = emscriptenApi;
     var _pendingProps = [];
     var _props = new IdToObjectMap();
@@ -11,9 +11,7 @@ var PropModule = function(emscriptenApi) {
     var _hasPendingServiceUrl = false;
     var _ready = false;
 
-    var _this = this;
-
-    var _createAndAdd = function(prop) {
+    var _createAndAdd = (prop) => {
         var propId = _emscriptenApi.propsApi.createProp(
             prop.getIndoorMapId(),
             prop.getIndoorMapFloorId(),
@@ -27,7 +25,7 @@ var PropModule = function(emscriptenApi) {
         _props.insertObject(propId, prop);
     };
 
-    var _createAndAddArray = function(propArray) {
+    var _createAndAddArray = (propArray) => {
         var indoorMapIds = [];
         var indoorMapFloorIds = [];
         var names = [];
@@ -54,12 +52,12 @@ var PropModule = function(emscriptenApi) {
         var propIds = _emscriptenApi.propsApi.createProps(indoorMapIds, indoorMapFloorIds, names, latitudes, longitudes, elevations, elevationModes, headings, geometryIds);
 
         for (propIndex = 0; propIndex < propIds.length; ++propIndex) {
-            var propId  = propIds[propIndex];
+            var propId = propIds[propIndex];
             _props.insertObject(propId, propArray[propIndex]);
         }
     };
 
-    var _createPendingProps = function() {
+    var _createPendingProps = () => {
         if (_pendingProps.length === 0) {
             return;
         }
@@ -67,18 +65,18 @@ var PropModule = function(emscriptenApi) {
         _pendingProps = [];
     };
 
-    var _executeIndoorMapEntitySetPropsLoadedCallbacks = function(indoorMapId, floorId) {
-        _this.fire("indoormapentitysetpropsloaded", {indoorMapId: indoorMapId, floorId: floorId});
+    var _executeIndoorMapEntitySetPropsLoadedCallbacks = (indoorMapId, floorId) => {
+        this.fire("indoormapentitysetpropsloaded", {indoorMapId: indoorMapId, floorId: floorId});
     };
 
-    var _executeIndoorMapPopulationRequestCompletedCallbacks = function(succeeded, httpStatusCode) {
-        _this.fire("indoormappopulationrequestcomplete", {
+    var _executeIndoorMapPopulationRequestCompletedCallbacks = (succeeded, httpStatusCode) => {
+        this.fire("indoormappopulationrequestcomplete", {
             succeeded: (succeeded === 0 ? false : true),
             httpStatusCode: httpStatusCode
         });
     };
 
-    this.addProp = function(prop) {
+    this.addProp = (prop) => {
         if (_ready) {
             _createAndAdd(prop);
         }
@@ -87,7 +85,7 @@ var PropModule = function(emscriptenApi) {
         }
     };
 
-    this.addProps = function(propArray) {
+    this.addProps = (propArray) => {
         if (_ready) {
             _createAndAddArray(propArray);
         }
@@ -96,12 +94,11 @@ var PropModule = function(emscriptenApi) {
         }
     };
 
-    this.removeProp = function(prop) {
+    this.removeProp = (prop) => {
         if (_ready && _pendingProps.length === 0) {
             var propId = _props.idForObject(prop);
 
-            if (propId !== null)
-            {
+            if (propId !== null) {
                 _emscriptenApi.propsApi.destroyProp(propId);
                 _props.removeObjectById(propId);
             }
@@ -115,7 +112,7 @@ var PropModule = function(emscriptenApi) {
         }
     };
 
-    this.removeProps = function(propArray) {
+    this.removeProps = (propArray) => {
         var propIndex = 0;
 
         if (_ready && _pendingProps.length === 0) {
@@ -140,7 +137,7 @@ var PropModule = function(emscriptenApi) {
         }
     };
 
-    this.onInitialized = function() {
+    this.onInitialized = () => {
         _ready = true;
         _createPendingProps();
 
@@ -156,40 +153,39 @@ var PropModule = function(emscriptenApi) {
         _emscriptenApi.propsApi.onInitialized();
     };
 
-    this.onUpdate = function(dt) {
+    this.onUpdate = (dt) => {
         if (_ready) {
 
-            _props.forEachItem(function(propId, prop) {
+            _props.forEachItem((propId, prop) => {
+                    if (prop._locationNeedsChanged()) {
+                        _emscriptenApi.propsApi.setLocation(propId, prop.getLocation().lat, prop.getLocation().lng);
+                        prop._onLocationChanged();
+                    }
 
-                if (prop._locationNeedsChanged()) {
-                    _emscriptenApi.propsApi.setLocation(propId, prop.getLocation().lat, prop.getLocation().lng);
-                    prop._onLocationChanged();
-                }
+                    if (prop._headingDegreesNeedsChanged()) {
+                        _emscriptenApi.propsApi.setHeadingDegrees(propId, prop.getHeadingDegrees());
+                        prop._onHeadingDegreesChanged();
+                    }
 
-                if (prop._headingDegreesNeedsChanged()) {
-                    _emscriptenApi.propsApi.setHeadingDegrees(propId, prop.getHeadingDegrees());
-                    prop._onHeadingDegreesChanged();
-                }
+                    if (prop._elevationNeedsChanged()) {
+                        _emscriptenApi.propsApi.setElevation(propId, prop.getElevation());
+                        prop._onElevationChanged();
+                    }
 
-                if (prop._elevationNeedsChanged()) {
-                    _emscriptenApi.propsApi.setElevation(propId, prop.getElevation());
-                    prop._onElevationChanged();
-                }
+                    if (prop._elevationModeNeedsChanged()) {
+                        _emscriptenApi.propsApi.setElevationMode(propId, prop.getElevationMode());
+                        prop._onElevationModeChanged();
+                    }
 
-                if (prop._elevationModeNeedsChanged()) {
-                    _emscriptenApi.propsApi.setElevationMode(propId, prop.getElevationMode());
-                    prop._onElevationModeChanged();
-                }
-
-                if (prop._geometryIdNeedsChanged()) {
-                    _emscriptenApi.propsApi.setGeometryId(propId, prop.getGeometryId());
-                    prop._onGeometryIdChanged();
-                }
-            });
+                    if (prop._geometryIdNeedsChanged()) {
+                        _emscriptenApi.propsApi.setGeometryId(propId, prop.getGeometryId());
+                        prop._onGeometryIdChanged();
+                    }
+                });
         }
     };
 
-    this.setAutomaticIndoorMapPopulationEnabled = function(enabled) {
+    this.setAutomaticIndoorMapPopulationEnabled = (enabled) => {
         if (_ready) {
             _emscriptenApi.propsApi.setAutomaticIndoorMapPopulationEnabled(enabled);
         }
@@ -199,7 +195,7 @@ var PropModule = function(emscriptenApi) {
         }
     };
 
-    this.isAutomaticIndoorMapPopulationEnabled = function() {
+    this.isAutomaticIndoorMapPopulationEnabled = () => {
         if (_ready) {
             return _emscriptenApi.propsApi.isAutomaticIndoorMapPopulationEnabled();
         }
@@ -208,17 +204,17 @@ var PropModule = function(emscriptenApi) {
         }
     };
 
-    this.setIndoorMapPopulationServiceUrl = function(serviceUrl) {
+    this.setIndoorMapPopulationServiceUrl = (serviceUrl) => {
         if (_ready) {
             return _emscriptenApi.propsApi.setIndoorMapPopulationServiceUrl(serviceUrl);
-        }   
+        }
         else {
             _pendingServiceUrl = serviceUrl;
             _hasPendingServiceUrl = true;
         }
     };
 
-    this.getIndoorMapEntitySetProps = function(indoorMapId, floorId) {
+    this.getIndoorMapEntitySetProps = (indoorMapId, floorId) => {
         if (_ready) {
             return _emscriptenApi.propsApi.tryGetIndoorMapEntitySetProps(indoorMapId, floorId);
         }
@@ -226,9 +222,10 @@ var PropModule = function(emscriptenApi) {
             return null;
         }
     };
-};
+}
 
 var PropPrototype = L.extend({}, MapModule, L.Mixin.Events);
 
 PropModule.prototype = PropPrototype;
-module.exports = PropModule;
+
+export default PropModule;

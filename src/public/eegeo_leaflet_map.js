@@ -1,10 +1,10 @@
-var popups = require("../public/popup.js");
-var indoorOptions = require("../private/indoor_map_layer_options.js");
+import { Popup } from "../public/popup.js";
+import { hasIndoorMap, matchesIndoorMap } from "../private/indoor_map_layer_options.js";
 
 var undefinedPoint = L.point(-100, -100);
 var undefinedLatLng = L.latLng(0, 0);
 
-var getCenterOfLayer = function(layer) {
+const getCenterOfLayer = (layer) => {
     if ("getLatLng" in layer) {
         return layer.getLatLng();
     }
@@ -14,7 +14,7 @@ var getCenterOfLayer = function(layer) {
     return null;
 };
 
-var convertLatLngToVector = function(latLng) {
+const convertLatLngToVector = (latLng) => {
     var lat = latLng.lat * Math.PI / 180;
     var lng = latLng.lng * Math.PI / 180;
 
@@ -32,13 +32,13 @@ var convertLatLngToVector = function(latLng) {
 
 // Prevent Renderer from panning and scaling the overlay layer
 L.Renderer.include({
-    _updateTransform: function() { }
+    _updateTransform: () => { }
 });
 
 
-var EegeoLeafletMap = L.Map.extend({
+export const EegeoLeafletMap = L.Map.extend({
 
-    initialize: function(
+    initialize: function (
             browserWindow,
             id,
             options,
@@ -196,14 +196,14 @@ var EegeoLeafletMap = L.Map.extend({
 
     _removeAllLayers: function() {
         var layerIds = Object.keys(this._layersOnMap);
-        var _this = this;
-        layerIds.forEach(function(id) {
-            var layer = _this._layersOnMap[id];
-            if (layer === undefined) {
-                return;
-            }
-            _this.removeLayer(layer);
-        });
+        
+        layerIds.forEach((id) => {
+                var layer = this._layersOnMap[id];
+                if (layer === undefined) {
+                    return;
+                }
+                this.removeLayer(layer);
+            });
     },
 
     onInitialized: function(emscriptenApi) {
@@ -401,7 +401,7 @@ var EegeoLeafletMap = L.Map.extend({
     openPopup: function(popup, latLng, options) {
         if (!(popup instanceof L.Popup)) {
             var content = popup;
-            popup = new popups.Popup(options)
+            popup = new Popup(options)
                 .setLatLng(latLng)
                 .setContent(content);
         }
@@ -416,14 +416,14 @@ var EegeoLeafletMap = L.Map.extend({
     _onDraw: function() {
         this._updateLayerVisibility();
 
-        this.eachLayer(function (layer) {
-            if (layer.update) {
-                layer.update();
-            }
-            else if (layer.redraw) {
-                layer.redraw();
-            }
-        });
+        this.eachLayer((layer) => {
+                if (layer.update) {
+                    layer.update();
+                }
+                else if (layer.redraw) {
+                    layer.redraw();
+                }
+            });
         this.fire("draw");
     },
 
@@ -545,7 +545,7 @@ var EegeoLeafletMap = L.Map.extend({
         var maxAngle = this._getAngleFromCameraToHorizon();
 
         var _this = this;
-        layerIds.forEach(function(id) {
+        layerIds.forEach((id) => {
             var layer = _this._layersOnMap[id];
 
             // we're checking for null, as there's a few potentially confusing interactions that can happen.
@@ -553,7 +553,7 @@ var EegeoLeafletMap = L.Map.extend({
             // have layerIds = [ 23, 75 ] and both of these ids exist in the _layersOnMap dictionary. However, a side-effect of removing
             // a marker is that any associated popup will be removed. We're spinning over the layerIds that we copied _before_
             // removing anything, so we now have a stale id (75) that no longer exists in _layersOnMap, and we can skip it.
-            if(layer === undefined) {
+            if (layer === undefined) {
                 return;
             }
 
@@ -575,13 +575,12 @@ var EegeoLeafletMap = L.Map.extend({
             else if (hasLayer && (latLngBehindEarth || !indoorMapDisplayFilter)) {
                 L.Map.prototype.removeLayer.call(_this, layer);
             }
-
         });
     },
 
     _isVisibleForCurrentMapState: function(layer) {
         var currentMapStateIsOutdoors = !this.indoors.isIndoors();
-        var layerIsOutdoors = !indoorOptions.hasIndoorMap(layer);
+        var layerIsOutdoors = !hasIndoorMap(layer);
 
 		if (layer.options.displayOption === "currentMap")
 			return true;
@@ -596,7 +595,7 @@ var EegeoLeafletMap = L.Map.extend({
             return false;
         }
 
-        return indoorOptions.matchesIndoorMap(
+        return matchesIndoorMap(
             this.indoors.getActiveIndoorMap().getIndoorMapId(),
             this.indoors.getFloor()._getFloorId(),
             this.indoors.getFloor().getFloorIndex(),
@@ -609,4 +608,4 @@ var EegeoLeafletMap = L.Map.extend({
 
 });
 
-module.exports = EegeoLeafletMap;
+export default EegeoLeafletMap;

@@ -1,20 +1,13 @@
-var IndoorMapEntrance = function(indoorMapId, indoorMapName, latLng) {
-
+export function IndoorMapEntrance (indoorMapId, indoorMapName, latLng) {
     var _indoorMapId = indoorMapId;
     var _indoorMapName = indoorMapName;
     var _latLng = latLng;
 
-    this.getIndoorMapId = function() {
-        return _indoorMapId;
-    };
+    this.getIndoorMapId = () => _indoorMapId;
 
-    this.getIndoorMapName = function() {
-        return _indoorMapName;
-    };
+    this.getIndoorMapName = () => _indoorMapName;
 
-    this.getLatLng = function() {
-        return _latLng;
-    };
-};
+    this.getLatLng = () => _latLng;
+}
 
-module.exports = IndoorMapEntrance;
+export default IndoorMapEntrance;

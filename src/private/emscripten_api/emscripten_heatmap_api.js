@@ -1,9 +1,8 @@
-var elevationMode = require("../elevation_mode.js");
-var heatmap = require("../../public/heatmap.js");
-var interopUtils = require("./emscripten_interop_utils.js");
+import { getElevationModeInt } from "../elevation_mode.js";
+import { HeatmapOcclusionMapFeature } from "../../public/heatmap.js";
+import { colorToRgba32 } from "./emscripten_interop_utils.js";
 
-
-function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
+export function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
     var _emscriptenApiPointer = emscriptenApiPointer;
     var _emscriptenMemory = emscriptenMemory;
 
@@ -27,32 +26,30 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, emscriptenModule, ems
     var _heatmapApi_useApproximation = cwrap("heatmapApi_useApproximation", null, ["number", "number", "number"]);
     var _heatmapApi_setData = cwrap("heatmapApi_setData", null, ["number", "number", "number", "number", "number", "number"]);
 
-
-
-    function occludedMapFeaturesToInt(occludedMapFeatures) {
+    const occludedMapFeaturesToInt = (occludedMapFeatures) => {
         var occludedMapFeaturesInt = 0;
 
-        occludedMapFeatures.forEach(function(occlusionFeature) {
-            if (occlusionFeature === heatmap.HeatmapOcclusionMapFeature.GROUND) {
+        occludedMapFeatures.forEach(function (occlusionFeature) {
+            if (occlusionFeature === HeatmapOcclusionMapFeature.GROUND) {
                 occludedMapFeaturesInt = occludedMapFeaturesInt | 0x1;
             }
-            else if (occlusionFeature === heatmap.HeatmapOcclusionMapFeature.BUILDINGS) {
+            else if (occlusionFeature === HeatmapOcclusionMapFeature.BUILDINGS) {
                 occludedMapFeaturesInt = occludedMapFeaturesInt | 0x2;
             }
-            else if (occlusionFeature === heatmap.HeatmapOcclusionMapFeature.TREES) {
+            else if (occlusionFeature === HeatmapOcclusionMapFeature.TREES) {
                 occludedMapFeaturesInt = occludedMapFeaturesInt | 0x4;
             }
-            else if (occlusionFeature === heatmap.HeatmapOcclusionMapFeature.TRANSPORT) {
+            else if (occlusionFeature === HeatmapOcclusionMapFeature.TRANSPORT) {
                 occludedMapFeaturesInt = occludedMapFeaturesInt | 0x8;
             }
         });
 
         return occludedMapFeaturesInt;
-    }
+    };
 
-    function _buildFlatData(pointData) {
+    const _buildFlatData = (pointData) => {
         var dataFlat = [];
-        pointData.forEach(function(pointDatum) {
+        pointData.forEach((pointDatum) => {
             dataFlat.push(pointDatum.latLng.lat);
             dataFlat.push(pointDatum.latLng.lng);
             var altOrDefault = 0.0;
@@ -64,21 +61,21 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, emscriptenModule, ems
         });
 
         return dataFlat;
-    }
+    };
 
-    this.createHeatmap = function(heatmap) {
+    this.createHeatmap = (heatmap) => {
         // polygon
         var polygonCoords = [];
         var polygonRingVertexCounts = [];
 
-        heatmap.getPolygonPoints().forEach(function(ring) {
-          polygonRingVertexCounts.push(ring.length);
-          ring.forEach(function(point) {
-            polygonCoords.push(point.lat);
-            polygonCoords.push(point.lng);
-            polygonCoords.push(point.alt ? point.alt : 0.0);
-          });
-        });
+        heatmap.getPolygonPoints().forEach((ring) => {
+            polygonRingVertexCounts.push(ring.length);
+            ring.forEach((point) => {
+                polygonCoords.push(point.lat);
+                polygonCoords.push(point.lng);
+                polygonCoords.push(point.alt ? point.alt : 0.0);
+            });
+            });
 
         if (polygonCoords.length === 0) {
             polygonRingVertexCounts.push(0);
@@ -90,7 +87,7 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, emscriptenModule, ems
         var indoorMapId = heatmap.getIndoorMapId();
         var indoorMapFloorId = heatmap.getIndoorMapFloorId();
         var elevation = heatmap.getElevation();
-        var elevationModeInt = elevationMode.getElevationModeInt(heatmap.getElevationMode());
+        var elevationModeInt = getElevationModeInt(heatmap.getElevationMode());
 
         // data
         var dataFlat = _buildFlatData(heatmap.getData());
@@ -99,7 +96,7 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, emscriptenModule, ems
         var heatmapDensityStops = [];
         var heatmapRadii = [];
         var heatmapGains = [];
-        heatmap.getDensityStops().forEach(function(density) {
+        heatmap.getDensityStops().forEach((density) => {
             heatmapDensityStops.push(density.stop);
             heatmapRadii.push(density.radius);
             heatmapGains.push(density.gain);
@@ -107,9 +104,9 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, emscriptenModule, ems
 
         var gradientStops = [];
         var gradientColors = [];
-        heatmap.getColorGradient().forEach(function(gradient) {
+        heatmap.getColorGradient().forEach((gradient) => {
             gradientStops.push(gradient.stop);
-            gradientColors.push(interopUtils.colorToRgba32(gradient.color));
+            gradientColors.push(colorToRgba32(gradient.color));
         });
 
         // heatmap_todo investigate supporting ES6 for Float32Array / typed arrays
@@ -173,11 +170,11 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, emscriptenModule, ems
         return heatmapId;
     };
 
-    this.destroyHeatmap = function(heatmapId) {
+    this.destroyHeatmap = (heatmapId) => {
         _heatmapApi_destroyHeatmap(_emscriptenApiPointer, heatmapId);
     };
 
-    this.updateNativeState = function(heatmapId, heatmap) {
+    this.updateNativeState = (heatmapId, heatmap) => {
         if (!heatmap._anyChanged()) {
             return;
         }
@@ -191,17 +188,17 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, emscriptenModule, ems
                 indoorMapId,
                 indoorMapId.length,
                 heatmap.getIndoorMapFloorId()
-                );
+            );
         }
 
         if (changedFlags.elevation) {
-            var elevationModeInt = elevationMode.getElevationModeInt(heatmap.getElevationMode());
+            var elevationModeInt = getElevationModeInt(heatmap.getElevationMode());
             _heatmapApi_setElevation(
                 _emscriptenApiPointer,
                 heatmapId,
                 heatmap.getElevation(),
                 elevationModeInt
-                );
+            );
         }
 
         if (changedFlags.densityBlend) {
@@ -249,9 +246,9 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, emscriptenModule, ems
         if (changedFlags.colorGradient) {
             var gradientStops = [];
             var gradientColors = [];
-            heatmap.getColorGradient().forEach(function(gradient) {
+            heatmap.getColorGradient().forEach((gradient) => {
                 gradientStops.push(gradient.stop);
-                gradientColors.push(interopUtils.colorToRgba32(gradient.color));
+                gradientColors.push(colorToRgba32(gradient.color));
             });
 
             var gradientStopsBuffer = _emscriptenMemory.createBufferFromArray(gradientStops, _emscriptenMemory.createDoubleBuffer);
@@ -282,7 +279,7 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, emscriptenModule, ems
             var heatmapDensityStops = [];
             var heatmapRadii = [];
             var heatmapGains = [];
-            heatmap.getDensityStops().forEach(function(density) {
+            heatmap.getDensityStops().forEach((density) => {
                 heatmapDensityStops.push(density.stop);
                 heatmapRadii.push(density.radius);
                 heatmapGains.push(density.gain);
@@ -328,7 +325,7 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, emscriptenModule, ems
                 pointDataBuf.element_count,
                 heatmap.getWeightMin(),
                 heatmap.getWeightMax()
-                );
+            );
 
             _emscriptenMemory.freeBuffer(pointDataBuf);
         }
@@ -338,4 +335,4 @@ function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, emscriptenModule, ems
     };
 }
 
-module.exports = EmscriptenHeatmapApi;
+export default EmscriptenHeatmapApi;

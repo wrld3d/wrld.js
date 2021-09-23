@@ -1,4 +1,4 @@
-var IndoorMapEntitySetProp = function(
+export function IndoorMapEntitySetProp (
         indoorMapId,
         floorId,
         name,
@@ -18,59 +18,41 @@ var IndoorMapEntitySetProp = function(
     var _elevationMode = elevationMode;
     var _headingDegrees = headingDegrees;
     
-    this.getIndoorMapId = function() {
-        return _indoorMapId;
-    };
+    this.getIndoorMapId = () => _indoorMapId;
     
-    this.getIndoorMapFloorId = function() {
-        return _floorId;
-    };
+    this.getIndoorMapFloorId = () => _floorId;
     
-    this.getName = function() {
-        return _name;
-    };
+    this.getName = () => _name;
     
-    this.getGeometryId = function() {
-        return _geometryId;
-    };
+    this.getGeometryId = () => _geometryId;
     
-    this.getLocation = function() {
-        return _location;
-    };
+    this.getLocation = () => _location;
     
-    this.getElevation = function() {
-        return _elevation;
-    };
+    this.getElevation = () => _elevation;
     
-    this.getElevationMode = function() {
-        return _elevationMode;
-    };
+    this.getElevationMode = () => _elevationMode;
     
-    this.getHeadingDegrees = function() {
-        return _headingDegrees;
-    };
-};
+    this.getHeadingDegrees = () => _headingDegrees;
+}
 
-var indoorMapEntitySetProp = function(indoorMapId,
-                                      floorId,
-                                      name,
-                                      geometryId,
-                                      location,
-                                      elevation,
-                                      elevationMode,
-                                      headingDegrees) {
+export const indoorMapEntitySetProp = (
+  indoorMapId,
+  floorId,
+  name,
+  geometryId,
+  location,
+  elevation,
+  elevationMode,
+  headingDegrees
+) =>
+  new IndoorMapEntitySetProp(
+    indoorMapId,
+    floorId,
+    name,
+    geometryId,
+    location,
+    elevation,
+    elevationMode,
+    headingDegrees
+  );
 
-    return new IndoorMapEntitySetProp(indoorMapId,
-                                      floorId,
-                                      name,
-                                      geometryId,
-                                      location,
-                                      elevation,
-                                      elevationMode,
-                                      headingDegrees);
-};
-
-module.exports = {
-    IndoorMapEntitySetProp: IndoorMapEntitySetProp,
-    indoorMapEntitySetProp: indoorMapEntitySetProp
-};

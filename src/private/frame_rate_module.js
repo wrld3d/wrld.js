@@ -1,7 +1,6 @@
-var MapModule = require("./map_module");
+import MapModule from "./map_module";
 
-
-function FrameRateModule(
+export function FrameRateModule(
     emscriptenApi,
     targetVSyncInterval,
     throttledTargetFrameIntervalMilliseconds,
@@ -16,7 +15,7 @@ function FrameRateModule(
     var _throttleWhenIdleEnabled = throttleWhenIdleEnabled;
     var _ready = false;
 
-    this.onInitialized = function() {
+    this.onInitialized = () => {
         _emscriptenApi.frameRateApi.setTargetVSyncInterval(_targetVSyncInterval);
         _emscriptenApi.frameRateApi.setThrottledTargetFrameInterval(_throttledTargetFrameIntervalMilliseconds);
         _emscriptenApi.frameRateApi.setIdleSecondsBeforeThrottle(_idleSecondsBeforeThrottle);
@@ -24,11 +23,9 @@ function FrameRateModule(
         _ready = true;
     };
 
-    this.ready = function() {
-        return _ready;
-    };
+    this.ready = () => _ready;
 
-    this.setTargetVSyncInterval = function(targetVSyncInterval) {
+    this.setTargetVSyncInterval = (targetVSyncInterval) => {
         _targetVSyncInterval = targetVSyncInterval;
         if (!_ready) {
             return;
@@ -36,7 +33,7 @@ function FrameRateModule(
         _emscriptenApi.frameRateApi.setTargetVSyncInterval(_targetVSyncInterval);
     };
 
-    this.setThrottledTargetFrameInterval = function(throttledTargetFrameIntervalMilliseconds) {
+    this.setThrottledTargetFrameInterval = (throttledTargetFrameIntervalMilliseconds) => {
         _throttledTargetFrameIntervalMilliseconds = throttledTargetFrameIntervalMilliseconds;
         if (!_ready) {
             return;
@@ -44,7 +41,7 @@ function FrameRateModule(
         _emscriptenApi.frameRateApi.setThrottledTargetFrameInterval(_throttledTargetFrameIntervalMilliseconds);
     };
 
-    this.setIdleSecondsBeforeThrottle = function(idleSecondsBeforeThrottle) {
+    this.setIdleSecondsBeforeThrottle = (idleSecondsBeforeThrottle) => {
         _idleSecondsBeforeThrottle = idleSecondsBeforeThrottle;
         if (!_ready) {
             return;
@@ -52,7 +49,7 @@ function FrameRateModule(
         _emscriptenApi.frameRateApi.setIdleSecondsBeforeThrottle(_idleSecondsBeforeThrottle);
     };
 
-    this.setThrottleWhenIdleEnabled = function(throttleWhenIdleEnabled) {
+    this.setThrottleWhenIdleEnabled = (throttleWhenIdleEnabled) => {
         _throttleWhenIdleEnabled = throttleWhenIdleEnabled;
         if (!_ready) {
             return;
@@ -60,7 +57,7 @@ function FrameRateModule(
         _emscriptenApi.frameRateApi.setThrottleWhenIdleEnabled(_throttleWhenIdleEnabled);
     };
 
-    this.cancelThrottle = function() {
+    this.cancelThrottle = () => {
         // don't attempt to defer command if called during startup
         if (!_ready) {
             return;
@@ -68,6 +65,7 @@ function FrameRateModule(
         _emscriptenApi.frameRateApi.cancelThrottle();
     };
 }
+
 FrameRateModule.prototype = MapModule;
 
-module.exports = FrameRateModule;
+export default FrameRateModule;

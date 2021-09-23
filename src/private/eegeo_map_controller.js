@@ -1,29 +1,29 @@
-var HTMLMapContainer = require("./html_map_container");
-var ThemesModule = require("./themes_module");
-var IndoorsModule = require("./indoors_module");
-var PrecacheModule = require("./precache_module");
-var CameraModule = require("./camera_module");
-var PolygonModule = require("./polygon_module");
-var PolylineModule = require("./polyline_module");
-var RoutingModule = require("./routing_module");
-var RenderingModule = require("./rendering_module");
-var BuildingsModule = require("./buildings_module");
-var PropModule = require("./prop_module");
-var IndoorMapEntityInformationModule = require("./indoor_map_entity_information_module");
-var IndoorMapFloorOutlineInformationModule = require("./indoor_map_floor_outline_information_module");
-var BlueSphereModule = require("./blue_sphere_module");
-var MapRuntimeModule = require("./map_runtime_module");
-var LayerPointMappingModule = require("./layer_point_mapping_module");
-var VersionModule = require("./version_module");
-var HeatmapModule = require("./heatmap_module");
-var FrameRateModule = require("./frame_rate_module");
+import EegeoLeafletMap from "../public/eegeo_leaflet_map";
 
-var IndoorEntranceMarkerUpdater = require("./indoor_entrance_marker_updater");
+import HTMLMapContainer from "./html_map_container";
+import IndoorEntranceMarkerUpdater from "./indoor_entrance_marker_updater";
+import MapMoveEvents from "./events/map_move_events";
 
-var EegeoLeafletMap = require("../public/eegeo_leaflet_map");
-var MapMoveEvents = require("./events/map_move_events");
+import ThemesModule from "./themes_module";
+import IndoorsModule from "./indoors_module";
+import PrecacheModule from "./precache_module";
+import CameraModule from "./camera_module";
+import PolygonModule from "./polygon_module";
+import PolylineModule from "./polyline_module";
+import RoutingModule from "./routing_module";
+import RenderingModule from "./rendering_module";
+import BuildingsModule from "./buildings_module";
+import PropModule from "./prop_module";
+import IndoorMapEntityInformationModule from "./indoor_map_entity_information_module";
+import IndoorMapFloorOutlineInformationModule from "./indoor_map_floor_outline_information_module";
+import BlueSphereModule from "./blue_sphere_module";
+import MapRuntimeModule from "./map_runtime_module";
+import LayerPointMappingModule from "./layer_point_mapping_module";
+import VersionModule from "./version_module";
+import HeatmapModule from "./heatmap_module";
+import FrameRateModule from "./frame_rate_module";
 
-var removeFileExtension = function(fileName, extensionToRemove) {
+const removeFileExtension = (fileName, extensionToRemove) => {
     var extensionPosition = fileName.lastIndexOf(".");
     var extension = fileName.slice(extensionPosition);
     if (extension === extensionToRemove) {
@@ -32,8 +32,7 @@ var removeFileExtension = function(fileName, extensionToRemove) {
     return fileName;
 };
 
-
-var EegeoMapController = function (mapId, emscriptenApi, domElement, apiKey, browserWindow, browserDocument, module, options, onMapRemoveCallback) {
+export function EegeoMapController (mapId, emscriptenApi, domElement, apiKey, browserWindow, browserDocument, module, options, onMapRemoveCallback) {
 
     var _defaultOptions = {
         canvasId: "canvas",
@@ -288,6 +287,6 @@ var EegeoMapController = function (mapId, emscriptenApi, domElement, apiKey, bro
         });
         _this.leafletMap.onInitialStreamingCompleted();
     };
-};
+}
 
-module.exports = EegeoMapController;
+export default EegeoMapController;

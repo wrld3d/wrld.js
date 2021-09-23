@@ -1,7 +1,6 @@
-var indoorMapEntities = require("../../public/indoorMapEntities/indoorMapEntities");
+import { IndoorMapEntity } from "../../public/indoorMapEntities/indoorMapEntities";
 
-function EmscriptenIndoorMapEntityInformationApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
-    
+export function EmscriptenIndoorMapEntityInformationApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
     var _emscriptenApiPointer = emscriptenApiPointer;
     var _emscriptenMemory = emscriptenMemory;
 
@@ -14,11 +13,11 @@ function EmscriptenIndoorMapEntityInformationApi(emscriptenApiPointer, cwrap, em
     var _indoorEntityInformationApi_TryGetIndoorMapEntityBuffersSize = cwrap("indoorEntityInformationApi_TryGetIndoorMapEntityBuffersSize", "number",  ["number", "number", "number", "number", "number"]);
     var _indoorEntityInformationApi_TryGetIndoorMapEntityModels = cwrap("indoorEntityInformationApi_TryGetIndoorMapEntityModels", "number" , ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number"]);
 
-    this.registerIndoorMapEntityInformationChangedCallback = function(callback) {
+    this.registerIndoorMapEntityInformationChangedCallback = (callback) => {
         _indoorEntityInformationApi_IndoorMapEntityInformationChangedCallback(_emscriptenApiPointer, emscriptenModule.addFunction(callback));
     };
 
-    this.createIndoorMapEntityInformation = function(indoorEntityInformation) {
+    this.createIndoorMapEntityInformation = (indoorEntityInformation) => {
         var indoorEntityInformationId = 0;
 
         var indoorMapId = indoorEntityInformation.getIndoorMapId();
@@ -30,11 +29,11 @@ function EmscriptenIndoorMapEntityInformationApi(emscriptenApiPointer, cwrap, em
         return indoorEntityInformationId;
     };
 
-    this.destroyIndoorMapEntityInformation = function(IndoorMapEntityInformationId) {
+    this.destroyIndoorMapEntityInformation = (IndoorMapEntityInformationId) => {
         _indoorEntityInformationApi_DestroyIndoorMapEntityInformation(_emscriptenApiPointer, IndoorMapEntityInformationId);
     };
 
-    this.tryGetIndoorMapEntityInformation = function(IndoorMapEntityInformationId) {
+    this.tryGetIndoorMapEntityInformation = (IndoorMapEntityInformationId) => {
 
         //Get Current Load State
         var loadStateBuf = _emscriptenMemory.createInt32Buffer(1);
@@ -164,7 +163,7 @@ function EmscriptenIndoorMapEntityInformationApi(emscriptenApiPointer, cwrap, em
                 latLngsPerContourHead++;
             }
 
-            var entity = new indoorMapEntities.IndoorMapEntity(indoorMapEntityId, indoorMapEntityFloorId, position, polygonPoints);
+            var entity = new IndoorMapEntity(indoorMapEntityId, indoorMapEntityFloorId, position, polygonPoints);
             indoorMapEntitiesList.push(entity);
         }
 
@@ -177,4 +176,4 @@ function EmscriptenIndoorMapEntityInformationApi(emscriptenApiPointer, cwrap, em
     };
 }
 
-module.exports = EmscriptenIndoorMapEntityInformationApi;
+export default EmscriptenIndoorMapEntityInformationApi;

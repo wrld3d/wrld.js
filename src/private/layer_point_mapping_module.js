@@ -1,42 +1,37 @@
-var MapModule = require("./map_module");
-var indoorOptions = require("./indoor_map_layer_options.js");
-var elevationMode = require("./elevation_mode.js");
+import MapModule from "./map_module";
+import { getIndoorMapId, getIndoorMapFloorIndex, getIndoorMapFloorId } from "./indoor_map_layer_options.js";
+import { getElevationModeInt } from "./elevation_mode.js";
 
 var _undefinedPoint = L.point(-100, -100);
 
-var LayerPointMappingModule = function(emscriptenApi) {
+function LayerPointMappingModule (emscriptenApi) {
     var _emscriptenApi = emscriptenApi;
     var _spacesApi = null;
     var _ready = false;
     var _layerToLatLngsMapping = {};
-    var _this = this;  
     var _pendingMappings = [];
 
-    this.onInitialized = function() {
+    this.onInitialized = () => {
         _ready = true;
         _spacesApi = _emscriptenApi.spacesApi;
         this._createPendingLayers();
     };       
 
     // https://stackoverflow.com/a/15030117
-    var _flatten = function(arr) {
-        return arr.reduce(function (flat, toFlatten) {
-            return flat.concat(Array.isArray(toFlatten) ? _flatten(toFlatten) : toFlatten);
-        }, []);
-    };
+    var _flatten = (arr) => arr.reduce(function (flat, toFlatten) {
+        return flat.concat(Array.isArray(toFlatten) ? _flatten(toFlatten) : toFlatten);
+    }, []);
 
-    this._getLayerId = function(layer) {
-        return L.stamp(layer);
-    };
+    this._getLayerId = (layer) => L.stamp(layer);
 
-    this._useWrldSdkPointMappingForLayer = function(layer) {        
+    this._useWrldSdkPointMappingForLayer = (layer) => {
         if (typeof layer.getLatLng !== "function" && typeof layer.getLatLngs !== "function") {
             return false;
         }
         return true;
     };
 
-    this._createAndAdd = function(layer) {
+    this._createAndAdd = (layer) => {
         if (!this._useWrldSdkPointMappingForLayer(layer)) {
             return;
         }
@@ -52,21 +47,21 @@ var LayerPointMappingModule = function(emscriptenApi) {
 
         var elevation = layer.options.elevation || 0.0;
         
-        var elevationModeInt = elevationMode.getElevationModeInt(layer.options.elevationMode);
+        var elevationModeInt = getElevationModeInt(layer.options.elevationMode);
 
         var api = _emscriptenApi.layerPointMappingApi;
         
         // due to legacy uses where positions were defined using floor index (poi tool, for example)
         // check to see if we're dealing with a floor index, and use that instead. Floor id & index 
         // have different semantics, so they cannot be used interchangeably.
-        var indoorMapId = indoorOptions.getIndoorMapId(layer);
-        var indoorMapFloorIndex = indoorOptions.getIndoorMapFloorIndex(layer);
+        var indoorMapId = getIndoorMapId(layer);
+        var indoorMapFloorIndex = getIndoorMapFloorIndex(layer);
         var indoorMapWithFloorIndex = indoorMapId !== null && indoorMapFloorIndex !== null;
 
         if(indoorMapWithFloorIndex === true) {
             api.createPointMappingWithFloorIndex(id, elevation, elevationModeInt, indoorMapId, indoorMapFloorIndex, latLngsFlatArray);
         } else {
-            var indoorMapFloorId = indoorOptions.getIndoorMapFloorId(layer);
+            var indoorMapFloorId = getIndoorMapFloorId(layer);
             var indoorOptionsValid = indoorMapId !== null && indoorMapFloorId !== null;            
 
             // in the case where _either_ the indoor map id or the floor id is invalid, use neither (defaults to outside)
@@ -79,14 +74,14 @@ var LayerPointMappingModule = function(emscriptenApi) {
         _layerToLatLngsMapping[id] = api.getLatLngsForLayer(id, latLngsFlatArray.length);
     };
 
-    this._createPendingLayers = function() {
-        _pendingMappings.forEach(function(layer) {
-            _this._createAndAdd(layer);
-        });
-        _pendingMappings = [];            
+    this._createPendingLayers = () => {
+        _pendingMappings.forEach((layer) => {
+                this._createAndAdd(layer);
+            });
+        _pendingMappings = [];
     };
 
-    this.createPointMapping = function(layer) {        
+    this.createPointMapping = (layer) => {
         if (!this._useWrldSdkPointMappingForLayer(layer)) {
             return;
         }
@@ -99,7 +94,7 @@ var LayerPointMappingModule = function(emscriptenApi) {
         this._createAndAdd(layer);
     };
 
-    this.removePointMapping = function(layer) {        
+    this.removePointMapping = (layer) => {
         if(!_ready) {
             var index = _pendingMappings.indexOf(layer);
             if (index > -1) {
@@ -120,21 +115,21 @@ var LayerPointMappingModule = function(emscriptenApi) {
         }
     };
 
-    this._updateMappings = function() {
+    this._updateMappings = () => {
         if (!_ready) {
             return;
         }
 
         var api = _emscriptenApi.layerPointMappingApi;
 
-        for (var id in _layerToLatLngsMapping) {            
+        for (var id in _layerToLatLngsMapping) {
             var latLngCount = _layerToLatLngsMapping[id].length;
-            
+
             _layerToLatLngsMapping[id] = api.getLatLngsForLayer(id, latLngCount);
         }
     };
 
-    this.onDraw = function() {
+    this.onDraw = () => {
         if (!_ready) {
             return;
         }
@@ -142,19 +137,19 @@ var LayerPointMappingModule = function(emscriptenApi) {
         this._updateMappings();
     };
 
-    this._getDefaultLatLngsFromLayer = function(layer) {
+    this._getDefaultLatLngsFromLayer = (layer) => {
         if (typeof layer.getLatLngs === "function") {
             return layer.getLatLngs();
         }
 
         if (typeof layer.getLatLng === "function") {
-            return [ layer.getLatLng() ];
+            return [layer.getLatLng()];
         }
 
         return null;
     };
 
-    this.latLngsForLayer = function(layer) {        
+    this.latLngsForLayer = (layer) => {        
         if(!_ready) {            
             return this._getDefaultLatLngsFromLayer(layer);
         }
@@ -171,7 +166,7 @@ var LayerPointMappingModule = function(emscriptenApi) {
         return this._getDefaultLatLngsFromLayer(layer);
     };
 
-    this.projectLatlngs = function(layer, latlngs, result, projectedBounds) {
+    this.projectLatlngs = (layer, latlngs, result, projectedBounds) => {
         if(!_ready) {
             return false;
         }
@@ -194,11 +189,11 @@ var LayerPointMappingModule = function(emscriptenApi) {
         return true;
     };
 
-    this._latLngToLayerPoint = function(latlng) {
+    this._latLngToLayerPoint = (latlng) => {
         return (_ready) ? _spacesApi.worldToScreen(latlng).toPoint() : _undefinedPoint;
     };
 
-    this._projectLatlngsRecursive = function(originalLatlngs, associatedFlatLatlngArray, currentFlatIndex, result, projectedBounds) {       
+    this._projectLatlngsRecursive = (originalLatlngs, associatedFlatLatlngArray, currentFlatIndex, result, projectedBounds) => {
         var flat = originalLatlngs[0] instanceof L.LatLng,
             len = originalLatlngs.length,
             i, ring;
@@ -225,7 +220,8 @@ var LayerPointMappingModule = function(emscriptenApi) {
 
         return currentFlatIndex;
     };
-};
+}
 
 LayerPointMappingModule.prototype = MapModule;
-module.exports = LayerPointMappingModule;
+
+export default LayerPointMappingModule;

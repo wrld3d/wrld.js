@@ -1,22 +1,22 @@
-function EmscriptenMapRuntimeApi(eegeoApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
+export function EmscriptenMapRuntimeApi(eegeoApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
 
     var _eegeoApiPointer = eegeoApiPointer;
     var _pauseWebgl = cwrap("webglPause", null, ["number"]);
     var _resumeWebgl = cwrap("webglResume", null, ["number"]);
     var _removeWebgl = cwrap("webglRemove", null, ["number"]);
 
-    this.onPause = function() {
+    this.onPause = () => {
         _pauseWebgl(_eegeoApiPointer);
     };
 
-    this.onResume = function() {
+    this.onResume = () => {
         _resumeWebgl(_eegeoApiPointer);
     };
 
-    this.onRemove = function() {
+    this.onRemove = () => {
         _removeWebgl(_eegeoApiPointer);
     };
 
 }
 
-module.exports = EmscriptenMapRuntimeApi;
+export default EmscriptenMapRuntimeApi;

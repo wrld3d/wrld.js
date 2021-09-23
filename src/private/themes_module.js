@@ -1,7 +1,7 @@
-var MapModule = require("./map_module");
-var Themes = require("../public/themes");
+import MapModule from "./map_module";
+import * as Themes from "../public/themes";
 
-var ThemesModule = function(emscriptenApi) {
+export function ThemesModule (emscriptenApi) {
 
     var _emscriptenApi = emscriptenApi;
     var _ready = false;
@@ -13,7 +13,7 @@ var ThemesModule = function(emscriptenApi) {
     var _shouldChangeTheme = false;
     var _shouldChangeState = false;
 
-    var _updateTheme = function() {
+    var _updateTheme = () => {
         if (!_ready) {
             return;
         }
@@ -29,35 +29,35 @@ var ThemesModule = function(emscriptenApi) {
         }
     };
 
-    var _tryMatchBuiltIn = function(season, time, weather){
-        var getValues = function(obj) {
+    var _tryMatchBuiltIn = (season, time, weather) => {
+        var getValues = function (obj) {
             var values = [];
-            for(var key in obj) {
+            for (var key in obj) {
                 values.push(obj[key]);
             }
             return values;
         };
-        var caseInsensitiveMatchWithCollection = function(key, values) {
+        var caseInsensitiveMatchWithCollection = (key, values) => {
             var keyUpper = key.toUpperCase();
-            var matchedValue = values.find(function(item) {
+            var matchedValue = values.find(function (item) {
                 return keyUpper.localeCompare(item.toUpperCase()) === 0;
             });
             return matchedValue ? matchedValue : key;
         };
 
-        return { 
-            season: caseInsensitiveMatchWithCollection(season, getValues(Themes.season)), 
+        return {
+            season: caseInsensitiveMatchWithCollection(season, getValues(Themes.season)),
             time: caseInsensitiveMatchWithCollection(time, getValues(Themes.time)),
-            weather: caseInsensitiveMatchWithCollection(weather, getValues(Themes.weather)) 
-         };
+            weather: caseInsensitiveMatchWithCollection(weather, getValues(Themes.weather))
+        };
     };
 
-    var _onThemesStreamingCompleted = function() {
+    var _onThemesStreamingCompleted = () => {
         _ready = true;
         _updateTheme();
     };
     
-    this.setTheme = function(season, time, weather) {
+    this.setTheme = (season, time, weather) => {
         var themeInfo = _tryMatchBuiltIn(season, time, weather);
 
         if (themeInfo.season !== _season) {
@@ -67,37 +67,37 @@ var ThemesModule = function(emscriptenApi) {
         if (themeInfo.time !== _time || themeInfo.weather !== _weather) {
             _shouldChangeState = true;
         }
-        
+
         _season = themeInfo.season;
         _time = themeInfo.time;
         _weather = themeInfo.weather;
         _updateTheme();
     };
 
-    this.setSeason = function(season) {
+    this.setSeason = (season) => {
         this.setTheme(season, _time, _weather);
     };
 
-    this.setTime = function(time) {
+    this.setTime = (time) => {
         this.setTheme(_season, time, _weather);
     };
 
-    this.setWeather = function(weather) {
-        this.setTheme(_season, _time, weather);        
+    this.setWeather = (weather) => {
+        this.setTheme(_season, _time, weather);
     };
 
-    this.setEnvironmentThemesManifest = function(environmentThemesManifest) {
+    this.setEnvironmentThemesManifest = (environmentThemesManifest) => {
         if (!_ready) {
             return;
         }
         _emscriptenApi.themesApi.setThemeManifest(environmentThemesManifest);
     };
 
-    this.onInitialized = function() {
+    this.onInitialized = () => {
         _emscriptenApi.themesApi.registerStreamingCompletedCallback(_onThemesStreamingCompleted);
     };
-};
+}
 
 ThemesModule.prototype = MapModule;
 
-module.exports = ThemesModule;
+export default ThemesModule;

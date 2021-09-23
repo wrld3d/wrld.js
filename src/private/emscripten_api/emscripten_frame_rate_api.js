@@ -1,4 +1,4 @@
-function EmscriptenFrameRateApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
+export function EmscriptenFrameRateApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
 
     var _emscriptenApiPointer = emscriptenApiPointer;
 
@@ -8,26 +8,25 @@ function EmscriptenFrameRateApi(emscriptenApiPointer, cwrap, emscriptenModule, e
     var _frameRateApi_SetThrottleWhenIdleEnabled = cwrap("frameRateApi_SetThrottleWhenIdleEnabled", null, ["number", "number"]);
     var _frameRateApi_CancelThrottle = cwrap("frameRateApi_CancelThrottle", null, ["number"]);
 
-    this.setTargetVSyncInterval = function(targetVSyncInterval) {
+    this.setTargetVSyncInterval = (targetVSyncInterval) => {
         _frameRateApi_SetTargetVSyncInterval(_emscriptenApiPointer, targetVSyncInterval);
     };
 
-    this.setThrottledTargetFrameInterval = function(throttledTargetFrameIntervalMS) {
+    this.setThrottledTargetFrameInterval = (throttledTargetFrameIntervalMS) => {
         _frameRateApi_SetThrottledTargetFrameInterval(_emscriptenApiPointer, throttledTargetFrameIntervalMS);
     };
 
-    this.setIdleSecondsBeforeThrottle = function(idleSecondsBeforeThrottle) {
+    this.setIdleSecondsBeforeThrottle = (idleSecondsBeforeThrottle) => {
         _frameRateApi_SetIdleSecondsBeforeThrottle(_emscriptenApiPointer, idleSecondsBeforeThrottle);
     };
 
-    this.setThrottleWhenIdleEnabled = function(enabled) {
+    this.setThrottleWhenIdleEnabled = (enabled) => {
         _frameRateApi_SetThrottleWhenIdleEnabled(_emscriptenApiPointer, enabled ? 1 : 0);
     };
 
-    this.cancelThrottle = function() {
+    this.cancelThrottle = () => {
         _frameRateApi_CancelThrottle(_emscriptenApiPointer);
     };
-
 }
 
-module.exports = EmscriptenFrameRateApi;
+export default EmscriptenFrameRateApi;

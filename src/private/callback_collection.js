@@ -1,4 +1,4 @@
-var CallbackCollection = function() {
+function CallbackCollection() {
 
     var _callbacks = [];
 
@@ -16,6 +16,6 @@ var CallbackCollection = function() {
             callback.apply(this, args);
         });
     };
-};
+}
 
-module.exports = CallbackCollection;
+export default CallbackCollection;

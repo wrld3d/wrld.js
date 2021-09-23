@@ -1,26 +1,26 @@
-var EmscriptenMemory = require("./emscripten_memory");
-var EmscriptenGeofenceApi = require("./emscripten_geofence_api.js");
-var EmscriptenIndoorsApi = require("./emscripten_indoors_api.js");
-var EmscriptenPrecacheApi = require("./emscripten_precache_api.js");
-var EmscriptenSpacesApi = require("./emscripten_spaces_api.js");
-var EmscriptenThemesApi = require("./emscripten_themes_api.js");
-var EmscriptenCameraApi = require("./emscripten_camera_api.js");
-var EmscriptenExpandFloorsApi = require("./emscripten_expand_floors_api.js");
-var EmscriptenIndoorEntityApi = require("./emscripten_indoor_entity_api.js");
-var EmscriptenBuildingsApi = require("./emscripten_buildings_api.js");
-var EmscriptenRenderingApi = require("./emscripten_rendering_api.js");
-var EmscriptenLayerPointMappingApi = require("./emscripten_layer_point_mapping_api.js");
-var EmscriptenPropsApi = require("./emscripten_props_api.js");
-var EmscriptenIndoorMapEntityInformationApi = require("./emscripten_indoor_map_entity_information_api.js");
-var EmscriptenIndoorMapFloorOutlineInformationApi = require("./emscripten_indoor_map_floor_outline_information_api.js");
-var EmscriptenPolylineApi = require("./emscripten_polyline_api.js");
-var EmscriptenBlueSphereApi = require("./emscripten_blue_sphere_api.js");
-var EmscriptenMapRuntimeApi = require("./emscripten_map_runtime_api.js");
-var EmscriptenVersionApi = require("./emscripten_version_api.js");
-var EmscriptenHeatmapApi = require("./emscripten_heatmap_api.js");
-var EmscriptenFrameRateApi = require("./emscripten_frame_rate_api.js");
+import EmscriptenMemory from "./emscripten_memory";
+import EmscriptenGeofenceApi from "./emscripten_geofence_api.js";
+import EmscriptenIndoorsApi from "./emscripten_indoors_api.js";
+import EmscriptenPrecacheApi from "./emscripten_precache_api.js";
+import EmscriptenSpacesApi from "./emscripten_spaces_api.js";
+import EmscriptenThemesApi from "./emscripten_themes_api.js";
+import EmscriptenCameraApi from "./emscripten_camera_api.js";
+import EmscriptenExpandFloorsApi from "./emscripten_expand_floors_api.js";
+import EmscriptenIndoorEntityApi from "./emscripten_indoor_entity_api.js";
+import EmscriptenBuildingsApi from "./emscripten_buildings_api.js";
+import EmscriptenRenderingApi from "./emscripten_rendering_api.js";
+import EmscriptenLayerPointMappingApi from "./emscripten_layer_point_mapping_api.js";
+import EmscriptenPropsApi from "./emscripten_props_api.js";
+import EmscriptenIndoorMapEntityInformationApi from "./emscripten_indoor_map_entity_information_api.js";
+import EmscriptenIndoorMapFloorOutlineInformationApi from "./emscripten_indoor_map_floor_outline_information_api.js";
+import EmscriptenPolylineApi from "./emscripten_polyline_api.js";
+import EmscriptenBlueSphereApi from "./emscripten_blue_sphere_api.js";
+import EmscriptenMapRuntimeApi from "./emscripten_map_runtime_api.js";
+import EmscriptenVersionApi from "./emscripten_version_api.js";
+import EmscriptenHeatmapApi from "./emscripten_heatmap_api.js";
+import EmscriptenFrameRateApi from "./emscripten_frame_rate_api.js";
 
-function EmscriptenApi(emscriptenModule) {
+export function EmscriptenApi(emscriptenModule) {
 
     var _emscriptenModule = emscriptenModule;
     var _ready = false;
@@ -48,7 +48,7 @@ function EmscriptenApi(emscriptenModule) {
     this.heatmapApi = null;
     this.frameRateApi = null;
 
-    this.onInitialized = function(eegeoApiPointer, emscriptenApiPointer, onUpdateCallback, onDrawCallback, onInitialStreamingCompletedCallback) {
+    this.onInitialized = (eegeoApiPointer, emscriptenApiPointer, onUpdateCallback, onDrawCallback, onInitialStreamingCompletedCallback) => {
         _eegeoApiPointer = eegeoApiPointer;
         _emscriptenApiPointer = emscriptenApiPointer;
 
@@ -91,9 +91,7 @@ function EmscriptenApi(emscriptenModule) {
         _ready = true;
     };
 
-    this.ready = function() {
-        return _ready;
-    };
+    this.ready = () => _ready;
 }
 
-module.exports = EmscriptenApi;
+export default EmscriptenApi;

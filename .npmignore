@@ -1,0 +1,4 @@
+# Files not be included in the npm package
+/coverage
+test.sh
+issue_template.md

@@ -1,7 +1,7 @@
-var space = require("../../public/space");
-var interopUtils = require("./emscripten_interop_utils.js");
+import { Vector3 } from "../../public/space";
+import { colorToRgba32 } from "./emscripten_interop_utils.js";
 
-function EmscriptenRenderingApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
+export function EmscriptenRenderingApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
 
     var _emscriptenApiPointer = emscriptenApiPointer;
     var _emscriptenMemory = emscriptenMemory;
@@ -15,77 +15,77 @@ function EmscriptenRenderingApi(emscriptenApiPointer, cwrap, emscriptenModule, e
     var _renderingApi_GetNorthFacingOrientationMatrix = cwrap("renderingApi_GetNorthFacingOrientationMatrix", null, ["number", "number", "number", "number", "number"]);
 
 
-    this.setMapCollapsed = function(isMapCollapsed) {
+    this.setMapCollapsed = (isMapCollapsed) => {
         _renderingApi_SetMapCollapsed(_emscriptenApiPointer, isMapCollapsed ? 1 : 0);
     };
 
-    this.setClearColor = function(clearColor) {
-        var clearColorRGBA32 = interopUtils.colorToRgba32(clearColor);
+    this.setClearColor = (clearColor) => {
+        var clearColorRGBA32 = colorToRgba32(clearColor);
         _renderingApi_SetClearColor(_emscriptenApiPointer, clearColorRGBA32);
     };
 
-    this.getCameraRelativePosition = function(latLng) {
+    this.getCameraRelativePosition = (latLng) => {
         var renderPosition = new Array(3);
-        _emscriptenMemory.passDoubles(renderPosition, function(resultArray, arraySize) {
+        _emscriptenMemory.passDoubles(renderPosition, (resultArray, arraySize) => {
             _renderingApi_GetCameraRelativePosition(_emscriptenApiPointer, latLng.lat, latLng.lng, latLng.alt || 0.0, arraySize, resultArray);
             renderPosition = _emscriptenMemory.readDoubles(resultArray, arraySize);
         });
-        return new space.Vector3(renderPosition);
+        return new Vector3(renderPosition);
     };
 
-    this.getNorthFacingOrientationMatrix = function(latLng) {
+    this.getNorthFacingOrientationMatrix = (latLng) => {
         var orientation = new Array(16);
-        _emscriptenMemory.passDoubles(orientation, function(resultArray, arraySize) {
+        _emscriptenMemory.passDoubles(orientation, (resultArray, arraySize) => {
             _renderingApi_GetNorthFacingOrientationMatrix(_emscriptenApiPointer, latLng.lat, latLng.lng, arraySize, resultArray);
             orientation = _emscriptenMemory.readDoubles(resultArray, arraySize);
         });
         return orientation;
     };
 
-    this.getCameraProjectionMatrix = function() {
+    this.getCameraProjectionMatrix = () => {
         var projection = new Array(16);
-        _emscriptenMemory.passDoubles(projection, function(resultArray, arraySize) {
+        _emscriptenMemory.passDoubles(projection, (resultArray, arraySize) => {
             _renderingApi_GetCameraProjectionMatrix(_emscriptenApiPointer, arraySize, resultArray);
             projection = _emscriptenMemory.readDoubles(resultArray, arraySize);
         });
         return projection;
     };
 
-    this.getCameraOrientationMatrix = function() {
+    this.getCameraOrientationMatrix = () => {
         var orientation = new Array(16);
-        _emscriptenMemory.passDoubles(orientation, function(resultArray, arraySize) {
+        _emscriptenMemory.passDoubles(orientation, (resultArray, arraySize) => {
             _renderingApi_GetCameraOrientationMatrix(_emscriptenApiPointer, arraySize, resultArray);
             orientation = _emscriptenMemory.readDoubles(resultArray, arraySize);
         });
         return orientation;
     };
 
-    this.getLightingData = function() {
+    this.getLightingData = () => {
         var lightingData = new Array(21);
-        _emscriptenMemory.passDoubles(lightingData, function (resultArray, arraySize) {
+        _emscriptenMemory.passDoubles(lightingData, (resultArray, arraySize) => {
             _renderingApi_GetLightingData(_emscriptenApiPointer, arraySize, resultArray);
             lightingData = _emscriptenMemory.readDoubles(resultArray, arraySize);
         });
 
         var lighting = {
             key: {
-                direction: new space.Vector3(lightingData[0], lightingData[1], lightingData[2]),
-                color: new space.Vector3(lightingData[9], lightingData[10], lightingData[11])
+                direction: new Vector3(lightingData[0], lightingData[1], lightingData[2]),
+                color: new Vector3(lightingData[9], lightingData[10], lightingData[11])
             },
             back: {
-                direction: new space.Vector3(lightingData[3], lightingData[4], lightingData[5]),
-                color: new space.Vector3(lightingData[12], lightingData[13], lightingData[14])
+                direction: new Vector3(lightingData[3], lightingData[4], lightingData[5]),
+                color: new Vector3(lightingData[12], lightingData[13], lightingData[14])
             },
             fill: {
-                direction: new space.Vector3(lightingData[6], lightingData[7], lightingData[8]),
-                color: new space.Vector3(lightingData[15], lightingData[16], lightingData[17])
+                direction: new Vector3(lightingData[6], lightingData[7], lightingData[8]),
+                color: new Vector3(lightingData[15], lightingData[16], lightingData[17])
             },
             ambient: {
-                color: new space.Vector3(lightingData[18], lightingData[19], lightingData[20])
+                color: new Vector3(lightingData[18], lightingData[19], lightingData[20])
             }
         };
         return lighting;
     };
 }
 
-module.exports = EmscriptenRenderingApi;
+export default EmscriptenRenderingApi;

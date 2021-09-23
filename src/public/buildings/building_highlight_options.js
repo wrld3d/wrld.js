@@ -1,71 +1,59 @@
-var space = require("../space");
+import { Vector4 } from "../space";
 
-var BuildingHighlightSelectionType = {
+export const BuildingHighlightSelectionType = {
     SELECT_AT_LOCATION: "selectAtLocation",
-    SELECT_AT_SCEEN_POINT: "selectAtScreenPoint"
+    SELECT_AT_SCREEN_POINT: "selectAtScreenPoint"
 };
 
-
-var BuildingHighlightOptions = function() {
-
-
+export function BuildingHighlightOptions () {
     var _selectionLocationLatLng = L.latLng([0.0, 0.0]);
     var _selectionScreenPoint = L.Point(0.0, 0.0);
     var _selectionMode = "selectAtLocation";
     var _color = [255, 255, 0, 128];
     var _informationOnly = false;
 
-    this.highlightBuildingAtLocation = function(latLng) {
+    this.highlightBuildingAtLocation = (latLng) => {
         _selectionMode = BuildingHighlightSelectionType.SELECT_AT_LOCATION;
         _selectionLocationLatLng = L.latLng(latLng);
         return this;
     };
 
-    this.highlightBuildingAtScreenPoint = function(screenPoint) {
+    this.highlightBuildingAtScreenPoint = (screenPoint) => {
         _selectionMode = BuildingHighlightSelectionType.SELECT_AT_SCREEN_POINT;
         _selectionScreenPoint = L.point(screenPoint);
         return this;
     };
 
-    this.color = function(color) {
+    this.color = (color) => {
         _color = color;
         return this;
     };
 
-    this.informationOnly = function() {
+    this.informationOnly = () => {
         _informationOnly = true;
         return this;
     };
 
-    this.getSelectionMode = function() {
+    this.getSelectionMode = () => {
         return _selectionMode;
     };
 
-    this.getSelectionLocation = function() {
+    this.getSelectionLocation = () => {
         return _selectionLocationLatLng;
     };
 
-    this.getSelectionScreenPoint = function() {
+    this.getSelectionScreenPoint = () => {
         return _selectionScreenPoint;
     };
 
-    this.getColor = function() {
-        return new space.Vector4(_color);
+    this.getColor = () => {
+        return new Vector4(_color);
     };
 
-    this.getIsInformationOnly = function() {
+    this.getIsInformationOnly = () => {
         return _informationOnly;
     };
+}
 
-};
-
-var buildingHighlightOptions = function() {
-    return new BuildingHighlightOptions();
-};
-
-module.exports = {
-    BuildingHighlightOptions: BuildingHighlightOptions,
-    buildingHighlightOptions: buildingHighlightOptions,
-    BuildingHighlightSelectionType: BuildingHighlightSelectionType
-};
+export const buildingHighlightOptions = () => new BuildingHighlightOptions();
 

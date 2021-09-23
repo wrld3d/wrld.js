@@ -1,5 +1,4 @@
-
-function EmscriptenBlueSphereApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
+export function EmscriptenBlueSphereApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
     var _emscriptenApiPointer = emscriptenApiPointer;
 
     var _blueSphereApi_setEnabled = cwrap("blueSphereApi_setEnabled", null, ["number", "number"]);
@@ -9,7 +8,7 @@ function EmscriptenBlueSphereApi(emscriptenApiPointer, cwrap, emscriptenModule, 
     var _blueSphereApi_setHeadingDegrees = cwrap("blueSphereApi_setHeadingDegrees", null, ["number", "number"]);
     var _blueSphereApi_showOrientation = cwrap("blueSphereApi_showOrientation", null, ["number", "number"]);
 
-    this.updateNativeState = function (blueSphereModule) {
+    this.updateNativeState = (blueSphereModule) => {
         var location = blueSphereModule.getLocation();
         var indoorMapId = blueSphereModule.getIndoorMapId();
 
@@ -57,4 +56,4 @@ function EmscriptenBlueSphereApi(emscriptenApiPointer, cwrap, emscriptenModule, 
     };
 }
 
-module.exports = EmscriptenBlueSphereApi;
+export default EmscriptenBlueSphereApi;

@@ -1,4 +1,4 @@
-function EmscriptenVersionApi(emscriptenApiPointer, cwrap, emscriptenMemory) {
+export function EmscriptenVersionApi(emscriptenApiPointer, cwrap, emscriptenMemory) {
 
     var _emscriptenApiPointer = emscriptenApiPointer;
     var _emscriptenMemory = emscriptenMemory;
@@ -9,14 +9,14 @@ function EmscriptenVersionApi(emscriptenApiPointer, cwrap, emscriptenMemory) {
     var _versionApi_GetPlatformHashStringSize = cwrap("versionApi_GetPlatformHashStringSize", "number", ["number"]);
     var _versionApi_TryGetPlatformHashString = cwrap("versionApi_TryGetPlatformHashString", "number", ["number", "number", "number"]);
 
-    var _tryGetNativeVersionString = function(nativeGetBufferSizeFunc, nativeGetStringFunc) {
+    var _tryGetNativeVersionString = (nativeGetBufferSizeFunc, nativeGetStringFunc) => {
         var bufferSize = nativeGetBufferSizeFunc(_emscriptenApiPointer);
         var stringBuffer = _emscriptenMemory.createInt8Buffer(bufferSize);
         var success = nativeGetStringFunc(
             _emscriptenApiPointer,
             stringBuffer.ptr,
             bufferSize
-            );
+        );
 
         if (!success) {
             return null;
@@ -26,19 +26,15 @@ function EmscriptenVersionApi(emscriptenApiPointer, cwrap, emscriptenMemory) {
         return stringValue;
     };
 
-    this.getPlatformVersion = function() {
-        return _tryGetNativeVersionString(
-            _versionApi_GetPlatformVersionStringSize,
-            _versionApi_TryGetPlatformVersionString
-            );
-    };
+    this.getPlatformVersion = () => _tryGetNativeVersionString(
+        _versionApi_GetPlatformVersionStringSize,
+        _versionApi_TryGetPlatformVersionString
+    );
 
-    this.getPlatformVersionHash = function() {
-        return _tryGetNativeVersionString(
-            _versionApi_GetPlatformHashStringSize,
-            _versionApi_TryGetPlatformHashString
-            );
-    };
+    this.getPlatformVersionHash = () => _tryGetNativeVersionString(
+        _versionApi_GetPlatformHashStringSize,
+        _versionApi_TryGetPlatformHashString
+    );
 }
 
-module.exports = EmscriptenVersionApi;
+export default EmscriptenVersionApi;

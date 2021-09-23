@@ -1,9 +1,9 @@
-var elevationMode = require("../private/elevation_mode.js");
+import { ElevationModeType, isValidElevationMode } from "../private/elevation_mode.js";
 
-var Circle = L.Circle.extend({
+export const Circle = L.Circle.extend({
     options: {
         elevation: 0,
-        elevationMode: elevationMode.ElevationModeType.HEIGHT_ABOVE_GROUND
+        elevationMode: ElevationModeType.HEIGHT_ABOVE_GROUND
     },
 
     _project: function () {
@@ -54,7 +54,7 @@ var Circle = L.Circle.extend({
     },
 
     setElevationMode: function(mode) {
-        if (elevationMode.isValidElevationMode(mode)) {
+        if (isValidElevationMode(mode)) {
             this.options.elevationMode = mode;
 
             if (this._map !== null) {
@@ -70,11 +70,4 @@ var Circle = L.Circle.extend({
     }
 });
 
-var circle = function (latlng, options, legacyOptions) {
-	return new Circle(latlng, options, legacyOptions);
-};
-
-module.exports = {
-    Circle: Circle,
-    circle: circle
-};
+export const circle = (latlng, options, legacyOptions) => new Circle(latlng, options, legacyOptions);

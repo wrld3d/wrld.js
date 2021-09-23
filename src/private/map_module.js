@@ -1,19 +1,15 @@
-var MapModule = {
-    onUpdate: function(dt) {
-
+export const MapModule = {
+    onUpdate: (dt) => {
     },
 
-    onDraw: function(dt) {
-
+    onDraw: (dt) => {
     },
 
-    onInitialized: function() {
-
+    onInitialized: () => {
     },
 
-    onInitialStreamingCompleted: function() {
-        
+    onInitialStreamingCompleted: () => {
     }
 };
 
-module.exports = MapModule;
+export default MapModule;

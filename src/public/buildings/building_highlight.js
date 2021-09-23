@@ -1,34 +1,27 @@
-var space = require("../space");
+import { Vector4 } from "../space";
 
-var BuildingHighlight = function(options) {
-
+export function BuildingHighlight (options) {
     var _options = options;
     var _id = null;
     var _map = null;
     var _color = options.getColor();
     var _buildingInformation = null;
 
-    this.getColor = function() {
-        return new space.Vector4(_color);
-    };
+    this.getColor = () => new Vector4(_color);
 
-    this.getOptions = function() {
-        return _options;
-    };
+    this.getOptions = () => _options;
 
-    this.setColor = function(color) {
-        _color = new space.Vector4(color);
+    this.setColor = (color) => {
+        _color = new Vector4(color);
         if (_map !== null) {
             _map.buildings._getImpl().notifyBuildingHighlightChanged(this);
         }
         return this;
     };
 
-    this.getId = function() {
-        return _id;
-    };
+    this.getId = () => _id;
 
-    this.addTo = function(map) {
+    this.addTo = (map) => {
         if (_map !== null) {
             this.remove();
         }
@@ -37,7 +30,7 @@ var BuildingHighlight = function(options) {
         return this;
     };
 
-    this.remove = function() {
+    this.remove = () => {
         if (_map !== null) {
             _map.buildings._getImpl().removeBuildingHighlight(this);
             _map = null;
@@ -45,25 +38,15 @@ var BuildingHighlight = function(options) {
         return this;
     };
 
-    this._setNativeHandle = function(nativeId) {
+    this._setNativeHandle = (nativeId) => {
         _id = nativeId;
     };
 
-    this._setBuildingInformation = function(buildingInformation) {
+    this._setBuildingInformation = (buildingInformation) => {
         _buildingInformation = buildingInformation;
     };
 
-    this.getBuildingInformation = function() {
-        return _buildingInformation;
-    };
-};
+    this.getBuildingInformation = () => _buildingInformation;
+}
 
-var buildingHighlight = function(options) {
-    return new BuildingHighlight(options);
-};
-
-module.exports = {
-    BuildingHighlight: BuildingHighlight,
-    buildingHighlight: buildingHighlight
-};
-
+export const buildingHighlight = (options) => new BuildingHighlight(options);

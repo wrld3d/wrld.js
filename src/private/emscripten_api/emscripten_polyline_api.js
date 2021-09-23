@@ -1,7 +1,7 @@
-var elevationMode = require("../elevation_mode.js");
-var interopUtils = require("./emscripten_interop_utils.js");
+import { getElevationModeInt } from "../elevation_mode.js";
+import { colorToRgba32 } from "./emscripten_interop_utils.js";
 
-function EmscriptenPolylineApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
+export function EmscriptenPolylineApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
     var _emscriptenApiPointer = emscriptenApiPointer;
     var _emscriptenMemory = emscriptenMemory;
 
@@ -11,11 +11,11 @@ function EmscriptenPolylineApi(emscriptenApiPointer, cwrap, emscriptenModule, em
     var _polylineApi_setElevation = cwrap("polylineApi_setElevation", null, ["number", "number", "number"]);
     var _polylineApi_setStyleAttributes = cwrap("polylineApi_setStyleAttributes", null, ["number", "number", "number", "number", "number"]);
 
-    this.createPolyline = function(polyline) {
+    this.createPolyline = (polyline) => {
         var coords = [];
         var perPointElevations = [];
         var anyAltitudes = false;
-        polyline.getLatLngs().forEach(function(latLng) {
+        polyline.getLatLngs().forEach((latLng) => {
             coords.push(latLng.lat);
             coords.push(latLng.lng);
             var altOrDefault = 0.0;
@@ -36,9 +36,9 @@ function EmscriptenPolylineApi(emscriptenApiPointer, cwrap, emscriptenModule, em
         var indoorMapId = polyline.getIndoorMapId();
         var indoorMapFloorId = polyline.getIndoorMapFloorId();
         var elevation = polyline.getElevation();
-        var elevationModeInt = elevationMode.getElevationModeInt(polyline.getElevationMode());
+        var elevationModeInt = getElevationModeInt(polyline.getElevationMode());
         var width = polyline.getWidth();
-        var colorRGBA32 = interopUtils.colorToRgba32(polyline.getColor());
+        var colorRGBA32 = colorToRgba32(polyline.getColor());
         var miterLimit = polyline.getMiterLimit();
 
         var polylineId = _polylineApi_createPolyline(
@@ -55,7 +55,7 @@ function EmscriptenPolylineApi(emscriptenApiPointer, cwrap, emscriptenModule, em
             width,
             colorRGBA32,
             miterLimit
-            );
+        );
 
         _emscriptenMemory.freeBuffer(coordsBuf);
         _emscriptenMemory.freeBuffer(perPointElevationsBuf);
@@ -64,19 +64,19 @@ function EmscriptenPolylineApi(emscriptenApiPointer, cwrap, emscriptenModule, em
         return polylineId;
     };
 
-    this.destroyPolyline = function(polylineId) {
+    this.destroyPolyline = (polylineId) => {
         _polylineApi_destroyPolyline(_emscriptenApiPointer, polylineId);
     };
 
-    this.updateNativeState = function(polylineId, polyline) {
+    this.updateNativeState = (polylineId, polyline) => {
         if (!polyline._needsNativeUpdate) {
             return;
         }
         polyline._needsNativeUpdate = false;
 
         var indoorMapId = polyline.getIndoorMapId();
-        var elevationModeInt = elevationMode.getElevationModeInt(polyline.getElevationMode());
-        var colorRGBA32 = interopUtils.colorToRgba32(polyline.getColor());
+        var elevationModeInt = getElevationModeInt(polyline.getElevationMode());
+        var colorRGBA32 = colorToRgba32(polyline.getColor());
 
         _polylineApi_setIndoorMap(
             _emscriptenApiPointer,
@@ -84,14 +84,14 @@ function EmscriptenPolylineApi(emscriptenApiPointer, cwrap, emscriptenModule, em
             indoorMapId,
             indoorMapId.length,
             polyline.getIndoorMapFloorId()
-            );
+        );
 
         _polylineApi_setElevation(
             _emscriptenApiPointer,
             polylineId,
             polyline.getElevation(),
             elevationModeInt
-            );
+        );
 
         _polylineApi_setStyleAttributes(
             _emscriptenApiPointer,
@@ -99,8 +99,8 @@ function EmscriptenPolylineApi(emscriptenApiPointer, cwrap, emscriptenModule, em
             polyline.getWidth(),
             colorRGBA32,
             polyline.getMiterLimit()
-            );
+        );
     };
 }
 
-module.exports = EmscriptenPolylineApi;
+export default EmscriptenPolylineApi;

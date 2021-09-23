@@ -1,4 +1,4 @@
-function EmscriptenCameraApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
+export function EmscriptenCameraApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
 
     var _emscriptenApiPointer = emscriptenApiPointer;
     var _emscriptenMemory = emscriptenMemory;
@@ -14,13 +14,13 @@ function EmscriptenCameraApi(emscriptenApiPointer, cwrap, emscriptenModule, emsc
     var _cameraApi_getZoomLevel = cwrap("cameraApi_getZoomLevel", "number", ["number"]);
     var _cameraApi_setVerticallyLocked = cwrap("cameraApi_setVerticallyLocked", null, ["number", "number"]);
 
-    var _setView = function(animated, location, distance, headingDegrees, tiltDegrees, durationSeconds, jumpIfFarAway, allowInterruption) {
+    var _setView = (animated, location, distance, headingDegrees, tiltDegrees, durationSeconds, jumpIfFarAway, allowInterruption) => {
 
-       var modifyLocation = true;
-       if(location === null ) {
-         location = {lat:0, lng: 0, alt: 0};
-         modifyLocation = false;
-       }
+        var modifyLocation = true;
+        if (location === null) {
+            location = { lat: 0, lng: 0, alt: 0 };
+            modifyLocation = false;
+        }
 
         return _cameraApi_setViewUsingZenithAngle(
             _emscriptenApiPointer,
@@ -35,9 +35,7 @@ function EmscriptenCameraApi(emscriptenApiPointer, cwrap, emscriptenModule, emsc
         );
     };
 
-    var _setViewToBounds = function(northEast, southWest, animated, allowInterruption) {
-
-
+    var _setViewToBounds = (northEast, southWest, animated, allowInterruption) => {
         _cameraApi_setViewToBounds(
             _emscriptenApiPointer,
             northEast.lat, northEast.lng, northEast.alt || 0,
@@ -47,7 +45,7 @@ function EmscriptenCameraApi(emscriptenApiPointer, cwrap, emscriptenModule, emsc
         );
     };
 
-    this.setView = function(config) {
+    this.setView = (config) => {
         var animated = "animate" in config ? config["animate"] : true;
         var location = "location" in config ? L.latLng(config["location"]): null;
         var distance = "zoom" in config ? this.getDistanceFromZoomLevel(config["zoom"]) : "distance" in config ? config["distance"] : null;
@@ -61,7 +59,7 @@ function EmscriptenCameraApi(emscriptenApiPointer, cwrap, emscriptenModule, emsc
         return _setView(animated, location, distance, headingDegrees, tiltDegrees, durationSeconds, jumpIfFarAway, allowInterruption);
     };
 
-    this.setViewToBounds = function(config) {
+    this.setViewToBounds = (config) => {
         var bounds = L.latLngBounds(config["bounds"]);
         var animated = "animate" in config ? config["animate"] : true;
         var allowInterruption = "allowInterruption" in config ? config["allowInterruption"] : true;
@@ -74,45 +72,33 @@ function EmscriptenCameraApi(emscriptenApiPointer, cwrap, emscriptenModule, emsc
         );
     };
 
-    this.getDistanceToInterest = function() {
-        return _cameraApi_getDistanceToInterest(_emscriptenApiPointer);
-    };
+    this.getDistanceToInterest = () => _cameraApi_getDistanceToInterest(_emscriptenApiPointer);
 
-    this.getInterestLatLong = function() {
+    this.getInterestLatLong = () => {
         var latLong = [0, 0];
-        _emscriptenMemory.passDoubles(latLong, function(resultArray, arraySize) {
-            _cameraApi_getInterestLatLong(_emscriptenApiPointer, resultArray);
-            latLong = _emscriptenMemory.readDoubles(resultArray, 2);
-        });
+        _emscriptenMemory.passDoubles(latLong, (resultArray, arraySize) => {
+                _cameraApi_getInterestLatLong(_emscriptenApiPointer, resultArray);
+                latLong = _emscriptenMemory.readDoubles(resultArray, 2);
+            });
 
         return latLong;
     };
 
-    this.getPitchDegrees = function() {
+    this.getPitchDegrees = () => _cameraApi_getPitchDegrees(_emscriptenApiPointer);
 
-        return _cameraApi_getPitchDegrees(_emscriptenApiPointer);
-    };
+    this.getHeadingDegrees = () => _cameraApi_getHeadingDegrees(_emscriptenApiPointer);
 
-    this.getHeadingDegrees = function() {
-        return _cameraApi_getHeadingDegrees(_emscriptenApiPointer);
-    };
-
-    this.setEventCallback = function(callback) {
+    this.setEventCallback = (callback) => {
         _cameraApi_setEventCallback(_emscriptenApiPointer, emscriptenModule.addFunction(callback));
     };
 
-    this.getDistanceFromZoomLevel = function(zoomLevel) {
-        return _cameraApi_getDistanceFromZoomLevel(_emscriptenApiPointer, zoomLevel);
-    };
+    this.getDistanceFromZoomLevel = (zoomLevel) => _cameraApi_getDistanceFromZoomLevel(_emscriptenApiPointer, zoomLevel);
 
-    this.getZoomLevel = function() {
-        return _cameraApi_getZoomLevel(_emscriptenApiPointer);
-    };
+    this.getZoomLevel = () => _cameraApi_getZoomLevel(_emscriptenApiPointer);
 
-    this.setVerticallyLocked = function(isVerticallyLocked) {
+    this.setVerticallyLocked = (isVerticallyLocked) => {
         _cameraApi_setVerticallyLocked(_emscriptenApiPointer, isVerticallyLocked);
     };
-
 }
 
-module.exports = EmscriptenCameraApi;
+export default EmscriptenCameraApi;

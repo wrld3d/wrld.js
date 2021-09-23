@@ -1,29 +1,30 @@
-var MapModule = require("./map_module");
+import MapModule from "./map_module";
 
-function VersionModule(emscriptenApi) {
+export function VersionModule(emscriptenApi) {
 
     var _emscriptenApi = emscriptenApi;
     var _ready = false;
 
-    this.getVersion = function() {
+    this.getVersion = () => {
         if (!_ready) {
             return null;
         }
         return _emscriptenApi.versionApi.getPlatformVersion();
     };
 
-    this.getVersionHash = function() {
+    this.getVersionHash = () => {
         if (!_ready) {
             return null;
         }
         return _emscriptenApi.versionApi.getPlatformVersionHash();
     };
 
-    this.onInitialized = function() {
+    this.onInitialized = () => {
         _ready = true;
     };
 
 }
+
 VersionModule.prototype = MapModule;
 
-module.exports = VersionModule;
+export default VersionModule;

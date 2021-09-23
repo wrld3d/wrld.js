@@ -1,15 +1,15 @@
-var L = require("leaflet");
-var elevationMode = require("../private/elevation_mode.js");
+import { Polyline as _Polyline } from "leaflet";
+import { ElevationModeType, isValidElevationMode } from "../private/elevation_mode.js";
 
-var Polyline = L.Polyline.extend({
+export const Polyline = _Polyline.extend({
 
     initialize: function(latlngs, options) {
-        L.Polyline.prototype.initialize.call(this, latlngs, options);
+        _Polyline.prototype.initialize.call(this, latlngs, options);
     },
 
     options: {
         elevation: 0.0,
-        elevationMode: elevationMode.ElevationModeType.HEIGHT_ABOVE_GROUND,
+        elevationMode: ElevationModeType.HEIGHT_ABOVE_GROUND,
         indoorMapId: "",
         indoorMapFloorId: 0,
         weight: 3.0,
@@ -62,7 +62,7 @@ var Polyline = L.Polyline.extend({
     },
 
     setElevationMode: function(mode) {
-        if (elevationMode.isValidElevationMode(mode)) {
+        if (isValidElevationMode(mode)) {
             this.options.elevationMode = mode;
         }
         this._needsNativeUpdate = true;
@@ -74,7 +74,7 @@ var Polyline = L.Polyline.extend({
     },
 
     setStyle: function (style) {
-        L.Polyline.prototype.setStyle.call(this, style);
+        _Polyline.prototype.setStyle.call(this, style);
         this._needsNativeUpdate = true;
         return this;
     },
@@ -101,11 +101,4 @@ var Polyline = L.Polyline.extend({
     }
 });
 
-var polyline = function(latlngs, polylineOptions) {
-    return new Polyline(latlngs, polylineOptions || {});
-};
-
-module.exports = {
-    Polyline: Polyline,
-    polyline: polyline
-};
+export const polyline = (latlngs, polylineOptions) => new Polyline(latlngs, polylineOptions || {});

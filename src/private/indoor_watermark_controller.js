@@ -1,4 +1,4 @@
-var IndoorWatermarkController = function(mapId, showWrldWatermark) {
+export function IndoorWatermarkController (mapId, showWrldWatermark) {
   var _indoorWatermarkElement = null;
   var _elementId = "wrld-indoor-map-watermark" + mapId;
   var _urlRoot = "https://cdn-webgl.wrld3d.com/wrldjs/resources/indoor-vendors/";
@@ -6,19 +6,18 @@ var IndoorWatermarkController = function(mapId, showWrldWatermark) {
 
   var _eegeoVenderKey = "eegeo";
 
-  var _buildUrlForVendor = function(vendorKey) {
+  var _buildUrlForVendor = (vendorKey) => {
     var vendorKeyLower = vendorKey.toLowerCase();
-    if (vendorKeyLower === _eegeoVenderKey)
-    {
-        vendorKeyLower = "wrld";
+    if (vendorKeyLower === _eegeoVenderKey) {
+      vendorKeyLower = "wrld";
     }
     return _urlRoot + vendorKeyLower + "_logo.png";
   };
 
-  var _precacheKnownVendors = function() {
+  var _precacheKnownVendors = () => {
     var knownVendors = [_eegeoVenderKey, "micello"];
 
-    knownVendors.forEach(function(vendor) {
+    knownVendors.forEach(function (vendor) {
       var vendorImageUrl = _buildUrlForVendor(vendor);
       var tempImage = new Image();
       tempImage.src = vendorImageUrl;
@@ -27,11 +26,10 @@ var IndoorWatermarkController = function(mapId, showWrldWatermark) {
 
   _precacheKnownVendors();
 
-  this.showWatermarkForVendor = function(vendorKey) {
+  this.showWatermarkForVendor = (vendorKey) => {
 
-    if((vendorKey === _eegeoVenderKey) && 
-        !_showWrldWatermark)
-    {
+    if ((vendorKey === _eegeoVenderKey) &&
+      !_showWrldWatermark) {
       return;
     }
 
@@ -45,12 +43,11 @@ var IndoorWatermarkController = function(mapId, showWrldWatermark) {
     _indoorWatermarkElement.style.bottom = 0;
   };
 
-  this.hideWatermark = function() {
-    if(_indoorWatermarkElement !== null)
-    {
+  this.hideWatermark = () => {
+    if (_indoorWatermarkElement !== null) {
       _indoorWatermarkElement.style.bottom = "-50px";
     }
   };
-};
+}
 
-module.exports = IndoorWatermarkController;
+export default IndoorWatermarkController;

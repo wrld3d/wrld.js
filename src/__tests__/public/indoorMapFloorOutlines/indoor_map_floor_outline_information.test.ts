@@ -1,4 +1,4 @@
-import indoorMapFloorOutlines from "../../../../types/indoorMapFloorOutlines";
+import type indoorMapFloorOutlines from "../../../../types/indoorMapFloorOutlines";
 
 import { IndoorMapFloorOutlineInformation } from "../../../public/indoorMapFloorOutlines/indoor_map_floor_outline_information";
 

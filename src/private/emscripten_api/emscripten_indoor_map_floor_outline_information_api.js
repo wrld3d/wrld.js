@@ -1,7 +1,7 @@
-var IndoorMapFloorOutlinePolygon = require("../../public/indoorMapFloorOutlines/indoor_map_floor_outline_polygon");
-var IndoorMapFloorOutlinePolygonRing = require("../../public/indoorMapFloorOutlines/indoor_map_floor_outline_polygon_ring");
+import IndoorMapFloorOutlinePolygon from "../../public/indoorMapFloorOutlines/indoor_map_floor_outline_polygon";
+import IndoorMapFloorOutlinePolygonRing from "../../public/indoorMapFloorOutlines/indoor_map_floor_outline_polygon_ring";
 
-function EmscriptenIndoorMapFloorOutlineInformationApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
+export function EmscriptenIndoorMapFloorOutlineInformationApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
 
     var _emscriptenApiPointer = emscriptenApiPointer;
     var _emscriptenMemory = emscriptenMemory;
@@ -14,11 +14,11 @@ function EmscriptenIndoorMapFloorOutlineInformationApi(emscriptenApiPointer, cwr
     var _indoorMapFloorOutlineInformationApi_TryGetIndoorMapFloorOutlinePolygonBufferSizes = cwrap("indoorMapFloorOutlineInformationApi_TryGetIndoorMapFloorOutlinePolygonBufferSizes", "number", ["number","number","number","number","number","number"]);
     var _indoorMapFloorOutlineInformationApi_TryGetIndoorMapFloorOutlinePolygon = cwrap("indoorMapFloorOutlineInformationApi_TryGetIndoorMapFloorOutlinePolygon", "number", ["number","number","number","number","number","number","number","number"]);
 
-    this.registerIndoorMapFloorOutlineInformationLoadedCallback = function(callback) {
+    this.registerIndoorMapFloorOutlineInformationLoadedCallback = (callback) => {
         _indoorMapFloorOutlineInformationApi_IndoorMapFloorOutlineInformationLoadedCallback(_emscriptenApiPointer, emscriptenModule.addFunction(callback));
     };
 
-    this.createIndoorMapFloorOutlineInformation = function(indoorMapFloorOutlineInformation) {
+    this.createIndoorMapFloorOutlineInformation = (indoorMapFloorOutlineInformation) => {
         var indoorMapId = indoorMapFloorOutlineInformation.getIndoorMapId();
         var indoorMapFloorId = indoorMapFloorOutlineInformation.getIndoorMapFloorId();
 
@@ -30,15 +30,13 @@ function EmscriptenIndoorMapFloorOutlineInformationApi(emscriptenApiPointer, cwr
         return indoorMapFloorOutlineInformationId;
     };
 
-    this.destroyIndoorMapFloorOutlineInformation = function(indoorMapFloorOutlineInformationId) {
+    this.destroyIndoorMapFloorOutlineInformation = (indoorMapFloorOutlineInformationId) => {
         _indoorMapFloorOutlineInformationApi_DestroyIndoorMapFloorOutlineInformation(_emscriptenApiPointer, indoorMapFloorOutlineInformationId);
     };
 
-    this.getIndoorMapFloorOutlineInformationLoaded = function(indoorMapFloorOutlineInformationId) {
-        return _indoorMapFloorOutlineInformationApi_GetIndoorMapFloorOutlineInformationLoaded(_emscriptenApiPointer, indoorMapFloorOutlineInformationId);
-    };
+    this.getIndoorMapFloorOutlineInformationLoaded = (indoorMapFloorOutlineInformationId) => _indoorMapFloorOutlineInformationApi_GetIndoorMapFloorOutlineInformationLoaded(_emscriptenApiPointer, indoorMapFloorOutlineInformationId);
 
-    this.tryGetIndoorMapFloorOutlineInformation = function(indoorMapFloorOutlineInformationId) {
+    this.tryGetIndoorMapFloorOutlineInformation = (indoorMapFloorOutlineInformationId) => {
         //Get Count of IndoorMapFloorOutlines
         var indoorMapFloorOutlinesCountBuf = _emscriptenMemory.createInt32Buffer(1);
 
@@ -50,8 +48,7 @@ function EmscriptenIndoorMapFloorOutlineInformationApi(emscriptenApiPointer, cwr
 
         var indoorMapFloorOutlinesCount = _emscriptenMemory.consumeBufferToArray(indoorMapFloorOutlinesCountBuf)[0];
 
-        if (!success)
-        {
+        if (!success) {
             return null;
         }
 
@@ -76,8 +73,7 @@ function EmscriptenIndoorMapFloorOutlineInformationApi(emscriptenApiPointer, cwr
             var innerRingsCount = _emscriptenMemory.consumeBufferToArray(innerRingsCountBuf)[0];
             var innerRingsTotalPointCount = _emscriptenMemory.consumeBufferToArray(innerRingsTotalPointCountBuf)[0];
 
-            if (!success)
-            {
+            if (!success) {
                 return null;
             }
 
@@ -113,8 +109,7 @@ function EmscriptenIndoorMapFloorOutlineInformationApi(emscriptenApiPointer, cwr
                 innerRings.push(innerRing);
             }
 
-            if (!success)
-            {
+            if (!success) {
                 return null;
             }
 
@@ -125,7 +120,7 @@ function EmscriptenIndoorMapFloorOutlineInformationApi(emscriptenApiPointer, cwr
         return outlinePolygons;
     };
 
-    var _getOutlinePolygonRing = function(doublesLatLngArray, startIndex, pointCount) {
+    var _getOutlinePolygonRing = (doublesLatLngArray, startIndex, pointCount) => {
         var pointIndex = startIndex;
         var ringPoints = [];
 
@@ -139,4 +134,4 @@ function EmscriptenIndoorMapFloorOutlineInformationApi(emscriptenApiPointer, cwr
     };
 }
 
-module.exports = EmscriptenIndoorMapFloorOutlineInformationApi;
+export default EmscriptenIndoorMapFloorOutlineInformationApi;

@@ -1,4 +1,4 @@
-import indoors from "../../../public/indoors/indoors";
+import { IndoorMap, IndoorMapEntrance, IndoorMapFloor } from "../../../public/indoors/indoors";
 
 describe("indoors namespace", () => {
 
@@ -6,7 +6,7 @@ describe("indoors namespace", () => {
 
   describe("indoors.IndoorMap", () => {
     it("is a function", () => {
-      expect(typeof indoors.IndoorMap).toBe("function");
+      expect(typeof IndoorMap).toBe("function");
     });
   });
 
@@ -14,7 +14,7 @@ describe("indoors namespace", () => {
 
   describe("indoors.IndoorMapEntrance", () => {
     it("is a function", () => {
-      expect(typeof indoors.IndoorMapEntrance).toBe("function");
+      expect(typeof IndoorMapEntrance).toBe("function");
     });
   });
 
@@ -22,7 +22,7 @@ describe("indoors namespace", () => {
 
   describe("indoors.IndoorMapFloor", () => {
     it("is a function", () => {
-      expect(typeof indoors.IndoorMapFloor).toBe("function");
+      expect(typeof IndoorMapFloor).toBe("function");
     });
   });
 });

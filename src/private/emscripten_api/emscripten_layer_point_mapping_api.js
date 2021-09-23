@@ -1,4 +1,4 @@
-function EmscriptenLayerPointMappingApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
+export function EmscriptenLayerPointMappingApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
 
     var _emscriptenApiPointer = emscriptenApiPointer;
     var _emscriptenMemory = emscriptenMemory;
@@ -16,49 +16,49 @@ function EmscriptenLayerPointMappingApi(emscriptenApiPointer, cwrap, emscriptenM
 
             var destBaseIndex = i * 2;
             latLngsNumberArray[destBaseIndex] = latLng.lat;
-            latLngsNumberArray[destBaseIndex + 1] = latLng.lng;            
+            latLngsNumberArray[destBaseIndex + 1] = latLng.lng;
         }
 
         return latLngsNumberArray;
     };
 
-    this.createPointMapping = function(layerId, elevation, elevationModeInt, indoorMapId, indoorMapFloorId, latLngs) {                
+    this.createPointMapping = (layerId, elevation, elevationModeInt, indoorMapId, indoorMapFloorId, latLngs) => {
         _createPointMapping = _createPointMapping || cwrap("createLayerMapping", null, ["number", "number", "number", "number", "string", "number", "number", "number", "number"]);
               
         var latLngsNumberArray = this._createLatLngsNumberArray(latLngs);
         
-        _emscriptenMemory.passDoubles(latLngsNumberArray, function(resultArray, arraySize) {            
+        _emscriptenMemory.passDoubles(latLngsNumberArray, (resultArray, arraySize) => {
             _createPointMapping(
                 _emscriptenApiPointer, layerId, elevation, elevationModeInt, indoorMapId, indoorMapId.length, indoorMapFloorId, resultArray, arraySize);
-        });        
+        });
     };
 
-    this.createPointMappingWithFloorIndex = function(layerId, elevation, elevationModeInt, indoorMapId, indoorMapFloorIndex, latLngs) {                
+    this.createPointMappingWithFloorIndex = (layerId, elevation, elevationModeInt, indoorMapId, indoorMapFloorIndex, latLngs) => {
         _createPointMappingWithFloorIndex = _createPointMappingWithFloorIndex || 
             cwrap("createLayerMappingWithFloorIndex", null, ["number", "number", "number", "number", "string", "number", "number", "number", "number"]);
               
         var latLngsNumberArray = this._createLatLngsNumberArray(latLngs);
         
-        _emscriptenMemory.passDoubles(latLngsNumberArray, function(resultArray, arraySize) {            
+        _emscriptenMemory.passDoubles(latLngsNumberArray, (resultArray, arraySize) => {
             _createPointMappingWithFloorIndex(
                 _emscriptenApiPointer, layerId, elevation, elevationModeInt, indoorMapId, indoorMapId.length, indoorMapFloorIndex, resultArray, arraySize);
         });        
     };
 
-    this.removePointMapping = function(layerId) {
+    this.removePointMapping = (layerId) => {
         _removePointMapping = _removePointMapping || cwrap("removeLayerMapping", null, ["number", "number"]);
 
         _removePointMapping(_emscriptenApiPointer, layerId);
     };
 
-    this.getLatLngsForLayer = function(layerId, latLngCount) {                
+    this.getLatLngsForLayer = (layerId, latLngCount) => {
         _getPointsOnMapForLayer = _getPointsOnMapForLayer || cwrap("getPointsOnMapForLayer", "number", ["number", "number", "number"]);
         var resultLatLngAltDoubles = new Array(latLngCount * 3);
 
-        _emscriptenMemory.passDoubles(resultLatLngAltDoubles, function(resultArray, arraySize) {
+        _emscriptenMemory.passDoubles(resultLatLngAltDoubles, (resultArray, arraySize) => {
             var expectedArrayLength = _getPointsOnMapForLayer(_emscriptenApiPointer, layerId, resultArray);
 
-            if(resultLatLngAltDoubles.length !== expectedArrayLength) {
+            if (resultLatLngAltDoubles.length !== expectedArrayLength) {
                 throw new Error("_getPointsOnMapForLayer : unexpected array length. Expected '" + expectedArrayLength + "' but was '" + resultLatLngAltDoubles.length + "'.");
             }
 
@@ -77,7 +77,7 @@ function EmscriptenLayerPointMappingApi(emscriptenApiPointer, cwrap, emscriptenM
         }
 
         return resultLatLngAlts;
-    };    
+    };
 }
 
-module.exports = EmscriptenLayerPointMappingApi;
+export default EmscriptenLayerPointMappingApi;

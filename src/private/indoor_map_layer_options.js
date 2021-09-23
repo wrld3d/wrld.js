@@ -1,6 +1,4 @@
-var exports = module.exports = {};
-
-var _getOptionsPropertyOrNull = function(layer, propertyName) {
+const _getOptionsPropertyOrNull = (layer, propertyName) => {
     if (typeof layer.options === "undefined") {
         return null;
     }
@@ -12,20 +10,16 @@ var _getOptionsPropertyOrNull = function(layer, propertyName) {
     return null;
 };
 
-exports.getIndoorMapId = function(layer) {
-    var indoorMapId = _getOptionsPropertyOrNull(layer, "indoorMapId");    
+export const getIndoorMapId = (layer) => {
+    var indoorMapId = _getOptionsPropertyOrNull(layer, "indoorMapId");
     return indoorMapId === "" ? null : indoorMapId;
 };
 
-exports.hasIndoorMap = function(layer) {
-    return this.getIndoorMapId(layer) !== null;
-};
+export const hasIndoorMap = (layer) => getIndoorMapId(layer) !== null;
 
-exports.getIndoorMapFloorId = function(layer) {
-    return _getOptionsPropertyOrNull(layer, "indoorMapFloorId");
-};
+export const getIndoorMapFloorId = (layer) => _getOptionsPropertyOrNull(layer, "indoorMapFloorId");
 
-exports.getIndoorMapFloorIndex = function(layer) {
+export const getIndoorMapFloorIndex = (layer) => {
     var indoorMapFloorIndex = _getOptionsPropertyOrNull(layer, "indoorMapFloorIndex");
 
     if (indoorMapFloorIndex !== null) {
@@ -36,34 +30,33 @@ exports.getIndoorMapFloorIndex = function(layer) {
     return _getOptionsPropertyOrNull(layer, "indoorFloorIndex");
 };
 
-exports.getLayerDisplayOption = function(layer) {
+export const getLayerDisplayOption = (layer) => {
     var displayOption = _getOptionsPropertyOrNull(layer, "displayOption") || "currentFloor";
     return displayOption;
 };
 
-exports.matchesCurrentFloor = function(activeIndoorMapFloorId, activeIndoorMapFloorIndex, layer) {
-    if (activeIndoorMapFloorId === this.getIndoorMapFloorId(layer)) {
+export const matchesCurrentFloor = (activeIndoorMapFloorId, activeIndoorMapFloorIndex, layer) => {
+    if (activeIndoorMapFloorId === getIndoorMapFloorId(layer)) {
         return true;
     }
-    
-    return activeIndoorMapFloorIndex === this.getIndoorMapFloorIndex(layer);
+
+    return activeIndoorMapFloorIndex === getIndoorMapFloorIndex(layer);
 };
 
-exports.matchesIndoorMap = function(activeIndoorMapId, activeIndoorMapFloorId, activeIndoorMapFloorIndex, layer) {  
-    var displayOption = this.getLayerDisplayOption(layer);
-    
+export const matchesIndoorMap = (activeIndoorMapId, activeIndoorMapFloorId, activeIndoorMapFloorIndex, layer) => {
+    var displayOption = getLayerDisplayOption(layer);
+
     if (displayOption === "always") {
         return true;
     }
 
-    if (displayOption === "currentIndoorMap" && activeIndoorMapId === this.getIndoorMapId(layer)) {
+    if (displayOption === "currentIndoorMap" && activeIndoorMapId === getIndoorMapId(layer)) {
         return true;
-    }        
+    }
 
-    if (displayOption === "currentFloor" && 
-        activeIndoorMapId === this.getIndoorMapId(layer) &&
-        this.matchesCurrentFloor(activeIndoorMapFloorId, activeIndoorMapFloorIndex, layer)
-    ) {
+    if (displayOption === "currentFloor" &&
+        activeIndoorMapId === getIndoorMapId(layer) &&
+        matchesCurrentFloor(activeIndoorMapFloorId, activeIndoorMapFloorIndex, layer)) {
         return true;
     }
 
@@ -71,19 +64,19 @@ exports.matchesIndoorMap = function(activeIndoorMapId, activeIndoorMapFloorId, a
 
 };
 
-var _copyOption = function(sourceOptions, destOptions, sourcePropertyName, destPropertyName) {
+const _copyOption = (sourceOptions, destOptions, sourcePropertyName, destPropertyName) => {
     if (!(sourcePropertyName in sourceOptions)) {
         return;
     }
 
     if (destPropertyName in destOptions) {
         return;
-    }    
-    
+    }
+
     destOptions[destPropertyName] = sourceOptions[sourcePropertyName];
 };
 
-exports.copyIndoorMapOptions = function(sourceOptions, destOptions) {
+export const copyIndoorMapOptions = (sourceOptions, destOptions) => {
     _copyOption(sourceOptions, destOptions, "indoorMapId", "indoorMapId");
     _copyOption(sourceOptions, destOptions, "indoorMapFloorId", "indoorMapFloorId");
     _copyOption(sourceOptions, destOptions, "indoorMapFloorIndex", "indoorMapFloorIndex");

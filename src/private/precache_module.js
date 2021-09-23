@@ -1,99 +1,91 @@
-var MapModule = require("./map_module");
-var IdToObjectMap = require("./id_to_object_map");
-var PrecacheOperationResult = require("../public/precaching/precache_operation_result");
+import MapModule from "./map_module";
+import IdToObjectMap from "./id_to_object_map";
+import PrecacheOperationResult from "../public/precaching/precache_operation_result";
 
-var PrecacheOperation = function(operation) {
+function PrecacheOperation (operation) {
     var _operation = operation;
 
     this.cancel = function() {
         _operation.cancel();
     };
-};
+}
 
 
-var InternalPrecacheOperation = function(centre, radius, completionCallback) {
+function InternalPrecacheOperation (centre, radius, completionCallback) {
     var _centre = L.latLng(centre);
     var _radius = radius;
     var _completionCallback = completionCallback;
     var _cancelled = false;
 
-    var _executeCompletionCallback = function(success) {
+    var _executeCompletionCallback = (success) => {
         _completionCallback(new PrecacheOperationResult(success));
     };
 
-    this.getCentre = function() {
-        return _centre;
-    };
+    this.getCentre = () => _centre;
 
-    this.getRadius = function() {
-        return _radius;
-    };
+    this.getRadius = () => _radius;
 
-    this.cancel = function() {
+    this.cancel = () => {
         _cancelled = true;
     };
 
-    this.isCancelled = function() {
-        return _cancelled;
-    };
+    this.isCancelled = () => _cancelled;
 
-    this.notifyComplete = function() {
+    this.notifyComplete = () => {
         _executeCompletionCallback(true);
     };
 
-    this.notifyCancelled = function() {
+    this.notifyCancelled = () => {
         _executeCompletionCallback(false);
     };
-};
+}
 
-var PrecacheModule = function(emscriptenApi) {
+function PrecacheModule (emscriptenApi) {
     var _emscriptenApi = emscriptenApi;
     var _operations = new IdToObjectMap();
     var _pendingOperations = [];
     var _ready = false;
 
-    var _beginPrecacheOperation = function(operation) {
-    var operationId = _emscriptenApi.precacheApi.beginPrecacheOperation(operation);
+    var _beginPrecacheOperation = (operation) => {
+        var operationId = _emscriptenApi.precacheApi.beginPrecacheOperation(operation);
         _operations.insertObject(operationId, operation);
 
         return operationId;
     };
 
-    var _beginAllPrecacheOperations = function() {
-        _pendingOperations.forEach(function(operation) {
-            if (operation.isCancelled()) {
-                operation.notifyCancelled();
-            }
-            else {
-                _beginPrecacheOperation(operation);
-            }
-        });
+    var _beginAllPrecacheOperations = () => {
+        _pendingOperations.forEach((operation) => {
+                if (operation.isCancelled()) {
+                    operation.notifyCancelled();
+                }
+                else {
+                    _beginPrecacheOperation(operation);
+                }
+            });
 
         _pendingOperations = [];
     };
 
-    var _cancelOperations = function(cancelledIds) {
-        cancelledIds.forEach(function(operationId) {
-        _emscriptenApi.precacheApi.cancelPrecacheOperation(operationId);
-        });
+    var _cancelOperations = (cancelledIds) => {
+        cancelledIds.forEach((operationId) => {
+                _emscriptenApi.precacheApi.cancelPrecacheOperation(operationId);
+            });
     };
 
-    var _onPrecacheOperationCompleted = function(operationId) {
+    var _onPrecacheOperationCompleted = (operationId) => {
         var operation = _operations.removeObjectById(operationId);
         operation.notifyComplete();
     };
 
-    var _onPrecacheOperationCancelled = function(operationId) {
+    var _onPrecacheOperationCancelled = (operationId) => {
         var operation = _operations.removeObjectById(operationId);
         operation.notifyCancelled();
     };
 
-    var _getMaximumPrecacheRadius = function() {
-        // :TODO: Fix DRY fail causing this to exist in both EegeoPrecacheApi::MaxPrecacheRadius and here.
-        return 16000.0;
-    };
+    // :TODO: Fix DRY fail causing this to exist in both EegeoPrecacheApi::MaxPrecacheRadius and here.
+    var _getMaximumPrecacheRadius = () => 16000.0;
 
-    var _validatePrecacheParameters = function(center, radius) {
+    var _validatePrecacheParameters = (center, radius) => {
         if (radius > _getMaximumPrecacheRadius() || radius <= 0.0) {
             return new Error("radius outside of valid (0.0, " + _getMaximumPrecacheRadius() + "] range.");
         }
@@ -101,11 +93,9 @@ var PrecacheModule = function(emscriptenApi) {
         return null;
     };
 
-    this.getMaximumPrecacheRadius = function() {
-        return _getMaximumPrecacheRadius();
-    };
+    this.getMaximumPrecacheRadius = () => _getMaximumPrecacheRadius();
 
-    this.precache = function(center, radius, callbackFunction) {
+    this.precache = (center, radius, callbackFunction) => {
         var parameterValidationError = _validatePrecacheParameters(center, radius);
 
         if (parameterValidationError !== null) {
@@ -126,13 +116,13 @@ var PrecacheModule = function(emscriptenApi) {
         return precacheOperation;
     };
 
-    this.onInitialized = function () {
+    this.onInitialized = () => {
         _ready = true;
         _emscriptenApi.precacheApi.registerCallbacks(_onPrecacheOperationCompleted, _onPrecacheOperationCancelled);
         _beginAllPrecacheOperations();
     };
 
-    this.onUpdate = function(dt) {
+    this.onUpdate = (dt) => {
         if (!_ready) {
             return;
         }
@@ -145,8 +135,8 @@ var PrecacheModule = function(emscriptenApi) {
         });
         _cancelOperations(cancelledOperations);
     };
+}
 
-};
 PrecacheModule.prototype = MapModule;
 
-module.exports = PrecacheModule;
+export default PrecacheModule;

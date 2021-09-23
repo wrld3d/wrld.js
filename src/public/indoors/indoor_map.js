@@ -1,5 +1,4 @@
-var IndoorMap = function(indoorMapId, indoorMapName, indoorMapSourceVendor, floorCount, floors, searchTags, exitFunc) {
-
+export function IndoorMap(indoorMapId, indoorMapName, indoorMapSourceVendor, floorCount, floors, searchTags, exitFunc) {
 	var _indoorMapId = indoorMapId;
 	var _indoorMapName = indoorMapName;
   var _indoorMapSourceVendor = indoorMapSourceVendor;
@@ -9,29 +8,17 @@ var IndoorMap = function(indoorMapId, indoorMapName, indoorMapSourceVendor, floo
 
 	this.exit = exitFunc;
 
-	this.getIndoorMapId = function() {
-		return _indoorMapId;
-	};
+	this.getIndoorMapId = () => _indoorMapId;
 
-	this.getIndoorMapName = function() {
-		return _indoorMapName;
-	};
+	this.getIndoorMapName = () => _indoorMapName;
 
-  this.getIndoorMapSourceVendor = function() {
-    return _indoorMapSourceVendor;
-  };  
+  this.getIndoorMapSourceVendor = () => _indoorMapSourceVendor;  
 
-  this.getFloorCount = function() {
-      return _floorCount;
-  };
+  this.getFloorCount = () => _floorCount;
 
-  this.getFloors = function() {
-      return _floors;
-  };
+  this.getFloors = () => _floors;
 
-	this.getSearchTags = function() {
-		return _searchTags;
-	};
-};
+	this.getSearchTags = () => _searchTags;
+}
 
-module.exports = IndoorMap;
+export default IndoorMap;

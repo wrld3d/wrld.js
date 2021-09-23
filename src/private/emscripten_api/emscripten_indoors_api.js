@@ -1,6 +1,6 @@
-var interopUtils = require("./emscripten_interop_utils.js");
+import { colorToRgba32 } from "./emscripten_interop_utils.js";
 
-function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
+export function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
 
     var _emscriptenApiPointer = emscriptenApiPointer;
     var _emscriptenMemory = emscriptenMemory;
@@ -41,31 +41,31 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, emscriptenModule, ems
     var _onIndoorMapLoaded = null;
     var _onIndoorMapUnloaded = null;
 
-    var _indoorMapEnteredHandler = function() {
+    var _indoorMapEnteredHandler = () => {
         if (_onIndoorMapEntered !== null) {
             _onIndoorMapEntered();
         }
     };
 
-    var _indoorMapEntryFailedHandler = function() {
+    var _indoorMapEntryFailedHandler = () => {
         if (_onIndoorMapEnterFailed !== null) {
             _onIndoorMapEnterFailed();
         }
     };
 
-    var _indoorMapExitedHandler = function() {
+    var _indoorMapExitedHandler = () => {
         if (_onIndoorMapExited !== null) {
             _onIndoorMapExited();
         }
     };
 
-    var _indoorMapFloorChangedHandler = function() {
+    var _indoorMapFloorChangedHandler = () => {
         if (_onIndoorMapFloorChanged !== null) {
             _onIndoorMapFloorChanged();
         }
     };
 
-    var _executeEntryMarkerCallback = function(callback, indoorMapIdPtr, indoorMapNamePtr, indoorMapLatLngPtr) {
+    var _executeEntryMarkerCallback = (callback, indoorMapIdPtr, indoorMapNamePtr, indoorMapLatLngPtr) => {
         var indoorMapId = _emscriptenMemory.stringifyPointer(indoorMapIdPtr);
         var indoorMapName = _emscriptenMemory.stringifyPointer(indoorMapNamePtr);
         var latLngArray = _emscriptenMemory.readDoubles(indoorMapLatLngPtr, 3);
@@ -73,33 +73,33 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, emscriptenModule, ems
         callback(indoorMapId, indoorMapName, markerLatLng);
     };
 
-    var _indoorMapEntryMarkerAddedHandler = function(indoorMapIdPtr, indoorMapNamePtr, indoorMapLatLngPtr) {
+    var _indoorMapEntryMarkerAddedHandler = (indoorMapIdPtr, indoorMapNamePtr, indoorMapLatLngPtr) => {
         if (_onIndoorMapEntryMarkerAdded !== null) {
             _executeEntryMarkerCallback(_onIndoorMapEntryMarkerAdded, indoorMapIdPtr, indoorMapNamePtr, indoorMapLatLngPtr);
         }
     };
 
-    var _indoorMapEntryMarkerRemovedHandler = function(indoorMapIdPtr, indoorMapNamePtr, indoorMapLatLngPtr) {
+    var _indoorMapEntryMarkerRemovedHandler = (indoorMapIdPtr, indoorMapNamePtr, indoorMapLatLngPtr) => {
         if (_onIndoorMapEntryMarkerRemoved !== null) {
             _executeEntryMarkerCallback(_onIndoorMapEntryMarkerRemoved, indoorMapIdPtr, indoorMapNamePtr, indoorMapLatLngPtr);
         }
     };
 
-    var _indoorMapLoadedHandler = function(indoorMapIdPtr) {
+    var _indoorMapLoadedHandler = (indoorMapIdPtr) => {
         if (_onIndoorMapLoaded !== null) {
             var indoorMapId = _emscriptenMemory.stringifyPointer(indoorMapIdPtr);
             _onIndoorMapLoaded(indoorMapId);
         }
     };
 
-    var _indoorMapUnloadedHandler = function(indoorMapIdPtr) {
+    var _indoorMapUnloadedHandler = (indoorMapIdPtr) => {
         if (_onIndoorMapUnloaded !== null) {
             var indoorMapId = _emscriptenMemory.stringifyPointer(indoorMapIdPtr);
             _onIndoorMapUnloaded(indoorMapId);
         }
     };
 
-    this.onInitialized = function() {
+    this.onInitialized = () => {
         _indoorsApi_RegisterIndoorMapCallbacks(
             _emscriptenApiPointer,
             emscriptenModule.addFunction(_indoorMapEnteredHandler),
@@ -113,7 +113,7 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, emscriptenModule, ems
         );
     };
 
-    this.setNotificationCallbacks = function(
+    this.setNotificationCallbacks = (
         indoorMapEnteredCallback,
         indoorMapEnterFailedCallback,
         indoorMapExitedCallback,
@@ -122,7 +122,7 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, emscriptenModule, ems
         indoorMapEntryMarkerRemovedCallback,
         indoorMapLoadedCallback,
         indoorMapUnloadedCallback
-    ) {
+    ) => {
         _onIndoorMapEntered = indoorMapEnteredCallback;
         _onIndoorMapEnterFailed = indoorMapEnterFailedCallback;
         _onIndoorMapExited = indoorMapExitedCallback;
@@ -133,63 +133,63 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, emscriptenModule, ems
         _onIndoorMapUnloaded = indoorMapUnloadedCallback;
     };
 
-    this.enterIndoorMap = function(indoorMapId) {
+    this.enterIndoorMap = (indoorMapId) => {
         return _indoorsApi_EnterIndoorMap(_emscriptenApiPointer, indoorMapId);
     };
 
-    this.exitIndoorMap = function() {
+    this.exitIndoorMap = () => {
         _indoorsApi_ExitIndoorMap(_emscriptenApiPointer);
     };
 
-    this.hasActiveIndoorMap = function() {
+    this.hasActiveIndoorMap = () => {
         return !!_indoorsApi_HasActiveIndoorMap(_emscriptenApiPointer);
     };
 
-    this.getActiveIndoorMapId = function() {
+    this.getActiveIndoorMapId = () => {
         return _indoorsApi_GetActiveIndoorMapId(_emscriptenApiPointer);
     };
 
-    this.getActiveIndoorMapName = function() {
+    this.getActiveIndoorMapName = () => {
         return _indoorsApi_GetActiveIndoorMapName(_emscriptenApiPointer);
     };
 
-    this.getActiveIndoorMapSourceVendor = function() {
+    this.getActiveIndoorMapSourceVendor = () => {
         return _indoorsApi_GetActiveIndoorMapSourceVendor(_emscriptenApiPointer);
     };
 
-    this.getActiveIndoorMapFloorCount = function() {
+    this.getActiveIndoorMapFloorCount = () => {
         return _indoorsApi_GetActiveIndoorMapFloorCount(_emscriptenApiPointer);
     };
 
-    this.getActiveIndoorMapUserData = function() {
+    this.getActiveIndoorMapUserData = () => {
         return _indoorsApi_GetActiveIndoorMapUserData(_emscriptenApiPointer);
     };
 
-    this.getSelectedFloorIndex = function() {
+    this.getSelectedFloorIndex = () => {
         return _indoorsApi_GetSelectedFloorIndex(_emscriptenApiPointer);
     };
 
-    this.setSelectedFloorIndex = function(floorIndex) {
+    this.setSelectedFloorIndex = (floorIndex) => {
         return !!_indoorsApi_SetSelectedFloorIndex(_emscriptenApiPointer, floorIndex);
     };
 
-    this.getFloorName = function(floorIndex) {
+    this.getFloorName = (floorIndex) => {
         return _indoorsApi_GetFloorName(_emscriptenApiPointer, floorIndex);
     };
 
-    this.getFloorShortName = function(floorIndex) {
+    this.getFloorShortName = (floorIndex) => {
         return _indoorsApi_GetFloorShortName(_emscriptenApiPointer, floorIndex);
     };
 
-    this.getFloorNumber = function(floorIndex) {
+    this.getFloorNumber = (floorIndex) => {
         return _indoorsApi_GetFloorNumber(_emscriptenApiPointer, floorIndex);
     };
 
-    this.getFloorHeightAboveSeaLevel = function(floorIndex) {
+    this.getFloorHeightAboveSeaLevel = (floorIndex) => {
         return _indoorsApi_GetFloorHeightAboveSeaLevel(_emscriptenApiPointer, floorIndex);
     };
 
-    this.tryGetReadableName = function(indoorMapId) {
+    this.tryGetReadableName = (indoorMapId) => {
         var bufferSizeBuf = _emscriptenMemory.createInt32Buffer(1);
 
         var success = _indoorsApi_TryGetReadableNameBufferSize(
@@ -222,7 +222,7 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, emscriptenModule, ems
         return indoorMapReadableName;
     };
 
-    var _tryGetNativeIndoorMapFloorString = function(indoorMapId, indoorMapFloorId, nativeGetBufferSizeFunc, nativeGetStringFunc) {
+    var _tryGetNativeIndoorMapFloorString = (indoorMapId, indoorMapFloorId, nativeGetBufferSizeFunc, nativeGetStringFunc) => {
         var bufferSizeBuf = _emscriptenMemory.createInt32Buffer(1);
 
         var success = nativeGetBufferSizeFunc(
@@ -257,7 +257,7 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, emscriptenModule, ems
         return stringValue;
     };
 
-    this.tryGetFloorReadableName = function(indoorMapId, indoorMapFloorId) {
+    this.tryGetFloorReadableName = (indoorMapId, indoorMapFloorId) => {
         return _tryGetNativeIndoorMapFloorString(
             indoorMapId,
             indoorMapFloorId,
@@ -266,7 +266,7 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, emscriptenModule, ems
         );
     };
 
-    this.tryGetFloorShortName = function(indoorMapId, indoorMapFloorId) {
+    this.tryGetFloorShortName = (indoorMapId, indoorMapFloorId) => {
         return _tryGetNativeIndoorMapFloorString(
             indoorMapId,
             indoorMapFloorId,
@@ -275,26 +275,26 @@ function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, emscriptenModule, ems
         );
     };
 
-    this.setBackgroundColor = function(color) {
-        var colorRGBA32 = interopUtils.colorToRgba32(color);
+    this.setBackgroundColor = (color) => {
+        var colorRGBA32 = colorToRgba32(color);
         _indoorsApi_SetBackgroundColor(_emscriptenApiPointer, colorRGBA32);
     };
 
-    this.hideLabelsForEntities = function(entityNames) {
-        _emscriptenMemory.passStrings(entityNames, function(resultStrings, stringArraySize){
+    this.hideLabelsForEntities = (entityNames) => {
+        _emscriptenMemory.passStrings(entityNames, (resultStrings, stringArraySize) => {
             _indoorsApi_HideLabelsForEntities(_emscriptenApiPointer, resultStrings, stringArraySize);
         });
     };
 
-    this.showLabelsForEntities = function(entityNames) {
-        _emscriptenMemory.passStrings(entityNames, function(resultStrings, stringArraySize){
+    this.showLabelsForEntities = (entityNames) => {
+        _emscriptenMemory.passStrings(entityNames, (resultStrings, stringArraySize) => {
             _indoorsApi_ShowLabelsForEntities(_emscriptenApiPointer, resultStrings, stringArraySize);
         });
     };
 
-    this.showAllLabels = function() {
+    this.showAllLabels = () => {
         _indoorsApi_ShowAllLabels(_emscriptenApiPointer);
     };
 }
 
-module.exports = EmscriptenIndoorsApi;
+export default EmscriptenIndoorsApi;

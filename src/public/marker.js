@@ -1,11 +1,9 @@
-var indoorOptions = require("../private/indoor_map_layer_options.js");
-var elevationMode = require("../private/elevation_mode.js");
+import * as indoorOptions from "../private/indoor_map_layer_options.js";
+import * as elevationMode from "../private/elevation_mode.js";
+import * as popups from "./popup";
+import { setPositionSmooth } from "../private/eegeo_dom_util";
 
-var popups = require("./popup");
-
-var EegeoDomUtil = require("../private/eegeo_dom_util");
-
-var Marker = L.Marker.extend({
+export const Marker = L.Marker.extend({
     initialize: function(latlng, options) {
         L.Marker.prototype.initialize.call(this, latlng, options);
 
@@ -114,7 +112,7 @@ var Marker = L.Marker.extend({
     },
 
     _setPos: function (pos) {
-        var setPosFunc = (L.Browser.gecko) ? EegeoDomUtil.setPositionSmooth : L.DomUtil.setPosition;
+        var setPosFunc = (L.Browser.gecko) ? setPositionSmooth : L.DomUtil.setPosition;
 
         setPosFunc(this._icon, pos);
 
@@ -188,11 +186,4 @@ var Marker = L.Marker.extend({
 
 });
 
-var marker = function(latLng, options) {
-    return new Marker(latLng, options);
-};
-
-module.exports = {
-    Marker: Marker,
-    marker: marker
-};
+export var marker = (latLng, options) => new Marker(latLng, options);

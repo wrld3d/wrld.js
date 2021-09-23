@@ -1,9 +1,7 @@
-var PrecacheOperationResult = function(succeeded) {
-    var _succeeded = succeeded;
+export function PrecacheOperationResult(succeeded) {
+  var _succeeded = succeeded;
 
-    this.getSucceeded = function() {
-        return _succeeded;
-    };
-};
+  this.getSucceeded = () => _succeeded;
+}
 
-module.exports = PrecacheOperationResult;
+export default PrecacheOperationResult;

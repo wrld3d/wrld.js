@@ -1,22 +1,20 @@
-var MapModule = require("./map_module");
+import MapModule from "./map_module";
 
-var RoutingModule = function(apiKey, indoorsModule) {
+export function RoutingModule (apiKey, indoorsModule) {
 
     var _urlRoot = "https://routing.wrld3d.com/v1/";
     var _apiKey = apiKey;
     var _indoorsModule = indoorsModule;
 
-    var _parseMetadataTag = function(metadata, tag) {
+    var _parseMetadataTag = (metadata, tag) => {
         var decoratedTag = "{" + tag + ":";
         var occurrence = metadata.indexOf(decoratedTag);
 
-        if (occurrence !== -1)
-        {
+        if (occurrence !== -1) {
             var postTag = metadata.slice(occurrence + decoratedTag.length);
             var nextBracketIndex = postTag.indexOf("}");
 
-            if (nextBracketIndex !== -1)
-            {
+            if (nextBracketIndex !== -1) {
                 return postTag.substring(0, nextBracketIndex);
             }
         }
@@ -24,14 +22,12 @@ var RoutingModule = function(apiKey, indoorsModule) {
         return null;
     };
 
-    var _parseRouteSteps = function(routeSteps) {
+    var _parseRouteSteps = (routeSteps) => {
         var parsedSteps = [];
-        for (var i = 0; i < routeSteps.length; i++) 
-        {   
+        for (var i = 0; i < routeSteps.length; i++) {
             var metadata = routeSteps[i].name;
             var level = _parseMetadataTag(metadata, "level");
-            if (level === "multiple") 
-            {
+            if (level === "multiple") {
                 // skip route segments which change floor for now
                 continue;
             }
@@ -53,11 +49,10 @@ var RoutingModule = function(apiKey, indoorsModule) {
             }
             var stepGeometry = routeSteps[i]["geometry"]["coordinates"];
 
-            for (var j=0; j<stepGeometry.length; j++) 
-            {
-                var lonlat = stepGeometry[j];     
+            for (var j = 0; j < stepGeometry.length; j++) {
+                var lonlat = stepGeometry[j];
                 var latLon = [lonlat[1], lonlat[0]];
-                latLongPoints.push(latLon); 
+                latLongPoints.push(latLon);
             }
             routeStep.points = latLongPoints;
             parsedSteps.push(routeStep);
@@ -66,76 +61,64 @@ var RoutingModule = function(apiKey, indoorsModule) {
         return parsedSteps;
     };
 
-    var _parseRoutes = function(routingJson) {
-      var routes = routingJson["routes"];
-      var results = [];
+    var _parseRoutes = (routingJson) => {
+        var routes = routingJson["routes"];
+        var results = [];
 
-      for (var routeIndex = 0; routeIndex < routes.length; ++routeIndex)
-      {
-        var legs = routes[routeIndex]["legs"];
+        for (var routeIndex = 0; routeIndex < routes.length; ++routeIndex) {
+            var legs = routes[routeIndex]["legs"];
 
-        for (var legIndex = 0; legIndex < legs.length; ++legIndex)
-        {
-            var steps = legs[legIndex]["steps"]; 
-            var routeSteps = _parseRouteSteps(steps);
-            results.push(routeSteps);
+            for (var legIndex = 0; legIndex < legs.length; ++legIndex) {
+                var steps = legs[legIndex]["steps"];
+                var routeSteps = _parseRouteSteps(steps);
+                results.push(routeSteps);
+            }
         }
-      }
 
-      return results;
+        return results;
     };
 
-    var _routeParseHandler = function(routeLoadHandler, routeLoadErrorHandler) {
-        return function() {
-            var routeJson = JSON.parse(this.responseText);
+    var _routeParseHandler = (routeLoadHandler, routeLoadErrorHandler) => () => {
+        var routeJson = JSON.parse(this.responseText);
 
-            if (routeJson["code"] === "Ok")
-            {
-                var routes;
-                if ("type" in routeJson && routeJson["type"] === "multipart")
-                {
-                    var multiroute = routeJson["routes"];
-                    for (var index = 0; index < multiroute.length; ++index)
-                    {
-                        routes = _parseRoutes(multiroute[index]);
-                        routeLoadHandler(routes);
-                    }
-                }
-                else
-                {
-                    routes = _parseRoutes(routeJson);
+        if (routeJson["code"] === "Ok") {
+            var routes;
+            if ("type" in routeJson && routeJson["type"] === "multipart") {
+                var multiroute = routeJson["routes"];
+                for (var index = 0; index < multiroute.length; ++index) {
+                    routes = _parseRoutes(multiroute[index]);
                     routeLoadHandler(routes);
                 }
             }
-            else
-            {
-                if (routeLoadErrorHandler !== null && routeLoadErrorHandler !== undefined)
-                {
-                    routeLoadErrorHandler(routeJson);
-                }
+
+            else {
+                routes = _parseRoutes(routeJson);
+                routeLoadHandler(routes);
             }
-        };
+        }
+
+        else {
+            if (routeLoadErrorHandler !== null && routeLoadErrorHandler !== undefined) {
+                routeLoadErrorHandler(routeJson);
+            }
+        }
     };
 
-    var _cancelRequest = function(request) {
-        return function() {
-            request.abort();
-        };
+    var _cancelRequest = (request) => function () {
+        request.abort();
     };
 
-    this.getRoute = function(viaPoints, onLoadHandler, onErrorHandler, transportMode) { 
-        transportMode = transportMode || "walking";        
+    this.getRoute = (viaPoints, onLoadHandler, onErrorHandler, transportMode) => {
+        transportMode = transportMode || "walking";
         var url = _urlRoot + "route?loc=";
-        
-        for (var pointIndex = 0; pointIndex < viaPoints.length; ++pointIndex)
-        {
+
+        for (var pointIndex = 0; pointIndex < viaPoints.length; ++pointIndex) {
             url += viaPoints[pointIndex].join(",");
 
-            if (pointIndex < viaPoints.length - 1)
-            {
+            if (pointIndex < viaPoints.length - 1) {
                 url += "%3B";
             }
-            
+
         }
         url += "&apikey=" + _apiKey;
         url += "&limit=400";
@@ -146,8 +129,8 @@ var RoutingModule = function(apiKey, indoorsModule) {
         _indoorsModule.on("indoormapexit", _cancelRequest(request));
         request.send();
     };
-};
+}
 
 RoutingModule.prototype = MapModule;
 
-module.exports = RoutingModule;
+export default RoutingModule;

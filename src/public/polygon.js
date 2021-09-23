@@ -1,19 +1,19 @@
-var L = require("leaflet");
-var space = require("./space");
+import { latLng } from "leaflet";
+import { Vector4 } from "./space";
 
-var Polygon = function(latLngs, config) {
+export function Polygon (latLngs, config) {
 	var _map = null;
 	var _outerRing = [];
 	var _holes = [];
   var _config = config || {};
 
-	function loadLatLngs(coords){
-    var points = [];
-		coords.forEach(function(coord) {
-			points.push(L.latLng(coord));
+	const loadLatLngs = (coords) => {
+		var points = [];
+		coords.forEach(function (coord) {
+			points.push(latLng(coord));
 		});
-    return points;
-	}
+		return points;
+	};
 
   var arrayDepth = 0;
   var testElement = latLngs;
@@ -39,42 +39,34 @@ var Polygon = function(latLngs, config) {
     throw new Error("Incorrect array input format.");
   }
 
-	var _color = config["color"] || new space.Vector4(0, 0, 255, 128);
+	var _color = config["color"] || new Vector4(0, 0, 255, 128);
 	var _colorNeedsChanged = true;
 
 
-	this.getColor = function() {
-		return _color;
-	};
+	this.getColor = () => _color;
 
-	this.setColor = function(color) {
+	this.setColor = (color) => {
 		_color = color;
 		_colorNeedsChanged = true;
     return this;
 	};
 
-	this.addHole = function(points) {
+	this.addHole = (points) => {
     _holes.push(loadLatLngs(points));
 		return this;
 	};
 
-	this.getHoles = function() {
-		return _holes;
-	};
+	this.getHoles = () => _holes;
 
-	this.getPoints = function() {
-		return _outerRing;
-	};
+	this.getPoints = () => _outerRing;
 
-	this._colorNeedsChanged = function() {
-		return _colorNeedsChanged;
-	};
+	this._colorNeedsChanged = () => _colorNeedsChanged;
 
-	this._onColorChanged = function() {
+	this._onColorChanged = () => {
 		_colorNeedsChanged = false;
 	};
 
-	this.addTo = function(map) {
+	this.addTo = (map) => {
 		if (_map !== null) {
 			this.remove();
 		}
@@ -83,7 +75,7 @@ var Polygon = function(latLngs, config) {
 		return this;
 	};
 	
-	this.remove = function() {
+	this.remove = () => {
 		if (_map !== null) {
 			_map._polygonModule.removePolygon(this);
 			_map = null;
@@ -91,16 +83,7 @@ var Polygon = function(latLngs, config) {
 		return this;
 	};
 
-  this._getConfig = function() {
-    return _config;
-  };
-};
+  this._getConfig = () => _config;
+}
 
-var polygon = function(latlngs, config) {
-	return new Polygon(latlngs, config || {});
-};
-
-module.exports = {
-	Polygon: Polygon,
-	polygon: polygon
-};
+export const polygon = (latlngs, config) => new Polygon(latlngs, config || {});
