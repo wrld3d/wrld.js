@@ -64,7 +64,7 @@ Follow the steps below to build the API:
 2.  In the root of the repo, run `npm install` to install the development dependencies.
 3.  Still in the root of the repo, run the command `npm run build`.
 
-This will create the files `dist/wrld.js` and `dist/wrld.min.js` which are the API and the minified form respectively.
+This will create the file `dist/wrld.js` which is the minified API.
 
 You can also use the command `npm run watch` to build continuously, watching files for changes.
 
