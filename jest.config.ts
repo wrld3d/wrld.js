@@ -5,6 +5,7 @@ const config: Config.InitialOptions = {
   testEnvironment: "jsdom",
   testMatch: ["**/?(*.)+(spec|test).[jt]s?(x)"],
   transform: { "\\.[jt]sx?$": "babel-jest" },
+  transformIgnorePatterns: [".*eeGeoWebGL.*"],
   clearMocks: true,
   collectCoverage: true,
   collectCoverageFrom: ["./src/**"]

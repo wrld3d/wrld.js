@@ -26,7 +26,7 @@
     "test": "run-s test:unit test:lint test:build",
     "test:build": "run-s build",
     "test:lint": "run-s lint",
-    "test:interop": "sh -c './node_modules/jasmine/bin/jasmine.js JASMINE_CONFIG_PATH=tests/jasmine.json'",
+    "test:interop": "jest -t map_interop --coverage=false",
     "test:unit": "jest"
   },
   "dependencies": {
@@ -43,7 +43,6 @@
     "@typescript-eslint/parser": "^4.8.1",
     "babel-jest": "^27.1.0",
     "eslint": "^6.8.0",
-    "jasmine": "~2.5.2",
     "jest": "^27.1.0",
     "microbundle": "^0.13.3",
     "npm-run-all": "^4.1.5",

@@ -25,8 +25,9 @@
     "isolatedModules": true,
     "noEmit": true,
     "noFallthroughCasesInSwitch": true,
-    "stripInternal": true
+    "stripInternal": true,
+    "types": ["jest", "node"]
   },
   "include": ["src"],
-  "exclude": ["node_modules", "dist", "example", "src/**/*.test.ts"]
+  "exclude": ["node_modules", "dist", "example"]
 }
