@@ -1,5 +1,4 @@
 import indoorMapFloorOutlines from "../../../../types/indoorMapFloorOutlines";
-import "wrld.js";
 
 import IndoorMapFloorOutlinePolygon from "../../../public/indoorMapFloorOutlines/indoor_map_floor_outline_polygon";
 
