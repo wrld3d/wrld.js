@@ -34,7 +34,7 @@ describe("IndoorMap class", () => {
       expect(typeof entrance.exit).toBe("function");
     });
 
-    it("calls the exit fucntion", () => {
+    it("calls the exit function", () => {
       entrance.exit();
       expect(exitFunc).toHaveBeenCalled();
     });

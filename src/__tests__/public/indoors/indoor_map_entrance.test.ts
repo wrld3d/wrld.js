@@ -1,5 +1,5 @@
 import indoors from "../../../../types/indoors";
-import "wrld.js";
+import L from "leaflet";
 
 import IndoorMapEntrance from "../../../public/indoors/indoor_map_entrance";
 
