@@ -1,3 +1,5 @@
+import L from "leaflet";
+
 export const Popup = L.Popup.extend({
     options: {
         elevation: 0,

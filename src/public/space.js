@@ -1,4 +1,6 @@
-export const Vector3 = function(x, y, z) {
+import L from "leaflet";
+
+export const Vector3 = function (x, y, z) {
     if (typeof(x) === "number") {
         this.x = x;
         this.y = y;

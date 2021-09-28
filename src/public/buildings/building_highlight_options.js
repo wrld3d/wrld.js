@@ -1,3 +1,5 @@
+import L from "leaflet";
+
 import { Vector4 } from "../space";
 
 export const BuildingHighlightSelectionType = {

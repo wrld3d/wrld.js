@@ -1,3 +1,4 @@
+import L from "leaflet";
 import IndoorMapFloorOutlinePolygon from "../../public/indoorMapFloorOutlines/indoor_map_floor_outline_polygon";
 import IndoorMapFloorOutlinePolygonRing from "../../public/indoorMapFloorOutlines/indoor_map_floor_outline_polygon_ring";
 

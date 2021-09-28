@@ -1,3 +1,4 @@
+import L from "leaflet";
 import MapModule from "./map_module";
 
 export function BlueSphereModule(emscriptenApi) {

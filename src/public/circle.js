@@ -1,3 +1,5 @@
+import L from "leaflet";
+
 import { ElevationModeType, isValidElevationMode } from "../private/elevation_mode.js";
 
 export const Circle = L.Circle.extend({

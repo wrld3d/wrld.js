@@ -1,3 +1,5 @@
+import L from "leaflet";
+
 import MapModule from "./map_module";
 import IdToObjectMap from "./id_to_object_map";
 

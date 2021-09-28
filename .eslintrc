@@ -4,11 +4,6 @@
         "node": true
     },
     "extends": "eslint:recommended",
-    "globals": { 
-        "L" : false,
-        "Runtime" : false,
-        "Module" : true
-    },
     "rules": {
         "@typescript-eslint/no-namespace": ["error", {"allowDeclarations": true}],
         "quotes": [

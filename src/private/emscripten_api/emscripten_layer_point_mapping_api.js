@@ -1,3 +1,4 @@
+import L from "leaflet";
 export function EmscriptenLayerPointMappingApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
 
     var _emscriptenApiPointer = emscriptenApiPointer;
