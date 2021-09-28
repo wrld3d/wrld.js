@@ -17,7 +17,7 @@
   },
   "scripts": {
     "clean": "rm -rf dist",
-    "build": "microbundle --generateTypes false --name WRLD",
+    "build": "microbundle --generateTypes false --name WRLD --external none",
     "build-dist": "npm run build",
     "build-min": "npm run build",
     "watch": "microbundle watch",
