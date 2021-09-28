@@ -1,3 +1,5 @@
+import L from "leaflet";
+
 import * as indoorOptions from "../private/indoor_map_layer_options.js";
 import * as elevationMode from "../private/elevation_mode.js";
 import * as popups from "./popup";

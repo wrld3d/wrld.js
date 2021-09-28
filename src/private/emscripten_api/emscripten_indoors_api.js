@@ -1,3 +1,4 @@
+import L from "leaflet";
 import { colorToRgba32 } from "./emscripten_interop_utils.js";
 
 export function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {

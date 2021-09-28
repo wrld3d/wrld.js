@@ -1,3 +1,4 @@
+import L from "leaflet";
 import EegeoLeafletMap from "../public/eegeo_leaflet_map";
 
 import HTMLMapContainer from "./html_map_container";

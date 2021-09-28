@@ -1,3 +1,5 @@
+import L from "leaflet";
+
 import MapModule from "./map_module";
 import { getIndoorMapId, getIndoorMapFloorIndex, getIndoorMapFloorId } from "./indoor_map_layer_options.js";
 import { getElevationModeInt } from "./elevation_mode.js";

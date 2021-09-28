@@ -1,3 +1,4 @@
+import L from "leaflet";
 import { marker as _marker } from "../public/marker";
 
 export function IndoorEntranceMarkerUpdater (map, indoorsModule) {

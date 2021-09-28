@@ -1,3 +1,5 @@
+import L from "leaflet";
+
 import { Popup } from "../public/popup.js";
 import { hasIndoorMap, matchesIndoorMap } from "../private/indoor_map_layer_options.js";
 

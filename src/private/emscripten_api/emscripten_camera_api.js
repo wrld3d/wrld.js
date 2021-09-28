@@ -1,3 +1,5 @@
+import L from "leaflet";
+
 export function EmscriptenCameraApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
 
     var _emscriptenApiPointer = emscriptenApiPointer;

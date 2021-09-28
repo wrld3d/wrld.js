@@ -1,3 +1,4 @@
+import L from "leaflet";
 import { Vector3 } from "../../public/space";
 
 export function EmscriptenSpacesApi(eegeoApiPointer, cwrap, emscriptenModule, emscriptenMemory) {

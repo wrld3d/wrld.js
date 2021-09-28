@@ -1,3 +1,4 @@
+import L from "leaflet";
 const tinyRotationString = " rotate(0.0001deg)";
 
 export const setPositionSmooth = (el, point, disable3D) => {
