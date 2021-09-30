@@ -1,23 +1,35 @@
 {
   "name": "wrld.js",
+  "amdName": "WRLD",
   "version": "0.0.1",
   "description": "A JavaScript API for beautiful 3D maps",
   "author": "WRLD",
   "license": "See license in LICENSE.md",
   "type": "module",
-  "source": "./src/wrld.js",
+  "source": "./src/wrld.ts",
   "exports": "./dist/wrld.modern.js",
   "main": "./dist/wrld.cjs",
   "module": "./dist/wrld.module.js",
   "unpkg": "./dist/wrld.js",
-  "types": "types/index.d.ts",
+  "typings": "./dist/wrld.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/wrld3d/wrld.js.git"
   },
+  "files": [
+    "dist/wrld.module.js",
+    "dist/wrld.modern.js",
+    "dist/wrld.cjs",
+    "dist/wrld.d.ts",
+    "dist/private",
+    "dist/public",
+    "dist/types"
+  ],
   "scripts": {
     "clean": "rm -rf dist",
-    "build": "microbundle --generateTypes false --name WRLD --external none",
+    "build:package": "microbundle --format modern,esm,cjs",
+    "build:cdn": "microbundle -o dist/wrld.js --format umd --generateTypes false --external none",
+    "build": "run-s build:package build:cdn",
     "build-dist": "npm run build",
     "build-min": "npm run build",
     "watch": "microbundle watch",

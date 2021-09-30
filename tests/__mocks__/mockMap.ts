@@ -1,6 +1,6 @@
-import Map from "../../../types/map";
+import Map from "../../src/types/map";
 
-import Wrld from "../../wrld";
+import Wrld from "../../src/wrld";
 
 export const createMockMap = (): Map => {
   const element = document.createElement("div");

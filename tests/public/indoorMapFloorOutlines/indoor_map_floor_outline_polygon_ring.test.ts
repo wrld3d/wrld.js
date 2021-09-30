@@ -1,7 +1,7 @@
-import indoorMapFloorOutlines from "../../../../types/indoorMapFloorOutlines";
+import indoorMapFloorOutlines from "../../../src/types/indoorMapFloorOutlines";
 import L from "leaflet";
 
-import IndoorMapFloorOutlinePolygonRing from "../../../public/indoorMapFloorOutlines/indoor_map_floor_outline_polygon_ring";
+import IndoorMapFloorOutlinePolygonRing from "../../../src/public/indoorMapFloorOutlines/indoor_map_floor_outline_polygon_ring";
 
 describe("IndoorMapFloorOutlinePolygonRing class", () => {
   let indoorMapFloorOutlinePolygonRing: indoorMapFloorOutlines.IndoorMapFloorOutlinePolygonRing;

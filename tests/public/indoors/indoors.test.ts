@@ -1,4 +1,4 @@
-import { IndoorMap, IndoorMapEntrance, IndoorMapFloor } from "../../../public/indoors/indoors";
+import { IndoorMap, IndoorMapEntrance, IndoorMapFloor } from "../../../src/public/indoors/indoors";
 
 describe("indoors namespace", () => {
 

@@ -8,7 +8,8 @@ const config: Config.InitialOptions = {
   transformIgnorePatterns: [".*eeGeoWebGL.*"],
   clearMocks: true,
   collectCoverage: true,
-  collectCoverageFrom: ["./src/**"]
+  collectCoverageFrom: ["./src/**"],
+  coveragePathIgnorePatterns: [".d.ts"],
 };
 
 export default config;

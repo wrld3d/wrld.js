@@ -1,7 +1,7 @@
-import indoors from "../../../../types/indoors";
+import indoors from "../../../src/types/indoors";
 import L from "leaflet";
 
-import IndoorMapEntrance from "../../../public/indoors/indoor_map_entrance";
+import IndoorMapEntrance from "../../../src/public/indoors/indoor_map_entrance";
 
 describe("IndoorMapEntrance class", () => {
   let entrance: indoors.IndoorMapEntrance;

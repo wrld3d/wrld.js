@@ -1,6 +1,6 @@
-import type indoorMapFloorOutlines from "../../../../types/indoorMapFloorOutlines";
+import type indoorMapFloorOutlines from "../../../src/types/indoorMapFloorOutlines";
 
-import { IndoorMapFloorOutlineInformation } from "../../../public/indoorMapFloorOutlines/indoor_map_floor_outline_information";
+import { IndoorMapFloorOutlineInformation } from "../../../src/public/indoorMapFloorOutlines/indoor_map_floor_outline_information";
 
 import { createMockMap } from "../../__mocks__/mockMap";
 import { createMockIndoorMapFloorOutlinePolygon } from "../../__mocks__/mockIndoorMapFloorOutlines";
