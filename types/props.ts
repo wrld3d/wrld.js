@@ -11,7 +11,7 @@ declare namespace props {
       setAutomaticIndoorMapPopulationEnabled(enabled: boolean): void;
       isAutomaticIndoorMapPopulationEnabled(): boolean;
       setIndoorMapPopulationServiceUrl(serviceUrl: string): boolean;
-      getIndoorMapEntitySetProps(indoorMapId: Map.MapId, indoorMapFloorId: Map.MapFloorId): Props[] | null;
+      getIndoorMapEntitySetProps(indoorMapId: Map.MapId, indoorMapFloorId: Map.MapFloorId): Prop[] | null;
   }
 
   type PropOptions = {
