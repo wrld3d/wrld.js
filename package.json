@@ -11,11 +11,25 @@
   "main": "./dist/wrld.cjs",
   "module": "./dist/wrld.module.js",
   "unpkg": "./dist/wrld.js",
-  "types": "types/index.d.ts",
+  "types": "./types/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/wrld3d/wrld.js.git"
   },
+  "files": [
+    "dist/wrld.js",
+    "dist/wrld.js.map",
+    "dist/wrld.module.js",
+    "dist/wrld.module.js.map",
+    "dist/wrld.modern.js",
+    "dist/wrld.modern.js.map",
+    "dist/wrld.cjs",
+    "dist/wrld.cjs.map",
+    "dist/wrld.d.ts",
+    "dist/private",
+    "dist/public",
+    "types"
+  ],
   "scripts": {
     "clean": "rm -rf dist cdn",
     "build:package": "microbundle --generateTypes false",
