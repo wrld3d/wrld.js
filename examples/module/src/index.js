@@ -6,11 +6,11 @@ const center = Wrld.latLng(53, 24);
 
 const map = Wrld.map("map", apiKey, { center });
 
-Wrld.marker(center, { title: "Hey there" }).addTo(map);
+Wrld.marker(center, { title: "Hello, WRLD" }).addTo(map);
 
 Wrld.popup({ autoClose: false })
   .setLatLng(center)
-  .setContent("Hey there!")
+  .setContent("Hello, WRLD!")
   .addTo(map);
 
 Wrld.polyline([
