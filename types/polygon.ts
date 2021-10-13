@@ -4,7 +4,7 @@ import type Color from "./color";
 import type ElevationMode from "./elevationMode";
 
 declare namespace Polygon {
-  type Options = {
+  type Options = L.PolylineOptions & {
     color?: Color;
     elevation?: number;
     elevationMode?: ElevationMode;

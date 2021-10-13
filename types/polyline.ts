@@ -5,7 +5,7 @@ import type ElevationMode from "./elevationMode";
 import type DisplayOption from "./displayOption";
 
 declare namespace Polyline {
-  type Options = {
+  type Options = L.PolylineOptions & {
     color?: Color;
     elevation?: number;
     elevationMode?: ElevationMode;
