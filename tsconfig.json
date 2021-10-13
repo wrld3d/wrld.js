@@ -18,7 +18,7 @@
     "allowSyntheticDefaultImports": true,
     "target": "es5",
     "allowJs": true,
-    "skipLibCheck": true,
+    "skipLibCheck": false,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
