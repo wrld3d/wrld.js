@@ -13,7 +13,7 @@ declare namespace Polygon {
   };
 }
 
-declare class Polygon {
+declare class Polygon extends L.Polygon {
   constructor(latlngs: L.LatLngTuple[] | L.LatLngTuple[][], options?: Polygon.Options);
   addTo(map: Map): this;
   remove(): this;
