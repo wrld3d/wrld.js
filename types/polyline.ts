@@ -2,6 +2,7 @@ import type L from "leaflet";
 import type Map from "./map";
 import type Color from "./color";
 import type ElevationMode from "./elevationMode";
+import type DisplayOption from "./displayOption";
 
 declare namespace Polyline {
   type Options = {
@@ -12,7 +13,7 @@ declare namespace Polyline {
     indoorMapFloorId?: Map.MapFloorId;
     weight?: number;
     miterLimit?: number;
-    displayOption?: "currentIndoorMap" | "currentFloor";
+    displayOption?: DisplayOption;
   };
 }
 

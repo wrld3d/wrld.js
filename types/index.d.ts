@@ -10,6 +10,8 @@ import Marker from "./marker";
 import props from "./props";
 import Popup from "./popup";
 import Polygon from "./polygon";
+import Circle from "./circle";
+import Rectangle from "./rectangle";
 import Polyline from "./polyline";
 import Heatmap from "./heatmap";
 import themes from "./themes";
@@ -40,8 +42,10 @@ declare module "wrld.js" {
     polygon: (latlngs: L.LatLngTuple[] | L.LatLngTuple[][], options?: Polygon.Options) => Polygon,
     Polyline: typeof Polyline,
     polyline: (latlngs: L.LatLngExpression[], options?: Polyline.Options) => Polyline,
-    // TODO: L.circle
-    // TODO: L.rectangle
+    Circle: typeof Circle,
+    circle: (latLng: L.LatLngExpression, options?: Circle.Options) => Circle;
+    Rectangle: typeof Rectangle,
+    rectangle: (latLngBounds: L.LatLngExpression, options?: Rectangle.Options) => Rectangle,
     Heatmap: typeof Heatmap,
     heatmap: (pointData: Heatmap.PointData[], options?: Heatmap.Options) => Heatmap,
     prop: (name: string, geometryId: string, location: L.LatLngExpression, options?: props.PropOptions) => props.Prop,
