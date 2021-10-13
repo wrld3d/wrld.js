@@ -1,5 +1,6 @@
 {
   "name": "wrld.js",
+  "amdName": "Wrld",
   "version": "0.0.1",
   "description": "A JavaScript API for beautiful 3D maps",
   "author": "WRLD",
@@ -16,18 +17,21 @@
     "url": "https://github.com/wrld3d/wrld.js.git"
   },
   "scripts": {
-    "clean": "rm -rf dist",
-    "build": "microbundle --generateTypes false --name WRLD --external none",
+    "clean": "rm -rf dist cdn",
+    "build:package": "microbundle --generateTypes false",
+    "build:cdn": "microbundle -o cdn/wrld.js --format umd --generateTypes false --external none --define CDN_MODE=true",
+    "build": "run-s build:package build:cdn",
     "build-dist": "npm run build",
     "build-min": "npm run build",
-    "watch": "microbundle watch",
+    "watch": "microbundle watch --generateTypes false",
     "dev": "npm run watch",
     "lint": "eslint . --ext .js,.ts",
     "test": "run-s test:unit test:lint test:build",
     "test:build": "run-s build",
     "test:lint": "run-s lint",
     "test:interop": "jest -t map_interop --coverage=false",
-    "test:unit": "jest"
+    "test:unit": "jest",
+    "test:watch": "jest --watch --coverage=false"
   },
   "dependencies": {
     "@types/leaflet": "^1.0.69",
