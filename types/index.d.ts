@@ -19,13 +19,6 @@ import indoorMapEntities from "./indoorMapEntities";
 import indoorMapFloorOutlines from "./indoorMapFloorOutlines";
 
 declare module "wrld.js" {
-  declare function map(element: HTMLElement | string, apiKey: string, options?: Map.Options): Map;
-  declare function marker(latLng: L.LatLngExpression, options?: Marker.Options): Marker;
-  declare function popup(options?: Popup.Options, source?: L.Layer): Popup;
-  declare function polygon(latlngs: L.LatLngTuple[] | L.LatLngTuple[][], options?: Polygon.Options): Polygon;
-  declare function polyline(latlngs: L.LatLngExpression[], options?: Polyline.Options): Polyline;
-  declare function prop(name: string, geometryId: string, location: L.LatLngExpression, options?: props.PropOptions): props.Prop;
-  declare function heatmap(pointData: Heatmap.PointData[], options?: Heatmap.Options): Heatmap;
 
   export type {
     WrldEvent as Event,
@@ -36,27 +29,36 @@ declare module "wrld.js" {
     Vector4,
   };
 
-  export {
-    Map,
-    map,
-    Marker,
-    marker,
-    Popup,
-    popup,
-    Polygon,
-    polygon,
-    Polyline,
-    polyline,
+  const Wrld: typeof L & {
+    Map: typeof Map,
+    map: (element: HTMLElement | string, apiKey: string, options?: Map.Options) => Map,
+    Marker: typeof Marker,
+    marker: (latLng: L.LatLngExpression, options?: Marker.Options) => Marker,
+    Popup: typeof Popup,
+    popup: (options?: Popup.Options, source?: L.Layer) => Popup,
+    Polygon: typeof Polygon,
+    polygon: (latlngs: L.LatLngTuple[] | L.LatLngTuple[][], options?: Polygon.Options) => Polygon,
+    Polyline: typeof Polyline,
+    polyline: (latlngs: L.LatLngExpression[], options?: Polyline.Options) => Polyline,
     // TODO: L.circle
     // TODO: L.rectangle
-    Heatmap,
-    heatmap,
-    prop,
-    props,
-    indoors,
-    themes,
-    buildings,
-    indoorMapEntities,
-    indoorMapFloorOutlines,
+    Heatmap: typeof Heatmap,
+    heatmap: (pointData: Heatmap.PointData[], options?: Heatmap.Options) => Heatmap,
+    prop: (name: string, geometryId: string, location: L.LatLngExpression, options?: props.PropOptions) => props.Prop,
+    props: typeof props,
+    indoors: typeof indoors,
+    themes: typeof themes,
+    buildings: typeof buildings,
+    indoorMapEntities: typeof indoorMapEntities,
+    indoorMapFloorOutlines: typeof indoorMapFloorOutlines,
+
+    native: {
+      Polygon: typeof Polygon,
+      polygon: (latlngs: L.LatLngTuple[] | L.LatLngTuple[][], options?: Polygon.Options) => Polygon,
+      Polyline: typeof Polyline,
+      polyline: (latlngs: L.LatLngExpression[], options?: Polyline.Options) => Polyline,
+    }
   };
+
+  export default Wrld;
 }

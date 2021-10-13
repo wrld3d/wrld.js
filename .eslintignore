@@ -1,4 +1,5 @@
 dist/
+cdn/
 example/
 node_modules/
 tests/

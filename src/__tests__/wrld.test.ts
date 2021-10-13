@@ -1,3 +1,4 @@
+import L from "leaflet";
 import type Map from "../../types/map";
 import Wrld from "../wrld.js";
 
@@ -81,5 +82,80 @@ describe("Wrld.map", () => {
       document.body.appendChild(element);
       expect(() => Wrld.map(elementId, apiKey, options)).not.toThrow();
     });
+  });
+});
+
+describe("Wrld vs L", () => {
+  describe("L", () => {
+    test("L.map has two parameters", () => {
+      expect(L.map.length).toBe(2);
+    });
+
+    test("L.marker does not have elevation", () => {
+      const marker = L.marker([0, 0]);
+      expect(marker.options["elevation"]).toBeUndefined();
+    });
+  });
+
+  test("Wrld.map has three parameters", () => {
+    expect(Wrld.map.length).toBe(3);
+  });
+
+  test("Wrld.marker has elevation", () => {
+    const marker = Wrld.marker([0, 0]);
+    expect(marker.options.elevation).toBe(0);
+  });
+
+  test("Wrld.circle has elevation", () => {
+    const circle = Wrld.circle([0, 0]);
+    expect(circle.options.elevation).toBe(0);
+  });
+
+  test("Wrld.popup has elevation", () => {
+    const popup = Wrld.popup([0, 0]);
+    expect(popup.options.elevation).toBe(0);
+  });
+
+  test("Wrld.polygon has elevation", () => {
+    const polygon = Wrld.polygon([0, 0]);
+    expect(polygon.options.elevation).toBe(0);
+  });
+
+  test("Wrld.polyline has elevation", () => {
+    const polyline = Wrld.polyline([0, 0]);
+    expect(polyline.options.elevation).toBe(0);
+    expect(polyline.getElevation()).toBe(0);
+    expect(polyline.getElevationMode()).toBe("heightAboveGround");
+  });
+
+  test("Wrld.rectangle has elevation", () => {
+    const rectangle = Wrld.rectangle([[0, 0], [0, 0], [0, 0], [0, 0]]);
+    expect(rectangle.options.elevation).toBe(0);
+  });
+
+  describe("Wrld.native", () => {
+    it("exists", () => {
+      expect(Wrld.native.polygon).toBeInstanceOf(Function);
+      expect(Wrld.native.Polygon).toBeInstanceOf(Function);
+    });
+  
+    it("cannot be used with L.Map", () => {
+      const element = document.createElement("div");
+      document.body.appendChild(element);
+      const map = L.map(element);
+      const poly = Wrld.native.polygon([[0, 0], [0, 0]]);
+      expect(() => { poly.addTo(map); }).toThrowError();
+    });
+  });
+});
+
+// For compatibility with eeGeoWebGL we need L.Wrld present
+describe("window.L", () => {
+  it("is the one exported by Leaflet", () => {
+    expect(window.L).toEqual(L);
+  });
+
+  it("has the Wrld plugin", () => {
+    expect(window.L["Wrld"]).toEqual(Wrld);
   });
 });

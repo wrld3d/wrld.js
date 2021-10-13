@@ -89,6 +89,8 @@ const findMapContainerElement = (elementOrId) => {
 };
 
 const Wrld = {
+  ...L,
+
   map: (domElement, apiKey, options) => {
 
     var wrldModule = createEmscriptenModule();
@@ -110,40 +112,45 @@ const Wrld = {
 
     return map.leafletMap;
   },
+  getMapById: (mapId) => _mapObjects[mapId],
 
-  Marker: marker.Marker,
-  marker: marker.marker,
+  // shims & overrides
   Popup: popup.Popup,
   popup: popup.popup,
-  Polygon: polygon.Polygon,
-  polygon: polygon.polygon,
-  Polyline: polyline.Polyline,
-  polyline: polyline.polyline,
+  Circle: circle.Circle,
+  circle: circle.circle,
+  Marker: marker.Marker,
+  marker: marker.marker,
+  Polygon: polygonShim.PolygonShim,
+  polygon: polygonShim.polygonShim,
+  Polyline: polylineShim.PolylineShim,
+  polyline: polylineShim.polylineShim,
+  Rectangle: rectangleShim.RectangleShim,
+  rectangle: rectangleShim.rectangleShim,
+
+  // additions
   Prop: prop.Prop,
   prop: prop.prop,
   Heatmap: heatmap.Heatmap,
   heatmap: heatmap.heatmap,
 
+  // new namespaces
   indoors: indoors,
   space: space,
   themes: themes,
   buildings: buildings,
   indoorMapEntities: indoorMapEntities,
   indoorMapFloorOutlines: indoorMapFloorOutlines,
-
-  getMapById: (mapId) => _mapObjects[mapId]
+  native: {
+    Polygon: polygon.Polygon,
+    polygon: polygon.polygon,
+    Polyline: polyline.Polyline,
+    polyline: polyline.polyline,
+  },
 };
 
-L.popup = popup.popup;
-L.circle = circle.circle;
-L.marker = marker.marker;
-L.polygon = polygonShim.polygonShim;
-L.polyline = polylineShim.polylineShim;
-L.rectangle = rectangleShim.rectangleShim;
-
-window.L = L;
-L.Wrld = Wrld;
-L.eeGeo = L.Wrld;
+// For compatibility with eeGeoWebGL we need L.Wrld present
+window.L["Wrld"] = Wrld;
 
 // The default image path is broken when using Browserify - it searches the script tags on the page
 L.Icon.Default.imagePath = "https://unpkg.com/leaflet@1.0.1/dist/images/";
