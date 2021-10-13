@@ -1,0 +1,18 @@
+{
+  "name": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "webpack",
+    "start": "webpack serve"
+  },
+  "author": "WRLD",
+  "dependencies": {
+    "wrld.js": "../.."
+  },
+  "devDependencies": {
+    "webpack": "^5.58.1",
+    "webpack-cli": "^4.9.0",
+    "webpack-dev-server": "^4.3.1"
+  }
+}
