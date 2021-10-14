@@ -151,9 +151,6 @@ describe("Wrld vs L", () => {
 
 // For compatibility with eeGeoWebGL we need L.Wrld present
 describe("window.L", () => {
-  it("is the one exported by Leaflet", () => {
-    expect(window.L).toEqual(L);
-  });
 
   it("has the Wrld plugin", () => {
     expect(window.L["Wrld"]).toEqual(Wrld);
