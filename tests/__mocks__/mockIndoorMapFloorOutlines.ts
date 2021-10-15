@@ -1,7 +1,7 @@
-import indoorMapFloorOutlines from "../../../types/indoorMapFloorOutlines";
+import indoorMapFloorOutlines from "../../src/types/indoorMapFloorOutlines";
 
-import IndoorMapFloorOutlinePolygon from "../../public/indoorMapFloorOutlines/indoor_map_floor_outline_polygon";
-import IndoorMapFloorOutlinePolygonRing from "../../public/indoorMapFloorOutlines/indoor_map_floor_outline_polygon_ring";
+import IndoorMapFloorOutlinePolygon from "../../src/public/indoorMapFloorOutlines/indoor_map_floor_outline_polygon";
+import IndoorMapFloorOutlinePolygonRing from "../../src/public/indoorMapFloorOutlines/indoor_map_floor_outline_polygon_ring";
 import L from "leaflet";
 
 export const createMockIndoorMapFloorOutlinePolygon = (): indoorMapFloorOutlines.IndoorMapFloorOutlinePolygon => {

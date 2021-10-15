@@ -1,7 +1,7 @@
-import indoors from "../../../../types/indoors";
+import indoors from "../../../src/types/indoors";
 
-import IndoorMap from "../../../public/indoors/indoor_map";
-import IndoorMapFloor from "../../../public/indoors/indoor_map_floor";
+import IndoorMap from "../../../src/public/indoors/indoor_map";
+import IndoorMapFloor from "../../../src/public/indoors/indoor_map_floor";
 
 describe("IndoorMap class", () => {
   let entrance: indoors.IndoorMap;

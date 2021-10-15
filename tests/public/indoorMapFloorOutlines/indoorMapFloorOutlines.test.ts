@@ -1,4 +1,4 @@
-import { IndoorMapFloorOutlinePolygon, IndoorMapFloorOutlinePolygonRing, IndoorMapFloorOutlineInformation, indoorMapFloorOutlineInformation } from "../../../public/indoorMapFloorOutlines/indoorMapFloorOutlines";
+import { IndoorMapFloorOutlinePolygon, IndoorMapFloorOutlinePolygonRing, IndoorMapFloorOutlineInformation, indoorMapFloorOutlineInformation } from "../../../src/public/indoorMapFloorOutlines/indoorMapFloorOutlines";
 
 describe("indoorMapFloorOutlines namespace", () => {
 

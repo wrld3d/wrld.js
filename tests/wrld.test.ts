@@ -1,15 +1,15 @@
 import L from "leaflet";
-import type Map from "../../types/map";
-import Wrld from "../wrld.js";
+import type Map from "../src/types/map";
+import Wrld from "../src/wrld.js";
 
 describe("Wrld.map", () => {
   const elementId = "map";
-  let element: HTMLElement | null;
+  let element: HTMLElement;
   const apiKey = "testApiKey";
   let options: Map.Options;
 
   beforeEach(() => {
-    element = null;
+    element = document.createElement("div");
   });
 
   it("is a function", () => {
@@ -54,14 +54,12 @@ describe("Wrld.map", () => {
 
   describe("when passing a container element that is NOT on the DOM", () => {
     it("does not throw an error", () => {
-      element = document.createElement("div");
       expect(() => Wrld.map(element, apiKey, options)).not.toThrow();
     });
   });
 
   describe("when passing a container element id for an element that is NOT on the DOM", () => {
     it("throws an error", () => {
-      element = document.createElement("div");
       element.setAttribute("id", elementId);
       expect(() => Wrld.map(elementId, apiKey, options)).toThrowError("No map container found");
     });
@@ -69,7 +67,6 @@ describe("Wrld.map", () => {
 
   describe("when passing a container element that is on the DOM", () => {
     it("does not throw an error", () => {
-      element = document.createElement("div");
       document.body.appendChild(element);
       expect(() => Wrld.map(element, apiKey, options)).not.toThrow();
     });
@@ -77,7 +74,6 @@ describe("Wrld.map", () => {
 
   describe("when passing a container element id for an element that is on the DOM", () => {
     it("does not throw an error", () => {
-      element = document.createElement("div");
       element.setAttribute("id", elementId);
       document.body.appendChild(element);
       expect(() => Wrld.map(elementId, apiKey, options)).not.toThrow();

@@ -1,5 +1,0 @@
-# Files not be included in the npm package
-/coverage
-/cdn
-test.sh
-issue_template.md

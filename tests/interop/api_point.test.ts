@@ -1,27 +1,27 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore we don't have definitions for this one :C
-import eeGeoWebGL from "../../../tmp/sdk/eeGeoWebGL";
+import eeGeoWebGL from "../../tmp/sdk/eeGeoWebGL";
 import L from "leaflet";
 
-import EmscriptenApi from "../../private/emscripten_api/emscripten_api";
-import EmscriptenCameraApi from "../../private/emscripten_api/emscripten_camera_api";
-import EmscriptenMemory from "../../private/emscripten_api/emscripten_memory";
-import EmscriptenThemesApi from "../../private/emscripten_api/emscripten_themes_api";
-import EmscriptenGeofenceApi from "../../private/emscripten_api/emscripten_geofence_api";
-import EmscriptenPrecacheApi from "../../private/emscripten_api/emscripten_precache_api";
-import EmscriptenSpacesApi from "../../private/emscripten_api/emscripten_spaces_api";
-import EmscriptenLayerPointMappingApi from "../../private/emscripten_api/emscripten_layer_point_mapping_api";
-import EmscriptenIndoorsApi from "../../private/emscripten_api/emscripten_indoors_api";
-import EmscriptenExpandFloorsApi from "../../private/emscripten_api/emscripten_expand_floors_api";
-import EmscriptenIndoorEntityApi from "../../private/emscripten_api/emscripten_indoor_entity_api";
-import EmscriptenIndoorMapFloorOutlineInformationApi from "../../private/emscripten_api/emscripten_indoor_map_floor_outline_information_api";
-import EmscriptenRenderingApi from "../../private/emscripten_api/emscripten_rendering_api";
-import EmscriptenPolylineApi from "../../private/emscripten_api/emscripten_polyline_api";
-import EmscriptenHeatmapApi from "../../private/emscripten_api/emscripten_heatmap_api";
-import EmscriptenBlueSphereApi from "../../private/emscripten_api/emscripten_blue_sphere_api";
-import EmscriptenFrameRateApi from "../../private/emscripten_api/emscripten_frame_rate_api";
-import EmscriptenMapRuntimeApi from "../../private/emscripten_api/emscripten_map_runtime_api";
+import EmscriptenApi from "../../src/private/emscripten_api/emscripten_api";
+import EmscriptenCameraApi from "../../src/private/emscripten_api/emscripten_camera_api";
+import EmscriptenMemory from "../../src/private/emscripten_api/emscripten_memory";
+import EmscriptenThemesApi from "../../src/private/emscripten_api/emscripten_themes_api";
+import EmscriptenGeofenceApi from "../../src/private/emscripten_api/emscripten_geofence_api";
+import EmscriptenPrecacheApi from "../../src/private/emscripten_api/emscripten_precache_api";
+import EmscriptenSpacesApi from "../../src/private/emscripten_api/emscripten_spaces_api";
+import EmscriptenLayerPointMappingApi from "../../src/private/emscripten_api/emscripten_layer_point_mapping_api";
+import EmscriptenIndoorsApi from "../../src/private/emscripten_api/emscripten_indoors_api";
+import EmscriptenExpandFloorsApi from "../../src/private/emscripten_api/emscripten_expand_floors_api";
+import EmscriptenIndoorEntityApi from "../../src/private/emscripten_api/emscripten_indoor_entity_api";
+import EmscriptenIndoorMapFloorOutlineInformationApi from "../../src/private/emscripten_api/emscripten_indoor_map_floor_outline_information_api";
+import EmscriptenRenderingApi from "../../src/private/emscripten_api/emscripten_rendering_api";
+import EmscriptenPolylineApi from "../../src/private/emscripten_api/emscripten_polyline_api";
+import EmscriptenHeatmapApi from "../../src/private/emscripten_api/emscripten_heatmap_api";
+import EmscriptenBlueSphereApi from "../../src/private/emscripten_api/emscripten_blue_sphere_api";
+import EmscriptenFrameRateApi from "../../src/private/emscripten_api/emscripten_frame_rate_api";
+import EmscriptenMapRuntimeApi from "../../src/private/emscripten_api/emscripten_map_runtime_api";
 
 type ModuleType = { noInitialRun: boolean, then: (module: unknown) => void, cwrap: unknown };
 
