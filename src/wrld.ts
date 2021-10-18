@@ -1,15 +1,17 @@
-import L from "leaflet";
+export * from "leaflet";
 import { getMapById, map } from "./public/map";
-import * as marker from "./public/marker";
-import * as popup from "./public/popup.js";
-import * as polygon from "./public/polygon.js";
-import * as polyline from "./public/polyline.js";
-import * as prop from "./public/prop.js";
+import Map from "./types/map";
+export { marker, Marker } from "./public/marker";
+export { popup, Popup } from "./public/popup.js";
+export { circle, Circle } from "./public/circle.js";
+export { heatmap, Heatmap } from "./public/heatmap.js";
+export { prop, Prop } from "./public/prop.js";
+// shims
+import * as polygonNative from "./public/polygon.js";
+import * as polylineNative from "./public/polyline.js";
 import * as polygonShim from "./private/polygon_shim.js";
 import * as polylineShim from "./private/polyline_shim.js";
 import * as rectangleShim from "./private/rectangle_shim.js";
-import * as circle from "./public/circle.js";
-import * as heatmap from "./public/heatmap.js";
 // modules
 import * as indoors from "./public/indoors/indoors";
 import * as space from "./public/space";
@@ -17,55 +19,44 @@ import * as themes from "./public/themes";
 import * as buildings from "./public/buildings/buildings";
 import * as indoorMapEntities from "./public/indoorMapEntities/indoorMapEntities";
 import * as indoorMapFloorOutlines from "./public/indoorMapFloorOutlines/indoorMapFloorOutlines";
+// types
+export type { WrldEvent as Event, EventHandler } from "./types/event";
+export type { Color } from "./types/color";
+export type { ElevationMode } from "./types/elevationMode";
+export type { Vector3, Vector4 } from "./types/vector";
 
 import "./types/window";
 import "./private/polyfills.js";
 
-const Wrld = {
-  ...L,
+const Rectangle = rectangleShim.RectangleShim;
+const rectangle = rectangleShim.rectangleShim;
+const Polygon = polygonShim.PolygonShim;
+const polygon = polygonShim.polygonShim;
+const Polyline = polylineShim.PolylineShim;
+const polyline = polylineShim.polylineShim;
 
-  map: map,
-  getMapById: getMapById,
-
-  // shims & overrides
-  Popup: popup.Popup,
-  popup: popup.popup,
-  Circle: circle.Circle,
-  circle: circle.circle,
-  Marker: marker.Marker,
-  marker: marker.marker,
-  Polygon: polygonShim.PolygonShim,
-  polygon: polygonShim.polygonShim,
-  Polyline: polylineShim.PolylineShim,
-  polyline: polylineShim.polylineShim,
-  Rectangle: rectangleShim.RectangleShim,
-  rectangle: rectangleShim.rectangleShim,
-
-  // additions
-  Prop: prop.Prop,
-  prop: prop.prop,
-  Heatmap: heatmap.Heatmap,
-  heatmap: heatmap.heatmap,
-
-  // new namespaces
-  indoors: indoors,
-  space: space,
-  themes: themes,
-  buildings: buildings,
-  indoorMapEntities: indoorMapEntities,
-  indoorMapFloorOutlines: indoorMapFloorOutlines,
-  native: {
-    Polygon: polygon.Polygon,
-    polygon: polygon.polygon,
-    Polyline: polyline.Polyline,
-    polyline: polyline.polyline,
-  },
+const native = {
+  Polygon: polygonNative.Polygon,
+  polygon: polygonNative.polygon,
+  Polyline: polylineNative.Polyline,
+  polyline: polylineNative.polyline,
 };
 
-// For compatibility with eeGeoWebGL we need L.Wrld present
-window.L["Wrld"] = Wrld;
-
-// The default image path is broken when using Browserify - it searches the script tags on the page
-L.Icon.Default.imagePath = "https://unpkg.com/leaflet@1.0.1/dist/images/";
-
-export default Wrld;
+export {
+  Map,
+  map,
+  getMapById,
+  Rectangle,
+  rectangle,
+  Polygon,
+  polygon,
+  Polyline,
+  polyline,
+  indoors,
+  space,
+  themes,
+  buildings,
+  indoorMapEntities,
+  indoorMapFloorOutlines,
+  native,
+};

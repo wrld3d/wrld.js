@@ -1,6 +1,6 @@
 import L from "leaflet";
 import type Map from "../src/types/map";
-import Wrld from "../src/wrld.js";
+import Wrld from "../src";
 
 describe("Wrld.map", () => {
   const elementId = "map";
@@ -30,25 +30,25 @@ describe("Wrld.map", () => {
 
   describe("when false is passed as the container element", () => {
     it("throws an error", () => {
-      expect(() => Wrld.map(false, apiKey, options)).toThrowError("No map container found");
+      expect(() => Wrld.map(false as any, apiKey, options)).toThrowError("No map container found");
     });
   });
 
   describe("when true is passed as the container element", () => {
     it("throws an error", () => {
-      expect(() => Wrld.map(true, apiKey, options)).toThrowError("No map container found");
+      expect(() => Wrld.map(true as any, apiKey, options)).toThrowError("No map container found");
     });
   });
 
   describe("when a falsy number is passed as the container element", () => {
     it("throws an error", () => {
-      expect(() => Wrld.map(0, apiKey, options)).toThrowError("No map container found");
+      expect(() => Wrld.map(0 as any, apiKey, options)).toThrowError("No map container found");
     });
   });
 
   describe("when a truthy number is passed as the container element", () => {
     it("throws an error", () => {
-      expect(() => Wrld.map(1, apiKey, options)).toThrowError("No map container found");
+      expect(() => Wrld.map(1 as any, apiKey, options)).toThrowError("No map container found");
     });
   });
 

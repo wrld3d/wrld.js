@@ -6,7 +6,7 @@
   "author": "WRLD",
   "license": "See license in LICENSE.md",
   "type": "module",
-  "source": "./src/wrld.ts",
+  "source": "./src/index.ts",
   "exports": "./dist/wrld.modern.js",
   "main": "./dist/wrld.cjs",
   "module": "./dist/wrld.module.js",
