@@ -3,7 +3,6 @@ import { factoryFor } from "../../private/factoryFor";
 import { Color } from "../../types/color";
 import { ElevationMode } from "../../types/elevationMode";
 import { Map, MapId, MapFloorId } from "./../map";
-import { Vector4 } from "../space";
 
 export type PolygonOptions = L.PolylineOptions & {
   color?: Color;
@@ -47,7 +46,7 @@ export class Polygon {
       throw new Error("Incorrect array input format.");
     }
 
-    this._color = this._config["color"] || new Vector4(0, 0, 255, 128);
+    this._color = this._config["color"] || [0, 0, 255, 128];
     this.__colorNeedsChanged = true;
   }
 

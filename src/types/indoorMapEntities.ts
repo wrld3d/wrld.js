@@ -1,6 +1,7 @@
 import type L from "leaflet";
 import type { WrldEvent, EventHandler } from "./event";
 import type { Map, MapFloorId, MapId } from "../public/map";
+import type {IndoorMapEntityInformationModuleImpl} from "../private/modules/indoor_map_entity_information_module";
 
 declare namespace indoorMapEntities {
 
@@ -14,7 +15,7 @@ declare namespace indoorMapEntities {
       once(type: IndoorMapEntityInformationChangedEvent, fn: IndoorMapEntityInformationChangedEventHandler): void;
       off(event: EventType, handler: (e: WrldEvent) => void): this;
        /** @internal */
-       _getImpl(): any;
+       _getImpl(): IndoorMapEntityInformationModuleImpl;
   }
 
   class IndoorMapEntity {

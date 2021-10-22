@@ -1,10 +1,13 @@
-import type { Vector3, Vector4 } from "../public/space";
+export type Color =
+  | string
+  | ColorArray
+  | {
+      r: number;
+      g: number;
+      b: number;
+      a?: number;
+    };
 
-export type Color = string | Vector3 | Vector4 | {
-  r: number;
-  g: number;
-  b: number;
-  a?: number;
-};
+export type ColorArray = [number, number, number] | [number, number, number, number];
 
 export default Color;

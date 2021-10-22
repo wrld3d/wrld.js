@@ -34,6 +34,16 @@ export type { PolygonOptions } from "./public/polygon";
 export type { PolylineOptions } from "./public/polyline";
 export type { RectangleOptions } from "./public/rectangle";
 export type {
+  HeatmapOptions,
+  ColorStop,
+  ColorStopArray,
+  DensityStop,
+  DensityStopArray,
+  OcclusionMapFeature,
+  PointData,
+  WeightedPoint,
+} from "./public/heatmap";
+export type {
   MapFloorId,
   MapFloorIndex,
   MapId,

@@ -1,7 +1,7 @@
 import type L from "leaflet";
 
 import type { Color } from "../types/color";
-import type Heatmap from "../types/heatmap";
+import type heatmaps from "../types/heatmap";
 import type props from "../types/props";
 import type routes from "../types/routes";
 import type themes from "../private/modules/themes_module";
@@ -98,7 +98,7 @@ export declare class Map extends L.Map {
   indoorMapFloorOutlines: indoorMapFloorOutlines.IndoorMapFloorOutlines;
   themes: themes;
   routes: routes;
-  heatmaps: Heatmap.Heatmaps;
+  heatmaps: heatmaps;
   rendering: RenderingModule;
   blueSphere: BlueSphereModule;
   versionModule: VersionModule;

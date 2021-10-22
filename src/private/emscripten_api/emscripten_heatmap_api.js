@@ -1,6 +1,6 @@
 import { getElevationModeInt } from "../elevation_mode";
-import { HeatmapOcclusionMapFeature } from "../../public/heatmap.js";
-import { colorToRgba32 } from "./emscripten_interop_utils.js";
+import { HeatmapOcclusionMapFeature } from "../../public/heatmap";
+import { colorToRgba32 } from "./emscripten_interop_utils";
 
 export function EmscriptenHeatmapApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
     var _emscriptenApiPointer = emscriptenApiPointer;
