@@ -1,5 +1,5 @@
 import L from "leaflet";
-import { constructorFor } from "../private/constructorFor";
+import { factoryFor } from "../private/factoryFor";
 import { setPositionSmooth } from "../private/eegeo_dom_util";
 import { ElevationModeType, isValidElevationMode } from "../private/elevation_mode";
 import { copyIndoorMapOptions } from "../private/indoor_map_layer_options.js";
@@ -217,4 +217,4 @@ export const Marker: typeof MarkerType = L.Marker.extend({
   },
 });
 
-export const marker = constructorFor(Marker);
+export const marker = factoryFor(Marker);

@@ -1,4 +1,4 @@
-import { constructorFor } from "../../private/constructorFor";
+import { factoryFor } from "../../private/factoryFor";
 import { Vector4 } from "../space";
 import type { BuildingHighlightOptions } from "./building_highlight_options";
 import type { BuildingInformation } from "./building_information";
@@ -63,4 +63,4 @@ export class BuildingHighlight {
   };
 }
 
-export const buildingHighlight = constructorFor(BuildingHighlight);
+export const buildingHighlight = factoryFor(BuildingHighlight);

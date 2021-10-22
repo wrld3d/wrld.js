@@ -1,5 +1,5 @@
 import L from "leaflet";
-import { constructorFor } from "../private/constructorFor";
+import { factoryFor } from "../private/factoryFor";
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export type PopupOptions = L.PopupOptions & {
@@ -144,4 +144,4 @@ export const Popup: typeof PopupType = L.Popup.extend({
   },
 });
 
-export const popup = constructorFor(Popup);
+export const popup = factoryFor(Popup);

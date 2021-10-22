@@ -1,4 +1,4 @@
-import { constructorFor } from "../../private/constructorFor";
+import { factoryFor } from "../../private/factoryFor";
 import type Map from "../map";
 import type { IndoorMapEntity } from "./indoor_map_entity";
 
@@ -81,4 +81,4 @@ export class IndoorMapEntityInformation {
   };
 }
 
-export const indoorMapEntityInformation = constructorFor(IndoorMapEntityInformation);
+export const indoorMapEntityInformation = factoryFor(IndoorMapEntityInformation);

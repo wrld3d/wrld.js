@@ -1,4 +1,4 @@
-import { constructorFor } from "../private/constructorFor";
+import { factoryFor } from "../private/factoryFor";
 import elevationMode, { ElevationMode } from "../types/elevationMode";
 
 export class IndoorMapEntitySetProp {
@@ -64,4 +64,4 @@ export class IndoorMapEntitySetProp {
   }
 }
 
-export const indoorMapEntitySetProp = constructorFor(IndoorMapEntitySetProp);
+export const indoorMapEntitySetProp = factoryFor(IndoorMapEntitySetProp);

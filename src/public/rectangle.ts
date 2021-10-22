@@ -1,5 +1,5 @@
 import L from "leaflet";
-import { constructorFor } from "../private/constructorFor";
+import { factoryFor } from "../private/factoryFor";
 import { ElevationModeType, isValidElevationMode } from "../private/elevation_mode";
 
 import { WrldOptions } from "../types/wrldOptions";
@@ -83,4 +83,4 @@ export const Rectangle: typeof RectangleType = L.Rectangle.extend({
   },
 });
 
-export const rectangle = constructorFor(Rectangle);
+export const rectangle = factoryFor(Rectangle);

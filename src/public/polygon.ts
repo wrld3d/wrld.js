@@ -1,5 +1,5 @@
 import L from "leaflet";
-import { constructorFor } from "../private/constructorFor";
+import { factoryFor } from "../private/factoryFor";
 import { ElevationModeType, isValidElevationMode } from "../private/elevation_mode";
 import { WrldOptions } from "../types/wrldOptions";
 import { ElevationMode } from "../types/elevationMode";
@@ -87,4 +87,4 @@ export const Polygon: typeof PolygonType = L.Polygon.extend({
   },
 });
 
-export const polygon = constructorFor(Polygon);
+export const polygon = factoryFor(Polygon);

@@ -1,5 +1,5 @@
 import L from "leaflet";
-import { constructorFor } from "../../private/constructorFor";
+import { factoryFor } from "../../private/factoryFor";
 import { Vector4 } from "../space";
 
 export enum BuildingHighlightSelectionType {
@@ -65,4 +65,4 @@ export class BuildingHighlightOptions {
   };
 }
 
-export const buildingHighlightOptions = constructorFor(BuildingHighlightOptions);
+export const buildingHighlightOptions = factoryFor(BuildingHighlightOptions);

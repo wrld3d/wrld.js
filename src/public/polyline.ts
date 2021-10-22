@@ -1,6 +1,6 @@
 import { ElevationModeType, isValidElevationMode } from "../private/elevation_mode";
 import L from "leaflet";
-import { constructorFor } from "../private/constructorFor";
+import { factoryFor } from "../private/factoryFor";
 import { WrldOptions } from "../types/wrldOptions";
 import { ElevationMode } from "../types/elevationMode";
 import Map from "./map";
@@ -89,4 +89,4 @@ export const Polyline: typeof PolylineType = L.Polyline.extend({
   },
 });
 
-export const polyline = constructorFor(Polyline);
+export const polyline = factoryFor(Polyline);

@@ -1,5 +1,5 @@
 import L from "leaflet";
-import { constructorFor } from "../../private/constructorFor";
+import { factoryFor } from "../../private/factoryFor";
 import { ElevationModeType, isValidElevationMode } from "../../private/elevation_mode";
 import { Color } from "../../types/color";
 import DisplayOption from "../../types/displayOption";
@@ -141,4 +141,4 @@ export const Polyline: typeof PolylineType = L.Polyline.extend({
   redraw: function () {},
 });
 
-export const polyline = constructorFor(Polyline);
+export const polyline = factoryFor(Polyline);

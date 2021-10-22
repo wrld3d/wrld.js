@@ -1,5 +1,5 @@
 import L from "leaflet";
-import { constructorFor } from "../../private/constructorFor";
+import { factoryFor } from "../../private/factoryFor";
 import { Color } from "../../types/color";
 import { ElevationMode } from "../../types/elevationMode";
 import { Map, MapId, MapFloorId } from "./../map";
@@ -105,4 +105,4 @@ const loadLatLngs = (coords: Parameters<typeof L.latLng>[0][]): L.LatLng[] => {
   return points;
 };
 
-export const polygon = constructorFor(Polygon);
+export const polygon = factoryFor(Polygon);

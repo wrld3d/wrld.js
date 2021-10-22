@@ -1,6 +1,6 @@
 import type IndoorMapFloorOutlinePolygon from "./indoor_map_floor_outline_polygon";
 import type Map from "../map";
-import { constructorFor } from "../../private/constructorFor";
+import { factoryFor } from "../../private/factoryFor";
 
 export class IndoorMapFloorOutlineInformation {
   private _nativeId: string | null;
@@ -68,4 +68,4 @@ export class IndoorMapFloorOutlineInformation {
   };
 }
 
-export const indoorMapFloorOutlineInformation = constructorFor(IndoorMapFloorOutlineInformation);
+export const indoorMapFloorOutlineInformation = factoryFor(IndoorMapFloorOutlineInformation);

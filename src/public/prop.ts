@@ -3,7 +3,7 @@ import L from "leaflet";
 import { ElevationMode } from "../types/elevationMode";
 import { ElevationModeType, isValidElevationMode } from "../private/elevation_mode";
 import { Map, MapId, MapFloorId } from "../wrld.js";
-import { constructorFor } from "../private/constructorFor";
+import { factoryFor } from "../private/factoryFor";
 
 export type PropOptions = {
   elevation?: number;
@@ -154,4 +154,4 @@ export class Prop {
   };
 }
 
-export const prop = constructorFor(Prop);
+export const prop = factoryFor(Prop);

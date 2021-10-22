@@ -1,5 +1,5 @@
 import L from "leaflet";
-import { constructorFor } from "../private/constructorFor";
+import { factoryFor } from "../private/factoryFor";
 import { ElevationModeType, isValidElevationMode } from "../private/elevation_mode";
 import { ElevationMode } from "../types/elevationMode";
 import { WrldOptions } from "../types/wrldOptions";
@@ -89,4 +89,4 @@ export const Circle: typeof CircleType = L.Circle.extend({
   },
 });
 
-export const circle = constructorFor(Circle);
+export const circle = factoryFor(Circle);

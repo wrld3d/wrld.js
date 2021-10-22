@@ -1,4 +1,4 @@
-import { constructorFor } from "../../src/private/constructorFor";
+import { factoryFor } from "../../src/private/factoryFor";
 
 class TestClass {
   public value: string;
@@ -11,13 +11,13 @@ class TestClass {
 }
 
 it("creates a new instance of TestClass", () => {
-  const testClass = constructorFor(TestClass);
+  const testClass = factoryFor(TestClass);
   const instance = testClass("hello");
   expect(instance).toBeInstanceOf(TestClass);
 });
 
 it("it passes the right arguments", () => {
-  const testClass = constructorFor(TestClass);
+  const testClass = factoryFor(TestClass);
   const instance1 = testClass("hello");
   expect(instance1.value).toEqual("hello");
 
@@ -27,6 +27,6 @@ it("it passes the right arguments", () => {
 });
 
 it("has zero arguments because it is a var args function", () => {
-  const testClass = constructorFor(TestClass);
+  const testClass = factoryFor(TestClass);
   expect(testClass.length).toBe(0);
 });
