@@ -1,7 +1,4 @@
-import indoors from "../../../src/types/indoors";
-
-import IndoorMap from "../../../src/public/indoors/indoor_map";
-import IndoorMapFloor from "../../../src/public/indoors/indoor_map_floor";
+import * as indoors  from "../../../src/public/indoors/indoors";
 
 describe("IndoorMap class", () => {
   let entrance: indoors.IndoorMap;
@@ -12,7 +9,7 @@ describe("IndoorMap class", () => {
   const floorCount = 2;
   const floors: indoors.IndoorMapFloor[] = [];
   for (let i = 0; i < floorCount; ++i) {
-    floors.push(new IndoorMapFloor(i, i, `Floor ${i}`, i.toString()));
+    floors.push(new indoors.IndoorMapFloor(i, i, `Floor ${i}`, i.toString()));
   }
   const searchTags: indoors.SearchTag[] = [
     {
@@ -24,7 +21,7 @@ describe("IndoorMap class", () => {
   const exitFunc = jest.fn();
 
   beforeEach(() => {
-    entrance = new IndoorMap(indoorMapId, indoorMapName, indoorMapSourceVendor, floorCount, floors, searchTags, exitFunc);
+    entrance = new indoors.IndoorMap(indoorMapId, indoorMapName, indoorMapSourceVendor, floorCount, floors, searchTags, exitFunc);
   });
 
   /* IndoorMap.exit */

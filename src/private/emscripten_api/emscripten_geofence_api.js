@@ -1,4 +1,4 @@
-import { ElevationModeType } from "../elevation_mode.js";
+import { ElevationModeType } from "../elevation_mode";
 import { colorToVec4 } from "./emscripten_interop_utils.js";
 
 export function EmscriptenGeofenceApi(eegeoApiPointer, cwrap, emscriptenModule) {

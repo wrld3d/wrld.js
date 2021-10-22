@@ -1,4 +1,4 @@
-import { getElevationModeInt } from "../elevation_mode.js";
+import { getElevationModeInt } from "../elevation_mode";
 import { colorToRgba32 } from "./emscripten_interop_utils.js";
 
 export function EmscriptenPolylineApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {

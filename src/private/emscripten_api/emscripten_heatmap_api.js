@@ -1,4 +1,4 @@
-import { getElevationModeInt } from "../elevation_mode.js";
+import { getElevationModeInt } from "../elevation_mode";
 import { HeatmapOcclusionMapFeature } from "../../public/heatmap.js";
 import { colorToRgba32 } from "./emscripten_interop_utils.js";
 

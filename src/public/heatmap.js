@@ -1,5 +1,5 @@
 import L from "leaflet";
-import { ElevationModeType, isValidElevationMode } from "../private/elevation_mode.js";
+import { ElevationModeType, isValidElevationMode } from "../private/elevation_mode";
 
 export const HeatmapOcclusionMapFeature = {
     GROUND: "ground",

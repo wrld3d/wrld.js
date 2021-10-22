@@ -1,33 +1,11 @@
-declare namespace themes {
-  enum season {
-    Spring = "Spring",
-    Summer = "Summer",
-    Autumn = "Autumn",
-    Winter = "Winter",
-  }
+import type { season, time, weather } from "../public/themes";
 
-  enum time {
-    Dawn = "Dawn",
-    Day = "Day",
-    Dusk = "Dusk",
-    Night = "Night",
-  }
+export type Themes = {
+  setTheme: (season: season, time: time, weather: weather) => void;
+  setSeason: (season: season) => void;
+  setTime: (time: time) => void;
+  setWeather: (weather: weather) => void;
+  setEnvironmentThemesManifest: (manifest: string) => void;
+};
 
-  enum weather {
-    Clear = "Default",
-    Overcast = "Overcast",
-    Foggy = "Foggy",
-    Rainy = "Rainy",
-    Snowy = "Snowy",
-  }
-
-  type Themes = {
-    setTheme: (season: themes.season, time: themes.time, weather: themes.weather) => void,
-    setSeason: (season: themes.season) => void,
-    setTime: (time: themes.time) => void,
-    setWeather: (weather: themes.weather) => void,
-    setEnvironmentThemesManifest: (manifest: string) => void,
-  }
-}
-
-export default themes;
+export default Themes;

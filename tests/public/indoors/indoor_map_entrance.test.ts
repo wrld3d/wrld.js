@@ -1,7 +1,5 @@
-import indoors from "../../../src/types/indoors";
 import L from "leaflet";
-
-import IndoorMapEntrance from "../../../src/public/indoors/indoor_map_entrance";
+import * as indoors from "../../../src/public/indoors/indoors";
 
 describe("IndoorMapEntrance class", () => {
   let entrance: indoors.IndoorMapEntrance;
@@ -11,7 +9,7 @@ describe("IndoorMapEntrance class", () => {
   const lng = -2.971255;
 
   beforeEach(() => {
-    entrance = new IndoorMapEntrance(mapId, mapName, new L.LatLng(lat, lng));
+    entrance = new indoors.IndoorMapEntrance(mapId, mapName, new L.LatLng(lat, lng));
   });
 
   /* IndoorMapEntrance.getIndoorMapId */

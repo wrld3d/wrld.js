@@ -1,6 +1,4 @@
-import indoors from "../../../src/types/indoors";
-
-import IndoorMapFloor from "../../../src/public/indoors/indoor_map_floor";
+import * as indoors  from "../../../src/public/indoors/indoors";
 
 describe("IndoorMapFloor class", () => {
   let floor: indoors.IndoorMapFloor;
@@ -10,7 +8,7 @@ describe("IndoorMapFloor class", () => {
   const floorShortName = "G";
 
   beforeEach(() => {
-    floor = new IndoorMapFloor(floorZOrder, floorIndex, floorName, floorShortName);
+    floor = new indoors.IndoorMapFloor(floorZOrder, floorIndex, floorName, floorShortName);
   });
 
   /* deprecated IndoorMapEntrance.getFloorId */

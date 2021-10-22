@@ -1,4 +1,4 @@
-import type { Vector3, Vector4 } from "./vector";
+import type { Vector3, Vector4 } from "../public/space";
 
 export type Color = string | Vector3 | Vector4 | {
   r: number;

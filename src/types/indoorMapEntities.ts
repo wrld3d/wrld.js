@@ -1,6 +1,6 @@
 import type L from "leaflet";
 import type { WrldEvent, EventHandler } from "./event";
-import type Map from "./map";
+import type { Map, MapFloorId, MapId } from "../public/map";
 
 declare namespace indoorMapEntities {
 
@@ -13,23 +13,25 @@ declare namespace indoorMapEntities {
       on(type: IndoorMapEntityInformationChangedEvent, fn: IndoorMapEntityInformationChangedEventHandler): void;
       once(type: IndoorMapEntityInformationChangedEvent, fn: IndoorMapEntityInformationChangedEventHandler): void;
       off(event: EventType, handler: (e: WrldEvent) => void): this;
+       /** @internal */
+       _getImpl(): any;
   }
 
   class IndoorMapEntity {
-      constructor(indoorMapEntityId: string, indoorMapFloorId: Map.MapFloorId, position: L.LatLng, outline: L.LatLngTuple[][]);
+      constructor(indoorMapEntityId: string, indoorMapFloorId: MapFloorId, position: L.LatLng, outline: L.LatLngTuple[][]);
       getIndoorMapEntityId(): string;
-      getIndoorMapFloorId(): Map.MapFloorId;
+      getIndoorMapFloorId(): MapFloorId;
       getPosition(): L.LatLng;
       getOutline(): L.LatLngTuple[][];
   }
 
   class IndoorMapEntityInformation {
-      constructor(indoorMapId: Map.MapId);
+      constructor(indoorMapId: MapId);
       /**
        * @returns the auto-incrementing unique id of this IndoorMapEntityInformation object.
        */
       getId(): number;
-      getIndoorMapId(): Map.MapId;
+      getIndoorMapId(): MapId;
       getIndoorMapEntities(): IndoorMapEntity[];
       getLoadState(): "None" | "Partial" | "Complete";
       addTo(map: Map): this;
@@ -41,7 +43,7 @@ declare namespace indoorMapEntities {
       getNativeId(): number;
   }
   
-  function indoorMapEntityInformation(indoorMapId: Map.MapId): IndoorMapEntityInformation;
+  function indoorMapEntityInformation(indoorMapId: MapId): IndoorMapEntityInformation;
 }
 
 export default indoorMapEntities;

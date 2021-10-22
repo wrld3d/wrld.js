@@ -1,5 +1,5 @@
 import type L from "leaflet";
-import type Map from "./map";
+import type * as Map from "./../public/map";
 import type Color from "./color";
 import type ElevationMode from "./elevationMode";
 

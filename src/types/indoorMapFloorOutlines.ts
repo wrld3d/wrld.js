@@ -1,5 +1,5 @@
 import type { EventHandler } from "./event";
-import type Map from "./map";
+import { Map, MapId, MapFloorId } from "../public/map";
 
 declare namespace indoorMapFloorOutlines {
   interface IndoorMapFloorOutlineInformationLoadedEvent extends Event { indoorMapFloorOutlineInformation: indoorMapFloorOutlines.IndoorMapFloorOutlineInformation }
@@ -11,12 +11,14 @@ declare namespace indoorMapFloorOutlines {
       on(type: "indoormapflooroutlineinformationloaded", fn: IndoorMapFloorOutlineInformationLoadedEventHandler): void;
       once(type: "indoormapflooroutlineinformationloaded", fn: IndoorMapFloorOutlineInformationLoadedEventHandler): void;
       off(event: EventType, handler: (e: Event) => void): this;
+      /** @internal */
+      _getImpl(): any;
   }
 
   class IndoorMapFloorOutlineInformation {
-      constructor(indoorMapId: Map.MapId, indoorMapFloorId: Map.MapFloorId);
-      getIndoorMapId(): Map.MapId;
-      getIndoorMapFloorId(): Map.MapFloorId;
+      constructor(indoorMapId: MapId, indoorMapFloorId: MapFloorId);
+      getIndoorMapId(): MapId;
+      getIndoorMapFloorId(): MapFloorId;
       getIndoorMapFloorOutlinePolygons(): IndoorMapFloorOutlinePolygon[];
       getIsLoaded(): boolean;
       getId(): number;
@@ -24,7 +26,7 @@ declare namespace indoorMapFloorOutlines {
       remove(): this;
   }
   
-  function indoorMapFloorOutlineInformation(indoorMapId: Map.MapId, indoorMapFloorId: Map.MapFloorId): IndoorMapFloorOutlineInformation;
+  function indoorMapFloorOutlineInformation(indoorMapId: MapId, indoorMapFloorId: MapFloorId): IndoorMapFloorOutlineInformation;
 
   class IndoorMapFloorOutlinePolygon {
       getOuterRing(): IndoorMapFloorOutlinePolygonRing;
