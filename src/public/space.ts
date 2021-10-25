@@ -36,12 +36,12 @@ export class Vector4 {
   w: number;
 
   constructor(vector: Vector4);
-  constructor(vector: [number, number, number, number]);
+  constructor(vector: [number, number, number?, number?]);
   constructor(x: number);
   constructor(x: number, y: number);
   constructor(x: number, y: number, z: number);
   constructor(x: number, y: number, z: number, w: number);
-  constructor(...args: Vector4[] | number[] | ([number, number, number, number][])) {
+  constructor(...args: Vector4[] | number[] | ([number, number, number?, number?][])) {
     if (typeof (args[0]) === "number") {
       const [x, y, z, w] = (args as number[]);
       this.x = x;

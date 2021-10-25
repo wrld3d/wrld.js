@@ -1,5 +1,6 @@
 import L from "leaflet";
 import { factoryFor } from "../../private/factoryFor";
+import { ColorArray } from "../../types/color";
 import { Vector4 } from "../space";
 
 export enum BuildingHighlightSelectionType {
@@ -11,7 +12,7 @@ export class BuildingHighlightOptions {
   private _selectionLocationLatLng: L.LatLng;
   private _selectionScreenPoint: L.Point;
   private _selectionMode: BuildingHighlightSelectionType;
-  private _color: [number, number, number, number];
+  private _color: ColorArray;
   private _informationOnly: boolean;
 
   constructor() {
@@ -34,7 +35,7 @@ export class BuildingHighlightOptions {
     return this;
   };
 
-  color = (color: [number, number, number, number]): this => {
+  color = (color: ColorArray): this => {
     this._color = color;
     return this;
   };

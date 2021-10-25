@@ -11,6 +11,7 @@ import type {
   EventType,
 } from "../../public/indoors";
 import { MapId, MapFloorId } from "../../public/map";
+import { ColorArray } from "../color";
 
 declare class IndoorsModule {
   isIndoors(): boolean;
@@ -28,7 +29,7 @@ declare class IndoorsModule {
   setFloorFromInterpolation(value: number): boolean;
   setEntityHighlights(
     ids: string | string[],
-    highlightColour: [number, number, number, number?],
+    highlightColour: ColorArray,
     indoorId?: string,
     highlightBorderThickness?: number
   ): void;

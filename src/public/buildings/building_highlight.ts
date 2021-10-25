@@ -3,6 +3,7 @@ import { Vector4 } from "../space";
 import type { BuildingHighlightOptions } from "./building_highlight_options";
 import type { BuildingInformation } from "./building_information";
 import type Map from "../map";
+import { ColorArray } from "../../types/color";
 
 export class BuildingHighlight {
   private _options: BuildingHighlightOptions;
@@ -23,7 +24,7 @@ export class BuildingHighlight {
 
   getOptions = (): BuildingHighlightOptions => this._options;
 
-  setColor = (color: Vector4 | [number, number, number, number]): this => {
+  setColor = (color: ColorArray | Vector4): this => {
     this._color = new Vector4(color as Vector4); // Both types work individually, not sure why the union is not accepted 🤷🏻‍♂️
     if (this._map !== null) {
       this._map.buildings._getImpl().notifyBuildingHighlightChanged(this);
