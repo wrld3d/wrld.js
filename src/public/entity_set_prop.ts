@@ -1,9 +1,10 @@
 import { factoryFor } from "../private/factoryFor";
 import elevationMode, { ElevationMode } from "../types/elevationMode";
+import type { MapId, MapFloorId } from "./map";
 
 export class IndoorMapEntitySetProp {
-  private _indoorMapId: string;
-  private _floorId: number;
+  private _indoorMapId: MapId;
+  private _floorId: MapFloorId;
   private _name: string;
   private _geometryId: string;
   private _location: L.LatLng;
@@ -12,8 +13,8 @@ export class IndoorMapEntitySetProp {
   private _headingDegrees: number;
 
   constructor(
-    indoorMapId: string,
-    floorId: number,
+    indoorMapId: MapId,
+    floorId: MapFloorId,
     name: string,
     geometryId: string,
     location: L.LatLng,
@@ -31,11 +32,11 @@ export class IndoorMapEntitySetProp {
     this._headingDegrees = headingDegrees;
   }
 
-  getIndoorMapId(): string {
+  getIndoorMapId(): MapId {
     return this._indoorMapId;
   }
 
-  getIndoorMapFloorId(): number {
+  getIndoorMapFloorId(): MapFloorId {
     return this._floorId;
   }
 

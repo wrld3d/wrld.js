@@ -1,5 +1,6 @@
 import { factoryFor } from "../../private/factoryFor";
 import type Map from "../map";
+import { MapId } from "../map";
 import type { IndoorMapEntity } from "./indoor_map_entity";
 
 enum IndoorMapEntityInformationLoadStateType {
@@ -11,11 +12,11 @@ enum IndoorMapEntityInformationLoadStateType {
 export class IndoorMapEntityInformation {
   private _nativeId: number | null;
   private _map: Map | null;
-  private _indoorMapId: string;
+  private _indoorMapId: MapId;
   private _indoorMapEntities: IndoorMapEntity[];
   private _loadState: IndoorMapEntityInformationLoadStateType;
 
-  constructor(indoorMapId: string) {
+  constructor(indoorMapId: MapId) {
     this._nativeId = null;
     this._map = null;
     this._indoorMapId = indoorMapId;

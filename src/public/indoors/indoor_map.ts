@@ -1,4 +1,5 @@
 import IndoorMapFloor from "./indoor_map_floor";
+import type { MapId } from "../map";
 
 export type SearchTag = {
   name: string;
@@ -7,7 +8,7 @@ export type SearchTag = {
 };
 
 export class IndoorMap {
-  private _indoorMapId: string;
+  private _indoorMapId: MapId;
   private _indoorMapName: string;
   private _indoorMapSourceVendor: string;
   private _floorCount: number;
@@ -16,7 +17,7 @@ export class IndoorMap {
   public exit: () => void;
 
   constructor(
-    indoorMapId: string,
+    indoorMapId: MapId,
     indoorMapName: string,
     indoorMapSourceVendor: string,
     floorCount: number,
@@ -33,7 +34,7 @@ export class IndoorMap {
     this.exit = exitFunc;
   }
 
-  getIndoorMapId(): string {
+  getIndoorMapId(): MapId {
     return this._indoorMapId;
   }
 

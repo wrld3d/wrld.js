@@ -88,7 +88,7 @@ export const Polyline: typeof PolylineType = L.Polyline.extend({
     return this.options.miterLimit;
   },
 
-  setIndoorMapWithFloorId: function (indoorMapId: string, indoorMapFloorId: number) {
+  setIndoorMapWithFloorId: function (indoorMapId: MapId, indoorMapFloorId: MapFloorId) {
     this.options.indoorMapId = indoorMapId;
     this.options.indoorMapFloorId = indoorMapFloorId;
     this._needsNativeUpdate = true;

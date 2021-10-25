@@ -22,8 +22,8 @@ export class Prop {
   private __geometryIdNeedsChanged: boolean;
   private _location: L.LatLng;
   private __locationNeedsChanged: boolean;
-  private _indoorMapId: string;
-  private _indoorMapFloorId: number;
+  private _indoorMapId: MapId;
+  private _indoorMapFloorId: MapFloorId;
   private _headingDegrees: number;
   private __headingDegreesNeedsChanged: boolean;
   private _elevation: number;
@@ -56,9 +56,9 @@ export class Prop {
     return this;
   };
 
-  getIndoorMapId = (): string => this._indoorMapId;
+  getIndoorMapId = (): MapId => this._indoorMapId;
 
-  getIndoorMapFloorId = (): number => this._indoorMapFloorId;
+  getIndoorMapFloorId = (): MapFloorId => this._indoorMapFloorId;
 
   getHeadingDegrees = (): number => this._headingDegrees;
 

@@ -1,16 +1,16 @@
 import type IndoorMapFloorOutlinePolygon from "./indoor_map_floor_outline_polygon";
-import type Map from "../map";
+import type { Map, MapId, MapFloorId } from "../map";
 import { factoryFor } from "../../private/factoryFor";
 
 export class IndoorMapFloorOutlineInformation {
   private _nativeId: string | null;
   private _map: Map | null;
-  private _indoorMapId: string;
+  private _indoorMapId: MapId;
   private _indoorMapFloorId: number;
   private _outlinePolygons: IndoorMapFloorOutlinePolygon[];
   private _isLoaded: boolean;
 
-  constructor(indoorMapId: string, indoorMapFloorId: number) {
+  constructor(indoorMapId: MapId, indoorMapFloorId: MapFloorId) {
     this._nativeId = null;
     this._map = null;
     this._indoorMapId = indoorMapId;
@@ -19,11 +19,11 @@ export class IndoorMapFloorOutlineInformation {
     this._isLoaded = false;
   }
 
-  getIndoorMapId(): string {
+  getIndoorMapId(): MapId {
     return this._indoorMapId;
   }
 
-  getIndoorMapFloorId(): number {
+  getIndoorMapFloorId(): MapFloorId {
     return this._indoorMapFloorId;
   }
 

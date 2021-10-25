@@ -77,7 +77,7 @@ export const Marker: typeof MarkerType = L.Marker.extend({
     return this.options.elevationMode;
   },
 
-  setIndoorMapWithFloorId: function (indoorMapId: string, indoorMapFloorId: number) {
+  setIndoorMapWithFloorId: function (indoorMapId: MapId, indoorMapFloorId: MapFloorId) {
     this.options.indoorMapId = indoorMapId;
     this.options.indoorMapFloorId = indoorMapFloorId;
 
@@ -88,7 +88,7 @@ export const Marker: typeof MarkerType = L.Marker.extend({
     return this;
   },
 
-  setIndoorMapWithFloorIndex: function (indoorMapId: string, indoorMapFloorIndex: number) {
+  setIndoorMapWithFloorIndex: function (indoorMapId: MapId, indoorMapFloorIndex: MapFloorIndex) {
     this.options.indoorMapId = indoorMapId;
     this.options.indoorMapFloorIndex = indoorMapFloorIndex;
 
