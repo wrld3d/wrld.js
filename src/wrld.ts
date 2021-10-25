@@ -16,12 +16,12 @@ export { popup, Popup } from "./public/popup";
 export { prop, Prop } from "./public/prop";
 // namespaced modules
 import * as native from "./public/native";
-import * as indoors from "./public/indoors/indoors";
+import * as indoors from "./public/indoors";
 import * as space from "./public/space";
 import * as themes from "./public/themes";
-import * as buildings from "./public/buildings/buildings";
-import * as indoorMapEntities from "./public/indoorMapEntities/indoorMapEntities";
-import * as indoorMapFloorOutlines from "./public/indoorMapFloorOutlines/indoorMapFloorOutlines";
+import * as buildings from "./public/buildings";
+import * as indoorMapEntities from "./public/indoorMapEntities";
+import * as indoorMapFloorOutlines from "./public/indoorMapFloorOutlines";
 // types
 export type { WrldEvent as Event, EventHandler } from "./types/event";
 export type { Color } from "./types/color";

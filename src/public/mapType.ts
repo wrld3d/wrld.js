@@ -1,19 +1,21 @@
 import type L from "leaflet";
 
 import type { Color } from "../types/color";
-import type heatmaps from "../types/heatmap";
-import type props from "../types/props";
-import type routes from "../types/routes";
-import type themes from "../private/modules/themes_module";
-import type buildings from "../types/buildings";
-import type indoorMapEntities from "../types/indoorMapEntities";
-import type indoorMapFloorOutlines from "../types/indoorMapFloorOutlines";
-import type indoors from "../types/indoors";
 import type { Vector3 } from "./space";
 import type DisplayOption from "../types/displayOption";
 
 import type SpaceApi from "../private/emscripten_api/emscripten_spaces_api";
 
+// Type definitions for public modules
+import type { HeatmapsModule } from "../types/modules/heatmap";
+import type { PropsModule } from "../types/modules/props";
+import type { RoutesModule } from "../types/modules/routes";
+import type { ThemesModule } from "../private/modules/themes_module";
+import type { BuildingsModule } from "../types/modules/buildings";
+import type { IndoorMapEntitiesModule } from "../types/modules/indoorMapEntities";
+import type {IndoorMapFloorOutlinesModule} from "../types/modules/indoorMapFloorOutlines";
+import type { IndoorsModule } from "../types/modules/indoors";
+// Private modules
 import type RenderingModule from "../private/modules/rendering_module";
 import type BlueSphereModule from "../private/modules/blue_sphere_module";
 import type VersionModule from "../private/modules/version_module";
@@ -91,14 +93,14 @@ export declare class Map extends L.Map {
   protected _targets: Record<number, unknown>;
   protected _zoom: number;
   // public modules
-  indoors: indoors;
-  props: props;
-  buildings: buildings;
-  indoorMapEntities: indoorMapEntities.IndoorMapEntities;
-  indoorMapFloorOutlines: indoorMapFloorOutlines.IndoorMapFloorOutlines;
-  themes: themes;
-  routes: routes;
-  heatmaps: heatmaps;
+  indoors: IndoorsModule;
+  props: PropsModule;
+  buildings: BuildingsModule;
+  indoorMapEntities: IndoorMapEntitiesModule;
+  indoorMapFloorOutlines: IndoorMapFloorOutlinesModule;
+  themes: ThemesModule;
+  routes: RoutesModule;
+  heatmaps: HeatmapsModule;
   rendering: RenderingModule;
   blueSphere: BlueSphereModule;
   versionModule: VersionModule;

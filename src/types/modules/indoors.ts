@@ -1,4 +1,4 @@
-import type { EventHandler } from "./event";
+import type { EventHandler } from "../event";
 import type {
   IndoorMap,
   IndoorMapFloor,
@@ -9,10 +9,10 @@ import type {
   IndoorMapEntranceEventHandler,
   IndoorMapEntityEventHandler,
   EventType,
-} from "../public/indoors/indoors";
-import { MapId, MapFloorId } from "../public/map";
+} from "../../public/indoors";
+import { MapId, MapFloorId } from "../../public/map";
 
-export declare class Indoors {
+declare class IndoorsModule {
   isIndoors(): boolean;
   enter(indoorMap: IndoorMapEntrance | IndoorMap | string, config?: EnterConfig): boolean;
   exit(): this;
@@ -57,4 +57,4 @@ export declare class Indoors {
   off(event: EventType, handler: (e: Event) => void): this;
 }
 
-export default Indoors;
+export type { IndoorsModule };

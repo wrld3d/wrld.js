@@ -1,3 +1,4 @@
+import { MapFloorId } from "../map";
 export class IndoorMapEntity {
   private _indoorMapEntityId: string;
   private _indoorMapFloorId: number;
@@ -15,7 +16,7 @@ export class IndoorMapEntity {
     return this._indoorMapEntityId;
   }
 
-  getIndoorMapFloorId(): number {
+  getIndoorMapFloorId(): MapFloorId {
     return this._indoorMapFloorId;
   }
 

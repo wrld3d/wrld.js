@@ -16,9 +16,9 @@ export type FindBuildingResult = {
   point: L.LatLng;
 };
 
-export interface BuildingInformationReceivedEvent extends WrldEvent {
+export type BuildingInformationReceivedEvent = WrldEvent<EventType> & {
   buildingHighlight: BuildingHighlight;
-}
+};
 
 export type BuildingInformationReceivedEventHandler = EventHandler<BuildingInformationReceivedEvent>;
 

@@ -1,6 +1,4 @@
-import indoorMapFloorOutlines from "../../../src/types/indoorMapFloorOutlines";
-
-import IndoorMapFloorOutlinePolygon from "../../../src/public/indoorMapFloorOutlines/indoor_map_floor_outline_polygon";
+import * as indoorMapFloorOutlines from "../../../src/public/indoorMapFloorOutlines";
 
 import { createMockIndoorMapFloorOutlinePolygonRing } from "../../__mocks__/mockIndoorMapFloorOutlines";
 
@@ -10,7 +8,7 @@ describe("IndoorMapFloorOutlinePolygon class", () => {
   const innerRings = createMockIndoorMapFloorOutlinePolygonRing();
 
   beforeEach(() => {
-    indoorMapFloorOutlinePolygon = new IndoorMapFloorOutlinePolygon(outerRing, innerRings);
+    indoorMapFloorOutlinePolygon = new indoorMapFloorOutlines.IndoorMapFloorOutlinePolygon(outerRing, innerRings);
   });
 
   /* indoorMapFloorOutlines.getOuterRing */

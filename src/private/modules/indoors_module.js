@@ -1,6 +1,6 @@
 import L from "leaflet";
 import MapModule from "./map_module";
-import { IndoorMap, IndoorMapFloor, IndoorMapEntrance } from "../../public/indoors/indoors";
+import { IndoorMap, IndoorMapFloor, IndoorMapEntrance } from "../../public/indoors";
 import IndoorWatermarkController from "../indoor_watermark_controller";
 
 function IndoorsModule (emscriptenApi, mapController, mapId, indoorId, floorIndex, center, headingDegrees, zoom, showWrldWatermark, backgroundColor) {

@@ -1,7 +1,7 @@
-import type { Prop } from "../public/prop";
-import type { MapId, MapFloorId } from "../public/map";
+import type { Prop } from "../../public/prop";
+import type { MapId, MapFloorId } from "../../public/map";
 
-export declare class Props {
+declare class PropsModule {
   addProp(prop: Prop): void;
   addProps(props: Prop[]): void;
   removeProp(prop: Prop): void;
@@ -12,4 +12,4 @@ export declare class Props {
   getIndoorMapEntitySetProps(indoorMapId: MapId, indoorMapFloorId: MapFloorId): Prop[] | null;
 }
 
-export default Props;
+export type { PropsModule };

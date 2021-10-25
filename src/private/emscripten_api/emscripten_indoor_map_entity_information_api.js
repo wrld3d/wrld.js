@@ -1,5 +1,5 @@
 import L from "leaflet";
-import { IndoorMapEntity } from "../../public/indoorMapEntities/indoorMapEntities";
+import { IndoorMapEntity } from "../../public/indoorMapEntities";
 
 export function EmscriptenIndoorMapEntityInformationApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
     var _emscriptenApiPointer = emscriptenApiPointer;

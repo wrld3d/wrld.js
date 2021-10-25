@@ -1,4 +1,4 @@
-import * as indoors  from "../../../src/public/indoors/indoors";
+import * as indoors  from "../../../src/public/indoors";
 
 describe("IndoorMap class", () => {
   let entrance: indoors.IndoorMap;
