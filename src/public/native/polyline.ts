@@ -2,9 +2,9 @@ import L from "leaflet";
 import { factoryFor } from "../../private/factoryFor";
 import { ElevationModeType, isValidElevationMode } from "../../private/elevation_mode";
 import { Color } from "../../types/color";
-import DisplayOption from "../../types/displayOption";
 import { ElevationMode } from "../../types/elevationMode";
 import { MapId, MapFloorId } from "../map";
+import { WrldOptions } from "../../types/wrldOptions";
 
 declare module "leaflet" {
   interface Class {
@@ -12,15 +12,10 @@ declare module "leaflet" {
   }
 }
 
-export type PolylineOptions = {
+export type PolylineOptions = WrldOptions & {
   color?: Color;
-  elevation?: number;
-  elevationMode?: ElevationMode;
-  indoorMapId?: MapId;
-  indoorMapFloorId?: MapFloorId;
   weight?: number;
   miterLimit?: number;
-  displayOption?: DisplayOption;
 };
 
 export declare class PolylineType extends L.Polyline {
