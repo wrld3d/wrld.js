@@ -1,4 +1,5 @@
 export * from "leaflet";
+import "./types/leaflet";
 import "./types/window";
 import "./private/polyfills.js";
 

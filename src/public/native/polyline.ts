@@ -6,12 +6,6 @@ import { ElevationMode } from "../../types/elevationMode";
 import { MapId, MapFloorId } from "../map";
 import { WrldOptions } from "../../types/wrldOptions";
 
-declare module "leaflet" {
-  interface Class {
-    initialize(...args: unknown[]): this;
-  }
-}
-
 export type PolylineOptions = WrldOptions & {
   color?: Color;
   weight?: number;

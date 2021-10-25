@@ -22,13 +22,11 @@ export type WeightedPoint = {
   weight?: number;
 };
 
-export type PointData =
-  | [number, number]
-  | [number, number, number]
-  | WeightedPoint
-  | {
-      [property: string]: L.LatLngExpression | number;
-    };
+export type CustomPoint = {
+  [property: string]: L.LatLngExpression | number;
+};
+
+export type PointData = [number, number] | [number, number, number] | WeightedPoint | CustomPoint;
 
 export type DensityStop = {
   stop: number;
@@ -204,10 +202,11 @@ export const Heatmap: typeof HeatmapType = (L.Layer ? L.Layer : L.Class).extend(
       let weight = 1.0;
       let latLng: L.LatLng;
       if (dataCoordProperty in pointDatum) {
-        latLng = L.latLng(pointDatum[dataCoordProperty]);
+        const _pointDatum = pointDatum as CustomPoint;
+        latLng = L.latLng(_pointDatum[dataCoordProperty] as L.LatLngExpression);
 
         if (dataWeightProperty in pointDatum) {
-          weight = pointDatum[dataWeightProperty];
+          weight = _pointDatum[dataWeightProperty] as number;
         }
       } else if (Array.isArray(pointDatum)) {
         latLng = L.latLng(pointDatum[0], pointDatum[1]);
@@ -303,13 +302,13 @@ export const Heatmap: typeof HeatmapType = (L.Layer ? L.Layer : L.Class).extend(
 
   _loadDensityStops: function (
     this: Heatmap,
-    densityStopsArray: (DensityStop | DensityStopArray) | (DensityStop | DensityStopArray)[]
+    densityStopsArray: DensityStop | DensityStopArray | DensityStop[] | DensityStopArray[]
   ): DensityStop[] {
     const densityStops: DensityStop[] = [];
     const arrayDepth = this._getArrayDepth(densityStopsArray);
 
-    if (arrayDepth === 1 && typeof densityStopsArray[0] === "number") {
-      densityStops.push(this._loadDensityParams(densityStopsArray as DensityStop));
+    if (arrayDepth === 1 && Array.isArray(densityStopsArray) && typeof densityStopsArray[0] === "number") {
+      densityStops.push(this._loadDensityParams(densityStopsArray as DensityStopArray));
     } else if (arrayDepth <= 2) {
       (densityStopsArray as DensityStop[]).forEach((densityStopsSet) => {
         densityStops.push(this._loadDensityParams(densityStopsSet));
@@ -726,7 +725,8 @@ export const Heatmap: typeof HeatmapType = (L.Layer ? L.Layer : L.Class).extend(
   },
 
   _clearChangedFlags: function (this: Heatmap) {
-    Object.keys(this._changedFlags).forEach((key) => {
+    type Key = keyof typeof this._changedFlags;
+    (Object.keys(this._changedFlags) as Key[]).forEach((key) => {
       this._changedFlags[key] = false;
     }, this);
   },

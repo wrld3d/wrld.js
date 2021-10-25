@@ -25,10 +25,10 @@ const _eventType = [
 ];
 
 export class MapMoveEvents {
-  private _onEvent: (eventKey: string) => void;
+  private _onEvent: (eventKey: number) => void;
 
   constructor(leafletMap: Map) {
-    this._onEvent = (eventKey: string) => {
+    this._onEvent = (eventKey: number) => {
       if (typeof _eventType[eventKey] === undefined) {
         return;
       }

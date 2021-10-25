@@ -33,7 +33,8 @@ export const Rectangle: typeof RectangleType = L.Rectangle.extend({
     projectedBounds: L.LatLngBounds[]
   ) {
     if (!this._map._projectLatlngs(this, latlngs, result, projectedBounds)) {
-      L.Rectangle.prototype["_projectLatlngs"].call(this, latlngs, result, projectedBounds);
+      // @ts-ignore we don't have a type definition for this
+      L.Rectangle.prototype._projectLatlngs.call(this, latlngs, result, projectedBounds);
     }
   },
 

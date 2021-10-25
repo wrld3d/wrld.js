@@ -1,9 +1,11 @@
 import L from "leaflet";
 import { factoryFor } from "../private/factoryFor";
+import type { ElevationMode } from "../types/elevationMode";
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export type PopupOptions = L.PopupOptions & {
   elevation?: number;
+  elevationMode?: ElevationMode;
   closeWhenMovedOffscreen?: boolean;
 };
 

@@ -30,7 +30,8 @@ export const Polyline: typeof PolylineType = L.Polyline.extend({
 
   _projectLatlngs: function (this: Polyline, latlngs: L.LatLng[], result: unknown, projectedBounds: L.LatLngBounds[]) {
     if (!this._map._projectLatlngs(this, latlngs, result, projectedBounds)) {
-      L.Polyline.prototype["_projectLatlngs"].call(this, latlngs, result, projectedBounds);
+      // @ts-ignore we don't have a type definition for this
+      L.Polyline.prototype._projectLatlngs.call(this, latlngs, result, projectedBounds);
     }
   },
 

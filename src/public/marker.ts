@@ -151,8 +151,7 @@ export const Marker: typeof MarkerType = L.Marker.extend({
     this._resetZIndex();
   },
 
-  bindPopup: function (content: Content | L.Popup, options?: PopupOptions) {
-    const _this = this as MarkerType;
+  bindPopup: function (this: Marker, content: Content | L.Popup, options?: PopupOptions) {
     let popup = content;
     if (!(content instanceof L.Popup)) {
       if (!options) {
@@ -161,18 +160,18 @@ export const Marker: typeof MarkerType = L.Marker.extend({
 
       // copy relevant marker options into popup
       if (!("elevation" in options)) {
-        options["elevation"] = _this.getElevation();
+        options.elevation = this.getElevation();
       }
 
       if (!("elevationMode" in options)) {
-        options["elevationMode"] = _this.options.elevationMode;
+        options.elevationMode = this.options.elevationMode;
       }
 
-      copyIndoorMapOptions(_this.options, options);
+      copyIndoorMapOptions(this.options, options);
 
-      popup = new Popup(options, _this).setContent(content);
+      popup = new Popup(options, this).setContent(content);
     }
-    return L.Marker.prototype.bindPopup.call(_this, popup, options);
+    return L.Marker.prototype.bindPopup.call(this, popup, options);
   },
 
   _onDragStart: function () {

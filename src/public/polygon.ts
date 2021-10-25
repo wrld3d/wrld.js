@@ -31,7 +31,8 @@ export const Polygon: typeof PolygonType = L.Polygon.extend({
 
   _projectLatlngs: function (this: Polygon, latlngs: L.LatLng[], result: undefined, projectedBounds: L.LatLngBounds[]) {
     if (!this._map._projectLatlngs(this, latlngs, result, projectedBounds)) {
-      L.Polygon.prototype["_projectLatlngs"].call(this, latlngs, result, projectedBounds);
+      // @ts-ignore we don't have a type definition for this
+      L.Polygon.prototype._projectLatlngs.call(this, latlngs, result, projectedBounds);
     }
   },
 
@@ -47,7 +48,8 @@ export const Polygon: typeof PolygonType = L.Polygon.extend({
   },
 
   _convertLatLngs: function (this: Polygon, latlngs: L.LatLng[]) {
-    const result = L.Polygon.prototype["_convertLatLngs"].call(this, latlngs);
+    // @ts-ignore we don't have a type definition for this
+    const result = L.Polygon.prototype._convertLatLngs.call(this, latlngs);
 
     if (this._map) {
       this._map._createPointMapping(this);

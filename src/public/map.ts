@@ -161,6 +161,7 @@ export const Map: typeof MapType = L.Map.extend({
   },
 
   _handleDOMEvent: function (this: MapType, e: Event) {
+    // @ts-ignore we don't have a type definition for this
     L.Map.prototype["_handleDOMEvent"].call(this, e);
 
     if (e.type === "contextmenu") {
@@ -224,9 +225,9 @@ export const Map: typeof MapType = L.Map.extend({
     this._spacesApi = emscriptenApi.spacesApi;
     this._ready = true;
     const panes = this.getPanes();
-    panes.mapPane.style["z-index"] = "10";
-    panes.mapPane.style["pointer-events"] = "auto";
-    panes.overlayPane.style["pointer-events"] = "none";
+    panes.mapPane.style.zIndex = "10";
+    panes.mapPane.style.pointerEvents = "auto";
+    panes.overlayPane.style.pointerEvents = "none";
     this.fire("initialize");
   },
 
