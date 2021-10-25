@@ -2,7 +2,7 @@ import L from "leaflet";
 import type EmscriptenApi from "../private/emscripten_api/emscripten_api";
 import { hasIndoorMap, matchesIndoorMap } from "../private/indoor_map_layer_options";
 import Color from "../types/color";
-import type { Layer, Map as MapType, MapOptions, PrecacheHandler, PrecacheResponse, ZoomPanOptions } from "./mapType";
+import type { Layer, Map as MapType, MapOptions, PrecacheHandler, PrecacheResponse, ZoomPanOptions } from "./map_type";
 import { Popup, PopupOptions } from "./popup";
 import { Vector3 } from "./space";
 
@@ -668,7 +668,7 @@ export type {
     PrecacheHandler,
     PrecacheResponse,
     ZoomPanOptions
-} from "./mapType";
+} from "./map_type";
 
 export type Map = MapType;
 
