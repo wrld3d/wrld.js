@@ -11,7 +11,10 @@ export class MapModuleClass {
   /** @internal */ onInitialStreamingCompleted() {}
 }
 
-// this is used for legacy class extensions via prototype, use MapModuleClass with ES5 classes
+/**
+ * Used for legacy class extensions via prototype, use MapModuleClass with ES5 classes.
+ * @deprecated
+ */
 export const MapModule = {
   onUpdate: (_dt: number) => {},
 
