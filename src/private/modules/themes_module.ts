@@ -82,13 +82,19 @@ export class ThemesModule extends MapModuleClass {
     this.setTheme(season, this._time, this._weather);
   };
 
+  getSeason = (): Season => this._season;
+
   setTime = (time: Time): void => {
     this.setTheme(this._season, time, this._weather);
   };
 
+  getTime = (): Time => this._time;
+
   setWeather = (weather: Weather): void => {
     this.setTheme(this._season, this._time, weather);
   };
+
+  getWeather = (): Weather => this._weather;
 
   setEnvironmentThemesManifest = (environmentThemesManifest: string): void => {
     if (!this._ready) {
