@@ -81,7 +81,7 @@ describe("Wrld.map", () => {
 });
 
 describe("Wrld.Map", () => {
-  it("is a JavaScript class", () => {
+  it("is a function", () => {
     expect(Wrld.Map).toBeInstanceOf(Function);
   })
 })
