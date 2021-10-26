@@ -6,7 +6,7 @@
 
 ![WRLD](https://cdn2.wrld3d.com/wp-content/uploads/2017/04/screenselection01.png)
 
-The WRLD JavaScript API allows you to easily embed [beautiful 3D maps](https://www.wrld3d.com/) into any web page for any modern, WebGL supporting browser. For an example of our 3D maps in action, see [these examples](https://www.wrld3d.com/wrld.js/examples/).
+The WRLD JavaScript API allows you to easily embed [beautiful 3D maps](https://www.wrld3d.com/) into any web page for any modern, WebGL supporting browser. For an example of our 3D maps in action, see [these examples](https://docs.wrld3d.com/wrld.js/latest/docs/examples/).
 
 It is based on [Leaflet.js](http://leafletjs.com/), providing a familiar API for embedding 3D maps in a web page.
 
@@ -65,7 +65,7 @@ We have a component that wraps `wrld.js`: <https://github.com/wrld3d/wrld-react>
 
 ## Migration from 0.1.x to 1.0.x
 
-Starting from version 1.0.0, the `Wrld` object now extends `L` from Leaflet, instead of acting like a plugin – this simplifies the use with TypeScript.
+Starting from version 1.0.0, the `Wrld` object now extends `L` from Leaflet, instead of acting like a plugin – this simplifies using wrld.js with TypeScript and improves interoperability with other Leaflet maps on the same page.
 
 - Replace `L.Wrld.polygon` with `Wrld.native.polygon`
 - Replace `L.Wrld.polyline` with `Wrld.native.polyline`
@@ -101,7 +101,7 @@ You can also use the command `npm run watch` to build continuously, watching fil
 
 - `npm run test` will make a complete sanity check of the project, executing unit test, integration tests, linting and a full build.
 - `npm run test:unit` will only execute unit and integration tests.
-- `npm run test:watch` will execute watch the source files and execute affected tests.
+- `npm run test:watch` will watch the source files and execute affected tests.
 
 ## Contributing
 
