@@ -1,13 +1,13 @@
 import { MapModuleClass } from "./map_module";
-import * as Themes from "../../public/themes";
+import { season as Season, time as Time, weather as Weather } from "../../public/themes";
 import type { EmscriptenApi } from "../emscripten_api/emscripten_api";
 
 export class ThemesModule extends MapModuleClass {
   private _emscriptenApi: EmscriptenApi;
   private _ready: boolean;
-  private _season: Themes.season;
-  private _time: Themes.time;
-  private _weather: Themes.weather;
+  private _season: Season;
+  private _time: Time;
+  private _weather: Weather;
   private _shouldChangeTheme: boolean;
   private _shouldChangeState: boolean;
 
@@ -16,9 +16,9 @@ export class ThemesModule extends MapModuleClass {
     this._emscriptenApi = emscriptenApi;
     this._ready = false;
 
-    this._season = Themes.season.Summer;
-    this._time = Themes.time.Day;
-    this._weather = Themes.weather.Clear;
+    this._season = Season.Summer;
+    this._time = Time.Day;
+    this._weather = Weather.Clear;
 
     this._shouldChangeTheme = false;
     this._shouldChangeState = false;
@@ -40,7 +40,7 @@ export class ThemesModule extends MapModuleClass {
     }
   };
 
-  private _tryMatchBuiltIn = (season: Themes.season, time: Themes.time, weather: Themes.weather): {season: Themes.season, time: Themes.time, weather: Themes.weather} => {
+  private _tryMatchBuiltIn = (season: Season, time: Time, weather: Weather): {season: Season, time: Time, weather: Weather} => {
     const caseInsensitiveMatchWithCollection = (key: string, values: string[]) => {
       const keyUpper = key.toUpperCase();
       const matchedValue = values.find(function (item) {
@@ -50,9 +50,9 @@ export class ThemesModule extends MapModuleClass {
     };
 
     return {
-      season: caseInsensitiveMatchWithCollection(season, Object.values(Themes.season)) as Themes.season,
-      time: caseInsensitiveMatchWithCollection(time, Object.values(Themes.time)) as Themes.time,
-      weather: caseInsensitiveMatchWithCollection(weather, Object.values(Themes.weather)) as Themes.weather,
+      season: caseInsensitiveMatchWithCollection(season, Object.values(season)) as Season,
+      time: caseInsensitiveMatchWithCollection(time, Object.values(time)) as Time,
+      weather: caseInsensitiveMatchWithCollection(weather, Object.values(weather)) as Weather,
     };
   };
 
@@ -61,7 +61,7 @@ export class ThemesModule extends MapModuleClass {
     this._updateTheme();
   };
 
-  setTheme = (season: Themes.season, time: Themes.time, weather: Themes.weather): void => {
+  setTheme = (season: Season, time: Time, weather: Weather): void => {
     const themeInfo = this._tryMatchBuiltIn(season, time, weather);
 
     if (themeInfo.season !== this._season) {
@@ -78,15 +78,15 @@ export class ThemesModule extends MapModuleClass {
     this._updateTheme();
   };
 
-  setSeason = (season: Themes.season): void => {
+  setSeason = (season: Season): void => {
     this.setTheme(season, this._time, this._weather);
   };
 
-  setTime = (time: Themes.time): void => {
+  setTime = (time: Time): void => {
     this.setTheme(this._season, time, this._weather);
   };
 
-  setWeather = (weather: Themes.weather): void => {
+  setWeather = (weather: Weather): void => {
     this.setTheme(this._season, this._time, weather);
   };
 
