@@ -48,7 +48,7 @@ export class IndoorMapEntitySetProp {
     return this._geometryId;
   }
 
-  getLocation(): import("/home/vittorio/projects/wrld/wrld-js-development/wrld.js/src/wrld").LatLng {
+  getLocation(): L.LatLng {
     return this._location;
   }
 
