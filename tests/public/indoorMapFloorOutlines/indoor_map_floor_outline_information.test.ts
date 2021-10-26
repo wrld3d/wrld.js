@@ -1,16 +1,16 @@
-import * as indoorMapFloorOutlines from "../../../src/public/indoorMapFloorOutlines";
+import { IndoorMapFloorOutlineInformation } from "../../../src/public/indoorMapFloorOutlines";
 
 import { createMockMap } from "../../__mocks__/mockMap";
 import { createMockIndoorMapFloorOutlinePolygon } from "../../__mocks__/mockIndoorMapFloorOutlines";
 
 describe("IndoorMapFloorOutlineInformation class", () => {
-  let indoorMapFloorOutlineInformation: indoorMapFloorOutlines.IndoorMapFloorOutlineInformation;
+  let indoorMapFloorOutlineInformation: IndoorMapFloorOutlineInformation;
   const indoorMapId = "testId";
   const floorZOrder = 1;
   const outlinePolygons = [createMockIndoorMapFloorOutlinePolygon()];
 
   beforeEach(() => {
-    indoorMapFloorOutlineInformation = new indoorMapFloorOutlines.IndoorMapFloorOutlineInformation(indoorMapId, floorZOrder);
+    indoorMapFloorOutlineInformation = new IndoorMapFloorOutlineInformation(indoorMapId, floorZOrder);
   });
 
   /* indoorMapFloorOutlines.getIndoorMapId */

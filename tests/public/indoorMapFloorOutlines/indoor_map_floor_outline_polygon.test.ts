@@ -1,14 +1,14 @@
-import * as indoorMapFloorOutlines from "../../../src/public/indoorMapFloorOutlines";
+import { IndoorMapFloorOutlinePolygon } from "../../../src/public/indoorMapFloorOutlines";
 
 import { createMockIndoorMapFloorOutlinePolygonRing } from "../../__mocks__/mockIndoorMapFloorOutlines";
 
 describe("IndoorMapFloorOutlinePolygon class", () => {
-  let indoorMapFloorOutlinePolygon: indoorMapFloorOutlines.IndoorMapFloorOutlinePolygon;
+  let indoorMapFloorOutlinePolygon: IndoorMapFloorOutlinePolygon;
   const outerRing = createMockIndoorMapFloorOutlinePolygonRing();
   const innerRings = createMockIndoorMapFloorOutlinePolygonRing();
 
   beforeEach(() => {
-    indoorMapFloorOutlinePolygon = new indoorMapFloorOutlines.IndoorMapFloorOutlinePolygon(outerRing, innerRings);
+    indoorMapFloorOutlinePolygon = new IndoorMapFloorOutlinePolygon(outerRing, innerRings);
   });
 
   /* indoorMapFloorOutlines.getOuterRing */

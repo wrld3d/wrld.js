@@ -1,13 +1,13 @@
 import L from "leaflet";
 
-import * as indoorMapFloorOutlines from "../../../src/public/indoorMapFloorOutlines";
+import { IndoorMapFloorOutlinePolygonRing } from "../../../src/public/indoorMapFloorOutlines";
 
 describe("IndoorMapFloorOutlinePolygonRing class", () => {
-  let indoorMapFloorOutlinePolygonRing: indoorMapFloorOutlines.IndoorMapFloorOutlinePolygonRing;
+  let indoorMapFloorOutlinePolygonRing: IndoorMapFloorOutlinePolygonRing;
   const latLngPoints = [L.latLng(0, 0)];
 
   beforeEach(() => {
-    indoorMapFloorOutlinePolygonRing = new indoorMapFloorOutlines.IndoorMapFloorOutlinePolygonRing(latLngPoints);
+    indoorMapFloorOutlinePolygonRing = new IndoorMapFloorOutlinePolygonRing(latLngPoints);
   });
 
   /* indoorMapFloorOutlines.getLatLngPoints */

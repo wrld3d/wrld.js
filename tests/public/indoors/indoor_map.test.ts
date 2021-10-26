@@ -1,17 +1,17 @@
-import * as indoors  from "../../../src/public/indoors";
+import { IndoorMap, IndoorMapFloor, SearchTag } from "../../../src/public/indoors";
 
 describe("IndoorMap class", () => {
-  let entrance: indoors.IndoorMap;
+  let entrance: IndoorMap;
   const indoorMapId = "testId";
   const indoorMapName = "testName";
   const indoorMapSourceVendor = "testSourceVendor";
   // Floor creation logic is buried in the indoors module and can't make use of it here
   const floorCount = 2;
-  const floors: indoors.IndoorMapFloor[] = [];
+  const floors: IndoorMapFloor[] = [];
   for (let i = 0; i < floorCount; ++i) {
-    floors.push(new indoors.IndoorMapFloor(i, i, `Floor ${i}`, i.toString()));
+    floors.push(new IndoorMapFloor(i, i, `Floor ${i}`, i.toString()));
   }
-  const searchTags: indoors.SearchTag[] = [
+  const searchTags: SearchTag[] = [
     {
       name: "name",
       search_tag: "search_tag",
@@ -21,7 +21,7 @@ describe("IndoorMap class", () => {
   const exitFunc = jest.fn();
 
   beforeEach(() => {
-    entrance = new indoors.IndoorMap(indoorMapId, indoorMapName, indoorMapSourceVendor, floorCount, floors, searchTags, exitFunc);
+    entrance = new IndoorMap(indoorMapId, indoorMapName, indoorMapSourceVendor, floorCount, floors, searchTags, exitFunc);
   });
 
   /* IndoorMap.exit */
