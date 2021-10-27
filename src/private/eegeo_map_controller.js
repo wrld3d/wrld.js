@@ -1,28 +1,28 @@
 import L from "leaflet";
-import EegeoLeafletMap from "../public/eegeo_leaflet_map";
+import EegeoLeafletMap from "../public/map";
 
 import HTMLMapContainer from "./html_map_container";
 import IndoorEntranceMarkerUpdater from "./indoor_entrance_marker_updater";
 import MapMoveEvents from "./events/map_move_events";
 
-import ThemesModule from "./themes_module";
-import IndoorsModule from "./indoors_module";
-import PrecacheModule from "./precache_module";
-import CameraModule from "./camera_module";
-import PolygonModule from "./polygon_module";
-import PolylineModule from "./polyline_module";
-import RoutingModule from "./routing_module";
-import RenderingModule from "./rendering_module";
-import BuildingsModule from "./buildings_module";
-import PropModule from "./prop_module";
-import IndoorMapEntityInformationModule from "./indoor_map_entity_information_module";
-import IndoorMapFloorOutlineInformationModule from "./indoor_map_floor_outline_information_module";
-import BlueSphereModule from "./blue_sphere_module";
-import MapRuntimeModule from "./map_runtime_module";
-import LayerPointMappingModule from "./layer_point_mapping_module";
-import VersionModule from "./version_module";
-import HeatmapModule from "./heatmap_module";
-import FrameRateModule from "./frame_rate_module";
+import ThemesModule from "./modules/themes_module";
+import IndoorsModule from "./modules/indoors_module";
+import PrecacheModule from "./modules/precache_module";
+import CameraModule from "./modules/camera_module";
+import PolygonModule from "./modules/polygon_module";
+import PolylineModule from "./modules/polyline_module";
+import RoutingModule from "./modules/routing_module";
+import RenderingModule from "./modules/rendering_module";
+import BuildingsModule from "./modules/buildings_module";
+import PropModule from "./modules/prop_module";
+import IndoorMapEntityInformationModule from "./modules/indoor_map_entity_information_module";
+import IndoorMapFloorOutlineInformationModule from "./modules/indoor_map_floor_outline_information_module";
+import BlueSphereModule from "./modules/blue_sphere_module";
+import MapRuntimeModule from "./modules/map_runtime_module";
+import LayerPointMappingModule from "./modules/layer_point_mapping_module";
+import VersionModule from "./modules/version_module";
+import HeatmapModule from "./modules/heatmap_module";
+import FrameRateModule from "./modules/frame_rate_module";
 
 const removeFileExtension = (fileName, extensionToRemove) => {
     var extensionPosition = fileName.lastIndexOf(".");

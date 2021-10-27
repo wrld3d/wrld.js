@@ -1,6 +1,6 @@
 import L from "leaflet";
-import { getElevationModeInt, ElevationModeType } from "../elevation_mode.js";
-import { IndoorMapEntitySetProp } from "../../public/entity_set_prop.js";
+import { getElevationModeInt, ElevationModeType } from "../elevation_mode";
+import { IndoorMapEntitySetProp } from "../../public/entity_set_prop";
 
 export function EmscriptenPropsApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
 

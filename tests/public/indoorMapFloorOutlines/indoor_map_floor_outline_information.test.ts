@@ -1,12 +1,10 @@
-import type indoorMapFloorOutlines from "../../../src/types/indoorMapFloorOutlines";
-
-import { IndoorMapFloorOutlineInformation } from "../../../src/public/indoorMapFloorOutlines/indoor_map_floor_outline_information";
+import { IndoorMapFloorOutlineInformation } from "../../../src/public/indoorMapFloorOutlines";
 
 import { createMockMap } from "../../__mocks__/mockMap";
 import { createMockIndoorMapFloorOutlinePolygon } from "../../__mocks__/mockIndoorMapFloorOutlines";
 
 describe("IndoorMapFloorOutlineInformation class", () => {
-  let indoorMapFloorOutlineInformation: indoorMapFloorOutlines.IndoorMapFloorOutlineInformation;
+  let indoorMapFloorOutlineInformation: IndoorMapFloorOutlineInformation;
   const indoorMapId = "testId";
   const floorZOrder = 1;
   const outlinePolygons = [createMockIndoorMapFloorOutlinePolygon()];

@@ -1,9 +1,7 @@
-import indoors from "../../../src/types/indoors";
-
-import IndoorMapFloor from "../../../src/public/indoors/indoor_map_floor";
+import { IndoorMapFloor } from "../../../src/public/indoors";
 
 describe("IndoorMapFloor class", () => {
-  let floor: indoors.IndoorMapFloor;
+  let floor: IndoorMapFloor;
   const floorZOrder = 1;
   const floorIndex = 0;
   const floorName = "Ground Floor";

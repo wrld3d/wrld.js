@@ -1,5 +1,5 @@
 import L from "leaflet";
-import { BuildingHighlightSelectionType, BuildingDimensions, BuildingContour, BuildingInformation } from "../../public/buildings/buildings";
+import { BuildingHighlightSelectionType, BuildingDimensions, BuildingContour, BuildingInformation } from "../../public/buildings";
 
 export function EmscriptenBuildingsApi(emscriptenApiPointer, cwrap, emscriptenModule, emscriptenMemory) {
 
