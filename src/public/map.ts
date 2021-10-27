@@ -313,7 +313,7 @@ export const Map: typeof MapType = L.Map.extend({
       }
     }
 
-    const _options = { center, zoom, ...options };
+    const _options = { ...options, zoom, location: center };
     this._cameraModule.setView(_options);
     return this;
   },
