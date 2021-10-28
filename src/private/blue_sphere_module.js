@@ -36,6 +36,10 @@ export function BlueSphereModule(emscriptenApi) {
         _indoorMapFloorId = indoorMapFloorId;
     };
 
+    this.setOutdoor = () => {
+        this.setIndoorMap("", 0);
+    };
+
     this.isOrientationVisible = () => _showOrientation;
 
     this.getHeadingDegrees = () => _headingDegrees;
