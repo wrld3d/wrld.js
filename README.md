@@ -101,8 +101,8 @@ You can also use the command `npm run watch` to build continuously, watching fil
 
 Before executing automated tests, make sure you have eeGeoWebGL.js downloaded in `/tmp/sdk`. This can be achieved by running `./download-sdk.sh`.
 
-- `npm run test` will execute unit test, integration tests, and lint the project.
-- `npm run test:unit` will only execute unit and integration tests.
+- `npm run test` will execute automated tests and lint the project.
+- `npm run test:unit` will only execute automated tests.
 - `npm run test:watch` will watch the source files and execute affected tests.
 
 ## Contributing
