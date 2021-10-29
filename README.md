@@ -29,7 +29,7 @@ You can easily embed a 3D map in any web page. The code below shows a simple exa
 <!DOCTYPE HTML>
 <html>
   <head>
-    <script src="https://cdn-webgl.wrld3d.com/wrldjs/dist/latest/wrld.js"></script>
+    <script src="https://unpkg.com/wrld.js@1.x.x"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.1/leaflet.css" rel="stylesheet" />
   </head>
   <body>
