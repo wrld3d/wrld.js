@@ -9,7 +9,8 @@ import "../types/window"; // defines the overrides for the window global
  * It relies on unscoped variables to store various states, maybe this could be converted to a class/object instead?
  */
 
-const _baseUrl = "https://cdn-webgl.wrld3d.com/eegeojs/public/latest/";
+const _eeGeoWebGLVersion = "public/latest";
+const _baseUrl = `https://cdn-webgl.wrld3d.com/eegeojs/${_eeGeoWebGLVersion}/`;
 const _appName = "eeGeoWebGL.jgz";
 
 const _mapObjects: EegeoMapController[] = [];
@@ -28,7 +29,7 @@ const onEmscriptenLoaded = () => {
 const createEmscriptenModule = () => {
   if (!_emscriptenStartedLoading) {
     const script = document.createElement("script");
-    script.src = _baseUrl + _appName;
+    script.src = `${_baseUrl}${_appName}`;
     script.onload = onEmscriptenLoaded;
     document.body.appendChild(script);
     _emscriptenStartedLoading = true;
@@ -36,7 +37,7 @@ const createEmscriptenModule = () => {
 
   const Module: Module = {} as Module;
   Module.locateFile = (url) => {
-    const absUrl = _baseUrl + url;
+    const absUrl = `${_baseUrl}${url}`;
     return absUrl;
   };
   Module.onExit = (exitCode) => {
