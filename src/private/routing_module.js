@@ -78,8 +78,8 @@ export function RoutingModule (apiKey, indoorsModule) {
         return results;
     };
 
-    var _routeParseHandler = (routeLoadHandler, routeLoadErrorHandler) => () => {
-        var routeJson = JSON.parse(this.responseText);
+    var _routeParseHandler = (request, routeLoadHandler, routeLoadErrorHandler) => () => {
+        var routeJson = JSON.parse(request.responseText);
 
         if (routeJson["code"] === "Ok") {
             var routes;
@@ -104,7 +104,7 @@ export function RoutingModule (apiKey, indoorsModule) {
         }
     };
 
-    var _cancelRequest = (request) => function () {
+    var _cancelRequest = (request) => () => {
         request.abort();
     };
 
@@ -125,7 +125,7 @@ export function RoutingModule (apiKey, indoorsModule) {
         url += "&travelmode=" + transportMode;
         var request = new XMLHttpRequest();
         request.open("GET", url, true);
-        request.onload = _routeParseHandler(onLoadHandler, onErrorHandler);
+        request.onload = _routeParseHandler(request, onLoadHandler, onErrorHandler);
         _indoorsModule.on("indoormapexit", _cancelRequest(request));
         request.send();
     };
