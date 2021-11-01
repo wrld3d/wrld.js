@@ -30,9 +30,7 @@
     "watch": "microbundle watch --generateTypes false",
     "dev": "npm run watch",
     "lint": "eslint . --ext .js,.ts",
-    "test": "run-s test:unit test:lint test:build",
-    "test:build": "run-s build",
-    "test:lint": "run-s lint",
+    "test": "run-s lint test:unit",
     "test:interop": "jest -t map_interop --coverage=false",
     "test:unit": "jest",
     "test:watch": "jest --watch --coverage=false"

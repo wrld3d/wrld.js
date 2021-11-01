@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 # Trap errors #
 error() {
@@ -15,7 +15,7 @@ error() {
   # Exit with original error code #
   exit "${code}"
 }
-trap 'error ${LINENO}' ERR
+trap "error ${LINENO}" ERR
 
 sdk_version=$1
 
@@ -46,6 +46,3 @@ else
   echo "Downloading uncompressed memory file."
   curl ${memory_initialiser_url} 2>/dev/null >${sdk_dir}/eeGeoWebGL.js.mem
 fi
-
-npm install
-npm run test:interop

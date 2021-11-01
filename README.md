@@ -29,7 +29,7 @@ You can easily embed a 3D map in any web page. The code below shows a simple exa
 <!DOCTYPE HTML>
 <html>
   <head>
-    <script src="https://cdn-webgl.wrld3d.com/wrldjs/dist/latest/wrld.js"></script>
+    <script src="https://unpkg.com/wrld.js@1.x.x"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.1/leaflet.css" rel="stylesheet" />
   </head>
   <body>
@@ -99,8 +99,10 @@ You can also use the command `npm run watch` to build continuously, watching fil
 
 ### Testing
 
-- `npm run test` will make a complete sanity check of the project, executing unit test, integration tests, linting and a full build.
-- `npm run test:unit` will only execute unit and integration tests.
+Before executing automated tests, make sure you have eeGeoWebGL.js downloaded in `/tmp/sdk`. This can be achieved by running `./download-sdk.sh`.
+
+- `npm run test` will execute automated tests and lint the project.
+- `npm run test:unit` will only execute automated tests.
 - `npm run test:watch` will watch the source files and execute affected tests.
 
 ## Contributing
