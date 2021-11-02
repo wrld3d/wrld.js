@@ -6,7 +6,7 @@
 
 ![WRLD](https://cdn2.wrld3d.com/wp-content/uploads/2017/04/screenselection01.png)
 
-The WRLD JavaScript API allows you to easily embed [beautiful 3D maps](https://www.wrld3d.com/) into any web page for any modern, WebGL supporting browser. For an example of our 3D maps in action, see [https://www.wrld3d.com/wrld.js/examples/](https://www.wrld3d.com/wrld.js/examples/).
+The WRLD JavaScript API allows you to easily embed [beautiful 3D maps](https://www.wrld3d.com/) into any web page for any modern, WebGL supporting browser. For an example of our 3D maps in action, see [these examples](https://docs.wrld3d.com/wrld.js/latest/docs/examples/).
 
 It is based on [Leaflet.js](http://leafletjs.com/), providing a familiar API for embedding 3D maps in a web page.
 
@@ -29,19 +29,48 @@ You can easily embed a 3D map in any web page. The code below shows a simple exa
 <!DOCTYPE HTML>
 <html>
   <head>
-    <script src="https://cdn-webgl.wrld3d.com/wrldjs/dist/latest/wrld.js"></script>
+    <script src="https://unpkg.com/wrld.js@1.x.x"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.1/leaflet.css" rel="stylesheet" />
   </head>
   <body>
     <div id="map" style="width: 400px; height: 400px;"></div>
     <script type="text/javascript">
-      var map = L.Wrld.map("map", "your_api_key_here");
+      const map = Wrld.map("map", "your_api_key_here");
     </script>
   </body>
 </html>
 ```
 
 Just replace `your_api_key_here` with an API key from [wrld3d.com](https://www.wrld3d.com/register/).
+
+**If you're using npm**:
+
+Install the wrld.js package:
+
+```terminal
+npm install wrld.js 
+```
+
+And in your application:
+
+```TypeScript
+import Wrld from "wrld.js";
+
+const map = Wrld.map("map", "your_api_key_here");
+```
+
+**Using React?**
+
+We have a component that wraps `wrld.js`: <https://github.com/wrld3d/wrld-react>.
+
+## Migration from 0.1.x to 1.0.x
+
+Starting from version 1.0.0, the `Wrld` object now extends `L` from Leaflet, instead of acting like a plugin – this simplifies using wrld.js with TypeScript and improves interoperability with other Leaflet maps on the same page.
+
+- Replace `L.Wrld.polygon` with `Wrld.native.polygon`
+- Replace `L.Wrld.polyline` with `Wrld.native.polyline`
+- Replace all other `L.Wrld.*` calls to `Wrld.*`
+- Replace all `L.*` calls with `Wrld.*`
 
 ## Support
 
@@ -53,8 +82,8 @@ You may wish to build the API yourself. This is easy to do and only requires tha
 
 ### Requirements
 
-*   [Node.js](https://nodejs.org/en/) (v4.4.1 tested)
-*   npm (installed with Node.js)
+* [Node.js](https://nodejs.org/en/) (v12 or newer)
+* npm (installed with Node.js)
 
 ### Building
 
@@ -64,9 +93,17 @@ Follow the steps below to build the API:
 2.  In the root of the repo, run `npm install` to install the development dependencies.
 3.  Still in the root of the repo, run the command `npm run build`.
 
-This will create the file `dist/wrld.js` which is the minified API.
+This will create the file `cdn/wrld.js` which is the bundled UMD package, and various outputs in the `dist/` folder`.
 
 You can also use the command `npm run watch` to build continuously, watching files for changes.
+
+### Testing
+
+Before executing automated tests, make sure you have eeGeoWebGL.js downloaded in `/tmp/sdk`. This can be achieved by running `./download-sdk.sh`.
+
+- `npm run test` will execute automated tests and lint the project.
+- `npm run test:unit` will only execute automated tests.
+- `npm run test:watch` will watch the source files and execute affected tests.
 
 ## Contributing
 
