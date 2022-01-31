@@ -28,6 +28,7 @@
     "build-dist": "npm run build",
     "build-min": "npm run build",
     "watch": "microbundle watch --generateTypes false",
+    "start": "npm run watch",
     "dev": "npm run watch",
     "lint": "eslint . --ext .js,.ts",
     "test": "run-s lint test:unit",
