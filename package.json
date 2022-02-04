@@ -1,7 +1,7 @@
 {
   "name": "wrld.js",
   "amdName": "Wrld",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "A JavaScript API for beautiful 3D maps",
   "author": "WRLD",
   "license": "See license in LICENSE.md",
