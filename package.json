@@ -1,7 +1,7 @@
 {
   "name": "wrld.js",
   "amdName": "Wrld",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "A JavaScript API for beautiful 3D maps",
   "author": "WRLD",
   "license": "See license in LICENSE.md",
@@ -28,6 +28,7 @@
     "build-dist": "npm run build",
     "build-min": "npm run build",
     "watch": "microbundle watch --generateTypes false",
+    "start": "npm run watch",
     "dev": "npm run watch",
     "lint": "eslint . --ext .js,.ts",
     "test": "run-s lint test:unit",
