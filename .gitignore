@@ -3,7 +3,7 @@ dist/
 cdn/
 node_modules/
 npm-debug.log
-src/*.bk
+*.bk
 src/*.tmp
 tmp/
 coverage/
