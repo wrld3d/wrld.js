@@ -43,7 +43,7 @@ You can easily embed a 3D map in any web page. The code below shows a simple exa
 
 Just replace `your_api_key_here` with an API key from [wrld3d.com](https://www.wrld3d.com/register/).
 
-**If you're using npm**:
+### If you're using npm:
 
 Install the wrld.js package:
 
@@ -59,9 +59,21 @@ import Wrld from "wrld.js";
 const map = Wrld.map("map", "your_api_key_here");
 ```
 
-**Using React?**
+### Using React?
 
 We have a component that wraps `wrld.js`: <https://github.com/wrld3d/wrld-react>.
+
+### Interested in the newest changes?
+
+Bleeding edge build are available with the `bleeding-edge` tag.
+You can get them from unpkg with
+```html
+<script src="http://unpkg.com/wrld.js@bleeding-edge"></script>
+```
+or from npm with
+```sh
+npm install wrld.js@bleeding-edge
+```
 
 ## Migration from 0.1.x to 1.0.x
 
