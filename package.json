@@ -28,6 +28,7 @@
     "build-dist": "npm run build",
     "build-min": "npm run build",
     "watch": "microbundle watch --generateTypes false",
+    "watch:cdn": "microbundle watch -o cdn/wrld.js --format umd --generateTypes false --external none",
     "start": "npm run watch",
     "dev": "npm run watch",
     "lint": "eslint . --ext .js,.ts",
