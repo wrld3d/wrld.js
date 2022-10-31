@@ -60,7 +60,8 @@ export const Map: typeof MapType = L.Map.extend({
     mapRuntimeModule: typeof MapType.prototype._mapRuntimeModule,
     versionModule: typeof MapType.prototype.versionModule,
     heatmapModule: typeof MapType.prototype.heatmaps,
-    frameRateModule: typeof MapType.prototype._frameRateModule
+    frameRateModule: typeof MapType.prototype._frameRateModule,
+    labelModule: typeof MapType.prototype.labels
   ) {
     this._browserWindow = browserWindow;
     this._onRemoveCallback = onRemoveCallback;
@@ -84,6 +85,7 @@ export const Map: typeof MapType = L.Map.extend({
     this.blueSphere = blueSphereModule;
     this.versionModule = versionModule;
     this.heatmaps = heatmapModule;
+    this.labels = labelModule;
     this._mapRuntimeModule = mapRuntimeModule;
     this._layersOnMap = {};
     this._spacesApi = null;
