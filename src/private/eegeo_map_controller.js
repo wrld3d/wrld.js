@@ -23,6 +23,7 @@ import LayerPointMappingModule from "./modules/layer_point_mapping_module";
 import VersionModule from "./modules/version_module";
 import HeatmapModule from "./modules/heatmap_module";
 import FrameRateModule from "./modules/frame_rate_module";
+import LabelModule from "./modules/label_module";
 
 const removeFileExtension = (fileName, extensionToRemove) => {
     var extensionPosition = fileName.lastIndexOf(".");
@@ -100,6 +101,7 @@ export function EegeoMapController (mapId, emscriptenApi, domElement, apiKey, br
     var _mapRuntimeModule = new MapRuntimeModule(emscriptenApi);
     var _versionModule = new VersionModule(emscriptenApi);
     var _heatmapModule = new HeatmapModule(emscriptenApi);
+    var _labelModule = new LabelModule(emscriptenApi);
 
     var _frameRateModule = new FrameRateModule(
         emscriptenApi,
@@ -195,7 +197,8 @@ export function EegeoMapController (mapId, emscriptenApi, domElement, apiKey, br
         _mapRuntimeModule,
         _versionModule,
         _heatmapModule,
-        _frameRateModule
+        _frameRateModule,
+        _labelModule
     );
 
     this.leafletMap._initEvents(false, _canvas);
@@ -219,7 +222,8 @@ export function EegeoMapController (mapId, emscriptenApi, domElement, apiKey, br
         _mapRuntimeModule,
         _versionModule,
         _heatmapModule,
-        _frameRateModule
+        _frameRateModule,
+        _labelModule
     ];
 
     this._indoorEntranceMarkerUpdater = null;
