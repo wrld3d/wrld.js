@@ -258,12 +258,12 @@ export function EmscriptenPropsApi(emscriptenApiPointer, cwrap, emscriptenModule
 
     this.registerIndoorMapEntitySetPropsLoadedHandler = (callback) => {
         _propsApi_setIndoorMapEntitySetPropsLoadedCallback = _propsApi_setIndoorMapEntitySetPropsLoadedCallback || cwrap("propsApi_setIndoorMapEntitySetPropsLoadedCallback", null, ["number", "number"]);
-        _propsApi_setIndoorMapEntitySetPropsLoadedCallback(_emscriptenApiPointer, emscriptenModule.addFunction(callback));
+        _propsApi_setIndoorMapEntitySetPropsLoadedCallback(_emscriptenApiPointer, emscriptenModule.addFunction(callback, "vii"));
     };
 
     this.setIndoorMapPopulationRequestCompletedCallback = (callback) => {
         _propsApi_setIndoorMapPopulationRequestCompletedCallback = _propsApi_setIndoorMapPopulationRequestCompletedCallback || cwrap("propsApi_setIndoorMapPopulationRequestCompletedCallback", null, ["number", "number", "number"]);
-        _propsApi_setIndoorMapPopulationRequestCompletedCallback(_emscriptenApiPointer, emscriptenModule.addFunction(callback));
+        _propsApi_setIndoorMapPopulationRequestCompletedCallback(_emscriptenApiPointer, emscriptenModule.addFunction(callback, "vii"));
     };
 }
 

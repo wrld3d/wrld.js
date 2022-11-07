@@ -16,7 +16,7 @@ export function EmscriptenIndoorMapFloorOutlineInformationApi(emscriptenApiPoint
     var _indoorMapFloorOutlineInformationApi_TryGetIndoorMapFloorOutlinePolygon = cwrap("indoorMapFloorOutlineInformationApi_TryGetIndoorMapFloorOutlinePolygon", "number", ["number","number","number","number","number","number","number","number"]);
 
     this.registerIndoorMapFloorOutlineInformationLoadedCallback = (callback) => {
-        _indoorMapFloorOutlineInformationApi_IndoorMapFloorOutlineInformationLoadedCallback(_emscriptenApiPointer, emscriptenModule.addFunction(callback));
+        _indoorMapFloorOutlineInformationApi_IndoorMapFloorOutlineInformationLoadedCallback(_emscriptenApiPointer, emscriptenModule.addFunction(callback, "vi"));
     };
 
     this.createIndoorMapFloorOutlineInformation = (indoorMapFloorOutlineInformation) => {

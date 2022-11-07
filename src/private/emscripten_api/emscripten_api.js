@@ -87,9 +87,9 @@ export function EmscriptenApi(emscriptenModule) {
         var _setTopLevelCallbacks = _emscriptenModule.cwrap("setTopLevelCallbacks", null, ["number", "number", "number", "number"]);
         _setTopLevelCallbacks(
             _eegeoApiPointer,
-            _emscriptenModule.addFunction(onUpdateCallback),
-            _emscriptenModule.addFunction(onDrawCallback),
-            _emscriptenModule.addFunction(onInitialStreamingCompletedCallback)
+            _emscriptenModule.addFunction(onUpdateCallback, "vf"),
+            _emscriptenModule.addFunction(onDrawCallback, "vf"),
+            _emscriptenModule.addFunction(onInitialStreamingCompletedCallback, "v")
         );
         _ready = true;
     };

@@ -23,7 +23,7 @@ export function EmscriptenThemesApi(eegeoApiPointer, cwrap, emscriptenModule) {
 
     this.registerStreamingCompletedCallback = (callback) => {
         _setCallback = _setCallback || cwrap("setStreamingCompletedCallback", null, ["number", "number"]);
-        _setCallback(_eegeoApiPointer, emscriptenModule.addFunction(callback));
+        _setCallback(_eegeoApiPointer, emscriptenModule.addFunction(callback, "v"));
     };
 }
 
