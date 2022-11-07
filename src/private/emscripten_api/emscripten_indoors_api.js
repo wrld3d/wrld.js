@@ -103,14 +103,14 @@ export function EmscriptenIndoorsApi(emscriptenApiPointer, cwrap, emscriptenModu
     this.onInitialized = () => {
         _indoorsApi_RegisterIndoorMapCallbacks(
             _emscriptenApiPointer,
-            emscriptenModule.addFunction(_indoorMapEnteredHandler),
-            emscriptenModule.addFunction(_indoorMapEntryFailedHandler),
-            emscriptenModule.addFunction(_indoorMapExitedHandler),
-            emscriptenModule.addFunction(_indoorMapFloorChangedHandler),
-            emscriptenModule.addFunction(_indoorMapEntryMarkerAddedHandler),
-            emscriptenModule.addFunction(_indoorMapEntryMarkerRemovedHandler),
-            emscriptenModule.addFunction(_indoorMapLoadedHandler),
-            emscriptenModule.addFunction(_indoorMapUnloadedHandler)
+            emscriptenModule.addFunction(_indoorMapEnteredHandler, "v"),
+            emscriptenModule.addFunction(_indoorMapEntryFailedHandler, "v"),
+            emscriptenModule.addFunction(_indoorMapExitedHandler, "v"),
+            emscriptenModule.addFunction(_indoorMapFloorChangedHandler, "v"),
+            emscriptenModule.addFunction(_indoorMapEntryMarkerAddedHandler, "viii"),
+            emscriptenModule.addFunction(_indoorMapEntryMarkerRemovedHandler, "viii"),
+            emscriptenModule.addFunction(_indoorMapLoadedHandler, "vi"),
+            emscriptenModule.addFunction(_indoorMapUnloadedHandler, "vi")
         );
     };
 

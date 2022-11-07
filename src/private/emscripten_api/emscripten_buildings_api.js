@@ -15,7 +15,7 @@ export function EmscriptenBuildingsApi(emscriptenApiPointer, cwrap, emscriptenMo
     var _buildingsApi_TryFindIntersectionWithBuilding = cwrap("buildingsApi_TryFindIntersectionWithBuilding", "number", ["number", "number", "number"]);
 
     this.registerBuildingInformationReceivedCallback = (callback) => {
-        _buildingsApi_SetBuildingHighlightChangedCallback(_emscriptenApiPointer, emscriptenModule.addFunction(callback));
+        _buildingsApi_SetBuildingHighlightChangedCallback(_emscriptenApiPointer, emscriptenModule.addFunction(callback, "vi"));
     };
 
     this.createBuildingHighlight = (buildingHighlight) => {

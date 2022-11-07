@@ -91,7 +91,7 @@ export function EmscriptenCameraApi(emscriptenApiPointer, cwrap, emscriptenModul
     this.getHeadingDegrees = () => _cameraApi_getHeadingDegrees(_emscriptenApiPointer);
 
     this.setEventCallback = (callback) => {
-        _cameraApi_setEventCallback(_emscriptenApiPointer, emscriptenModule.addFunction(callback));
+        _cameraApi_setEventCallback(_emscriptenApiPointer, emscriptenModule.addFunction(callback, "vi"));
     };
 
     this.getDistanceFromZoomLevel = (zoomLevel) => _cameraApi_getDistanceFromZoomLevel(_emscriptenApiPointer, zoomLevel);

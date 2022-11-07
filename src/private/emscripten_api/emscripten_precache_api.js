@@ -11,11 +11,11 @@ export function EmscriptenPrecacheApi(emscriptenApiPointer, cwrap, emscriptenMod
         if (_completeCallback !== null) {
             emscriptenModule.removeFunction(_completeCallback);
         }
-        _completeCallback = emscriptenModule.addFunction(completeCallback);
+        _completeCallback = emscriptenModule.addFunction(completeCallback, "vi");
         if (_cancelCallback !== null) {
             emscriptenModule.removeFunction(_cancelCallback);
         }
-        _cancelCallback = emscriptenModule.addFunction(cancelCallback);
+        _cancelCallback = emscriptenModule.addFunction(cancelCallback, "vi");
 
         _setPrecacheCallbacks = _setPrecacheCallbacks || cwrap("precacheApi_setPrecacheCallbacks", null, ["number", "number", "number"]);
         _setPrecacheCallbacks(_emscriptenApiPointer, _completeCallback, _cancelCallback);

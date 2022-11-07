@@ -15,7 +15,7 @@ export function EmscriptenIndoorMapEntityInformationApi(emscriptenApiPointer, cw
     var _indoorEntityInformationApi_TryGetIndoorMapEntityModels = cwrap("indoorEntityInformationApi_TryGetIndoorMapEntityModels", "number" , ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number"]);
 
     this.registerIndoorMapEntityInformationChangedCallback = (callback) => {
-        _indoorEntityInformationApi_IndoorMapEntityInformationChangedCallback(_emscriptenApiPointer, emscriptenModule.addFunction(callback));
+        _indoorEntityInformationApi_IndoorMapEntityInformationChangedCallback(_emscriptenApiPointer, emscriptenModule.addFunction(callback, "vi"));
     };
 
     this.createIndoorMapEntityInformation = (indoorEntityInformation) => {

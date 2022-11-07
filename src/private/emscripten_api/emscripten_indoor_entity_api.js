@@ -38,7 +38,7 @@ export function EmscriptenIndoorEntityApi(emscriptenApiPointer, cwrap, emscripte
 
     this.onInitialized = () => {
         // register emscripten callbacks
-        _indoorEntityApi_SetIndoorEntityPickedCallback(_emscriptenApiPointer, emscriptenModule.addFunction(_onIndoorEntityPicked));
+        _indoorEntityApi_SetIndoorEntityPickedCallback(_emscriptenApiPointer, emscriptenModule.addFunction(_onIndoorEntityPicked, "vi"));
     };
 
     this.registerIndoorEntityPickedCallback = (callback) => {
