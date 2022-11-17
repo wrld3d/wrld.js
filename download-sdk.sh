@@ -24,7 +24,7 @@ if [ -z "$sdk_version" ]; then
 	sdk_version="public/latest"
 fi
 
-sdk_base_url="https://cdn-webgl.eegeo.com/eegeojs/${sdk_version}/"
+sdk_base_url="https://cdn-webgl.wrld3d.com/eegeojs/${sdk_version}/"
 sdk_url="${sdk_base_url}eeGeoWebGL.jgz"
 memory_initialiser_url="${sdk_base_url}eeGeoWebGL.js.mem"
 echo "Using eegeo.js SDK URL: ${sdk_url}, MEM URL: ${memory_initialiser_url}"
