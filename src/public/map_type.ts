@@ -55,6 +55,7 @@ export type MapOptions = L.MapOptions & {
   indoorId?: string;
   /** If provided, the map will open on this floor if `indoorId` is also provided */
   floorIndex?: number;
+  qualitySetting?:QualitySettings
 };
 
 export type ZoomPanOptions = L.ZoomPanOptions & {
@@ -65,6 +66,14 @@ export type ZoomPanOptions = L.ZoomPanOptions & {
   allowInterruption?: boolean;
   pan?: number | ZoomPanOptions;
   zoom?: number | ZoomPanOptions;
+}
+
+export enum QualitySettings {
+  VeryLow = 0,
+  Low = 1,
+  MediumLow = 2,
+  Standard = 3,
+  High = 4,
 }
 
 export type PrecacheResponse = {

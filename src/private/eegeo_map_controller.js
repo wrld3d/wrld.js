@@ -70,8 +70,12 @@ export function EegeoMapController (mapId, emscriptenApi, domElement, apiKey, br
         drawClearColor: "#000000ff",
         indoorMapBackgroundColor: "#000000c0",
         indoorSelectionTimeoutDuration: 30.0,
-
-        maxSettings: false
+        //   VeryLow =0,
+        //   Low =1,
+        //   MediumLow =2,
+        //   Standard =3,
+        //   High =4,
+        qualitySetting: 3 //Standard
     };
 
     options = L.extend(_defaultOptions, options);
@@ -140,7 +144,7 @@ export function EegeoMapController (mapId, emscriptenApi, domElement, apiKey, br
     var indoorLabelsAlwaysHidden = (options.indoorLabelsAlwaysHidden) ? "1" : "0";
     var indoorSelectionTimeoutDuration = options.indoorSelectionTimeoutDuration;
     
-    var maxSettings = (options.maxSettings) ? "1" : "0";
+    var qualitySetting = options.qualitySetting.toString()
 
     _Module["arguments"] = [
         _canvasId,
@@ -161,7 +165,7 @@ export function EegeoMapController (mapId, emscriptenApi, domElement, apiKey, br
         trafficDisableWhenEnteringIndoorMaps,
         indoorLabelsAlwaysHidden,
         indoorSelectionTimeoutDuration.toString(),
-        maxSettings
+        qualitySetting
     ];
 
     var _onRemove = function() {
