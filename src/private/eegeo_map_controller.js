@@ -144,7 +144,7 @@ export function EegeoMapController (mapId, emscriptenApi, domElement, apiKey, br
     var indoorLabelsAlwaysHidden = (options.indoorLabelsAlwaysHidden) ? "1" : "0";
     var indoorSelectionTimeoutDuration = options.indoorSelectionTimeoutDuration;
     
-    var qualitySetting = options.qualitySetting.toString()
+    var qualitySetting = options.qualitySetting.toString();
 
     _Module["arguments"] = [
         _canvasId,
