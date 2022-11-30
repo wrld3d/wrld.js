@@ -20,6 +20,7 @@ import EmscriptenVersionApi from "./emscripten_version_api.js";
 import EmscriptenHeatmapApi from "./emscripten_heatmap_api.js";
 import EmscriptenFrameRateApi from "./emscripten_frame_rate_api.js";
 import EmscriptenLabelApi from "./emscripten_label_api";
+import EmscriptenStreamingApi from "./emscripten_streaming_api";
 
 export function EmscriptenApi(emscriptenModule) {
 
@@ -49,6 +50,7 @@ export function EmscriptenApi(emscriptenModule) {
     this.heatmapApi = null;
     this.frameRateApi = null;
     this.labelApi = null;
+    this.streamingApi = null;
 
     this.onInitialized = (eegeoApiPointer, emscriptenApiPointer, onUpdateCallback, onDrawCallback, onInitialStreamingCompletedCallback) => {
         _eegeoApiPointer = eegeoApiPointer;
@@ -83,6 +85,7 @@ export function EmscriptenApi(emscriptenModule) {
         this.frameRateApi = new EmscriptenFrameRateApi(_emscriptenApiPointer, cwrap, _emscriptenModule, emscriptenMemory);
         this.propsApi = new EmscriptenPropsApi(_emscriptenApiPointer, cwrap, _emscriptenModule, emscriptenMemory);
         this.labelApi = new EmscriptenLabelApi(_emscriptenApiPointer, cwrap);
+        this.streamingApi = new EmscriptenStreamingApi(_emscriptenApiPointer, cwrap, _emscriptenModule, emscriptenMemory);
 
         var _setTopLevelCallbacks = _emscriptenModule.cwrap("setTopLevelCallbacks", null, ["number", "number", "number", "number"]);
         _setTopLevelCallbacks(
