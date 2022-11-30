@@ -1,16 +1,15 @@
-import { EmscriptenApi } from "../emscripten_api/emscripten_api";
+
 import MapModule from "./map_module";
-import L from "leaflet"
+import L from "leaflet";
 
 
 export function StreamingModuleImpl(emscriptenApi) {
-
+    var _ready = false;
     var _emscriptenApi = emscriptenApi;
     var _notifyStreamingCompletedCallback = null;
 
     this.onInitialized = () => {
         _ready = true;
-        console.log("_emscriptenApi.streamingApi")
         _emscriptenApi.streamingApi.registerStreamingCompletedCallback(_executeStreamingCompleteCallback);
     };
 
@@ -21,7 +20,6 @@ export function StreamingModuleImpl(emscriptenApi) {
     };
 
     var _executeStreamingCompleteCallback = () => {
-      console.log("_executeStreamingCompleteCallback FIRE")
        _notifyStreamingCompletedCallback();
     };
   }
@@ -31,12 +29,10 @@ function StreamingModule(emscriptenApi) {
     var _this = this;
 
     var _streamingCompletedHandler = () => {
-        console.log("streamingcompleted FIRE")
-        this.fire("streamingcompleted", {})
+        _this.fire("streamingcompleted", {});
     };
 
     this.onInitialized = () => {
-        console.log("StreamingModule onInitialized")
         _StreamingModuleImpl.setStreamingCompletedCallback(_streamingCompletedHandler);
         _StreamingModuleImpl.onInitialized();
     };
