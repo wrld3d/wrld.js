@@ -63,6 +63,10 @@ const initializeMap = (module: Module) => {
   }
 };
 
+const abortInitializingMap = (module: Module) => {
+  _mapsWaitingInitialization = _mapsWaitingInitialization.filter(item => item !== module);
+}
+
 const findMapContainerElement = (elementOrId: string | HTMLElement): HTMLElement => {
   if (elementOrId instanceof HTMLElement) {
     return elementOrId;
@@ -87,7 +91,10 @@ export const map = (domElement: HTMLElement | string, apiKey: string, options?: 
   const mapId = _mapObjects.length;
   const mapApiObject = new EmscriptenApi(wrldModule);
   const mapOptions = options || {};
-  const onMapRemove = () => { delete _mapObjects[mapId]; };
+  const onMapRemove = () => {
+    delete _mapObjects[mapId];
+    abortInitializingMap(wrldModule);
+  };
   const map = new EegeoMapController(mapId, mapApiObject, domElement, apiKey, browserWindow, browserDocument, wrldModule, mapOptions, onMapRemove);
   _mapObjects.push(map);
 
