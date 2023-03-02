@@ -65,7 +65,7 @@ const initializeMap = (module: Module) => {
 
 const abortInitializingMap = (module: Module) => {
   _mapsWaitingInitialization = _mapsWaitingInitialization.filter(item => item !== module);
-}
+};
 
 const findMapContainerElement = (elementOrId: string | HTMLElement): HTMLElement => {
   if (elementOrId instanceof HTMLElement) {
