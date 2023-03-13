@@ -8,11 +8,43 @@ export enum BuildingHighlightSelectionType {
   SELECT_AT_SCREEN_POINT = "selectAtScreenPoint",
 }
 
+export class HeightRange {
+  bottom: number;
+  top: number;
+
+  constructor();
+  constructor(bottom: number, top: number);
+  constructor(range: number[]);
+  constructor(heightRange: HeightRange);
+  constructor(heightRange: HeightRangeExpression);
+  constructor(bottomOrRange?: number | HeightRangeExpression, top?: number)
+  {
+    if (typeof bottomOrRange === "undefined") {
+      this.bottom = Number.NEGATIVE_INFINITY;
+      this.top = Number.POSITIVE_INFINITY;
+    } else if (bottomOrRange instanceof HeightRange) {
+      this.bottom = bottomOrRange.bottom;
+      this.top = bottomOrRange.top;
+    } else if (bottomOrRange instanceof Array) {
+      this.bottom = bottomOrRange[0];
+      this.top = bottomOrRange[1];
+    } else if (typeof top !== "undefined") {
+      this.bottom = bottomOrRange;
+      this.top = top;
+    } else {
+      throw Error("Unexpected types passed to HeightRange constructor");
+    }
+  }
+}
+
+export type HeightRangeExpression = HeightRange | number[];
+
 export class BuildingHighlightOptions {
   private _selectionLocationLatLng: L.LatLng;
   private _selectionScreenPoint: L.Point;
   private _selectionMode: BuildingHighlightSelectionType;
   private _color: ColorArray;
+  private _heightRanges: HeightRange[];
   private _informationOnly: boolean;
 
   constructor() {
@@ -20,6 +52,7 @@ export class BuildingHighlightOptions {
     this._selectionScreenPoint = L.point(0.0, 0.0);
     this._selectionMode = BuildingHighlightSelectionType.SELECT_AT_LOCATION;
     this._color = [255, 255, 0, 128];
+    this._heightRanges = [new HeightRange()];
     this._informationOnly = false;
   }
 
@@ -39,6 +72,18 @@ export class BuildingHighlightOptions {
     this._color = color;
     return this;
   };
+
+  heightRanges = (heightRanges: HeightRangeExpression[]): this => {
+    this._heightRanges = [];
+    heightRanges.forEach((heightRange) => {
+      if (heightRange instanceof HeightRange) {
+        this._heightRanges.push(heightRange);
+      } else {
+        this._heightRanges.push(new HeightRange(heightRange));
+      }
+    });
+    return this;
+  }
 
   informationOnly = (): this => {
     this._informationOnly = true;
@@ -60,6 +105,12 @@ export class BuildingHighlightOptions {
   getColor = (): Vector4 => {
     return new Vector4(this._color);
   };
+
+  getHeightRanges = (): HeightRange[] => {
+    const copy:HeightRange[] = [];
+    this._heightRanges.forEach(heightRange => copy.push(new HeightRange(heightRange)));
+    return copy;
+  }
 
   getIsInformationOnly = (): boolean => {
     return this._informationOnly;

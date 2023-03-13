@@ -6,13 +6,23 @@ export function EmscriptenBuildingsApi(emscriptenApiPointer, cwrap, emscriptenMo
     var _emscriptenApiPointer = emscriptenApiPointer;
     var _emscriptenMemory = emscriptenMemory;
     var _buildingsApi_SetBuildingHighlightChangedCallback = cwrap("buildingsApi_SetBuildingHighlightChangedCallback", null, ["number", "number"]);
-    var _buildingsApi_CreateHighlightAtLocation = cwrap("buildingsApi_CreateHighlightAtLocation", null, ["number", "number", "number", "number", "number", "number", "number", "number"]);
-    var _buildingsApi_CreateHighlightAtScreenPoint = cwrap("buildingsApi_CreateHighlightAtScreenPoint", null, ["number", "number", "number", "number", "number", "number", "number", "number"]);
+    var _buildingsApi_CreateHighlightAtLocation = cwrap("buildingsApi_CreateHighlightAtLocation", null, ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number"]);
+    var _buildingsApi_CreateHighlightAtScreenPoint = cwrap("buildingsApi_CreateHighlightAtScreenPoint", null, ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number"]);
     var _buildingsApi_DestroyHighlight = cwrap("buildingsApi_DestroyHighlight", null, ["number", "number"]);
     var _buildingsApi_SetHighlightColor = cwrap("buildingsApi_SetHighlightColor", null, ["number", "number", "number", "number", "number", "number"]);
+    var _buildingsApi_SetHighlightHeightRanges = cwrap("buildingsApi_SetHighlightHeightRanges", null, ["number", "number", "number", "number"]);
     var _buildingsApi_TryGetBuildingInformationBufferSizes = cwrap("buildingsApi_TryGetBuildingInformationBufferSizes", "number", ["number", "number", "number", "number"]);
     var _buildingsApi_TryGetBuildingInformation = cwrap("buildingsApi_TryGetBuildingInformation", "number", ["number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number", "number"]);
     var _buildingsApi_TryFindIntersectionWithBuilding = cwrap("buildingsApi_TryFindIntersectionWithBuilding", "number", ["number", "number", "number"]);
+
+    var _convertHeightRanges = (heightRanges) => {
+        var flatArray = [];
+        heightRanges.forEach((heightRange) => {
+            flatArray.push(heightRange.bottom);
+            flatArray.push(heightRange.top);
+        });
+        return _emscriptenMemory.createBufferFromArray(flatArray, _emscriptenMemory.createDoubleBuffer);
+    };
 
     this.registerBuildingInformationReceivedCallback = (callback) => {
         _buildingsApi_SetBuildingHighlightChangedCallback(_emscriptenApiPointer, emscriptenModule.addFunction(callback, "vi"));
@@ -22,8 +32,11 @@ export function EmscriptenBuildingsApi(emscriptenApiPointer, cwrap, emscriptenMo
         var buildingHighlightId = 0;
         var options = buildingHighlight.getOptions();
         var color = buildingHighlight.getColor();
+        var heightRanges = buildingHighlight.getHeightRanges();
 
         var shouldCreateView = options.getIsInformationOnly() ? 0 : 1;
+
+        var heightRangeBuffer = _convertHeightRanges(heightRanges);
 
         if (options.getSelectionMode() === BuildingHighlightSelectionType.SELECT_AT_LOCATION) {
             var latLng = options.getSelectionLocation();
@@ -35,6 +48,8 @@ export function EmscriptenBuildingsApi(emscriptenApiPointer, cwrap, emscriptenMo
                 color.y / 255,
                 color.z / 255,
                 color.w / 255,
+                heightRangeBuffer.ptr,
+                heightRangeBuffer.element_count,
                 shouldCreateView
             );
         }
@@ -48,6 +63,8 @@ export function EmscriptenBuildingsApi(emscriptenApiPointer, cwrap, emscriptenMo
                 color.y / 255,
                 color.z / 255,
                 color.w / 255,
+                heightRangeBuffer.ptr,
+                heightRangeBuffer.element_count,
                 shouldCreateView
             );
         }
@@ -62,6 +79,11 @@ export function EmscriptenBuildingsApi(emscriptenApiPointer, cwrap, emscriptenMo
 
     this.setHighlightColor = (buildingHighlightId, color) => {
         _buildingsApi_SetHighlightColor(_emscriptenApiPointer, buildingHighlightId, color.x / 255, color.y / 255, color.z / 255, color.w / 255);
+    };
+
+    this.setHighlightHeightRanges = (buildingHighlightId, heightRanges) => {
+        var heightRangeBuffer = _convertHeightRanges(heightRanges);
+        _buildingsApi_SetHighlightHeightRanges(_emscriptenApiPointer, buildingHighlightId, heightRangeBuffer.ptr, heightRangeBuffer.element_count);
     };
 
     this.tryGetBuildingInformation = (buildingHighlightId) => {
