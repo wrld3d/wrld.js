@@ -1,6 +1,6 @@
 import { factoryFor } from "../../private/factoryFor";
 import { Vector4 } from "../space";
-import type { BuildingHighlightOptions } from "./building_highlight_options";
+import { BuildingHighlightOptions, HeightRange, HeightRangeExpression } from "./building_highlight_options";
 import type { BuildingInformation } from "./building_information";
 import type Map from "../map";
 import { ColorArray } from "../../types/color";
@@ -10,6 +10,7 @@ export class BuildingHighlight {
   private _id: number | null;
   private _map: Map | null;
   private _color: Vector4;
+  private _heightRanges: HeightRange[];
   private _buildingInformation: BuildingInformation | null;
 
   constructor(options: BuildingHighlightOptions) {
@@ -17,10 +18,17 @@ export class BuildingHighlight {
     this._id = null;
     this._map = null;
     this._color = options.getColor();
+    this._heightRanges = options.getHeightRanges();
     this._buildingInformation = null;
   }
 
   getColor = (): Vector4 => new Vector4(this._color);
+
+  getHeightRanges = (): HeightRange[] => {
+    const copy: HeightRange[] = [];
+    this._heightRanges.forEach(heightRange => copy.push(new HeightRange(heightRange)));
+    return copy;
+  }
 
   getOptions = (): BuildingHighlightOptions => this._options;
 
@@ -31,6 +39,15 @@ export class BuildingHighlight {
     }
     return this;
   };
+
+  setHeightRanges = (heightRanges: HeightRangeExpression[]): this => {
+    this._heightRanges = [];
+    heightRanges.forEach(heightRange => this._heightRanges.push(new HeightRange(heightRange)));
+    if (this._map !== null) {
+      this._map.buildings._getImpl().notifyBuildingHighlightChanged(this);
+    }
+    return this;
+  }
 
   getId = (): number | null => this._id;
 

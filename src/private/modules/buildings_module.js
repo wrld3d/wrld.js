@@ -66,6 +66,7 @@ export function BuildingsModuleImpl(emscriptenApi) {
                 return;
             }
             _emscriptenApi.buildingsApi.setHighlightColor(nativeId, buildingHighlight.getColor());
+            _emscriptenApi.buildingsApi.setHighlightHeightRanges(nativeId, buildingHighlight.getHeightRanges());
         }
     };
 
