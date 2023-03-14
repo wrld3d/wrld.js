@@ -3,6 +3,7 @@ export {
   buildingHighlightOptions,
   BuildingHighlightOptions,
   BuildingHighlightSelectionType,
+  HeightRange,
 } from "./building_highlight_options";
 export { BuildingInformation } from "./building_information";
 export { BuildingDimensions } from "./building_dimensions";
