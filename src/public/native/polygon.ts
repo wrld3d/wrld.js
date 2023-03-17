@@ -12,16 +12,30 @@ export type PolygonOptions = L.PolylineOptions & {
   indoorMapFloorId?: MapFloorId;
 };
 
-export class Polygon {
-  private _map: Map | null;
-  private _outerRing: L.LatLng[];
-  private _holes: L.LatLng[][];
-  private _config: PolygonOptions;
-  private _color: Color;
-  private __colorNeedsChanged: boolean;
+declare class PolygonType extends L.Layer
+{
+  constructor(latLngs: L.LatLngTuple[] | L.LatLngTuple[][], config?: PolygonOptions);
+  protected _wrldMap: Map | null;
+  protected _outerRing: L.LatLng[];
+  protected _holes: L.LatLng[][];
+  protected _config: PolygonOptions;
+  protected _color: Color;
+  protected __colorNeedsChanged: boolean;
+  getColor(): Color;
+  setColor(color: Color): this;
+  addHole(points: Parameters<typeof loadLatLngs>[0]): this;
+  getHoles(): L.LatLng[][];
+  getPoints(): L.LatLng[];
+  onAdd(map: Map): this;
+  onRemove(): this;
+  protected _getConfig(): PolygonOptions;
+  protected _colorNeedsChanged(): boolean;
+  protected _onColorChanged(): void;
+}
 
-  constructor(latLngs: L.LatLngTuple[] | L.LatLngTuple[][], config?: PolygonOptions) {
-    this._map = null;
+export const Polygon: typeof PolygonType = L.Layer.extend({
+  initialize(this: PolygonType, latLngs: L.LatLngTuple[] | L.LatLngTuple[][], config?: PolygonOptions) {
+    this._wrldMap = null;
     this._outerRing = [];
     this._holes = [];
     this._config = config || {};
@@ -48,54 +62,64 @@ export class Polygon {
 
     this._color = this._config["color"] || [0, 0, 255, 128];
     this.__colorNeedsChanged = true;
-  }
+  },
 
-  getColor = (): Color => this._color;
+  getColor: function(this: PolygonType): Color {
+    return this._color;
+  },
 
-  setColor = (color: Color): this => {
+  setColor: function(this: PolygonType, color: Color): PolygonType {
     this._color = color;
     this.__colorNeedsChanged = true;
     return this;
-  };
+  },
 
-  addHole = (points: Parameters<typeof loadLatLngs>[0]): this => {
+  addHole: function(this: PolygonType, points: Parameters<typeof loadLatLngs>[0]): PolygonType {
     this._holes.push(loadLatLngs(points));
     return this;
-  };
+  },
 
-  getHoles = (): L.LatLng[][] => this._holes;
+  getHoles: function(this: PolygonType): L.LatLng[][] {
+    return this._holes;
+  },
 
-  getPoints = (): L.LatLng[] => this._outerRing;
+  getPoints: function(this: PolygonType): L.LatLng[] {
+    return this._outerRing;
+  },
 
-  addTo = (map: Map): this => {
-    if (this._map !== null) {
-      this.remove();
+  onAdd: function(this: PolygonType, map: Map): PolygonType {
+    if (this._wrldMap !== null) {
+      this.onRemove();
     }
-    this._map = map;
+    this._wrldMap = map;
     map._polygonModule.addPolygon(this);
     this.__colorNeedsChanged = true;
     return this;
-  };
+  },
 
-  remove = (): this => {
-    if (this._map !== null) {
-      this._map._polygonModule.removePolygon(this);
-      this._map = null;
+  onRemove: function(this: PolygonType): PolygonType {
+    if (this._wrldMap !== null) {
+      this._wrldMap._polygonModule.removePolygon(this);
+      this._wrldMap = null;
     }
     return this;
-  };
+  },
 
   /** @internal */
-  _getConfig = (): PolygonOptions => this._config;
+  _getConfig: function(this: PolygonType): PolygonOptions {
+    return this._config;
+  },
 
   /** @internal */
-  _colorNeedsChanged = (): boolean => this.__colorNeedsChanged;
+  _colorNeedsChanged: function(this: PolygonType): boolean {
+    return this.__colorNeedsChanged;
+  },
 
   /** @internal */
-  _onColorChanged = (): void => {
+  _onColorChanged: function(this: PolygonType): void {
     this.__colorNeedsChanged = false;
-  };
-}
+  },
+});
 
 const loadLatLngs = (coords: Parameters<typeof L.latLng>[0][]): L.LatLng[] => {
   const points: L.LatLng[] = [];
@@ -105,4 +129,5 @@ const loadLatLngs = (coords: Parameters<typeof L.latLng>[0][]): L.LatLng[] => {
   return points;
 };
 
+export type Polygon = PolygonType;
 export const polygon = factoryFor(Polygon);
