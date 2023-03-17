@@ -28,6 +28,7 @@ declare class PolygonType extends L.Layer
   getPoints(): L.LatLng[];
   onAdd(map: Map): this;
   onRemove(): this;
+  beforeAdd(map: L.Map): this;
   protected _getConfig(): PolygonOptions;
   protected _colorNeedsChanged(): boolean;
   protected _onColorChanged(): void;
@@ -101,6 +102,13 @@ export const Polygon: typeof PolygonType = L.Layer.extend({
     if (this._wrldMap !== null) {
       this._wrldMap._polygonModule.removePolygon(this);
       this._wrldMap = null;
+    }
+    return this;
+  },
+
+  beforeAdd: function(this: PolygonType, map: L.Map) : PolygonType {
+    if (!(map instanceof Map)) {
+      throw new Error("Wrld.native.Polygon can only be used with Wrld.Map");
     }
     return this;
   },
