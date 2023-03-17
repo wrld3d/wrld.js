@@ -73,6 +73,7 @@ export class Polygon {
     }
     this._map = map;
     map._polygonModule.addPolygon(this);
+    this.__colorNeedsChanged = true;
     return this;
   };
 
