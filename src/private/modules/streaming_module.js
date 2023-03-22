@@ -11,7 +11,8 @@ export function StreamingModuleImpl(emscriptenApi) {
 
     this.onInitialized = () => {
         _ready = true;
-        _emscriptenApi.streamingApi.registerStreamingCompletedCallback(_executeStreamingCompleteCallback);
+        _emscriptenApi.streamingApi.registerStreamingCompletedCallback(_executeStreamingCompletedCallback);
+        _emscriptenApi.streamingApi.registerStreamingStartedCallback(_executeStreamingStartedCallback);
     };
 
     this.isReady = () => _ready;
@@ -24,7 +25,7 @@ export function StreamingModuleImpl(emscriptenApi) {
         _notifyStreamingStartedCallback = callback;
     };
 
-    var _executeStreamingCompleteCallback = () => {
+    var _executeStreamingCompletedCallback = () => {
        _notifyStreamingCompletedCallback();
     };
 
@@ -47,6 +48,7 @@ export function StreamingModule(emscriptenApi) {
 
     this.onInitialized = () => {
         _StreamingModuleImpl.setStreamingCompletedCallback(_streamingCompletedHandler);
+        _StreamingModuleImpl.setStreamingStartedCallback(_streamingStartedHandler);
         _StreamingModuleImpl.onInitialized();
     };
 
