@@ -4,6 +4,7 @@ import { factoryFor } from "../private/factoryFor";
 import type Color from "../types/color";
 import type ElevationMode from "../types/elevationMode";
 import type { Map, MapFloorId, MapId } from "./map";
+import type { LayerOptions } from "leaflet";
 
 const RESOLUTION_PIXELS_MIN = 64.0;
 const RESOLUTION_PIXELS_MAX = 2048;
@@ -43,7 +44,7 @@ export type ColorStop = {
 
 export type ColorStopArray = [number, Color];
 
-export type HeatmapOptions = {
+export interface HeatmapOptions extends LayerOptions {
   densityStops?: DensityStop[];
   densityBlend?: number;
   interpolateDensityByZoom?: boolean;
