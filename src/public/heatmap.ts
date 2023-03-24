@@ -70,7 +70,7 @@ export interface HeatmapOptions extends LayerOptions {
   dataWeightProperty?: string;
   textureBorderPercent?: number;
   useApproximation?: boolean;
-};
+}
 
 declare class HeatmapType extends L.Layer {
   options: Required<HeatmapOptions>;
