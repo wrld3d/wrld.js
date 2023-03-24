@@ -7,10 +7,12 @@ export function StreamingModuleImpl(emscriptenApi) {
     var _ready = false;
     var _emscriptenApi = emscriptenApi;
     var _notifyStreamingCompletedCallback = null;
+    var _notifyStreamingStartedCallback = null;
 
     this.onInitialized = () => {
         _ready = true;
-        _emscriptenApi.streamingApi.registerStreamingCompletedCallback(_executeStreamingCompleteCallback);
+        _emscriptenApi.streamingApi.registerStreamingCompletedCallback(_executeStreamingCompletedCallback);
+        _emscriptenApi.streamingApi.registerStreamingStartedCallback(_executeStreamingStartedCallback);
     };
 
     this.isReady = () => _ready;
@@ -19,12 +21,20 @@ export function StreamingModuleImpl(emscriptenApi) {
         _notifyStreamingCompletedCallback = callback;
     };
 
-    var _executeStreamingCompleteCallback = () => {
+    this.setStreamingStartedCallback = (callback) => {
+        _notifyStreamingStartedCallback = callback;
+    };
+
+    var _executeStreamingCompletedCallback = () => {
        _notifyStreamingCompletedCallback();
     };
+
+    var _executeStreamingStartedCallback = () => {
+        _notifyStreamingStartedCallback();
+     };
   }
 
-function StreamingModule(emscriptenApi) {
+export function StreamingModule(emscriptenApi) {
     var _StreamingModuleImpl = new StreamingModuleImpl(emscriptenApi);
     var _this = this;
 
@@ -32,8 +42,13 @@ function StreamingModule(emscriptenApi) {
         _this.fire("streamingcompleted", {});
     };
 
+    var _streamingStartedHandler = () => {
+        _this.fire("streamingstarted", {});
+    };
+
     this.onInitialized = () => {
         _StreamingModuleImpl.setStreamingCompletedCallback(_streamingCompletedHandler);
+        _StreamingModuleImpl.setStreamingStartedCallback(_streamingStartedHandler);
         _StreamingModuleImpl.onInitialized();
     };
 

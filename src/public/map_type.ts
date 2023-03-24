@@ -16,7 +16,7 @@ import type { IndoorMapEntitiesModule } from "../types/modules/indoorMapEntities
 import type {IndoorMapFloorOutlinesModule} from "../types/modules/indoorMapFloorOutlines";
 import type { IndoorsModule } from "../types/modules/indoors";
 import type { LabelModule } from "../private/modules/label_module";
-import type { StreamingModule } from "../private/modules/streaming_module";
+import type { StreamingModule } from "../types/modules/streaming";
 // Private modules
 import type RenderingModule from "../private/modules/rendering_module";
 import type BlueSphereModule from "../private/modules/blue_sphere_module";
