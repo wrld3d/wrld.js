@@ -69,6 +69,8 @@ export function EmscriptenBuildingsApi(emscriptenApiPointer, cwrap, emscriptenMo
             );
         }
 
+        _emscriptenMemory.freeBuffer(heightRangeBuffer);
+
         return buildingHighlightId;
     };
 
@@ -84,6 +86,7 @@ export function EmscriptenBuildingsApi(emscriptenApiPointer, cwrap, emscriptenMo
     this.setHighlightHeightRanges = (buildingHighlightId, heightRanges) => {
         var heightRangeBuffer = _convertHeightRanges(heightRanges);
         _buildingsApi_SetHighlightHeightRanges(_emscriptenApiPointer, buildingHighlightId, heightRangeBuffer.ptr, heightRangeBuffer.element_count);
+        _emscriptenMemory.freeBuffer(heightRangeBuffer);
     };
 
     this.tryGetBuildingInformation = (buildingHighlightId) => {
