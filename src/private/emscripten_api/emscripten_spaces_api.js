@@ -69,12 +69,12 @@ export function EmscriptenSpacesApi(eegeoApiPointer, cwrap, emscriptenModule, em
     };
 
     var _getMortonKeyAtLatLng = (lat, long) => {
-        _getMortonKeyAtLatLngWrap = _getMortonKeyAtLatLngWrap || cwrap("getMortonKeyAtLatLng", null, ["number", "number", "number"]);
-        var mortonKey = "";
-        _emscriptenMemory.passString(mortonKey, (resultString) => {
-            _getMortonKeyAtLatLngWrap(lat, long, resultString);
-            mortonKey = _emscriptenMemory.stringifyPointer(resultString);
-        });
+        _getMortonKeyAtLatLngWrap = _getMortonKeyAtLatLngWrap || cwrap("getMortonKeyAtLatLng", "number", ["number", "number", "number"]);
+        var bufferSize = _getMortonKeyAtLatLngWrap(lat, long, 0);
+        var resultString = emscriptenMemory.createInt8Buffer(bufferSize).ptr;
+        _getMortonKeyAtLatLngWrap(lat, long, resultString);
+        var mortonKey = _emscriptenMemory.stringifyPointer(resultString);
+        emscriptenMemory.freeBuffer(resultString);
         return mortonKey;
     };
 
