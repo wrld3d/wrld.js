@@ -75,7 +75,7 @@ export function StreamingModule(emscriptenApi) {
         _StreamingModuleImpl.onInitialized();
     };
 
-    this.getIsStreamingComplete = () => {
+    this.isStreamingComplete = () => {
         return _StreamingModuleImpl.isStreamingCompleted()? true : false;
     };
 
