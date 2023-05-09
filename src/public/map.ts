@@ -102,6 +102,7 @@ export const Map: typeof MapType = L.Map.extend({
     this.scrollWheelZoom.disable();
     this.boxZoom.disable();
     this.keyboard.disable();
+    this.tap?.disable();
 
     this.attributionControl.setPrefix(
       "<a href='http://leafletjs.com' title='A JS library for interactive maps' target='_blank'>Leaflet</a>"
@@ -155,6 +156,15 @@ export const Map: typeof MapType = L.Map.extend({
       this
     );
 
+    // use HTML event API as Leaflet translates touch events to pointer events, which aren't what eegeo-mobile is listening for
+    if (remove) {
+      surface.removeEventListener("touchstart", this._handleTouchStartEvent);
+      this._container.removeEventListener("touchstart", this._handleTouchStartEvent);
+    } else {
+      surface.addEventListener("touchstart", this._handleTouchStartEvent);
+      this._container.addEventListener("touchstart", this._handleTouchStartEvent);
+    }
+
     if (this.options.trackResize) {
       L.DomEvent[onOff](this._browserWindow as unknown as HTMLElement, "resize", this._onResize, this);
     }
@@ -182,6 +192,17 @@ export const Map: typeof MapType = L.Map.extend({
         element = element.parentNode as HTMLElement;
       }
     }
+  },
+
+  _handleTouchStartEvent: function (this: MapType, e: Event) {
+    let element = e.target as HTMLElement;
+      while (element && typeof element.className === "string" && element.className !== "wrld-map-container") {
+        if (element.className.indexOf("leaflet-marker") !== -1) {
+          L.DomEvent.stopPropagation(e);
+          break;
+        }
+        element = element.parentNode as HTMLElement;
+      }
   },
 
   addLayer: function (this: MapType, layer: Layer) {
