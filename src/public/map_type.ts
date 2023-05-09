@@ -163,6 +163,7 @@ export declare class Map extends L.Map {
   /** @internal **/ _projectLatlngs: (layer: Layer, latlngs: L.LatLng[], result: unknown, projectedBounds: L.LatLngBounds[]) => boolean;
   // private methods
   protected _handleDOMEvent: L.DomEvent.EventHandlerFn;
+  protected _handleTouchStartEvent: L.DomEvent.EventHandlerFn;
   protected _onResize: L.DomEvent.EventHandlerFn;
   protected _onMoveEnd: L.LeafletEventHandlerFn;
   protected _getAngleFromCameraToHorizon: () => number;

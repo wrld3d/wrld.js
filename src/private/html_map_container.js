@@ -60,7 +60,7 @@ export function HTMLMapContainer (browserDocument, browserWindow, parentElement,
             "width": "100%",
             "height": "100%",
             "background": "transparent",
-            "pointer-events": "none"
+            "touch-action": "none"
         };
         return _createDOMElement(parentElement, "div", attributes, style);
     };
