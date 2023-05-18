@@ -144,12 +144,6 @@ export const Map: typeof MapType = L.Map.extend({
     // @event keypress: KeyboardEvent
     // Fired when the user presses a key from the keyboard while the map is focused.
     L.DomEvent[onOff](
-      surface,
-      "click dblclick mousedown mouseup " + "mouseover mouseout mousemove contextmenu keypress",
-      this._handleDOMEvent,
-      this
-    );
-    L.DomEvent[onOff](
       this._container,
       "click dblclick mousedown mouseup " + "mouseover mouseout mousemove contextmenu keypress",
       this._handleDOMEvent,
@@ -158,10 +152,8 @@ export const Map: typeof MapType = L.Map.extend({
 
     // use HTML event API as Leaflet translates touch events to pointer events, which aren't what eegeo-mobile is listening for
     if (remove) {
-      surface.removeEventListener("touchstart", this._handleTouchStartEvent);
       this._container.removeEventListener("touchstart", this._handleTouchStartEvent);
     } else {
-      surface.addEventListener("touchstart", this._handleTouchStartEvent);
       this._container.addEventListener("touchstart", this._handleTouchStartEvent);
     }
 
