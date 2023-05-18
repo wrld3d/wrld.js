@@ -1,3 +1,5 @@
+import L from "leaflet";
+
 export function HTMLMapContainer (browserDocument, browserWindow, parentElement, canvasId, canvasWidth, canvasHeight, backgroundColor, containerId, mapId) {
 
     var _browserWindow = browserWindow;
@@ -135,6 +137,81 @@ export function HTMLMapContainer (browserDocument, browserWindow, parentElement,
     this.overlay = _createLeafletOverlay(this.mapContainer);
     this.indoorMapWatermark = _createIndoorMapWatermark(this.mapContainer);
     this.canvas = _createCanvas(this.mapContainer, canvasId, canvasWidth, canvasHeight, backgroundColor);
+
+    const mouseEventsToForward = [
+        "mousedown",
+        "mouseenter",
+        "mouseleave",
+        "mousemove",
+        "mouseout",
+        "mouseover",
+        "mouseup"
+    ];
+    const pointerEventsToForward = [
+        "pointercancel",
+        "pointerdown",
+        "pointerenter",
+        "pointerleave",
+        "pointermove",
+        "pointerout",
+        "pointerover",
+        "pointerup"
+    ];
+    const touchEventsToForward = [
+        "touchcancel",
+        "touchend",
+        "touchmove",
+        "touchstart"
+    ];
+
+    const _eventToOptions = (event) => {
+        // We can't use the event directly as we need to disable bubbling and that's read-only.
+        // We can't use spread syntax as it omits properties implemented as a getter rather than a variable.
+        // There are unreasonably many properties to explicitly list them.
+        let options = {};
+        for (let property in event) {
+            options[property] = event[property];
+        }
+        return options;
+    };
+
+    for (const eventName of mouseEventsToForward) {
+        this.overlay.addEventListener(eventName, event => {
+            this.canvas.dispatchEvent(new MouseEvent(event.type, {
+                ..._eventToOptions(event),
+                bubbles: false
+            }));
+        });
+    }
+    for (const eventName of pointerEventsToForward) {
+        this.overlay.addEventListener(eventName, event => {
+            // Leaflet has a global capture-phase listener for pointer events which gets triggered before the element's callbacks even if bubbling is disabled.
+            // We can't call the callbacks directly as we can't get at them.
+            // We can't temporarily disable the Leaflet callback as it's wrapped in a temporary lambda.
+            // Instead, just undo what the callback did.
+            var hasOldValue = event.pointerId in L.DomEvent._pointers;
+            var oldValue = hasOldValue ? L.DomEvent._pointers[event.pointerId] : undefined;
+            var oldCount = L.DomEvent._pointersCount;
+            this.canvas.dispatchEvent(new PointerEvent(event.type, {
+                ..._eventToOptions(event),
+                bubbles: false
+            }));
+            L.DomEvent._pointersCount = oldCount;
+            if (hasOldValue) {
+                L.DomEvent._pointers[event.pointerId] = oldValue;
+            } else {
+                delete L.DomEvent._pointers[event.pointerId];
+            }
+        });
+    }
+    for (const eventName of touchEventsToForward) {
+        this.overlay.addEventListener(eventName, event => {
+            this.canvas.dispatchEvent(new TouchEvent(event.type, {
+                ..._eventToOptions(event),
+                bubbles: false
+            }));
+        });
+    }
 
     this.loadingSpinner = new LoadingSpinner(_browserWindow, this.loadingSpinnerIcon);
     this.loadingSpinner.startSpinning();
